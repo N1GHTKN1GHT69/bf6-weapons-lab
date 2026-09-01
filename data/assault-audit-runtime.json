@@ -1,0 +1,219 @@
+{
+  "schema": 1,
+  "class": "Assault Rifle",
+  "gameVersion": "1.4.2.5",
+  "generatedAt": "2026-09-01T14:27:41.206Z",
+  "definition": "Ideal chest TTK is measured from the first damaging chest hit to the lethal chest hit against 100 HP. ADS time, reaction time, network latency, and projectile flight time are excluded.",
+  "weaponCountExpected": 11,
+  "weaponCountChecked": 11,
+  "metersPerWeapon": 300,
+  "totalBaseMeterChecks": 3300,
+  "pass": true,
+  "errors": [],
+  "checked": {
+    "m433": {
+      "name": "M433",
+      "rpm": 830.769,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 217
+      },
+      "last": {
+        "d": 300,
+        "damage": 17.13,
+        "btk": 6,
+        "ttk": 361
+      }
+    },
+    "b36a4": {
+      "name": "B36A4",
+      "rpm": 719.999,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 250
+      },
+      "last": {
+        "d": 300,
+        "damage": 17.13,
+        "btk": 6,
+        "ttk": 417
+      }
+    },
+    "sor556": {
+      "name": "SOR-556 MK2",
+      "rpm": 568.421,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 317
+      },
+      "last": {
+        "d": 300,
+        "damage": 17.13,
+        "btk": 6,
+        "ttk": 528
+      }
+    },
+    "ak4d": {
+      "name": "AK4D",
+      "rpm": 514.285,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 35.22,
+        "btk": 3,
+        "ttk": 233
+      },
+      "last": {
+        "d": 300,
+        "damage": 20.67,
+        "btk": 5,
+        "ttk": 467
+      }
+    },
+    "tr7": {
+      "name": "TR-7",
+      "rpm": 719.999,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 35.22,
+        "btk": 3,
+        "ttk": 167
+      },
+      "last": {
+        "d": 300,
+        "damage": 20.67,
+        "btk": 5,
+        "ttk": 333
+      }
+    },
+    "kord6p67": {
+      "name": "KORD 6P67",
+      "rpm": 899.999,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 20.67,
+        "btk": 5,
+        "ttk": 267
+      },
+      "last": {
+        "d": 300,
+        "damage": 14.62,
+        "btk": 7,
+        "ttk": 400
+      }
+    },
+    "nvo228e": {
+      "name": "NVO-228E",
+      "rpm": 654.545,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 35.22,
+        "btk": 3,
+        "ttk": 183
+      },
+      "last": {
+        "d": 300,
+        "damage": 17.13,
+        "btk": 6,
+        "ttk": 458
+      }
+    },
+    "l85a3": {
+      "name": "L85A3",
+      "rpm": 635.294,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 283
+      },
+      "last": {
+        "d": 300,
+        "damage": 17.13,
+        "btk": 6,
+        "ttk": 472
+      }
+    },
+    "vcr2": {
+      "name": "VCR-2",
+      "rpm": 899.999,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 200
+      },
+      "last": {
+        "d": 300,
+        "damage": 17.13,
+        "btk": 6,
+        "ttk": 333
+      }
+    },
+    "m16a4": {
+      "name": "M16A4",
+      "rpm": 771.428,
+      "fireMode": "burst",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 267
+      },
+      "last": {
+        "d": 300,
+        "damage": 17.13,
+        "btk": 6,
+        "ttk": 422
+      }
+    },
+    "ef88": {
+      "name": "EF88",
+      "rpm": 675,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 267
+      },
+      "last": {
+        "d": 300,
+        "damage": 17.13,
+        "btk": 6,
+        "ttk": 444
+      }
+    }
+  },
+  "verifiedRules": {
+    "inclusiveSteppedEndpoints": true,
+    "assumedAttachmentsExcludedFromVerifiedMeta": true,
+    "m16A3FullAutoAudited": true,
+    "ef88MatchTriggerNoFullAutoRof": true
+  }
+}
