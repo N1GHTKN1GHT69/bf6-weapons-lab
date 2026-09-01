@@ -18,13 +18,68 @@ const atts = await json(join(upstream, 'data/attachments.json'));
 const ammo = await json(join(upstream, 'data/ammo.json'));
 const balance = await json(join(upstream, 'data/balance_tables.json'));
 const recoilDecay = await json(join(upstream, 'data/recoil_decay.json'));
-const shotgunAudit = await json(join(outDir, 'shotgun-audit.json'));
+const ballistics = await json(join(upstream, 'data/ballistics.json'));
+const auditNames = ['assault','carbine','smg','lmg','dmr','sniper','sidearm','shotgun'];
+const classAudits = Object.fromEntries(await Promise.all(auditNames.map(async name => [name, await json(join(outDir, `${name}-audit.json`))])));
+for (const [name,a] of Object.entries(classAudits)) if (a?.pass !== true) throw new Error(`${name} audit is not passing`);
+const auditVersions = new Set(Object.values(classAudits).map(a => a?.gameVersion).filter(Boolean));
+if (auditVersions.size !== 1) throw new Error(`class audit version mismatch: ${[...auditVersions].join(', ') || 'missing'}`);
+const GAME_VERSION = [...auditVersions][0];
+const shotgunAudit = classAudits.shotgun;
 const SHOTGUN_ALIAS = { m87a1:'m87a1', m1014:'m1014', ks18k:'185ksk', db12:'db12' };
 function shotgunDef(w){ return w?.cls === 'Shotgun' ? shotgunAudit.weapons?.[SHOTGUN_ALIAS[w.id] ?? w.id] ?? null : null; }
+
+const sniperAudit = classAudits.sniper;
+const normId=s=>String(s??'').toLowerCase().replace(/[^a-z0-9]/g,'');
+function sniperDef(w){
+  if(w?.cls!=='Sniper Rifle') return null;
+  const keys=new Set([w.id,w.name].filter(Boolean).map(normId));
+  for(const [id,d] of Object.entries(sniperAudit.weapons??{})){
+    if(keys.has(normId(id))||keys.has(normId(d?.name))||keys.has(normId(d?.upstreamId))) return d;
+  }
+  return null;
+}
+function sniperDamageAt(def,d){
+  const pts=(def?.curve??[]).map(x=>({r:Number(x.r),d:Number(x.d)})).filter(x=>Number.isFinite(x.r)&&Number.isFinite(x.d)).sort((a,b)=>a.r-b.r);
+  if(!pts.length) return null;
+  if(d<=pts[0].r) return pts[0].d;
+  for(let i=1;i<pts.length;i++){
+    const a=pts[i-1],b=pts[i];
+    if(d<=b.r){
+      if(b.r===a.r) return b.d;
+      const t=(d-a.r)/(b.r-a.r);
+      return a.d+(b.d-a.d)*Math.max(0,Math.min(1,t));
+    }
+  }
+  return pts.at(-1).d;
+}
+function applyVerifiedSniperLethality(w){
+  const def=sniperDef(w);
+  return def ? {...w,_sniperAuditDef:def} : w;
+}
+
+function ballisticAlias(id) {
+  const n=String(id ?? '').toLowerCase().replace(/[^a-z0-9]/g,'');
+  return ({'185ksk':'ks18k','kts100mk8':'kts100'})[n] ?? n;
+}
+const BALLISTIC_WEAPON_IDS = new Set((ballistics.weaponIds ?? []).map(ballisticAlias));
+function ballisticsExactFor(w){ return BALLISTIC_WEAPON_IDS.has(ballisticAlias(w?.id)) || BALLISTIC_WEAPON_IDS.has(ballisticAlias(w?.name)); }
+function dragForBuild(w, attSet){
+  const ammoId=attSet?.ammo ?? 'standard';
+  if(ammoId==='long_range' && Number.isFinite(Number(ballistics?.ammoDragPerMeter?.long_range))) return Number(ballistics.ammoDragPerMeter.long_range);
+  if(ammoId==='penetration' && Number.isFinite(Number(ballistics?.ammoDragPerMeter?.penetration?.[w?.cls]))) return Number(ballistics.ammoDragPerMeter.penetration[w.cls]);
+  return Number(ballistics.baseDragPerMeter);
+}
+function flightMsForBuild(w,attSet,d){
+  const velocity=Number(w?.bulletVel), drag=dragForBuild(w,attSet);
+  const sec=flightTimeAtDistance({velocityMps:velocity,dragPerMeter:drag,gravityMps2:Number(ballistics.gravityMps2)},Number(d));
+  return Number.isFinite(sec) ? sec*1000 : null;
+}
 
 const applyMod = await import(pathToFileURL(join(upstream, 'sim/applyAttachments.js')).href);
 const damageMod = await import(pathToFileURL(join(upstream, 'sim/damage.js')).href);
 const coreMod = await import(pathToFileURL(join(upstream, 'sim/core.js')).href);
+const ballisticsMod = await import(pathToFileURL(join(upstream, 'sim/ballistics.js')).href);
 const loadoutMod = await import(pathToFileURL(join(upstream, 'sim/loadout.js')).href);
 
 const {
@@ -32,6 +87,7 @@ const {
 } = applyMod;
 const { damagePerShotAtRange } = damageMod;
 const { shotIntervalAfter, setSimContext } = coreMod;
+const { flightTimeAtDistance } = ballisticsMod;
 const { computeAttPts } = loadoutMod;
 
 const HP_HS_HIGH = new Set(balance.HP_HS_HIGH ?? []);
@@ -225,6 +281,8 @@ function applyVerifiedShotgunLethality(w, ammoId) {
 }
 function ttkMs(w, btk) {
   if (!Number.isFinite(btk) || btk <= 0) return null;
+  const sniperInterval=Number(w?._sniperAuditDef?.shotIntervalMs);
+  if(sniperInterval>0) return Math.round((btk-1)*sniperInterval);
   const cad=w?._shotgunAuditDef?.cadence;
   if(cad?.type==='paired'){
     if(btk<=1)return 0;
@@ -237,7 +295,7 @@ function ttkMs(w, btk) {
   for (let shot=1; shot<btk; shot++) sec += shotIntervalAfter(w, shot);
   return Math.round(sec * 1000);
 }
-function combatProfile(w) {
+function combatProfile(w, attSet) {
   const rows = [];
   for (let d=DIST_MIN; d<=DIST_MAX; d++) {
     let damage, pellets=Number(w?.pellets)||1, pelletDamage=null;
@@ -246,18 +304,28 @@ function combatProfile(w) {
       damage=r ? Number(r.damage) : null;
       pellets=Number(w._shotgunAmmoProfile.pellets)||1;
       pelletDamage=(damage!=null && pellets>1) ? damage/pellets : damage;
+    } else if(w?._sniperAuditDef) {
+      // Sniper chest lethality/cadence is independently audited. Never let the
+      // upstream nominal raw RPM/damage path override the verified bolt timing.
+      damage = sniperDamageAt(w._sniperAuditDef,d);
     } else {
       damage = damagePerShotAtRange(w, d);
     }
     const chestBtk = damage > 0 ? Math.ceil((100 - 1e-9) / damage) : null;
-    const lowMult = w?.cls === 'Shotgun' ? 1 : (w._limbMult ?? 1);
+    const lowMult = w?._sniperAuditDef ? Number(sniperAudit.lowBodyMultiplier??0.67) : (w?.cls === 'Shotgun' ? 1 : (w._limbMult ?? 1));
     const lowDamage = damage != null ? damage * lowMult : null;
     const lowBtk = lowDamage > 0 ? Math.ceil((100 - 1e-9) / lowDamage) : null;
+    const mechTtk=chestBtk ? ttkMs(w,chestBtk) : null;
+    const flightMs=flightMsForBuild(w,attSet,d);
     rows.push({
       d,
       damage: damage == null ? null : +damage.toFixed(4), pelletDamage: pelletDamage == null ? null : +pelletDamage.toFixed(4), pellets,
       btk: chestBtk,
-      ttk: chestBtk ? ttkMs(w, chestBtk) : null,
+      ttk: mechTtk,
+      mechTtk,
+      flightMs: Number.isFinite(flightMs) ? +flightMs.toFixed(4) : null,
+      triggerTtk: Number.isFinite(flightMs) && Number.isFinite(mechTtk) ? +(mechTtk+flightMs).toFixed(4) : null,
+      ballisticsExact: ballisticsExactFor(w),
       lowBtk,
       lowTtk: lowBtk ? ttkMs(w, lowBtk) : null,
     });
@@ -298,7 +366,9 @@ function practicalScore(w, distance, attsSet) {
 
 function betterAtDistance(a, b) {
   if (!b) return true;
-  // Hard independent-meta order: fastest ideal chest TTK first.
+  // Exact-distance meta order: trigger pull -> lethal impact first. Mechanical
+  // first-hit TTK is retained only as a secondary tie-break.
+  if (a.triggerTtk !== b.triggerTtk) return (a.triggerTtk ?? Infinity) < (b.triggerTtk ?? Infinity);
   if (a.ttk !== b.ttk) return (a.ttk ?? Infinity) < (b.ttk ?? Infinity);
   if (a.btk !== b.btk) return (a.btk ?? Infinity) < (b.btk ?? Infinity);
   if (a.damage !== b.damage) return (a.damage ?? -Infinity) > (b.damage ?? -Infinity);
@@ -320,6 +390,7 @@ const results = {
   generatedAt: new Date().toISOString(),
   source: {
     repository: 'raymdl/BF6-Weapon-Analyzer',
+    gameVersion: GAME_VERSION,
     commit: (() => { try { return execFileSync('git',['-C',upstream,'rev-parse','HEAD'],{encoding:'utf8'}).trim(); } catch { return null; } })(),
     policy: 'Raw weapon/attachment facts and upstream simulator math only. No tier lists, popularity, usage, creator rankings, or community meta scores are inputs.'
   },
@@ -327,7 +398,7 @@ const results = {
     distances: [DIST_MIN,DIST_MAX],
     primaryBudget: PRIMARY_BUDGET,
     sidearmBudget: SIDEARM_BUDGET,
-    weaponRankOrder: ['ideal chest TTK','BTK','damage/shot','low-body TTK','mechanical delivery tie-break'],
+    weaponRankOrder: ['trigger-to-lethal-impact chest TTK','mechanical chest TTK','BTK','damage/shot','low-body TTK','mechanical delivery tie-break'],
     attachmentPolicy: 'All legal user-visible combinations are counted. Speculative/assumed attachment mechanics are excluded from verified AUTO META; functionally identical or strictly more-expensive verified duplicates are safely collapsed before simulation.'
   },
   audit: { weaponsSource: weapons.length, modeled:0, incomplete:0, rawLegalCombinations:'0', canonicalCombinationsEvaluated:0, distancesPerWeapon:DIST_MAX-DIST_MIN+1, errors:[] },
@@ -365,17 +436,21 @@ for (const w of weapons) {
       if (exactPts !== used || exactPts > budget) throw new Error(`${w.id}: point mismatch ${used} vs ${exactPts}`);
       let modified = applyAttachments(w, attSet);
       if (w.cls === 'Shotgun') modified = applyVerifiedShotgunLethality(modified, attSet.ammo);
+      if (w.cls === 'Sniper Rifle') modified = applyVerifiedSniperLethality(modified);
       const buildId = buildIdFor(attSet);
       const lethalityKey = JSON.stringify({
         dmg:modified.dmg, pellets:modified.pellets ?? 1, rpm:modified.rpm, fireMode:modified.fireMode,
         burstRounds:modified.burstRounds, burstBurstsPerMinute:modified.burstBurstsPerMinute,
         burstRpm:modified.burstRpm, limb:modified._limbMult ?? 1, shotgunAmmo:modified._shotgunAmmoId ?? null, shotgunCadence:modified._shotgunAuditDef?.cadence ?? null,
+        sniperCadence:modified._sniperAuditDef?.shotIntervalMs ?? null, sniperCurve:modified._sniperAuditDef?.curve ?? null,
+        bulletVel:modified.bulletVel, ammo:attSet.ammo, dragPerMeter:dragForBuild(modified,attSet),
       });
       let profile = profileCache.get(lethalityKey);
-      if (!profile) { profile = combatProfile(modified); profileCache.set(lethalityKey, profile); }
+      if (!profile) { profile = combatProfile(modified,attSet); profileCache.set(lethalityKey, profile); }
       for (const row of profile) {
         const candidate = {
-          buildId, points:exactPts, damage:row.damage, btk:row.btk, ttk:row.ttk,
+          buildId, points:exactPts, damage:row.damage, btk:row.btk, ttk:row.ttk, mechTtk:row.mechTtk,
+          flightMs:row.flightMs, triggerTtk:row.triggerTtk, ballisticsExact:row.ballisticsExact,
           lowBtk:row.lowBtk, lowTtk:row.lowTtk,
           practical: practicalScore(modified,row.d,attSet),
         };
@@ -425,7 +500,7 @@ for (const w of weapons) {
   }
 }
 results.audit.rawLegalCombinations = String(rawTotal);
-results.audit.pass = results.audit.errors.length === 0;
+results.audit.pass = results.audit.errors.length === 0 && results.audit.incomplete === 0 && results.audit.modeled === results.audit.weaponsSource;
 await mkdir(outDir,{recursive:true});
 await writeFile(join(outDir,'combat-cache.json'), JSON.stringify(results));
 await writeFile(join(outDir,'combat-audit.json'), JSON.stringify({generatedAt:results.generatedAt,source:results.source,rules:results.rules,audit:results.audit},null,2));

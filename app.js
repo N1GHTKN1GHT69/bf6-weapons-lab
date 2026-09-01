@@ -4,7 +4,8 @@
   const REMOTE = {
     weapons: "https://raw.githubusercontent.com/raymdl/BF6-Weapon-Analyzer/refs/heads/main/data/weapons.json",
     attachments: "https://raw.githubusercontent.com/raymdl/BF6-Weapon-Analyzer/refs/heads/main/data/attachments.json",
-    ammo: "https://raw.githubusercontent.com/raymdl/BF6-Weapon-Analyzer/refs/heads/main/data/ammo.json"
+    ammo: "https://raw.githubusercontent.com/raymdl/BF6-Weapon-Analyzer/refs/heads/main/data/ammo.json",
+    ballistics: "https://raw.githubusercontent.com/raymdl/BF6-Weapon-Analyzer/refs/heads/main/data/ballistics.json"
   };
 
   const CURRENT = window.BF6_CURRENT || { roster: [], primaryClasses: [] };
@@ -21,6 +22,7 @@
     rawWeapons: [],
     attachments: null,
     ammo: null,
+    ballistics: null,
     combatCache: null,
     assaultAudit: null,
     carbineAudit: null,
@@ -30,7 +32,7 @@
     sniperAudit: null,
     sidearmAudit: null,
     shotgunAudit: null,
-    source: { weapons: "loading", attachments: "loading", ammo: "loading", combat: "loading", assaultAudit: "loading", carbineAudit: "loading", smgAudit: "loading", lmgAudit: "loading", dmrAudit: "loading", sniperAudit: "loading", sidearmAudit: "loading", shotgunAudit: "loading" }
+    source: { weapons: "loading", attachments: "loading", ammo: "loading", ballistics: "loading", combat: "loading", assaultAudit: "loading", carbineAudit: "loading", smgAudit: "loading", lmgAudit: "loading", dmrAudit: "loading", sniperAudit: "loading", sidearmAudit: "loading", shotgunAudit: "loading" }
   };
 
   const CATALOG_KEYS = {
@@ -132,15 +134,55 @@
     }
   }
 
+  function validateCombatCacheObject(cache) {
+    const errors = [];
+    if (!cache?.audit?.pass) errors.push("audit.pass is false");
+    const expected = Number(cache?.audit?.weaponsSource);
+    const modeled = Number(cache?.audit?.modeled);
+    const incomplete = Number(cache?.audit?.incomplete);
+    if (!Number.isInteger(expected) || expected <= 0) errors.push("invalid weaponsSource");
+    // The exhaustive simulator can only model weapons present in the current raw
+    // Analyzer feed. Empirical roster-only weapons (currently Interdictor) are
+    // deliberately excluded from VERIFIED AUTO rather than invalidating the whole cache.
+    const expectedRawRoster = CURRENT.roster.filter(r => rawForRoster(r)).length;
+    if (expected !== expectedRawRoster) errors.push(`cache raw-roster ${expected}/${expectedRawRoster}`);
+    if (cache?.source?.gameVersion !== CURRENT.liveVersion) errors.push(`cache version ${cache?.source?.gameVersion || "missing"}/${CURRENT.liveVersion}`);
+    if (!Number.isInteger(modeled) || modeled !== expected) errors.push(`modeled ${modeled}/${expected}`);
+    if (!Number.isInteger(incomplete) || incomplete !== 0) errors.push(`incomplete ${incomplete}`);
+    if (cache?.audit?.errors?.length) errors.push(`audit errors ${cache.audit.errors.length}`);
+    if (cache?.audit?.distancesPerWeapon !== 300) errors.push("expected 300 distances per weapon");
+    const entries = Object.values(cache?.weapons ?? {});
+    if (Number.isInteger(expected) && entries.length !== expected) errors.push(`weapon entries ${entries.length}/${expected}`);
+    const rosterKeys = new Set(CURRENT.roster.flatMap(w => [aliasKey(w.id), aliasKey(w.name), ...(w.aliases || []).map(aliasKey)]));
+    for (const w of entries) {
+      if (!rosterKeys.has(aliasKey(w?.id)) && !rosterKeys.has(aliasKey(w?.name))) { errors.push(`${w?.id || w?.name || "unknown"}: not in current roster`); continue; }
+      if (w?.status !== "modeled") { errors.push(`${w?.id || "unknown"}: ${w?.status || "missing status"}`); continue; }
+      for (let d=1; d<=300; d++) {
+        const row=w.best?.[String(d)];
+        if (!row) { errors.push(`${w.id}: missing ${d}m`); break; }
+        if (!Number.isFinite(Number(row.points)) || Number(row.points) > Number(w.budget)) { errors.push(`${w.id}@${d}: invalid points`); break; }
+        if (!w.builds?.[row.buildId]) { errors.push(`${w.id}@${d}: missing winning build`); break; }
+        if (!Number.isFinite(Number(row.ttk)) || Number(row.ttk) < 0 || !Number.isFinite(Number(row.triggerTtk)) || Number(row.triggerTtk) < Number(row.ttk) || !Number.isFinite(Number(row.flightMs)) || Number(row.flightMs) < 0 || !Number.isFinite(Number(row.btk)) || Number(row.btk) < 1) { errors.push(`${w.id}@${d}: invalid ballistic lethality`); break; }
+      }
+    }
+    return { ok: errors.length === 0, errors };
+  }
+
   async function loadCombatCache() {
     try {
       const cache = await fetchJson("./data/combat-cache.json", 5000);
-      if (cache?.audit?.pass && cache?.weapons) {
+      if (cache?.status === "pending") {
+        state.source.combat = "pending";
+        return null;
+      }
+      const gate = validateCombatCacheObject(cache);
+      if (gate.ok) {
         state.combatCache = cache;
         state.source.combat = "ready";
         return cache;
       }
-      state.source.combat = cache?.status === "pending" ? "pending" : "invalid";
+      console.warn("Combat cache rejected:", gate.errors.slice(0, 10));
+      state.source.combat = "invalid";
       return null;
     } catch (_) {
       state.source.combat = "failed";
@@ -374,13 +416,14 @@
 
   async function loadData() {
     // Deliberately independent. One bad source must never erase the catalog or the other data.
-    const [weapons, attachments, ammo] = await Promise.all([
-      loadOne("weapons"), loadOne("attachments"), loadOne("ammo")
+    const [weapons, attachments, ammo, ballistics] = await Promise.all([
+      loadOne("weapons"), loadOne("attachments"), loadOne("ammo"), loadOne("ballistics")
     ]);
 
     state.rawWeapons = Array.isArray(weapons) ? weapons : [];
     state.attachments = attachments && typeof attachments === "object" ? attachments : null;
     state.ammo = ammo && typeof ammo === "object" ? ammo : null;
+    state.ballistics = ballistics && typeof ballistics === "object" ? ballistics : null;
     await Promise.all([loadCombatCache(), loadAssaultAudit(), loadCarbineAudit(), loadSmgAudit(), loadLmgAudit(), loadDmrAudit(), loadSniperAudit(), loadSidearmAudit(), loadShotgunAudit()]);
 
     const matched = CURRENT.roster.filter(r => rawForRoster(r)).length;
@@ -765,30 +808,66 @@
     } : null;
   }
 
+  function ballisticAlias(id) {
+    const n=String(id || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    const aliases={ "185ksk":"ks18k", "kts100mk8":"kts100" };
+    return aliases[n] || n;
+  }
+
+  function ballisticDragPerMeter(cls, ammoId = "standard") {
+    const b=state.ballistics;
+    if (!b) return null;
+    if (ammoId === "long_range" && Number.isFinite(Number(b?.ammoDragPerMeter?.long_range))) return Number(b.ammoDragPerMeter.long_range);
+    if (ammoId === "penetration" && Number.isFinite(Number(b?.ammoDragPerMeter?.penetration?.[cls]))) return Number(b.ammoDragPerMeter.penetration[cls]);
+    return Number.isFinite(Number(b.baseDragPerMeter)) ? Number(b.baseDragPerMeter) : null;
+  }
+
+  function ballisticVerified(raw, roster = null) {
+    const ids=new Set((state.ballistics?.weaponIds || []).map(ballisticAlias));
+    const candidates=[raw?.id, roster?.id, raw?.name, roster?.name].filter(Boolean).map(ballisticAlias);
+    return candidates.some(x=>ids.has(x));
+  }
+
+  // Battlefield's measured projectile model is dv/dt = -k*v^2. For a level
+  // shot, travel time is expm1(k*d)/(k*v). This is the same closed form used
+  // by the current BF6 Weapon Analyzer ballistics module.
+  function flightTimeMs(distanceM, velocityMps, dragPerMeter) {
+    const d=Math.max(0,Number(distanceM)||0), v=Number(velocityMps), k=Number(dragPerMeter);
+    if (!(v>0) || !(k>=0)) return null;
+    return (k===0 ? d/v : Math.expm1(k*d)/(k*v))*1000;
+  }
+
+  function addTriggerKill(roster, raw, combat, distanceM = state.distance, ammoId = "standard", velocityOverride = null) {
+    if (!combat || !Number.isFinite(Number(combat.ttk))) return combat;
+    const def=auditedDefForRoster(roster,raw);
+    const velocity=Number(velocityOverride ?? combat.bulletVel ?? raw?.bulletVel ?? def?.bulletVel ?? def?.equippedVelocity);
+    const drag=ballisticDragPerMeter(roster?.cls || raw?.cls, ammoId);
+    const flight=flightTimeMs(distanceM,velocity,drag);
+    if (!Number.isFinite(flight)) return {...combat,mechTtk:Number(combat.ttk),triggerTtk:null,flightMs:null,ballisticsExact:false};
+    return {
+      ...combat,
+      mechTtk:Number(combat.ttk),
+      triggerTtk:Number(combat.ttk)+flight,
+      flightMs:flight,
+      dragPerMeter:drag,
+      bulletVel:velocity || combat.bulletVel || null,
+      ballisticsExact:ballisticVerified(raw,roster)
+    };
+  }
+
   function dmrFlightTimeMs(def, distanceM, useEquippedVelocity = true) {
-    if (!def) return null;
-    const d = Math.max(0, Number(distanceM) || 0);
-    const velocity = Number(useEquippedVelocity ? (def.equippedVelocity ?? def.baseVelocity) : def.baseVelocity);
-    if (!(velocity > 0)) return null;
-    if (def.ballisticsVerified !== true) return d / velocity * 1000; // no-drag lower bound only
-    const drag = Number(def.dragPerMeter ?? state.dmrAudit?.baseDragPerMeter ?? .0035);
-    if (!(drag >= 0)) return null;
-    return (drag === 0 ? d / velocity : Math.expm1(drag * d) / (drag * velocity)) * 1000;
+    const velocity=Number(useEquippedVelocity ? (def?.equippedVelocity ?? def?.baseVelocity) : def?.baseVelocity);
+    const drag=Number(def?.ballisticsVerified === true ? (def?.dragPerMeter ?? state.ballistics?.baseDragPerMeter) : state.ballistics?.baseDragPerMeter);
+    return flightTimeMs(distanceM,velocity,drag);
   }
 
   function dmrTriggerKill(roster, raw, combat, distanceM = state.distance, optimized = false) {
     if ((roster?.cls || raw?.cls) !== "DMR" || !combat) return null;
     const def = auditedDefForRoster(roster, raw);
     if (!def) return null;
-    const flightMs = dmrFlightTimeMs(def, distanceM, true);
-    if (!Number.isFinite(flightMs) || !Number.isFinite(Number(combat.ttk))) return null;
-    return {
-      ms: Number(combat.ttk) + flightMs,
-      flightMs,
-      exact: def.ballisticsVerified === true,
-      optimized,
-      velocity: Number(def.equippedVelocity ?? def.baseVelocity) || null
-    };
+    const enriched=addTriggerKill(roster,raw,combat,distanceM,"standard",def.equippedVelocity ?? def.baseVelocity);
+    if (!Number.isFinite(enriched?.triggerTtk)) return null;
+    return { ms:enriched.triggerTtk, flightMs:enriched.flightMs, exact:def.ballisticsVerified===true, optimized, velocity:enriched.bulletVel };
   }
 
   function cacheWeapon(raw) {
@@ -798,14 +877,24 @@
   function cachedCombat(raw, d = state.distance) {
     const cw = cacheWeapon(raw);
     const row = cw?.best?.[String(Math.max(1, Math.min(300, Math.round(Number(d) || 25))))];
-    return row ? { damage:row.damage, btk:row.btk, ttk:row.ttk, lowBtk:row.lowBtk, lowTtk:row.lowTtk, source:"exhaustive-cache" } : null;
+    return row ? { damage:row.damage, btk:row.btk, ttk:row.ttk, mechTtk:row.ttk, triggerTtk:row.triggerTtk, flightMs:row.flightMs, ballisticsExact:row.ballisticsExact, lowBtk:row.lowBtk, lowTtk:row.lowTtk, source:"exhaustive-cache" } : null;
   }
 
-  function cachedBuild(raw, d = state.distance) {
+  function cachedWinningStats(raw, d = state.distance) {
+    const cw = cacheWeapon(raw);
+    const row = cw?.best?.[String(Math.max(1, Math.min(300, Math.round(Number(d) || 25))))];
+    return row ? cw?.builds?.[row.buildId]?.stats ?? null : null;
+  }
+
+  function cachedBuild(raw, d = state.distance, requiredAttachmentId = null) {
     const cw = cacheWeapon(raw);
     const row = cw?.best?.[String(Math.max(1, Math.min(300, Math.round(Number(d) || 25))))];
     const b = row ? cw?.builds?.[row.buildId] : null;
     if (!row || !b) return null;
+    if (requiredAttachmentId) {
+      const ids = new Set([...(Array.isArray(b.picks) ? b.picks.map(x=>x.id) : []), ...Object.values(b.atts ?? {})].filter(Boolean));
+      if (!ids.has(requiredAttachmentId)) return null;
+    }
     const picks = Array.isArray(b.picks) ? b.picks.map(x=>({...x})) : [];
     if (!picks.length) {
       for (const slot of ["sight","muzzle","barrel","grip","laser","light","ergo","mag","ammo"]) {
@@ -829,7 +918,10 @@
   function optimize(raw, d = state.distance) {
     const auditedOpt = auditedClassOptimized(raw, d);
     const requiredAttachmentId = auditedOpt?.attachmentId || null;
-    const cached = requiredAttachmentId ? null : cachedBuild(raw, d);
+    // A valid exhaustive cache is authoritative for the actual winning attachment
+    // build. If an independently audited lethal transform is required, only accept
+    // a cached winner that contains that exact attachment.
+    const cached = cachedBuild(raw, d, requiredAttachmentId);
     if (cached) return cached;
     const budget = budgetFor(raw);
     const options = buildOptions(raw);
@@ -1037,33 +1129,46 @@
     const pool = CURRENT.roster
       .filter(w => {
         if (w.cls === "Secondary") return false;
-        if (category !== "__all__") return w.cls === category;
+        if (category !== "__all__" && w.cls !== category) return false;
         const classAudit = auditForClass(w.cls);
-        if (!classAudit || classAudit.crossClassEligible === false) return false;
-        // AUTO VERIFIED is fail-closed. Empirical-current weapons may rank
-        // inside their own class, but do not enter the cross-class verified meta.
-        return auditedDefForRoster(w, rawForRoster(w))?.confidence !== "empirical-current";
+        if (!classAudit) return false;
+        // AUTO VERIFIED is fail-closed. Empirical-current weapons do not enter
+        // automatic ranking until their damage/cadence/ballistics are independently verified.
+        if (auditedDefForRoster(w, rawForRoster(w))?.confidence === "empirical-current") return false;
+        if (category === "__all__" && classAudit.crossClassEligible === false) return false;
+        return true;
       })
       .map(roster => {
         const raw = rawForRoster(roster);
         // Independent class audit is authoritative. This path deliberately
         // works without raw Analyzer data so a newly audited weapon such as
         // Interdictor can rank while its attachment model remains pending.
-        let combat = auditedRosterCombat(roster, raw, d);
-        if (raw) combat = auditedClassOptimized(raw, d) || combat;
-        if (!combat && raw) combat = cachedCombat(raw, d);
-        if (!combat && raw) combat = combatAtDistance(raw, d);
+        // META must rank the weapon WITH its best verified legal build whenever the
+        // exhaustive cache passes integrity. Class-audit values remain the fail-closed
+        // fallback when no valid cache exists.
+        let combat = raw ? cachedCombat(raw, d) : null;
+        if (!combat) combat = auditedRosterCombat(roster, raw, d);
+        if (!state.combatCache && raw) combat = auditedClassOptimized(raw, d) || combat;
+        // AUTO is fail-closed: never fall back to raw cadence/damage when an audited
+        // model is missing. That exact bypass leaked Mini Scout's stale 51-RPM cadence.
         const def = auditedDefForRoster(roster, raw);
-        const velocity = Number((roster.cls === "DMR" ? def?.equippedVelocity : null) ?? raw?.bulletVel ?? def?.bulletVel) || 0;
-        const ads = Number((roster.cls === "DMR" ? def?.adsTime : null) ?? raw?.adsTime ?? def?.adsTime);
+        const winStats = raw ? cachedWinningStats(raw, d) : null;
+        const velocity = Number(winStats?.bulletVel ?? (roster.cls === "DMR" ? def?.equippedVelocity : null) ?? raw?.bulletVel ?? def?.bulletVel) || 0;
+        if (combat && !Number.isFinite(Number(combat.triggerTtk))) combat = addTriggerKill(roster, raw, combat, d, "standard", velocity);
+        const ads = Number(winStats?.adsTimeMs ?? (roster.cls === "DMR" ? def?.adsTime : null) ?? raw?.adsTime ?? def?.adsTime);
         return { roster, raw, combat, velocity, ads:Number.isFinite(ads) ? ads : 9999 };
       })
-      .filter(x => x.combat && Number.isFinite(x.combat.ttk) && Number.isFinite(x.combat.damage));
+      .filter(x => x.combat && Number.isFinite(x.combat.ttk) && Number.isFinite(x.combat.triggerTtk) && Number.isFinite(x.combat.damage))
+      // Cross-class VERIFIED must also have a verified projectile model. Within a
+      // selected class, provisional flight timing can still be shown explicitly.
+      .filter(x => category !== "__all__" || x.combat.ballisticsExact === true);
 
     // Meta ranking is independent and lethality-first. No outside tier list or
-    // popularity value enters here. Fastest ideal chest TTK is the hard primary
-    // key; only true ties fall through to BTK, damage and delivery/handling.
+    // popularity value enters here. Exact-distance trigger→lethal-impact TTK is
+    // the hard primary key; only true ties fall through to mechanical TTK, BTK,
+    // damage and delivery/handling.
     return pool.sort((a,b) =>
+      (a.combat.triggerTtk ?? Infinity) - (b.combat.triggerTtk ?? Infinity) ||
       a.combat.ttk - b.combat.ttk ||
       a.combat.btk - b.combat.btk ||
       b.combat.damage - a.combat.damage ||
@@ -1123,6 +1228,7 @@
     const classAudit = auditForClass(roster.cls);
     const auditDef = auditedDefForRoster(roster, raw);
     const audited = auditedRosterCombat(roster, raw, state.distance);
+    const cached = raw ? cachedCombat(raw, state.distance) : null;
 
     if (!raw && !audited) {
       badge.textContent = "STATS DATA PENDING";
@@ -1144,39 +1250,39 @@
       badge.className = ver && ver !== CURRENT.liveVersion ? "source-badge warn" : "source-badge ok";
     }
 
-    const c = audited || (raw ? combatAtDistance(raw, state.distance) : null);
+    // Keep the detail panel consistent with AUTO: a validated exhaustive winner
+    // is authoritative, then the independent class audit, then raw data only for
+    // manual inspection when no audited path exists.
+    let c = cached || audited || (raw && !classAudit ? combatAtDistance(raw, state.distance) : null);
     if (!c) {
       $("combatNumbers").innerHTML = emptyStats("The audited combat model is not available for this exact weapon yet.");
       $("statBars").innerHTML = "";
       $("rawStats").innerHTML = "";
       return;
     }
-    const optimized = raw ? (auditedClassOptimized(raw, state.distance) || (!classAudit ? cachedCombat(raw, state.distance) : null)) : null;
+    const optimized = raw && !cached ? auditedClassOptimized(raw, state.distance) : null;
+    const cachedStats = raw ? cachedWinningStats(raw, state.distance) : null;
+    const displayVelocity = Number(cachedStats?.bulletVel ?? (roster.cls === "DMR" ? auditDef?.equippedVelocity : null) ?? c.bulletVel ?? raw?.bulletVel ?? auditDef?.bulletVel);
+    if (!Number.isFinite(Number(c.triggerTtk))) c = addTriggerKill(roster, raw, c, state.distance, "standard", displayVelocity);
     const damageLabel = c.pellets > 1 ? "MAX SHELL" : "CHEST DMG";
     const damageSub = c.pellets > 1 ? `${c.pelletDamage?.toFixed(1) ?? "—"} × ${c.pellets} pellets @ ${state.distance}m` : `@ ${state.distance}m`;
-    const ttkText = c.ttk == null ? "—" : c.btk === 1 ? "1 SHOT" : `${Math.round(c.ttk)} ms`;
+    const mechText = c.ttk == null ? "—" : c.btk === 1 ? "0 ms" : `${Math.round(c.ttk)} ms`;
+    const triggerText = Number.isFinite(Number(c.triggerTtk)) ? `${Math.round(c.triggerTtk)} ms` : "—";
     const ttkSub = roster.cls === "Sniper Rifle" ? "audited bolt cadence • first hit → kill" : (c.pellets > 1 ? "ideal full-pellet chest" : "ideal chest • first hit → kill");
     const rof = c.rpm == null ? "—" : (Math.abs(Number(c.rpm)-Math.round(Number(c.rpm))) > .05 ? Number(c.rpm).toFixed(1) : Math.round(c.rpm));
+    const flightDetail = Number.isFinite(Number(c.flightMs))
+      ? `${c.ballisticsExact ? "verified" : "provisional"} BF6 drag • ${Math.round(c.flightMs)}ms flight • ${Math.round(c.bulletVel)}m/s`
+      : "projectile timing unavailable";
     const combat = [
       [damageLabel, c.damage == null ? "—" : Number(c.damage).toFixed(Number(c.damage) % 1 ? 1 : 0), damageSub],
       ["CHEST BTK", c.btk ?? "—", "100 HP • unarmored"],
-      ["MECH CHEST TTK", ttkText, classAudit?.pass ? `${roster.cls} audited • first hit → kill • flight excluded` : ttkSub],
+      ["TRIGGER→KILL", triggerText, `trigger pull → lethal impact • ${flightDetail}`],
+      ["MECH TTK", mechText, `${ttkSub} • projectile flight excluded`],
       ["ROF", rof, roster.cls === "Sniper Rifle" ? "effective follow-up cadence" : (raw?.id === "db12" ? "150 sustained • 360 pair" : "internal RPM")],
       ["MAG", c.mag ?? raw?.mag ?? auditDef?.mag ?? "—", "base rounds"]
     ];
     if (optimized && Number.isFinite(Number(optimized.ttk)) && Number(optimized.ttk) !== Number(c.ttk)) {
-      combat.splice(3,0,["OPT MECH TTK", optimized.btk === 1 ? "1 SHOT" : `${Math.round(optimized.ttk)} ms`, optimized.attachment ? `${optimized.attachment}${optimized.rpm ? ` • ${Math.round(optimized.rpm)} RPM` : ""} • flight excluded` : "exhaustive winning build • flight excluded"]);
-    }
-    if (roster.cls === "DMR") {
-      const distanceCombat = optimized || c;
-      const dt = dmrTriggerKill(roster, raw, distanceCombat, state.distance, !!optimized);
-      if (dt) {
-        const value = `${dt.exact ? "" : "≥ "}${Math.round(dt.ms)} ms`;
-        const detail = dt.exact
-          ? `trigger → lethal impact • ${Math.round(dt.flightMs)}ms flight • ${Math.round(dt.velocity)}m/s current barrel`
-          : `NO-DRAG LOWER BOUND • exact VSSM drag pending • ${Math.round(dt.velocity)}m/s`;
-        combat.splice(optimized && Number(optimized.ttk) !== Number(c.ttk) ? 4 : 3, 0, ["TRIGGER→KILL", value, detail]);
-      }
+      combat.splice(4,0,["OPT MECH TTK", optimized.btk === 1 ? "0 ms" : `${Math.round(optimized.ttk)} ms`, optimized.attachment ? `${optimized.attachment}${optimized.rpm ? ` • ${Math.round(optimized.rpm)} RPM` : ""} • flight excluded` : "exhaustive winning build • flight excluded"]);
     }
     $("combatNumbers").innerHTML = combat.map(([k, v, sub]) => `<div class="combat-stat"><span>${k}</span><strong>${v}</strong><small>${sub}</small></div>`).join("");
 
@@ -1256,7 +1362,7 @@
     const top = [...result.picks].filter(x => x.id !== "none").sort((a, b) => b.score - a.score).slice(0, 5);
     const items = [{
       title: "Lethality first",
-      text: "The weapon recommendation prioritizes fastest ideal chest TTK and damage. Attachments use any verified direct damage/ROF effect first; otherwise they focus on landing that damage reliably at the selected distance."
+      text: "The weapon recommendation prioritizes fastest exact-distance trigger→lethal-impact chest TTK. Mechanical TTK remains a diagnostic. Attachments use verified direct lethality effects first; otherwise they focus on landing that damage reliably at the selected distance."
     }, {
       title: `${state.distance}m target distance`,
       text: distanceExplanation(state.distance)
@@ -1415,7 +1521,7 @@
       const inRange = state.distance >= note[0] && state.distance <= note[1];
       el.innerHTML = `<strong>EA RANGE NOTE:</strong> ${escapeHtml(roster.name)} is described as strongest around ${note[0]}–${note[1]}m. ${inRange ? "Your selected distance is inside that window." : "Your selected distance is outside that window."}`;
     } else {
-      el.textContent = `Exact target: ${state.distance}m. Quick labels are shortcuts only; the optimizer scores the actual distance.`;
+      el.textContent = `Exact target: ${state.distance}m. Quick labels are shortcuts only; ranking uses the actual distance, projectile flight time and verified BF6 drag when available.`;
     }
   }
 
@@ -1435,9 +1541,9 @@
     }
     const leader=ranked[0];
     const scope = state.category === "__all__" ? "VERIFIED CLASSES ONLY" : state.category.toUpperCase();
-    const top = ranked.slice(0,3).map((x,i)=>`<div class="rank-chip ${i===0?'winner':''}"><span>#${i+1}</span><b>${escapeHtml(x.roster.name)}</b><small>${x.combat.btk === 1 ? "1 SHOT" : `${Math.round(x.combat.ttk)}ms TTK`} • ${fmtDamage(x.combat.damage)} dmg</small></div>`).join("");
+    const top = ranked.slice(0,3).map((x,i)=>`<div class="rank-chip ${i===0?'winner':''}"><span>#${i+1}</span><b>${escapeHtml(x.roster.name)}</b><small>${Number.isFinite(Number(x.combat.triggerTtk)) ? `${Math.round(x.combat.triggerTtk)}ms TTK incl flight` : "TTK pending"}${x.combat.btk === 1 ? " • 1 shot" : ""} • ${fmtDamage(x.combat.damage)} dmg</small></div>`).join("");
     box.className = "auto-recommendation";
-    box.innerHTML = `<div class="auto-main"><span>AUTO BEST • ${escapeHtml(scope)} • ${state.distance}M</span><strong>${escapeHtml(leader.roster.name)}</strong><small>Independent meta: fastest ideal chest TTK is the hard first key, then BTK, damage, low-body TTK and mechanical delivery tie-breaks. Community tier lists/popularity are not inputs. ${state.combatCache ? "Exhaustive cache active." : "Live fallback active."} ${ranked.length}/${state.category === "__all__" ? ranked.length : categoryRoster().length} weapons are currently in this ranking. Cross-class AUTO remains gated to audited classes.</small></div><div class="rank-row">${top}</div>`;
+    box.innerHTML = `<div class="auto-main"><span>AUTO BEST • ${escapeHtml(scope)} • ${state.distance}M</span><strong>${escapeHtml(leader.roster.name)}</strong><small>Independent meta: fastest trigger→lethal-impact chest TTK at the selected distance is the hard first key; mechanical TTK, BTK, damage and delivery break ties. Community tier lists/popularity are not inputs. ${state.combatCache ? "Exhaustive ballistic cache active." : "Audited ballistic fallback active."} ${ranked.length}/${state.category === "__all__" ? ranked.length : categoryRoster().length} weapons are currently in this ranking. Cross-class AUTO remains gated to audited classes.</small></div><div class="rank-row">${top}</div>`;
   }
 
   function fmtDamage(v) {

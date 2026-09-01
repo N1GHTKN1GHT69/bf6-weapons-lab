@@ -4,7 +4,8 @@ import { auditPointData } from "./point-audit.mjs";
 const sources = {
   weapons: "https://raw.githubusercontent.com/raymdl/BF6-Weapon-Analyzer/refs/heads/main/data/weapons.json",
   attachments: "https://raw.githubusercontent.com/raymdl/BF6-Weapon-Analyzer/refs/heads/main/data/attachments.json",
-  ammo: "https://raw.githubusercontent.com/raymdl/BF6-Weapon-Analyzer/refs/heads/main/data/ammo.json"
+  ammo: "https://raw.githubusercontent.com/raymdl/BF6-Weapon-Analyzer/refs/heads/main/data/ammo.json",
+  ballistics: "https://raw.githubusercontent.com/raymdl/BF6-Weapon-Analyzer/refs/heads/main/data/ballistics.json"
 };
 const out = new URL("../data/", import.meta.url);
 await mkdir(out, { recursive:true });
@@ -24,6 +25,17 @@ try {
   console.log(`synced weapons.json (${w.json.length} records)`);
 } catch (err) {
   console.warn(`weapon sync skipped: ${err.message}`);
+}
+
+// Projectile timing is an independent source contract. Keep the previous local
+// snapshot if the current upstream ballistics file cannot be validated.
+try {
+  const b = await download("ballistics");
+  if (!(Number(b.json?.baseDragPerMeter) >= 0) || !Array.isArray(b.json?.weaponIds)) throw new Error("ballistics: invalid schema");
+  await writeFile(new URL("ballistics.json", out), b.text);
+  console.log(`synced ballistics.json (${b.json.weaponIds.length} verified weapon ids)`);
+} catch (err) {
+  console.warn(`ballistics sync skipped: ${err.message}`);
 }
 
 // Attachment and ammo sources are coupled for point-safe builds. Publish them only as a pair after schema/cost audit.

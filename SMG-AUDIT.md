@@ -54,7 +54,7 @@ Burst Training / Burst Mode are currently marked assumed by the upstream analyze
 
 ## Theoretical AUTO winner
 
-With the project's hard ranking rule of fastest ideal chest TTK first:
+The class-only mechanical audit below is retained for regression. As of v1.8, AUTO ranking uses exact-distance trigger→lethal-impact TTK first:
 
 - **1–9m: SCW-10 — 150ms**
 - **10–300m: KV9** (222ms at 10–21m, 278ms at 22–36m, 333ms at 37–75m, 389ms at 76m+)

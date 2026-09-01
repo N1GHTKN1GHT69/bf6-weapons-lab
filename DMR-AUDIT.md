@@ -33,4 +33,4 @@ VSSM is not yet in the upstream verified ballistics weapon list. Its 800-RPM Fol
 - The old warning that GRT-CPS upstream data was still a stale 3-BTK curve is removed. Current upstream data now agrees on the 4-BTK / 500ms result.
 - DMR velocity and ADS display now use the audited current/equipped values instead of letting older raw base fields override them.
 - VSSM's 40-point Folding Stock remains a verified 800-RPM direct-lethality transform and is still charged against Pick-100.
-- Theoretical weapon ranking remains based on **mechanical chest TTK first**, because that is the standard weapon TTK definition. Distance-sensitive projectile delivery is now exposed separately instead of being hidden inside an ambiguous TTK label.
+- Historical note: this class audit verifies mechanical TTK. As of v1.8, AUTO ranking uses **trigger→lethal-impact TTK first**, with mechanical TTK retained as a separate diagnostic.

@@ -21,7 +21,15 @@ on:
       - 'data/sidearm-audit.json'
       - 'scripts/audit-shotgun.mjs'
       - 'data/shotgun-audit.json'
+      - 'data/weapons.json'
+      - 'data/attachments.json'
+      - 'data/ammo.json'
+      - 'data/ballistics.json'
+      - 'data/balance_tables.json'
+      - 'data/recoil_decay.json'
       - 'scripts/validate-combat-cache.mjs'
+      - 'scripts/audit-ballistic-ttk.mjs'
+      - 'scripts/audit-global.mjs'
       - '.github/workflows/combat-engine.yml'
       - 'roster-data.js'
       - 'class-data.js'
@@ -66,10 +74,16 @@ jobs:
         run: node scripts/audit-sidearm.mjs .upstream/bf6-analyzer data data/sidearm-audit.json
       - name: Gate Shotgun math against audited values
         run: node scripts/audit-shotgun.mjs .upstream/bf6-analyzer data data/shotgun-audit.json
+      - name: Gate exact-distance ballistic TTK
+        run: node scripts/audit-ballistic-ttk.mjs
+      - name: Gate global roster and audit wiring
+        run: node scripts/audit-global.mjs
       - name: Run exhaustive combat audit
         run: node scripts/build-combat-cache.mjs .upstream/bf6-analyzer data
       - name: Validate generated cache
         run: node scripts/validate-combat-cache.mjs data/combat-cache.json
+      - name: Gate global integration against generated cache
+        run: node scripts/audit-global.mjs data/combat-cache.json
       - name: Commit changed cache
         run: |
           git config user.name "bf6-combat-bot"

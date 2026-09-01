@@ -69,7 +69,7 @@ M250 was independently cross-checked as a fixed-damage weapon with no falloff:
 
 ## AUTO LMG result
 
-Under the site's hard theoretical-meta rule of fastest chest TTK first:
+The class-only mechanical audit below is retained for regression. As of v1.8, AUTO ranking uses exact-distance trigger→lethal-impact TTK first:
 
 - **1–21m: M121 A2 — 183ms**
 - **22–300m: M250 — 267ms**
