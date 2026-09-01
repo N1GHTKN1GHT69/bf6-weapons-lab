@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0e12">
+  <meta name="description" content="BF6 Build Lab: range-aware Battlefield 6 attachment optimizer.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icon.svg">
+  <link rel="stylesheet" href="./styles.css">
+  <title>BF6 Build Lab</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">B6</div>
+        <div>
+          <div class="brand-title">BF6 BUILD LAB</div>
+          <div class="brand-sub">Range-aware loadout optimizer</div>
+        </div>
+      </div>
+      <div class="status-pill" id="sourceStatus">Loading live data…</div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow">PICK A WEAPON. PICK A FIGHT.</div>
+        <h1>Best attachments for how you actually use the gun.</h1>
+        <p>
+          The optimizer scores the <strong>whole loadout</strong>: weapon attachments, class bonuses,
+          training path, secondary weapon, gadgets, throwable, range finding, stay-ADS mechanics,
+          visual recoil, suppression, bipods, magazine tradeoffs and battlefield context.
+        </p>
+      </section>
+
+      <section class="control-card card">
+        <div class="field wide">
+          <label for="weaponSelect">Primary weapon</label>
+          <select id="weaponSelect"></select>
+        </div>
+
+        <div class="field">
+          <label for="classSelect">Class</label>
+          <select id="classSelect">
+            <option value="auto">AUTO — BEST FIT</option>
+            <option value="assault">Assault</option>
+            <option value="engineer">Engineer</option>
+            <option value="support">Support</option>
+            <option value="recon">Recon</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="contextSelect">Battle context</label>
+          <select id="contextSelect">
+            <option value="mixed">Mixed / General</option>
+            <option value="infantry">Infantry-heavy</option>
+            <option value="objective">Objective push / hold</option>
+            <option value="vehicles">Vehicle-heavy</option>
+          </select>
+        </div>
+
+        <div class="field wide range-field">
+          <label>Engagement range</label>
+          <div class="segmented" id="rangePicker">
+            <button data-range="short">SHORT <span>0–20m</span></button>
+            <button class="active" data-range="medium">MED <span>15–50m</span></button>
+            <button data-range="long">LONG <span>40m+</span></button>
+          </div>
+        </div>
+
+        <details class="fine-tune">
+          <summary>Fine-tune priorities</summary>
+          <div class="toggle-grid">
+            <label class="toggle"><input id="stayAds" type="checkbox" checked><span>Stay ADS / sight picture</span></label>
+            <label class="toggle"><input id="movingAds" type="checkbox"><span>Moving ADS accuracy</span></label>
+            <label class="toggle"><input id="stealth" type="checkbox"><span>Stealth / suppression</span></label>
+            <label class="toggle"><input id="bigMag" type="checkbox"><span>Prefer capacity</span></label>
+          </div>
+        </details>
+
+        <button id="optimizeBtn" class="primary">OPTIMIZE BUILD</button>
+      </section>
+
+      <section id="warningCard" class="warning-card card hidden"></section>
+
+      <section class="results-grid">
+        <article class="card build-card">
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow" id="buildProfile">MEDIUM RANGE</div>
+              <h2 id="weaponName">—</h2>
+            </div>
+            <div class="score-ring">
+              <span id="buildScore">—</span>
+              <small>FIT</small>
+            </div>
+          </div>
+
+          <div class="points-row">
+            <div><strong id="pointsUsed">0</strong><span>/ 100 points</span></div>
+            <div class="meter"><i id="pointsMeter"></i></div>
+          </div>
+          <div id="pointAuditBadge" class="point-audit">CHECKING PICK-100 POINTS…</div>
+
+          <div id="attachmentList" class="attachment-list"></div>
+        </article>
+
+        <article class="card">
+          <div class="eyebrow">WHY THIS BUILD</div>
+          <h2>What the optimizer valued</h2>
+          <div id="whyList" class="why-list"></div>
+        </article>
+      </section>
+
+      <section class="card full-loadout-card">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">COMPLETE LOADOUT</div>
+            <h2 id="classTitle">Class + equipment</h2>
+          </div>
+          <div class="class-fit" id="classFit">AUTO</div>
+        </div>
+
+        <div class="loadout-grid">
+          <div class="loadout-item major">
+            <span>Class</span><strong id="className">—</strong><small id="classWhy">—</small>
+          </div>
+          <div class="loadout-item">
+            <span>Training path</span><strong id="trainingPath">—</strong><small id="trainingWhy">—</small>
+          </div>
+          <div class="loadout-item">
+            <span>Signature gadget</span><strong id="signatureGadget">—</strong><small>Always part of the class identity.</small>
+          </div>
+          <div class="loadout-item">
+            <span>Signature trait</span><strong id="signatureTrait">—</strong>
+          </div>
+          <div class="loadout-item">
+            <span>Gadget 1</span><strong id="gadget1">—</strong><small id="gadget1Why">—</small>
+          </div>
+          <div class="loadout-item">
+            <span>Gadget 2</span><strong id="gadget2">—</strong><small id="gadget2Why">—</small>
+          </div>
+          <div class="loadout-item">
+            <span>Throwable</span><strong id="throwable">—</strong><small id="throwableWhy">—</small>
+          </div>
+          <div class="loadout-item major">
+            <span>Secondary weapon</span><strong id="secondaryName">—</strong><small id="secondaryWhy">—</small>
+          </div>
+        </div>
+
+        <div class="secondary-build">
+          <div>
+            <div class="eyebrow">SECONDARY ATTACHMENTS</div>
+            <h3 id="secondaryBuildTitle">—</h3>
+            <div id="secondaryPoints" class="point-audit secondary-points">—</div>
+          </div>
+          <div id="secondaryAttachmentList" class="attachment-list compact"></div>
+        </div>
+      </section>
+
+      <section class="results-grid">
+        <article class="card">
+          <div class="eyebrow">BASE WEAPON</div>
+          <h2>Useful raw numbers</h2>
+          <div id="weaponStats" class="stats-grid"></div>
+        </article>
+
+        <article class="card">
+          <div class="eyebrow">MECHANICS</div>
+          <h2>Utility features detected</h2>
+          <div id="utilityList" class="utility-list"></div>
+        </article>
+      </section>
+
+      <section class="card methodology">
+        <div class="eyebrow">DATA & METHOD</div>
+        <h2>Designed to avoid fake “meta” certainty.</h2>
+        <p>
+          Live weapon and attachment data are pulled from the BF6 Weapon Analyzer project when available.
+          A second rules layer models class weapon proficiencies, current class traits, training paths,
+          gadget/throwable utility and complementary secondary selection, plus mechanics that raw numerical
+          simulators can otherwise treat as “no effect,” such as Range Finder, Magwell Flare and DLC Bolt.
+          Point costs are audited before a data sync is published; unknown costs are rejected rather than guessed.
+        </p>
+        <div class="source-grid">
+          <div><span>Weapon data</span><strong>BF6 Weapon Analyzer</strong></div>
+          <div><span>Attachment mechanics</span><strong>Analyzer + behavior rules</strong></div>
+          <div><span>Budget</span><strong>Validated ≤ 100 points</strong></div>
+          <div><span>Mode</span><strong>Client-side PWA</strong></div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      Unofficial fan tool. Not affiliated with EA or DICE. Build recommendations depend on source-data freshness.
+    </footer>
+  </div>
+
+  <script src="./fallback-data.js"></script>
+  <script src="./class-data.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

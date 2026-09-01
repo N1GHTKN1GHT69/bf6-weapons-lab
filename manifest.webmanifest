@@ -1,0 +1,17 @@
+{
+  "name": "BF6 Build Lab",
+  "short_name": "BF6 Builds",
+  "description": "Range-aware Battlefield 6 attachment optimizer.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#080a0d",
+  "theme_color": "#0b0e12",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
