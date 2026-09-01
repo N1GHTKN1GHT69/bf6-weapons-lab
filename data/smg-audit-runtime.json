@@ -1,0 +1,267 @@
+{
+  "schema": 1,
+  "class": "SMG",
+  "gameVersion": "1.4.2.5",
+  "generatedAt": "2026-09-01T15:37:15.041Z",
+  "definition": "Ideal chest TTK is measured from the first damaging chest hit to the lethal chest hit against 100 HP. ADS time, reaction time, network latency, and projectile flight time are excluded.",
+  "weaponCountExpected": 10,
+  "weaponCountChecked": 10,
+  "metersPerWeapon": 300,
+  "totalBaseMeterChecks": 3000,
+  "lowBodyChecks": 3000,
+  "knownGoodBandChecks": 42,
+  "pass": true,
+  "errors": [],
+  "checked": {
+    "sgx": {
+      "name": "SGX",
+      "rpm": 830.769,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 217,
+        "lowDamage": 21.882,
+        "lowBtk": 5,
+        "lowTtk": 289
+      },
+      "last": {
+        "d": 300,
+        "damage": 12.76,
+        "btk": 8,
+        "ttk": 506,
+        "lowDamage": 10.718399999999999,
+        "lowBtk": 10,
+        "lowTtk": 650
+      }
+    },
+    "pw5a3": {
+      "name": "PW5A3",
+      "rpm": 771.428,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 233,
+        "lowDamage": 21.882,
+        "lowBtk": 5,
+        "lowTtk": 311
+      },
+      "last": {
+        "d": 300,
+        "damage": 12.76,
+        "btk": 8,
+        "ttk": 544,
+        "lowDamage": 10.718399999999999,
+        "lowBtk": 10,
+        "lowTtk": 700
+      }
+    },
+    "pw7a2": {
+      "name": "PW7A2",
+      "rpm": 947.368,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 17.13,
+        "btk": 6,
+        "ttk": 317,
+        "lowDamage": 14.389199999999999,
+        "lowBtk": 7,
+        "lowTtk": 380
+      },
+      "last": {
+        "d": 300,
+        "damage": 12.76,
+        "btk": 8,
+        "ttk": 443,
+        "lowDamage": 10.718399999999999,
+        "lowBtk": 10,
+        "lowTtk": 570
+      }
+    },
+    "umg40": {
+      "name": "UMG-40",
+      "rpm": 635.294,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 283,
+        "lowDamage": 21.882,
+        "lowBtk": 5,
+        "lowTtk": 378
+      },
+      "last": {
+        "d": 300,
+        "damage": 14.62,
+        "btk": 7,
+        "ttk": 567,
+        "lowDamage": 12.2808,
+        "lowBtk": 9,
+        "lowTtk": 756
+      }
+    },
+    "usg90": {
+      "name": "USG-90",
+      "rpm": 899.999,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 20.67,
+        "btk": 5,
+        "ttk": 267,
+        "lowDamage": 17.3628,
+        "lowBtk": 6,
+        "lowTtk": 333
+      },
+      "last": {
+        "d": 300,
+        "damage": 12.76,
+        "btk": 8,
+        "ttk": 467,
+        "lowDamage": 10.718399999999999,
+        "lowBtk": 10,
+        "lowTtk": 600
+      }
+    },
+    "kv9": {
+      "name": "KV9",
+      "rpm": 1079.999,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 167,
+        "lowDamage": 21.882,
+        "lowBtk": 5,
+        "lowTtk": 222
+      },
+      "last": {
+        "d": 300,
+        "damage": 12.76,
+        "btk": 8,
+        "ttk": 389,
+        "lowDamage": 10.718399999999999,
+        "lowBtk": 10,
+        "lowTtk": 500
+      }
+    },
+    "scw10": {
+      "name": "SCW-10",
+      "rpm": 799.999,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 35.22,
+        "btk": 3,
+        "ttk": 150,
+        "lowDamage": 29.584799999999998,
+        "lowBtk": 4,
+        "lowTtk": 225
+      },
+      "last": {
+        "d": 300,
+        "damage": 14.62,
+        "btk": 7,
+        "ttk": 450,
+        "lowDamage": 12.2808,
+        "lowBtk": 9,
+        "lowTtk": 600
+      }
+    },
+    "sl9": {
+      "name": "SL9",
+      "rpm": 674.999,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 267,
+        "lowDamage": 21.882,
+        "lowBtk": 5,
+        "lowTtk": 356
+      },
+      "last": {
+        "d": 300,
+        "damage": 12.76,
+        "btk": 8,
+        "ttk": 622,
+        "lowDamage": 10.718399999999999,
+        "lowBtk": 10,
+        "lowTtk": 800
+      }
+    },
+    "cz3a1": {
+      "name": "CZ3A1",
+      "rpm": 981.818,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 183,
+        "lowDamage": 21.882,
+        "lowBtk": 5,
+        "lowTtk": 244
+      },
+      "last": {
+        "d": 300,
+        "damage": 12.76,
+        "btk": 8,
+        "ttk": 428,
+        "lowDamage": 10.718399999999999,
+        "lowBtk": 10,
+        "lowTtk": 550
+      }
+    },
+    "pp19": {
+      "name": "PP-19",
+      "rpm": 719.999,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 250,
+        "lowDamage": 21.882,
+        "lowBtk": 5,
+        "lowTtk": 333
+      },
+      "last": {
+        "d": 300,
+        "damage": 12.76,
+        "btk": 8,
+        "ttk": 583,
+        "lowDamage": 10.718399999999999,
+        "lowBtk": 10,
+        "lowTtk": 750
+      }
+    }
+  },
+  "verifiedRules": {
+    "inclusiveSteppedEndpoints": true,
+    "allTenCurrentSmgs": true,
+    "oneToThreeHundredMeters": true,
+    "independentKnownGoodCrossCheck": true,
+    "lowBodySanity": true,
+    "assumedBurstAttachmentsExcluded": true,
+    "verifiedDirectLethalityRequiresReaudit": true,
+    "directAmmoLethalityRequiresReaudit": true
+  }
+}

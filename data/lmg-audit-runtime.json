@@ -1,0 +1,266 @@
+{
+  "schema": 1,
+  "class": "LMG",
+  "gameVersion": "1.4.2.5",
+  "generatedAt": "2026-09-01T15:37:15.110Z",
+  "definition": "Ideal chest TTK is measured from the first damaging chest hit to the lethal chest hit against 100 HP. ADS time, reaction time, network latency, and projectile flight time are excluded.",
+  "weaponCountExpected": 10,
+  "weaponCountChecked": 10,
+  "metersPerWeapon": 300,
+  "totalBaseMeterChecks": 3000,
+  "lowBodyChecks": 3000,
+  "knownGoodBandChecks": 46,
+  "pass": true,
+  "errors": [],
+  "checked": {
+    "l110": {
+      "name": "L110",
+      "rpm": 719.999,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 250,
+        "lowDamage": 21.882,
+        "lowBtk": 5,
+        "lowTtk": 333
+      },
+      "last": {
+        "d": 300,
+        "damage": 17.13,
+        "btk": 6,
+        "ttk": 417,
+        "lowDamage": 14.389199999999999,
+        "lowBtk": 7,
+        "lowTtk": 500
+      }
+    },
+    "drsiar": {
+      "name": "DRS-IAR",
+      "rpm": 771.428,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 233,
+        "lowDamage": 21.882,
+        "lowBtk": 5,
+        "lowTtk": 311
+      },
+      "last": {
+        "d": 300,
+        "damage": 17.13,
+        "btk": 6,
+        "ttk": 389,
+        "lowDamage": 14.389199999999999,
+        "lowBtk": 7,
+        "lowTtk": 467
+      }
+    },
+    "m60": {
+      "name": "M/60",
+      "rpm": 514.285,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 35.22,
+        "btk": 3,
+        "ttk": 233,
+        "lowDamage": 29.584799999999998,
+        "lowBtk": 4,
+        "lowTtk": 350
+      },
+      "last": {
+        "d": 300,
+        "damage": 20.67,
+        "btk": 5,
+        "ttk": 467,
+        "lowDamage": 17.3628,
+        "lowBtk": 6,
+        "lowTtk": 583
+      }
+    },
+    "rpkm": {
+      "name": "RPKM",
+      "rpm": 553.846,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 35.22,
+        "btk": 3,
+        "ttk": 217,
+        "lowDamage": 29.584799999999998,
+        "lowBtk": 4,
+        "lowTtk": 325
+      },
+      "last": {
+        "d": 300,
+        "damage": 17.13,
+        "btk": 6,
+        "ttk": 542,
+        "lowDamage": 14.389199999999999,
+        "lowBtk": 7,
+        "lowTtk": 650
+      }
+    },
+    "m123k": {
+      "name": "M123K",
+      "rpm": 830.769,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 217,
+        "lowDamage": 21.882,
+        "lowBtk": 5,
+        "lowTtk": 289
+      },
+      "last": {
+        "d": 300,
+        "damage": 17.13,
+        "btk": 6,
+        "ttk": 361,
+        "lowDamage": 14.389199999999999,
+        "lowBtk": 7,
+        "lowTtk": 433
+      }
+    },
+    "m250": {
+      "name": "M250",
+      "rpm": 674.999,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 267,
+        "lowDamage": 21.882,
+        "lowBtk": 5,
+        "lowTtk": 356
+      },
+      "last": {
+        "d": 300,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 267,
+        "lowDamage": 21.882,
+        "lowBtk": 5,
+        "lowTtk": 356
+      }
+    },
+    "kts100": {
+      "name": "KTS100 MK8",
+      "rpm": 514.285,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 350,
+        "lowDamage": 21.882,
+        "lowBtk": 5,
+        "lowTtk": 467
+      },
+      "last": {
+        "d": 300,
+        "damage": 17.13,
+        "btk": 6,
+        "ttk": 583,
+        "lowDamage": 14.389199999999999,
+        "lowBtk": 7,
+        "lowTtk": 700
+      }
+    },
+    "m240l": {
+      "name": "M240L",
+      "rpm": 599.999,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 35.22,
+        "btk": 3,
+        "ttk": 200,
+        "lowDamage": 29.584799999999998,
+        "lowBtk": 4,
+        "lowTtk": 300
+      },
+      "last": {
+        "d": 300,
+        "damage": 20.67,
+        "btk": 5,
+        "ttk": 400,
+        "lowDamage": 17.3628,
+        "lowBtk": 6,
+        "lowTtk": 500
+      }
+    },
+    "m121a2": {
+      "name": "M121 A2",
+      "rpm": 654.545,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 35.22,
+        "btk": 3,
+        "ttk": 183,
+        "lowDamage": 29.584799999999998,
+        "lowBtk": 4,
+        "lowTtk": 275
+      },
+      "last": {
+        "d": 300,
+        "damage": 20.67,
+        "btk": 5,
+        "ttk": 367,
+        "lowDamage": 17.3628,
+        "lowBtk": 6,
+        "lowTtk": 458
+      }
+    },
+    "rpk74m": {
+      "name": "RPK-74M",
+      "rpm": 685.714,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 20.67,
+        "btk": 5,
+        "ttk": 350,
+        "lowDamage": 17.3628,
+        "lowBtk": 6,
+        "lowTtk": 438
+      },
+      "last": {
+        "d": 300,
+        "damage": 14.62,
+        "btk": 7,
+        "ttk": 525,
+        "lowDamage": 12.2808,
+        "lowBtk": 9,
+        "lowTtk": 700
+      }
+    }
+  },
+  "verifiedRules": {
+    "inclusiveSteppedEndpoints": true,
+    "allTenCurrentLmgs": true,
+    "oneToThreeHundredMeters": true,
+    "independentKnownGoodCrossCheck": true,
+    "lowBodySanity": true,
+    "verifiedDirectLethalityRequiresReaudit": true,
+    "directAmmoLethalityRequiresReaudit": true
+  }
+}

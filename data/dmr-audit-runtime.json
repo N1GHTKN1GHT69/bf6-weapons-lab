@@ -1,0 +1,220 @@
+{
+  "schema": 1,
+  "class": "DMR",
+  "gameVersion": "1.4.2.5",
+  "generatedAt": "2026-09-01T15:37:15.184Z",
+  "definition": "Ideal chest TTK is measured from the first damaging chest hit to the lethal chest hit against 100 HP. ADS time, reaction time, network latency, and projectile flight time are excluded.",
+  "weaponCountExpected": 6,
+  "weaponCountChecked": 6,
+  "metersPerWeapon": 300,
+  "totalBaseMeterChecks": 1800,
+  "lowBodyChecks": 1800,
+  "optimizedChecks": 300,
+  "upstreamMeterChecks": 1800,
+  "knownGoodBandChecks": 23,
+  "pass": true,
+  "errors": [],
+  "warnings": [],
+  "knownStale": {
+    "grtcps": {
+      "detected": false,
+      "staleMeters": 0,
+      "message": "Upstream GRT-CPS data now agrees with the independent live baseline."
+    }
+  },
+  "checked": {
+    "m39emr": {
+      "name": "M39 EMR",
+      "rpm": 257.142,
+      "fireMode": "semi",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 40,
+        "btk": 3,
+        "ttk": 467,
+        "lowDamage": 36.4,
+        "lowBtk": 3,
+        "lowTtk": 467,
+        "upstreamDamage": 41.5,
+        "upstreamBtk": 3,
+        "upstreamTtk": 467
+      },
+      "last": {
+        "d": 300,
+        "damage": 33.4,
+        "btk": 3,
+        "ttk": 467,
+        "lowDamage": 30.394,
+        "lowBtk": 4,
+        "lowTtk": 700,
+        "upstreamDamage": 34.4,
+        "upstreamBtk": 3,
+        "upstreamTtk": 467
+      }
+    },
+    "lmr27": {
+      "name": "LMR27",
+      "rpm": 449.999,
+      "fireMode": "semi",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 28.6,
+        "btk": 4,
+        "ttk": 400,
+        "lowDamage": 26.026000000000003,
+        "lowBtk": 4,
+        "lowTtk": 400,
+        "upstreamDamage": 29.4,
+        "upstreamBtk": 4,
+        "upstreamTtk": 400
+      },
+      "last": {
+        "d": 300,
+        "damage": 25,
+        "btk": 4,
+        "ttk": 400,
+        "lowDamage": 22.75,
+        "lowBtk": 5,
+        "lowTtk": 533,
+        "upstreamDamage": 26.2,
+        "upstreamBtk": 4,
+        "upstreamTtk": 400
+      }
+    },
+    "svk86": {
+      "name": "SVK-8.6",
+      "rpm": 149.999,
+      "fireMode": "semi",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 66.7,
+        "btk": 2,
+        "ttk": 400,
+        "lowDamage": 60.697,
+        "lowBtk": 2,
+        "lowTtk": 400,
+        "upstreamDamage": 66.7,
+        "upstreamBtk": 2,
+        "upstreamTtk": 400
+      },
+      "last": {
+        "d": 300,
+        "damage": 50,
+        "btk": 2,
+        "ttk": 400,
+        "lowDamage": 45.5,
+        "lowBtk": 3,
+        "lowTtk": 800,
+        "upstreamDamage": 52.4,
+        "upstreamBtk": 2,
+        "upstreamTtk": 400
+      }
+    },
+    "svdm": {
+      "name": "SVDM",
+      "rpm": 299.999,
+      "fireMode": "semi",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 40,
+        "btk": 3,
+        "ttk": 400,
+        "lowDamage": 36.4,
+        "lowBtk": 3,
+        "lowTtk": 400,
+        "upstreamDamage": 41.5,
+        "upstreamBtk": 3,
+        "upstreamTtk": 400
+      },
+      "last": {
+        "d": 300,
+        "damage": 33.4,
+        "btk": 3,
+        "ttk": 400,
+        "lowDamage": 30.394,
+        "lowBtk": 4,
+        "lowTtk": 600,
+        "upstreamDamage": 34.4,
+        "upstreamBtk": 3,
+        "upstreamTtk": 400
+      }
+    },
+    "grtcps": {
+      "name": "GRT-CPS",
+      "rpm": 359.999,
+      "fireMode": "semi",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 28.6,
+        "btk": 4,
+        "ttk": 500,
+        "lowDamage": 26.026000000000003,
+        "lowBtk": 4,
+        "lowTtk": 500,
+        "upstreamDamage": 29.4,
+        "upstreamBtk": 4,
+        "upstreamTtk": 500
+      },
+      "last": {
+        "d": 300,
+        "damage": 25,
+        "btk": 4,
+        "ttk": 500,
+        "lowDamage": 22.75,
+        "lowBtk": 5,
+        "lowTtk": 667,
+        "upstreamDamage": 26.2,
+        "upstreamBtk": 4,
+        "upstreamTtk": 500
+      }
+    },
+    "vssm": {
+      "name": "VSSM",
+      "rpm": 449.999,
+      "fireMode": "semi",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 35,
+        "btk": 3,
+        "ttk": 267,
+        "lowDamage": 31.85,
+        "lowBtk": 4,
+        "lowTtk": 400,
+        "upstreamDamage": 35.22,
+        "upstreamBtk": 3,
+        "upstreamTtk": 267
+      },
+      "last": {
+        "d": 300,
+        "damage": 21,
+        "btk": 5,
+        "ttk": 533,
+        "lowDamage": 19.11,
+        "lowBtk": 6,
+        "lowTtk": 667,
+        "upstreamDamage": 20.67,
+        "upstreamBtk": 5,
+        "upstreamTtk": 533
+      },
+      "foldingStockMinimumLegalPoints": 75
+    }
+  },
+  "verifiedRules": {
+    "inclusiveSteppedEndpoints": true,
+    "allSixCurrentDmrs": true,
+    "oneToThreeHundredMeters": true,
+    "independentKnownGoodCrossCheck": true,
+    "currentGrtCpsOverride": true,
+    "vssmFoldingStock800Rpm": true,
+    "vssmPick100Legality": true,
+    "lowBodyMultiplier091": true,
+    "verifiedDirectLethalityRequiresReaudit": true,
+    "directAmmoLethalityRequiresReaudit": true
+  }
+}

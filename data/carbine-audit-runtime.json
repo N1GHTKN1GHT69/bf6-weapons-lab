@@ -1,0 +1,187 @@
+{
+  "schema": 1,
+  "class": "Carbine",
+  "gameVersion": "1.4.2.5",
+  "generatedAt": "2026-09-01T15:37:14.974Z",
+  "definition": "Ideal chest TTK is measured from the first damaging chest hit to the lethal chest hit against 100 HP. ADS time, reaction time, network latency, and projectile flight time are excluded.",
+  "weaponCountExpected": 9,
+  "weaponCountChecked": 9,
+  "metersPerWeapon": 300,
+  "totalBaseMeterChecks": 2700,
+  "knownGoodBandChecks": 45,
+  "pass": true,
+  "errors": [],
+  "checked": {
+    "m4a1": {
+      "name": "M4A1",
+      "rpm": 899.999,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 200
+      },
+      "last": {
+        "d": 300,
+        "damage": 14.62,
+        "btk": 7,
+        "ttk": 400
+      }
+    },
+    "m277": {
+      "name": "M277",
+      "rpm": 719.999,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 250
+      },
+      "last": {
+        "d": 300,
+        "damage": 20.67,
+        "btk": 5,
+        "ttk": 333
+      }
+    },
+    "ak205": {
+      "name": "AK-205",
+      "rpm": 719.999,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 20.67,
+        "btk": 5,
+        "ttk": 333
+      },
+      "last": {
+        "d": 300,
+        "damage": 12.76,
+        "btk": 8,
+        "ttk": 583
+      }
+    },
+    "m417a2": {
+      "name": "M417 A2",
+      "rpm": 654.545,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 35.22,
+        "btk": 3,
+        "ttk": 183
+      },
+      "last": {
+        "d": 300,
+        "damage": 17.13,
+        "btk": 6,
+        "ttk": 458
+      }
+    },
+    "grtbc": {
+      "name": "GRT-BC",
+      "rpm": 830.769,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 217
+      },
+      "last": {
+        "d": 300,
+        "damage": 14.62,
+        "btk": 7,
+        "ttk": 433
+      }
+    },
+    "qbz192": {
+      "name": "QBZ-192",
+      "rpm": 771.428,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 233
+      },
+      "last": {
+        "d": 300,
+        "damage": 14.62,
+        "btk": 7,
+        "ttk": 467
+      }
+    },
+    "sg553r": {
+      "name": "SG 553R",
+      "rpm": 719.999,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 35.22,
+        "btk": 3,
+        "ttk": 167
+      },
+      "last": {
+        "d": 300,
+        "damage": 14.62,
+        "btk": 7,
+        "ttk": 500
+      }
+    },
+    "sor300sc": {
+      "name": "SOR-300SC",
+      "rpm": 599.999,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 35.22,
+        "btk": 3,
+        "ttk": 200
+      },
+      "last": {
+        "d": 300,
+        "damage": 14.62,
+        "btk": 7,
+        "ttk": 600
+      }
+    },
+    "brod3": {
+      "name": "BROD 3",
+      "rpm": 830.7692307692307,
+      "fireMode": "auto",
+      "metersChecked": 300,
+      "first": {
+        "d": 1,
+        "damage": 26.05,
+        "btk": 4,
+        "ttk": 217
+      },
+      "last": {
+        "d": 300,
+        "damage": 14.62,
+        "btk": 7,
+        "ttk": 433
+      }
+    }
+  },
+  "verifiedRules": {
+    "inclusiveSteppedEndpoints": true,
+    "allNineCurrentCarbines": true,
+    "oneToThreeHundredMeters": true,
+    "publicTtkBandCrossCheck": true,
+    "assumedAttachmentsExcludedFromVerifiedMeta": true,
+    "brodMatchTriggerNoFullAutoRof": true,
+    "directAmmoLethalityRequiresReaudit": true
+  }
+}
