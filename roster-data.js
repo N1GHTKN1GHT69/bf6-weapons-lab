@@ -64,11 +64,11 @@ window.BF6_CURRENT = {
     {id:"vssm",name:"VSSM",cls:"DMR",unlock:"Season 4 Battle Pass",desc:"Integrally suppressed 9×39 DMR with subsonic ammunition."},
 
     // Snipers (6)
-    {id:"m2010esr",name:"M2010 ESR",cls:"Sniper Rifle",unlock:"Default",desc:"Accurate .300 WM bolt action for long-distance work."},
-    {id:"sv98",name:"SV-98",cls:"Sniper Rifle",unlock:"Rank 26",desc:"Balanced bolt-action; EA lists its strongest zone at 45–90 m.",officialRange:[45,90]},
-    {id:"psr",name:"PSR",cls:"Sniper Rifle",unlock:"Deadeye 2",desc:"Powerful 8.6 precision rifle with lower effective fire rate."},
+    {id:"m2010esr",name:"M2010 ESR",cls:"Sniper Rifle",unlock:"Default",desc:"Accurate .300 WM bolt action; EA 1.3.3 ideal zone is 75–100 m.",officialRange:[75,100]},
+    {id:"sv98",name:"SV-98",cls:"Sniper Rifle",unlock:"Rank 26",desc:"Balanced bolt-action; EA 1.3.3 ideal zone is 54–75 m.",officialRange:[54,75]},
+    {id:"psr",name:"PSR",cls:"Sniper Rifle",unlock:"Deadeye 2",desc:"Powerful 8.6 precision rifle; EA 1.3.3 ideal zone is 90–120 m.",officialRange:[90,120]},
     {id:"miniscout",name:"Mini Scout",cls:"Sniper Rifle",unlock:"Season 1 catch-up",desc:"Light scout rifle allowing fast follow-up shots while maintaining focus."},
-    {id:"l115",name:"L115A3",aliases:["L115"],cls:"Sniper Rifle",unlock:"Season 3 catch-up",desc:"Magnum bolt action designed for harsh environments."},
+    {id:"l115",name:"L115A3",aliases:["L115"],cls:"Sniper Rifle",unlock:"Season 3 catch-up",desc:"Magnum bolt action; EA 1.3.3 ideal zone is 100–133 m.",officialRange:[100,133]},
     {id:"interdictor",name:"Interdictor",cls:"Sniper Rifle",unlock:"Season 4 Top Gun event",desc:"Longest-range BF6 sniper; EA says lethality peaks at 120–150 m.",officialRange:[120,150],newIn:"1.4.2.0"},
 
     // Shotguns (4)

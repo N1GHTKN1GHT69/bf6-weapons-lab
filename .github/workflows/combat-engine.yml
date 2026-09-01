@@ -1,0 +1,47 @@
+name: BF6 Combat Engine
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/build-combat-cache.mjs'
+      - 'scripts/validate-combat-cache.mjs'
+      - '.github/workflows/combat-engine.yml'
+      - 'roster-data.js'
+      - 'app.js'
+  schedule:
+    - cron: '17 10 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: bf6-combat-engine
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - name: Checkout Weapons Lab
+        uses: actions/checkout@v4
+      - name: Checkout exact simulator source
+        uses: actions/checkout@v4
+        with:
+          repository: raymdl/BF6-Weapon-Analyzer
+          ref: main
+          path: .upstream/bf6-analyzer
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run exhaustive combat audit
+        run: node scripts/build-combat-cache.mjs .upstream/bf6-analyzer data
+      - name: Validate generated cache
+        run: node scripts/validate-combat-cache.mjs data/combat-cache.json
+      - name: Commit changed cache
+        run: |
+          git config user.name "bf6-combat-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/combat-cache.json data/combat-audit.json
+          git diff --cached --quiet && exit 0
+          git commit -m "data: rebuild independent BF6 combat meta [skip ci]"
+          git push

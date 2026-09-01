@@ -21,7 +21,8 @@
     rawWeapons: [],
     attachments: null,
     ammo: null,
-    source: { weapons: "loading", attachments: "loading", ammo: "loading" }
+    combatCache: null,
+    source: { weapons: "loading", attachments: "loading", ammo: "loading", combat: "loading" }
   };
 
   const CATALOG_KEYS = {
@@ -123,6 +124,22 @@
     }
   }
 
+  async function loadCombatCache() {
+    try {
+      const cache = await fetchJson("./data/combat-cache.json", 5000);
+      if (cache?.audit?.pass && cache?.weapons) {
+        state.combatCache = cache;
+        state.source.combat = "ready";
+        return cache;
+      }
+      state.source.combat = cache?.status === "pending" ? "pending" : "invalid";
+      return null;
+    } catch (_) {
+      state.source.combat = "failed";
+      return null;
+    }
+  }
+
   async function loadData() {
     // Deliberately independent. One bad source must never erase the catalog or the other data.
     const [weapons, attachments, ammo] = await Promise.all([
@@ -132,12 +149,17 @@
     state.rawWeapons = Array.isArray(weapons) ? weapons : [];
     state.attachments = attachments && typeof attachments === "object" ? attachments : null;
     state.ammo = ammo && typeof ammo === "object" ? ammo : null;
+    await loadCombatCache();
 
     const matched = CURRENT.roster.filter(r => rawForRoster(r)).length;
     if (state.rawWeapons.length) setChip("statsChip", `STATS ${matched}/${CURRENT.roster.length}`, matched >= 60 ? "ok" : "warn");
     else setChip("statsChip", "STATS FEED DOWN", "bad");
 
-    if (state.attachments && state.ammo) setChip("buildChip", "BUILD DATA READY", "ok");
+    if (state.combatCache) {
+      const a = state.combatCache.audit;
+      setChip("buildChip", `META ENGINE ${a.modeled}/${a.weaponsSource}`, a.errors?.length ? "warn" : "ok");
+    } else if (state.source.combat === "pending") setChip("buildChip", "META ENGINE BUILDING", "warn");
+    else if (state.attachments && state.ammo) setChip("buildChip", "LIVE BUILD FALLBACK", "warn");
     else if (state.attachments || state.ammo) setChip("buildChip", "BUILD DATA PARTIAL", "warn");
     else setChip("buildChip", "BUILD DATA DOWN", "bad");
   }
@@ -372,7 +394,44 @@
     return s;
   }
 
+  function cacheWeapon(raw) {
+    return raw ? state.combatCache?.weapons?.[raw.id] ?? null : null;
+  }
+
+  function cachedCombat(raw, d = state.distance) {
+    const cw = cacheWeapon(raw);
+    const row = cw?.best?.[String(Math.max(1, Math.min(300, Math.round(Number(d) || 25))))];
+    return row ? { damage:row.damage, btk:row.btk, ttk:row.ttk, lowBtk:row.lowBtk, lowTtk:row.lowTtk, source:"exhaustive-cache" } : null;
+  }
+
+  function cachedBuild(raw, d = state.distance) {
+    const cw = cacheWeapon(raw);
+    const row = cw?.best?.[String(Math.max(1, Math.min(300, Math.round(Number(d) || 25))))];
+    const b = row ? cw?.builds?.[row.buildId] : null;
+    if (!row || !b) return null;
+    const picks = Array.isArray(b.picks) ? b.picks.map(x=>({...x})) : [];
+    if (!picks.length) {
+      for (const slot of ["sight","muzzle","barrel","grip","laser","light","ergo","mag","ammo"]) {
+        const id=b.atts?.[slot];
+        if (id == null) continue;
+        let opt=null;
+        if (slot === "mag") opt = { id, ...(state.attachments?.WEAPON_MAG?.[raw.id]?.mags?.[id] ?? {}), slot };
+        else if (slot === "ammo") {
+          const a=(state.ammo?.AMMO ?? []).find(x=>x.id===id) ?? {id,name:prettifyId(id)};
+          opt={...a,pts:state.ammo?.WEAPON_AMMO?.[raw.id]?.ammo?.[id] ?? 0,slot};
+        } else {
+          const key=CATALOG_KEYS[slot];
+          opt={...((state.attachments?.[key] ?? []).find(x=>x.id===id) ?? {id,name:prettifyId(id),pts:0}),slot};
+        }
+        picks.push(opt);
+      }
+    }
+    return { score:row.practical ?? 0, points:b.points, picks, audit:{ok:true,total:b.points,budget:cw.budget,errors:[]}, exhaustive:true, combat:row };
+  }
+
   function optimize(raw, d = state.distance) {
+    const cached = cachedBuild(raw, d);
+    if (cached) return cached;
     const budget = budgetFor(raw);
     const options = buildOptions(raw);
     const slots = Object.keys(options);
@@ -451,33 +510,102 @@
       .sort((a,b) => a.r - b.r || a.i - b.i);
     if (!pts.length) return null;
 
-    // Most automatic-weapon curves are stepped and encode a discontinuity by
-    // repeating the same range twice. Sniper sweet-spots are explicitly linear.
-    const linear = /linear/i.test(String(raw?.damageSource || ""));
-    if (!linear) {
-      let val = pts[0].d;
-      for (const p of pts) if (p.r <= d) val = p.d;
-      return val;
+    const source = String(raw?.damageSource || "");
+    const linear = /linear/i.test(source);
+    const oneMeterBlend = /1\s*m\s*blend/i.test(source);
+
+    // Sniper sweet-spot curves are continuous linear curves. Shotgun buckshot
+    // curves use one-meter transition blends between pellet-damage tiers.
+    if (linear || oneMeterBlend) {
+      if (d <= pts[0].r) return pts[0].d;
+      for (let i=1;i<pts.length;i++) {
+        const a=pts[i-1], b=pts[i];
+        if (d <= b.r) {
+          if (b.r === a.r) return b.d;
+          // For shotgun sources, only interpolate the explicit 1 m blend;
+          // otherwise hold the prior tier flat.
+          if (oneMeterBlend && (b.r-a.r) > 1.01) return a.d;
+          const t=(d-a.r)/(b.r-a.r);
+          return a.d + (b.d-a.d)*Math.max(0,Math.min(1,t));
+        }
+      }
+      return pts[pts.length-1].d;
     }
 
-    if (d <= pts[0].r) return pts[0].d;
-    for (let i=1;i<pts.length;i++) {
-      const a=pts[i-1], b=pts[i];
-      if (d <= b.r) {
-        if (b.r === a.r) return b.d;
-        const t=(d-a.r)/(b.r-a.r);
-        return a.d + (b.d-a.d)*Math.max(0,Math.min(1,t));
-      }
+    // Most automatic-weapon curves are stepped and encode a discontinuity by
+    // repeating the same range twice.
+    let val = pts[0].d;
+    for (const p of pts) if (p.r <= d) val = p.d;
+    return val;
+  }
+
+  const SHOTGUN_CADENCE = {
+    m87a1: { rpm:94 },
+    m1014: { rpm:200 },
+    "185ksk": { rpm:300 },
+    // DB-12 fires the two shells in a pair at ~360 RPM, then cycles the next
+    // pair. Two pairs per 1.6 s gives the live 150 RPM sustained cadence.
+    db12: { rpm:150, pairRpm:360, pairCycleMs:800 }
+  };
+
+  function lowBodyMultiplier(raw) {
+    if (!raw) return 1;
+    if (raw.cls === "Shotgun" || raw.cls === "Sidearm") return 1;
+    if (raw.cls === "DMR") return .91;
+    if (raw.cls === "Sniper Rifle") return .67;
+    return .84; // automatic primaries: stomach / limbs in BF6 1.3.3+
+  }
+
+  function timeToNthShot(raw, shots) {
+    if (!Number.isFinite(shots) || shots <= 1) return 0;
+
+    // Burst-only weapons need the gap between bursts. Using raw intra-burst RPM
+    // continuously understates their TTK whenever the kill crosses a burst gap.
+    if (raw?.fireMode === "burst" && Number(raw?.burstRounds) > 0 && Number(raw?.burstBurstsPerMinute) > 0) {
+      const burstRounds = Number(raw.burstRounds);
+      const intraRpm = Number(raw.burstRpm || raw.rpm);
+      const burstStartMs = 60000 / Number(raw.burstBurstsPerMinute);
+      const intraMs = 60000 / intraRpm;
+      const idx = shots - 1;
+      return Math.floor(idx / burstRounds) * burstStartMs + (idx % burstRounds) * intraMs;
     }
-    return pts[pts.length-1].d;
+
+    // The DB-12 has a very fast second shell within each dual-tube pair, then a
+    // slower pump/cycle before the next pair.
+    if (raw?.id === "db12") {
+      const m = SHOTGUN_CADENCE.db12;
+      const idx = shots - 1;
+      return Math.floor(idx / 2) * m.pairCycleMs + (idx % 2) * (60000 / m.pairRpm);
+    }
+
+    const override = SHOTGUN_CADENCE[raw?.id];
+    const rpm = Number(override?.rpm ?? raw?.rpm);
+    return rpm > 0 ? (shots - 1) * 60000 / rpm : null;
   }
 
   function combatAtDistance(raw, d) {
-    const damage = damageAtDistance(raw, d);
-    const rpm = Number(raw?.rpm);
-    const btk = damage && damage > 0 ? Math.ceil(100 / damage) : null;
-    const ttk = btk && rpm > 0 ? (btk - 1) * 60000 / rpm : null;
-    return { damage, btk, ttk, rpm: Number.isFinite(rpm) ? rpm : null, mag: Number(raw?.mag) || null };
+    const pelletDamage = damageAtDistance(raw, d);
+    const pellets = Math.max(1, Number(raw?.pellets) || 1);
+    // Shotgun source curves are per pellet. "damage" below is ideal maximum
+    // shell damage if every pellet connects; pelletDamage remains available for
+    // transparency and future spread/expected-TTK modeling.
+    const chestDamage = pelletDamage == null ? null : pelletDamage * pellets;
+    const chestBtk = chestDamage && chestDamage > 0 ? Math.ceil(100 / chestDamage) : null;
+    const chestTtk = chestBtk ? timeToNthShot(raw, chestBtk) : null;
+
+    const lowMult = lowBodyMultiplier(raw);
+    const lowDamage = chestDamage == null ? null : chestDamage * lowMult;
+    const lowBtk = lowDamage && lowDamage > 0 ? Math.ceil(100 / lowDamage) : null;
+    const lowTtk = lowBtk ? timeToNthShot(raw, lowBtk) : null;
+
+    const cadence = SHOTGUN_CADENCE[raw?.id]?.rpm ?? Number(raw?.rpm);
+    return {
+      damage:chestDamage, pelletDamage, pellets,
+      btk:chestBtk, ttk:chestTtk,
+      lowDamage, lowBtk, lowTtk, lowMult,
+      rpm:Number.isFinite(Number(cadence)) ? Number(cadence) : null,
+      mag:Number(raw?.mag) || null
+    };
   }
 
   function norm(value, min, max, invert=false) {
@@ -501,32 +629,21 @@
       .filter(w => w.cls !== "Secondary" && (category === "__all__" || w.cls === category))
       .map(roster => {
         const raw = rawForRoster(roster);
-        const combat = raw ? combatAtDistance(raw, d) : null;
+        const combat = raw ? (cachedCombat(raw, d) || combatAtDistance(raw, d)) : null;
         return { roster, raw, combat };
       })
       .filter(x => x.raw && x.combat && Number.isFinite(x.combat.ttk) && Number.isFinite(x.combat.damage));
 
-    if (!pool.length) return [];
-    const ttks=pool.map(x=>x.combat.ttk), damages=pool.map(x=>x.combat.damage), btks=pool.map(x=>x.combat.btk).filter(Number.isFinite);
-    const velocities=pool.map(x=>Number(x.raw.bulletVel)).filter(Number.isFinite);
-    const adsVals=pool.map(x=>Number(x.raw.adsTime)).filter(Number.isFinite);
-    const minT=Math.min(...ttks), maxT=Math.max(...ttks), minD=Math.min(...damages), maxD=Math.max(...damages);
-    const minB=Math.min(...btks), maxB=Math.max(...btks);
-    const minV=velocities.length?Math.min(...velocities):0, maxV=velocities.length?Math.max(...velocities):1;
-    const minA=adsVals.length?Math.min(...adsVals):0, maxA=adsVals.length?Math.max(...adsVals):1;
-
-    for (const x of pool) {
-      const ttkScore=norm(x.combat.ttk,minT,maxT,true);
-      const damageScore=norm(x.combat.damage,minD,maxD,false);
-      const btkScore=norm(x.combat.btk,minB,maxB,true);
-      const velocityScore=norm(Number(x.raw.bulletVel),minV,maxV,false);
-      const adsScore=norm(Number(x.raw.adsTime),minA,maxA,true);
-      // Lethality is deliberately dominant: TTK 70%, damage 20%, BTK 5%.
-      // Delivery/handling is only a 5% tie-breaker so a smooth gun cannot outrank
-      // a materially faster-killing gun merely because it is easier to handle.
-      x.rankScore = 100*(.70*ttkScore + .20*damageScore + .05*btkScore + .03*velocityScore + .02*adsScore);
-    }
-    return pool.sort((a,b) => b.rankScore-a.rankScore || a.combat.ttk-b.combat.ttk || b.combat.damage-a.combat.damage);
+    // Meta ranking is independent and lethality-first. No outside tier list or
+    // popularity value enters here. Fastest ideal chest TTK is the hard primary
+    // key; only true ties fall through to BTK, damage and delivery/handling.
+    return pool.sort((a,b) =>
+      a.combat.ttk - b.combat.ttk ||
+      a.combat.btk - b.combat.btk ||
+      b.combat.damage - a.combat.damage ||
+      (Number(b.raw.bulletVel)||0) - (Number(a.raw.bulletVel)||0) ||
+      (Number(a.raw.adsTime)||9999) - (Number(b.raw.adsTime)||9999)
+    ).map((x,i) => ({...x, rankScore:Math.max(0,100-i)}));
   }
 
   function resolveAutoWeapon() {
@@ -592,11 +709,15 @@
     badge.className = ver && ver !== CURRENT.liveVersion ? "source-badge warn" : "source-badge ok";
 
     const c = combatAtDistance(raw, state.distance);
+    const damageLabel = c.pellets > 1 ? "MAX SHELL" : "CHEST DMG";
+    const damageSub = c.pellets > 1 ? `${c.pelletDamage?.toFixed(1) ?? "—"} × ${c.pellets} pellets @ ${state.distance}m` : `@ ${state.distance}m`;
+    const ttkText = c.ttk == null ? "—" : c.btk === 1 ? "1 SHOT" : `${Math.round(c.ttk)} ms`;
+    const ttkSub = c.pellets > 1 ? "ideal full-pellet chest" : "ideal chest • first hit → kill";
     const combat = [
-      ["DAMAGE", c.damage == null ? "—" : c.damage.toFixed(c.damage % 1 ? 1 : 0), `@ ${state.distance}m`],
-      ["BTK", c.btk ?? "—", "100 HP body"],
-      ["TTK", c.ttk == null ? "—" : `${Math.round(c.ttk)} ms`, "ideal body"],
-      ["ROF", c.rpm == null ? "—" : Math.round(c.rpm), "RPM"],
+      [damageLabel, c.damage == null ? "—" : c.damage.toFixed(c.damage % 1 ? 1 : 0), damageSub],
+      ["CHEST BTK", c.btk ?? "—", "100 HP • unarmored"],
+      ["CHEST TTK", ttkText, ttkSub],
+      ["ROF", c.rpm == null ? "—" : Math.round(c.rpm), raw.id === "db12" ? "150 sustained • 360 pair" : "RPM"],
       ["MAG", c.mag ?? "—", "base rounds"]
     ];
     $("combatNumbers").innerHTML = combat.map(([k, v, s]) => `<div class="combat-stat"><span>${k}</span><strong>${v}</strong><small>${s}</small></div>`).join("");
@@ -606,9 +727,11 @@
       ["HIPFIRE", bars.hip], ["PRECISION", bars.precision], ["CONTROL", bars.control], ["MOBILITY", bars.mobility]
     ].map(([name, val]) => `<div class="statbar"><label>${name}</label><div class="bartrack"><i style="width:${val ?? 0}%"></i></div><output>${val ?? "—"}</output></div>`).join("");
 
+    const lowTtkText = c.lowTtk == null ? "—" : c.lowBtk === 1 ? "1 SHOT" : `${Math.round(c.lowTtk)} ms`;
     const rawStats = [
       ["Velocity", raw.bulletVel ? `${Math.round(raw.bulletVel)} m/s` : "—"],
       ["ADS", raw.adsTime ? `${Math.round(raw.adsTime)} ms` : "—"],
+      ["Low-body TTK", `${lowTtkText} (${c.lowBtk ?? "—"} BTK)`],
       ["Tac reload", raw.tacRld ? `${Number(raw.tacRld).toFixed(2)} s` : "—"],
       ["Vert recoil", Number.isFinite(Number(raw.recoilV)) ? Number(raw.recoilV).toFixed(3) : "—"],
       ["Recoil var.", Number.isFinite(Number(raw.recoilVar)) ? Number(raw.recoilVar).toFixed(1) : "—"],
@@ -669,7 +792,7 @@
     const top = [...result.picks].filter(x => x.id !== "none").sort((a, b) => b.score - a.score).slice(0, 5);
     const items = [{
       title: "Lethality first",
-      text: "The weapon recommendation prioritizes fastest ideal body TTK and damage. Attachments use any verified direct damage/ROF effect first; otherwise they focus on landing that damage reliably at the selected distance."
+      text: "The weapon recommendation prioritizes fastest ideal chest TTK and damage. Attachments use any verified direct damage/ROF effect first; otherwise they focus on landing that damage reliably at the selected distance."
     }, {
       title: `${state.distance}m target distance`,
       text: distanceExplanation(state.distance)
@@ -787,6 +910,7 @@
     const warnings = [];
     if (state.source.weapons === "failed") warnings.push("Weapon stat feed is unavailable. All 63 catalog weapons remain visible, but raw stat/TTK panels are pending.");
     if (state.source.attachments === "failed" || state.source.ammo === "failed") warnings.push("Attachment or ammo feed is unavailable, so the optimizer will not fabricate a point build.");
+    if (!state.combatCache) warnings.push("The exhaustive 1–300m combat cache is not ready yet. Until the GitHub audit finishes, the site falls back to the live on-demand engine and does not label results as exhaustive meta.");
     const ver = sourceVersion(raw);
     if (ver && ver !== CURRENT.liveVersion) warnings.push(`This weapon's damage provenance reports ${ver}; live BF6 is ${CURRENT.liveVersion}. Use the recommendation as version-sensitive, not guaranteed current meta.`);
     if (roster.id === "interdictor" && !raw) warnings.push("Interdictor is in the current roster, but this analyzer feed has not published its raw weapon/attachment model yet.");
@@ -826,7 +950,7 @@
     const scope = state.category === "__all__" ? "ALL PRIMARY WEAPONS" : state.category.toUpperCase();
     const top = ranked.slice(0,3).map((x,i)=>`<div class="rank-chip ${i===0?'winner':''}"><span>#${i+1}</span><b>${escapeHtml(x.roster.name)}</b><small>${Math.round(x.combat.ttk)}ms TTK • ${fmtDamage(x.combat.damage)} dmg</small></div>`).join("");
     box.className = "auto-recommendation";
-    box.innerHTML = `<div class="auto-main"><span>AUTO BEST • ${escapeHtml(scope)} • ${state.distance}M</span><strong>${escapeHtml(leader.roster.name)}</strong><small>Lethality-first ranking: TTK 70% • damage 20% • BTK 5% • delivery 5%. ${ranked.length}/${categoryRoster().length} weapons currently have enough stat data to rank. Moving the distance can change the winner.</small></div><div class="rank-row">${top}</div>`;
+    box.innerHTML = `<div class="auto-main"><span>AUTO BEST • ${escapeHtml(scope)} • ${state.distance}M</span><strong>${escapeHtml(leader.roster.name)}</strong><small>Independent meta: fastest ideal chest TTK is the hard first key, then BTK, damage, low-body TTK and mechanical delivery tie-breaks. Community tier lists/popularity are not inputs. ${state.combatCache ? "Exhaustive cache active." : "Live fallback active."} ${ranked.length}/${categoryRoster().length} weapons currently have enough stat data to rank.</small></div><div class="rank-row">${top}</div>`;
   }
 
   function fmtDamage(v) {
@@ -894,7 +1018,7 @@
   }
 
   function setDistance(d) {
-    state.distance = Math.max(5, Math.min(300, Math.round(Number(d) || 25)));
+    state.distance = Math.max(1, Math.min(300, Math.round(Number(d) || 25)));
     $("distanceSlider").value = state.distance;
     $("distanceValue").textContent = state.distance;
     document.querySelectorAll("#distancePresets button").forEach(b => b.classList.toggle("active", Number(b.dataset.distance) === state.distance));

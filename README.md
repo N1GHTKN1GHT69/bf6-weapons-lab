@@ -1,53 +1,41 @@
-# BF6 Weapons Lab v0.5
+# BF6 Weapons Lab v0.7 — Combat Engine
 
-v0.5 is the first structural rebuild after live testing the deployed prototype.
+v0.7 moves the project from an on-demand heuristic optimizer toward a precomputed independent meta engine.
 
-## What changed
+## What the engine does
 
-- Current 63-weapon multiplayer catalog is always present, independent of stat-feed health.
-- Exact 5–300 m target-distance control replaces the old short/medium/long buckets.
-- Quick distance presets are shortcuts only; the exact selected meter value drives scoring.
-- BF6-style visual weapon dashboard with damage/BTK/TTK/ROF/MAG and colored characteristic bars.
-- Character bars are explicitly **relative within the weapon class**; they are not fake copies of BF6's hidden UI formula.
-- Live weapon, attachment and ammo feeds fail independently. A bad attachment record no longer erases the weapon catalog.
-- Builds fail closed: no weapon-specific compatibility + magazine + ammo tables means **DATA PENDING**, not a guessed loadout.
-- Removed inferred Range Finder compatibility. The optimizer only uses Range Finder when the weapon compatibility table actually lists it.
-- Primary attachment budget: **100**.
-- Secondary attachment budget: **60**.
-- Complete loadout presentation is compact and closer to the Battlefield loadout mental model.
-- Service worker cache bumped to `v04` and uses network-first app assets so updates appear reliably.
+- Uses the upstream BF6 Weapon Analyzer's maintained raw data and its own `sim/applyAttachments.js`, `sim/damage.js`, and `sim/core.js` math.
+- Counts **every legal user-visible attachment combination** under the weapon budget.
+- Safely collapses functionally identical or strictly more-expensive duplicates before expensive simulation. This is mathematical redundancy pruning, not a skipped gameplay option.
+- Applies attachment transformations using the source simulator, not hand-written meta opinions.
+- Evaluates each modeled weapon from **1 m through 300 m**.
+- Picks the winning build at each meter using this hard order: ideal chest TTK, BTK, damage/shot, low-body TTK, then transformed mechanical delivery as a tie-break.
+- Primaries use a 100-point cap; sidearms use a 60-point cap.
+- Generates `data/combat-cache.json` plus `data/combat-audit.json`.
+- The PWA uses the exhaustive cache when it is present and visibly falls back when it is not.
 
-## Current data architecture
+## What is NOT an input
 
-1. `roster-data.js` — current catalog shell and official range notes that should remain visible even if external data fails.
-2. BF6 Weapon Analyzer raw JSON — weapon simulation values and weapon-specific attachment compatibility when reachable.
-3. `class-data.js` — class / training / gadget / throwable utility layer.
-4. Optimizer — exact-distance weighted Pick-100 (or Pick-60 sidearm) search.
+The meta calculation does not consume Reddit opinions, YouTube builds, Battlefinity tiers, popularity, pick rate, creator recommendations, community votes, or another site's weapon rank. External projects may provide measured facts or simulator math only.
 
-## Important truth-in-data rules
+## Automation
 
-- `POINT MATH PASS` means the selected source costs add up and are within the weapon budget. It does **not** mean every third-party cost has been independently confirmed in the current in-game UI.
-- Source freshness is shown separately.
-- The Interdictor is in the catalog because it is live in 1.4.2.0; if the stat feed does not yet contain it, its build stays unavailable.
-- BF6 Character bars are relative class indexes derived from measurable recoil/spread/handling inputs. The exact raw values remain visible underneath.
+`.github/workflows/combat-engine.yml` runs after relevant pushes, on manual dispatch, and daily. It checks out `raymdl/BF6-Weapon-Analyzer`, executes the audit, validates the result, commits the generated cache, and the resulting GitHub push causes Cloudflare Pages to redeploy automatically.
 
-## Deploy
+## Audit truthfulness
 
-Replace the repository files with the contents of this folder and commit to `main`. Cloudflare Pages should redeploy automatically.
+The generated audit records:
 
-Because the service worker cache name changed, v0.5 should replace the old cached app after refresh/reopen.
+- upstream commit hash
+- source weapon count
+- modeled vs incomplete weapon count
+- exact count of all legal raw combinations
+- number of canonical combinations actually simulated after safe equivalence pruning
+- 300 distances per modeled weapon
+- errors / PASS state
 
-## Point-budget correction found during v0.5
+If compatibility, points, or required modeling data is missing, that weapon is marked incomplete rather than guessed.
 
-The data audit now allows legitimate **0-point ammunition choices on specific sidearms** (for example, the source currently lists Standard ammo at 0 points on M44 and M357 TRAIT). The old v0.3 audit incorrectly assumed every ammo selection had to consume points; that could cause the whole data feed to fail and trigger the four-gun sample fallback. v0.5 removes that failure mode and re-adds every recommended build from its exact source costs before displaying it.
+## Important limitation
 
-
-## v0.5 auto-weapon behavior
-
-- `AUTO BEST` compares every rankable primary at the exact selected distance.
-- Selecting a weapon category enters **auto-in-class** mode. Moving the distance slider can automatically switch to a different weapon in that class.
-- Choosing a named weapon from the dropdown enters **manual weapon lock** mode; distance changes keep the gun but re-optimize attachments.
-- Choosing the first `AUTO` option in the dropdown resumes automatic switching.
-- Ranking is deliberately lethality-first: 70% ideal body TTK, 20% body damage, 5% BTK, 3% velocity and 2% ADS.
-- All 63 catalog weapons remain present even if a source lacks stats; unrankable entries remain manually selectable and are marked data-pending.
-- Linear sniper sweet-spot damage curves are interpolated instead of incorrectly treated as stepped curves.
+This engine can only be as current as the factual source data. The cache records the exact upstream commit. A newer EA patch can make an older source snapshot stale even when the math is correct. Source freshness is a separate validity dimension from calculation correctness.
