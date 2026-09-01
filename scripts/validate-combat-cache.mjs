@@ -4,8 +4,9 @@ const path = process.argv[2] || 'data/combat-cache.json';
 const c = JSON.parse(await readFile(path,'utf8'));
 const errors=[];
 if (typeof c?.source?.gameVersion !== 'string' || !c.source.gameVersion) errors.push('missing source.gameVersion');
-if (c?.source?.rankingModel !== 'laserbeam-v1') errors.push(`ranking model ${c?.source?.rankingModel || 'missing'}/laserbeam-v1`);
-if (c?.source?.manualBuildModel !== 'max-lethality-v1') errors.push(`manual build model ${c?.source?.manualBuildModel || 'missing'}/max-lethality-v1`);
+if (c?.source?.rankingModel !== 'laserbeam-v2-range-optics') errors.push(`ranking model ${c?.source?.rankingModel || 'missing'}/laserbeam-v2-range-optics`);
+if (c?.source?.manualBuildModel !== 'range-lethality-v2') errors.push(`manual build model ${c?.source?.manualBuildModel || 'missing'}/range-lethality-v2`);
+if (c?.source?.opticModel !== 'tier-range-fit-v1') errors.push(`optic model ${c?.source?.opticModel || 'missing'}/tier-range-fit-v1`);
 const expected=Number(c?.audit?.weaponsSource);
 const modeled=Number(c?.audit?.modeled);
 const incomplete=Number(c?.audit?.incomplete);
@@ -32,11 +33,15 @@ for (const [id,w] of entries) {
     if (!Number.isFinite(Number(x.btk)) || x.btk < 1) { errors.push(`${id}@${d}: invalid btk`); break; }
     if (!Number.isFinite(Number(x.beamIndex)) || x.beamIndex < 0) { errors.push(`${id}@${d}: invalid beam index`); break; }
     if (!Number.isFinite(Number(x.effectiveAdsSpreadDeg)) || x.effectiveAdsSpreadDeg < 0) { errors.push(`${id}@${d}: invalid effective ADS spread`); break; }
+    if (!Number.isFinite(Number(x.opticFit)) || x.opticFit < 0 || x.opticFit > 100 || !x.sightId) { errors.push(`${id}@${d}: invalid range-optic metrics`); break; }
+    if (w.cls !== 'Sidearm' && x.opticEligible !== true) { errors.push(`${id}@${d}: AUTO winner has range-ineligible optic ${x.sightId}`); break; }
     const l=w.bestLethal?.[String(d)];
     if (!l) { errors.push(`${id}: missing manual max-lethality ${d}m`); break; }
     if (!w.builds?.[l.buildId]) { errors.push(`${id}@${d}: missing manual winning build ${l.buildId}`); break; }
     if (!Number.isFinite(Number(l.points)) || Number(l.points) > Number(w.budget) || Number(w.builds[l.buildId].points) !== Number(l.points)) { errors.push(`${id}@${d}: invalid manual winner points`); break; }
     if (!Number.isFinite(Number(l.triggerTtk)) || l.triggerTtk < l.ttk || !Number.isFinite(Number(l.btk)) || l.btk < 1) { errors.push(`${id}@${d}: invalid manual lethal row`); break; }
+    if (!Number.isFinite(Number(l.opticFit)) || l.opticFit < 0 || l.opticFit > 100 || !l.sightId) { errors.push(`${id}@${d}: invalid manual range-optic row`); break; }
+    if (w.cls !== 'Sidearm' && l.opticEligible !== true) { errors.push(`${id}@${d}: manual winner has range-ineligible optic ${l.sightId}`); break; }
   }
 }
 if (errors.length) {

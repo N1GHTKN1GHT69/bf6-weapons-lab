@@ -156,6 +156,11 @@ function optionData(slot, w, id) {
 
 function functionalSignature(slot, data) {
   if (!data) return 'null';
+  // Optics are intentionally NOT collapsed by mechanical noEffect fields. The
+  // upstream feed exposes coarse optic tiers (Iron / Standard / Variable Low /
+  // Variable High / Thermal / Hybrid), and those tiers have different useful
+  // target-distance envelopes even when they do not alter recoil/damage stats.
+  if (slot === 'sight') return `sight:${data.id}`;
   const drop = new Set(['id','name','pts','assumed','assumedFields','description','tooltip','source','notes']);
   const obj = {};
   for (const [k,v] of Object.entries(data)) if (!drop.has(k)) obj[k] = v;
@@ -362,6 +367,45 @@ function beamMetrics(w, distance) {
   };
 }
 
+function opticRangeFit(sightId, distance) {
+  const d = Math.max(1, Number(distance) || 1);
+  // This is an explicit optimizer policy, not a claimed datamined magnification
+  // value. The Analyzer currently exposes coarse sight tiers + Pick points, but
+  // not exact optic magnification/FOV for most primary weapons. The policy keeps
+  // clearly unsuitable optics from winning merely because they cost fewer points.
+  switch (sightId) {
+    case 'iron':
+      return d <= 15 ? 100 : d <= 25 ? 85 : d <= 40 ? 55 : d <= 60 ? 25 : 0;
+    case 'std_optic':
+      return d <= 15 ? 90 : d <= 35 ? 100 : d <= 60 ? 90 : d <= 85 ? 70 : d <= 110 ? 45 : 20;
+    case 'var_low':
+      return d <= 15 ? 55 : d <= 35 ? 85 : d <= 75 ? 100 : d <= 110 ? 90 : d <= 150 ? 70 : 50;
+    case 'var_high':
+      return d <= 20 ? 15 : d <= 40 ? 45 : d <= 60 ? 75 : d <= 90 ? 95 : d <= 180 ? 100 : 95;
+    case 'thermal':
+      return d <= 15 ? 45 : d <= 40 ? 70 : d <= 100 ? 90 : d <= 160 ? 80 : 65;
+    case 'therm_hyb':
+      return d <= 15 ? 45 : d <= 40 ? 75 : d <= 100 ? 95 : d <= 160 ? 100 : 90;
+    default:
+      // Unknown exact sight IDs are not guessed into a magnification tier. Keep
+      // them neutral so weapon-specific compatibility can still be modeled.
+      return 60;
+  }
+}
+
+function minimumOpticFit(w, distance) {
+  if (!w || w.cls === 'Sidearm') return 0;
+  const d = Math.max(1, Number(distance) || 1);
+  if (d <= 20) return 45;
+  if (d <= 60) return 50;
+  if (d <= 120) return 55;
+  return 60;
+}
+
+function opticLabel(sightId) {
+  return byId.sight?.[sightId]?.name ?? sightId ?? 'Unknown';
+}
+
 function practicalScore(w, distance, attsSet) {
   // Secondary utility score. Beam controllability is stored separately and is
   // promoted into weapon/build ranking by the Laserbeam Meta layer.
@@ -390,11 +434,16 @@ function practicalScore(w, distance, attsSet) {
   if (['bipod','bipod_sr'].includes(attsSet.grip)) score += 3*rangeT;
   if (attsSet.ergo === 'ads_bolt') score += 4*rangeT;
   if (attsSet.ergo === 'mag_flare') score += 1.5;
+  // Range-appropriate sighting matters independently of recoil. This prevents
+  // a cheap iron sight from winning a 100m build just because the source marks
+  // optics as mechanically neutral.
+  score += opticRangeFit(attsSet.sight, d) * 0.35;
   return score;
 }
 
 function betterAtDistance(a, b) {
   if (!b) return true;
+  if (a.opticEligible !== b.opticEligible) return !!a.opticEligible;
   // Laserbeam build policy: a materially faster lethal build still wins, but
   // inside a 12% trigger->kill window we prefer the build with the lower
   // transformed recoil/spread Beam Index. This prevents a 1-2 ms paper-TTK
@@ -404,6 +453,7 @@ function betterAtDistance(a, b) {
     const fastest = Math.min(at, bt);
     const slowest = Math.max(at, bt);
     const near = fastest > 0 ? slowest / fastest <= 1.12 : at === bt;
+    if (near && a.opticFit !== b.opticFit) return (a.opticFit ?? -Infinity) > (b.opticFit ?? -Infinity);
     if (near && a.beamIndex !== b.beamIndex) return (a.beamIndex ?? Infinity) < (b.beamIndex ?? Infinity);
     if (at !== bt) return at < bt;
   } else if (a.triggerTtk !== b.triggerTtk) return (a.triggerTtk ?? Infinity) < (b.triggerTtk ?? Infinity);
@@ -411,6 +461,7 @@ function betterAtDistance(a, b) {
   if (a.btk !== b.btk) return (a.btk ?? Infinity) < (b.btk ?? Infinity);
   if (a.damage !== b.damage) return (a.damage ?? -Infinity) > (b.damage ?? -Infinity);
   if (a.lowTtk !== b.lowTtk) return (a.lowTtk ?? Infinity) < (b.lowTtk ?? Infinity);
+  if (a.opticFit !== b.opticFit) return (a.opticFit ?? -Infinity) > (b.opticFit ?? -Infinity);
   if (a.beamIndex !== b.beamIndex) return (a.beamIndex ?? Infinity) < (b.beamIndex ?? Infinity);
   if (a.practical !== b.practical) return a.practical > b.practical;
   if (a.points !== b.points) return a.points < b.points;
@@ -419,12 +470,15 @@ function betterAtDistance(a, b) {
 
 function betterLethalAtDistance(a, b) {
   if (!b) return true;
+  if (a.opticEligible !== b.opticEligible) return !!a.opticEligible;
   if (a.triggerTtk !== b.triggerTtk) return (a.triggerTtk ?? Infinity) < (b.triggerTtk ?? Infinity);
   if (a.ttk !== b.ttk) return (a.ttk ?? Infinity) < (b.ttk ?? Infinity);
   if (a.btk !== b.btk) return (a.btk ?? Infinity) < (b.btk ?? Infinity);
   if (a.damage !== b.damage) return (a.damage ?? -Infinity) > (b.damage ?? -Infinity);
   if (a.lowTtk !== b.lowTtk) return (a.lowTtk ?? Infinity) < (b.lowTtk ?? Infinity);
-  // Equal lethality: take the more controllable / cheaper build.
+  // Equal lethality: first make sure the sight actually fits the selected range,
+  // then choose the more controllable / cheaper build.
+  if (a.opticFit !== b.opticFit) return (a.opticFit ?? -Infinity) > (b.opticFit ?? -Infinity);
   if (a.beamIndex !== b.beamIndex) return (a.beamIndex ?? Infinity) < (b.beamIndex ?? Infinity);
   if (a.practical !== b.practical) return a.practical > b.practical;
   if (a.points !== b.points) return a.points < b.points;
@@ -444,8 +498,9 @@ const results = {
   source: {
     repository: 'raymdl/BF6-Weapon-Analyzer',
     gameVersion: GAME_VERSION,
-    rankingModel: 'laserbeam-v1',
-    manualBuildModel: 'max-lethality-v1',
+    rankingModel: 'laserbeam-v2-range-optics',
+    opticModel: 'tier-range-fit-v1',
+    manualBuildModel: 'range-lethality-v2',
     commit: (() => { try { return execFileSync('git',['-C',upstream,'rev-parse','HEAD'],{encoding:'utf8'}).trim(); } catch { return null; } })(),
     policy: 'Raw weapon/attachment facts and upstream simulator math only. No tier lists, popularity, usage, creator rankings, or community meta scores are inputs.'
   },
@@ -455,7 +510,7 @@ const results = {
     sidearmBudget: SIDEARM_BUDGET,
     weaponRankOrder: ['laserbeam composite: 55% exact-distance lethality + 45% recoil/spread controllability','trigger-to-lethal-impact chest TTK','Beam Index','mechanical chest TTK','BTK','damage/shot'],
     attachmentPolicy: 'All legal user-visible combinations are counted. Speculative/assumed attachment mechanics are excluded from verified AUTO META; functionally identical or strictly more-expensive verified duplicates are safely collapsed before simulation.',
-    manualWeaponPolicy: 'BUILD MY GUN uses a separate strict bestLethal winner: trigger-to-kill first, then mechanical TTK/BTK/damage, with Beam Index only after lethal ties.'
+    manualWeaponPolicy: 'BUILD MY GUN uses a separate range-aware bestLethal winner: a clearly unsuitable optic cannot beat a suitable optic merely on point cost; within range-eligible builds trigger-to-kill stays first, then mechanical TTK/BTK/damage, optic fit, Beam Index and cost.'
   },
   audit: { weaponsSource: weapons.length, modeled:0, incomplete:0, rawLegalCombinations:'0', canonicalCombinationsEvaluated:0, distancesPerWeapon:DIST_MAX-DIST_MIN+1, errors:[] },
   weapons: {}
@@ -505,10 +560,13 @@ for (const w of weapons) {
       let profile = profileCache.get(lethalityKey);
       if (!profile) { profile = combatProfile(modified,attSet); profileCache.set(lethalityKey, profile); }
       for (const row of profile) {
+        const opticFit = opticRangeFit(attSet.sight, row.d);
         const candidate = {
           buildId, points:exactPts, damage:row.damage, btk:row.btk, ttk:row.ttk, mechTtk:row.mechTtk,
           flightMs:row.flightMs, triggerTtk:row.triggerTtk, ballisticsExact:row.ballisticsExact,
           lowBtk:row.lowBtk, lowTtk:row.lowTtk,
+          sightId:attSet.sight, sightName:opticLabel(attSet.sight), opticFit,
+          opticEligible:opticFit >= minimumOpticFit(modified,row.d),
           practical: practicalScore(modified,row.d,attSet),
           ...beamMetrics(modified,row.d),
         };

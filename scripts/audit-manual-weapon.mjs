@@ -22,11 +22,11 @@ if (!app.includes('cachedBuild(raw,d,req,"lethal")')) errors.push('manual range 
 if (!app.includes('const detailStrategy = state.selectionMode === "manual" ? "lethal" : "laserbeam";')) errors.push('manual weapon dashboard can disagree with recommended lethal build');
 if (!app.includes('cachedWinningStats(raw, state.distance, detailStrategy)')) errors.push('manual weapon dashboard uses the wrong winning-build transformed stats');
 if (!app.includes('if (state.selectionMode === "auto") resolveAutoWeapon();')) errors.push('distance changes can replace a manually locked weapon');
-if (!builder.includes("manualBuildModel: 'max-lethality-v1'")) errors.push('cache missing max-lethality model tag');
+if (!builder.includes("manualBuildModel: 'range-lethality-v2'")) errors.push('cache missing range-lethality-v2 model tag');
 if (!builder.includes('function betterLethalAtDistance')) errors.push('cache builder missing strict lethal comparator');
 if (!builder.includes('bestLethal:Object.fromEntries')) errors.push('cache does not persist per-distance strict lethal winners');
-if (!validator.includes("manualBuildModel !== 'max-lethality-v1'")) errors.push('CLI cache validator does not gate manual lethal model');
-if (!app.includes('manualBuildModel !== "max-lethality-v1"')) errors.push('browser cache validator does not gate manual lethal model');
+if (!validator.includes("manualBuildModel !== 'range-lethality-v2'")) errors.push('CLI cache validator does not gate manual range-lethality model');
+if (!app.includes('manualBuildModel !== "range-lethality-v2"')) errors.push('browser cache validator does not gate manual range-lethality model');
 
 // Synthetic policy test: fastest trigger-to-kill must beat a much smoother build
 // in BUILD MY GUN. Beam only breaks a lethal tie.
@@ -52,4 +52,4 @@ if(errors.length){
   for(const e of errors) console.error('-',e);
   process.exit(1);
 }
-console.log('BUILD MY GUN PASS • manual weapon stays locked • full primary catalog • strict max-lethality winners at 1–300m • Beam Index only breaks lethal ties');
+console.log('BUILD MY GUN PASS • manual weapon stays locked • full primary catalog • range-aware lethal winners at 1–300m • optic fit gates range suitability • Beam Index breaks remaining lethal ties');

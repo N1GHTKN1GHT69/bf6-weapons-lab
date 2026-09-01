@@ -155,8 +155,9 @@
     const expectedRawRoster = CURRENT.roster.filter(r => rawForRoster(r)).length;
     if (expected !== expectedRawRoster) errors.push(`cache raw-roster ${expected}/${expectedRawRoster}`);
     if (cache?.source?.gameVersion !== CURRENT.liveVersion) errors.push(`cache version ${cache?.source?.gameVersion || "missing"}/${CURRENT.liveVersion}`);
-    if (cache?.source?.rankingModel !== "laserbeam-v1") errors.push(`ranking model ${cache?.source?.rankingModel || "missing"}/laserbeam-v1`);
-    if (cache?.source?.manualBuildModel !== "max-lethality-v1") errors.push(`manual build model ${cache?.source?.manualBuildModel || "missing"}/max-lethality-v1`);
+    if (cache?.source?.rankingModel !== "laserbeam-v2-range-optics") errors.push(`ranking model ${cache?.source?.rankingModel || "missing"}/laserbeam-v2-range-optics`);
+    if (cache?.source?.manualBuildModel !== "range-lethality-v2") errors.push(`manual build model ${cache?.source?.manualBuildModel || "missing"}/range-lethality-v2`);
+    if (cache?.source?.opticModel !== "tier-range-fit-v1") errors.push(`optic model ${cache?.source?.opticModel || "missing"}/tier-range-fit-v1`);
     if (!Number.isInteger(modeled) || modeled !== expected) errors.push(`modeled ${modeled}/${expected}`);
     if (!Number.isInteger(incomplete) || incomplete !== 0) errors.push(`incomplete ${incomplete}`);
     if (cache?.audit?.errors?.length) errors.push(`audit errors ${cache.audit.errors.length}`);
@@ -174,11 +175,15 @@
         if (!w.builds?.[row.buildId]) { errors.push(`${w.id}@${d}: missing winning build`); break; }
         if (!Number.isFinite(Number(row.ttk)) || Number(row.ttk) < 0 || !Number.isFinite(Number(row.triggerTtk)) || Number(row.triggerTtk) < Number(row.ttk) || !Number.isFinite(Number(row.flightMs)) || Number(row.flightMs) < 0 || !Number.isFinite(Number(row.btk)) || Number(row.btk) < 1) { errors.push(`${w.id}@${d}: invalid ballistic lethality`); break; }
         if (!Number.isFinite(Number(row.beamIndex)) || Number(row.beamIndex) < 0 || !Number.isFinite(Number(row.effectiveAdsSpreadDeg)) || Number(row.effectiveAdsSpreadDeg) < 0) { errors.push(`${w.id}@${d}: invalid beam metrics`); break; }
+        if (!Number.isFinite(Number(row.opticFit)) || Number(row.opticFit) < 0 || Number(row.opticFit) > 100 || !row.sightId) { errors.push(`${w.id}@${d}: invalid range-optic metrics`); break; }
+        if (w.cls !== "Sidearm" && row.opticEligible !== true) { errors.push(`${w.id}@${d}: AUTO winner has range-ineligible optic ${row.sightId}`); break; }
         const lethal=w.bestLethal?.[String(d)];
         if (!lethal || !w.builds?.[lethal.buildId]) { errors.push(`${w.id}@${d}: missing manual max-lethality winner`); break; }
         if (!Number.isFinite(Number(lethal.points)) || Number(lethal.points) > Number(w.budget)) { errors.push(`${w.id}@${d}: invalid manual winner points`); break; }
         if (Number(w.builds[lethal.buildId].points) !== Number(lethal.points)) { errors.push(`${w.id}@${d}: manual winner/build point mismatch`); break; }
         if (!Number.isFinite(Number(lethal.triggerTtk)) || Number(lethal.triggerTtk) < Number(lethal.ttk) || !Number.isFinite(Number(lethal.btk)) || Number(lethal.btk) < 1) { errors.push(`${w.id}@${d}: invalid manual lethality winner`); break; }
+        if (!Number.isFinite(Number(lethal.opticFit)) || Number(lethal.opticFit) < 0 || Number(lethal.opticFit) > 100 || !lethal.sightId) { errors.push(`${w.id}@${d}: invalid manual range-optic winner`); break; }
+        if (w.cls !== "Sidearm" && lethal.opticEligible !== true) { errors.push(`${w.id}@${d}: manual winner has range-ineligible optic ${lethal.sightId}`); break; }
       }
     }
     return { ok: errors.length === 0, errors };
@@ -666,15 +671,35 @@
     return s;
   }
 
-  function opticScore(opt, d) {
-    const id = opt.id;
-    if (id === "iron") return d <= 15 ? 9 : d <= 30 ? 2 : -7;
-    if (id === "std_optic") return d <= 15 ? 7 : d <= 50 ? 11 : d <= 80 ? 5 : -2;
-    if (id === "var_low") return d < 20 ? -3 : d <= 80 ? 11 : 7;
-    if (id === "var_high") return d < 50 ? -7 : d < 90 ? 7 : 15;
-    if (id === "thermal") return d < 20 ? 0 : d < 90 ? 7 : 8;
-    if (id === "therm_hyb") return d < 45 ? 1 : 10;
-    return 0;
+  function opticRangeFit(id, d) {
+    const distance=Math.max(1,Number(d)||1);
+    // Range-fit policy over the Analyzer's coarse optic tiers. The upstream data
+    // does not currently expose exact magnification/FOV for most primaries, so
+    // this is deliberately labeled optimizer policy rather than datamined fact.
+    if (id === "iron") return distance <= 15 ? 100 : distance <= 25 ? 85 : distance <= 40 ? 55 : distance <= 60 ? 25 : 0;
+    if (id === "std_optic") return distance <= 15 ? 90 : distance <= 35 ? 100 : distance <= 60 ? 90 : distance <= 85 ? 70 : distance <= 110 ? 45 : 20;
+    if (id === "var_low") return distance <= 15 ? 55 : distance <= 35 ? 85 : distance <= 75 ? 100 : distance <= 110 ? 90 : distance <= 150 ? 70 : 50;
+    if (id === "var_high") return distance <= 20 ? 15 : distance <= 40 ? 45 : distance <= 60 ? 75 : distance <= 90 ? 95 : distance <= 180 ? 100 : 95;
+    if (id === "thermal") return distance <= 15 ? 45 : distance <= 40 ? 70 : distance <= 100 ? 90 : distance <= 160 ? 80 : 65;
+    if (id === "therm_hyb") return distance <= 15 ? 45 : distance <= 40 ? 75 : distance <= 100 ? 95 : distance <= 160 ? 100 : 90;
+    return 60;
+  }
+
+  function minimumOpticFit(raw, d) {
+    if (raw?.cls === "Sidearm" || raw?.cls === "Secondary") return 0;
+    const distance=Math.max(1,Number(d)||1);
+    if (distance <= 20) return 45;
+    if (distance <= 60) return 50;
+    if (distance <= 120) return 55;
+    return 60;
+  }
+
+  function opticScore(opt, raw, d) {
+    const fit=opticRangeFit(opt.id,d);
+    const min=minimumOpticFit(raw,d);
+    // Strong enough that mechanically-neutral cheap irons cannot dominate a
+    // long-range fallback build solely by freeing Pick points.
+    return fit * 4 - (fit < min ? 500 : 0);
   }
 
   function scoreOption(opt, raw, d) {
@@ -713,7 +738,7 @@
       s += extra * (preference("bigMag") ? w.capacity * 3.2 : w.capacity);
     }
 
-    if (opt.slot === "sight") s += opticScore(opt, d);
+    if (opt.slot === "sight") s += opticScore(opt, raw, d);
     s += behaviorScore(opt, raw, d);
     return s;
   }
@@ -894,7 +919,7 @@
     const cw = cacheWeapon(raw);
     const key=String(Math.max(1, Math.min(300, Math.round(Number(d) || 25))));
     const row = strategy === "lethal" ? cw?.bestLethal?.[key] : cw?.best?.[key];
-    return row ? { damage:row.damage, btk:row.btk, ttk:row.ttk, mechTtk:row.ttk, triggerTtk:row.triggerTtk, flightMs:row.flightMs, ballisticsExact:row.ballisticsExact, lowBtk:row.lowBtk, lowTtk:row.lowTtk, beamIndex:row.beamIndex, recoil:row.recoil, recoilVariationDeg:row.recoilVariationDeg, unpredictableRecoil:row.unpredictableRecoil, effectiveAdsSpreadDeg:row.effectiveAdsSpreadDeg, movingAdsMinSpreadDeg:row.movingAdsMinSpreadDeg, source:"exhaustive-cache" } : null;
+    return row ? { damage:row.damage, btk:row.btk, ttk:row.ttk, mechTtk:row.ttk, triggerTtk:row.triggerTtk, flightMs:row.flightMs, ballisticsExact:row.ballisticsExact, lowBtk:row.lowBtk, lowTtk:row.lowTtk, beamIndex:row.beamIndex, recoil:row.recoil, recoilVariationDeg:row.recoilVariationDeg, unpredictableRecoil:row.unpredictableRecoil, effectiveAdsSpreadDeg:row.effectiveAdsSpreadDeg, movingAdsMinSpreadDeg:row.movingAdsMinSpreadDeg, opticFit:row.opticFit, opticEligible:row.opticEligible, sightId:row.sightId, sightName:row.sightName, source:"exhaustive-cache" } : null;
   }
 
 
@@ -1013,7 +1038,7 @@
   function attachmentNote(opt) {
     const bits = [];
     if (BEHAVIOR[opt.id]) bits.push(BEHAVIOR[opt.id].text);
-    if (opt.genericOpticTier) bits.push("Optic tier abstraction; exact sight model may differ in game.");
+    if (opt.genericOpticTier) bits.push(`Range-aware optic tier; fit ${Math.round(opticRangeFit(opt.id,state.distance))}/100 @ ${state.distance}m. Exact sight magnification/FOV is not in the current source.`);
     if (opt.adsRecoilTierMod) bits.push(`recoil ${signed(opt.adsRecoilTierMod)} tier`);
     if (opt.adsRecoilVariationTierMod) bits.push(`recoil variation ${signed(opt.adsRecoilVariationTierMod)} tier`);
     if (opt.movingAdsSpreadTierMod) bits.push(`moving ADS ${signed(opt.movingAdsSpreadTierMod)} tier`);
@@ -1260,6 +1285,51 @@
     return m ? m[0] : null;
   }
 
+  function renderControlMetrics(roster, raw, combat) {
+    const box = $("controlMetrics");
+    const note = $("controlSourceNote");
+    if (!box || !note) return;
+    if (!raw && !combat) {
+      note.textContent = "Recoil/spread source unavailable";
+      box.innerHTML = `<div class="control-metric"><span>CONTROL DATA</span><strong>—</strong><small>No recoil/spread values are fabricated when source data is missing.</small></div>`;
+      return;
+    }
+
+    const exhaustive = combat?.source === "exhaustive-cache";
+    const recoil = exhaustive && Number.isFinite(Number(combat?.recoil)) ? Number(combat.recoil) : null;
+    const variation = exhaustive && Number.isFinite(Number(combat?.recoilVariationDeg)) ? Number(combat.recoilVariationDeg) : null;
+    const unpredictable = exhaustive && Number.isFinite(Number(combat?.unpredictableRecoil)) ? Number(combat.unpredictableRecoil) : null;
+    const effSpread = exhaustive && Number.isFinite(Number(combat?.effectiveAdsSpreadDeg)) ? Number(combat.effectiveAdsSpreadDeg) : null;
+    const moving = exhaustive && Number.isFinite(Number(combat?.movingAdsMinSpreadDeg)) ? Number(combat.movingAdsMinSpreadDeg) : null;
+    const beamIndex = Number.isFinite(Number(combat?.beamIndex)) ? Number(combat.beamIndex) : fallbackBeamIndex(raw, state.distance);
+    const opticFit = exhaustive && Number.isFinite(Number(combat?.opticFit)) ? Number(combat.opticFit) : null;
+
+    note.textContent = exhaustive
+      ? "Winning attachment build • transformed recoil + spread • ↓ lower is better except Optic Fit"
+      : "Base/fallback weapon control only • exhaustive winning-build recoil telemetry pending";
+
+    const rows = exhaustive ? [
+      ["BEAM INDEX ↓", Number.isFinite(beamIndex) ? beamIndex.toFixed(3) : "—", "Lower = more laser-like mechanical behavior at this exact distance."],
+      ["ADS RECOIL ↓", recoil != null ? recoil.toFixed(3) : "—", "Winning-build recoil magnitude from the Analyzer mechanics."],
+      ["RECOIL VARIATION ↓", variation != null ? `${variation.toFixed(1)}°` : "—", "Lower = more repeatable recoil direction."],
+      ["UNPREDICTABLE RECOIL ↓", unpredictable != null ? unpredictable.toFixed(3) : "—", "Lateral/unpredictable component derived from recoil × directional variation."],
+      ["SUSTAINED ADS SPREAD ↓", effSpread != null ? `${effSpread.toFixed(3)}°` : "—", "Effective ADS spread after repeated fire and recovery."],
+      ["MOVING ADS SPREAD ↓", moving != null ? `${moving.toFixed(3)}°` : "—", "Minimum ADS spread while moving."],
+      ["OPTIC FIT ↑", opticFit != null ? `${Math.round(opticFit)}/100` : "—", "Higher = better range suitability for the selected optic tier."],
+      ["CONTROL SOURCE", "EXHAUSTIVE", "These values are for the actual winning attachment build, not the naked gun."]
+    ] : [
+      ["BEAM INDEX ↓", Number.isFinite(beamIndex) ? beamIndex.toFixed(3) : "—", "Fallback approximation from the base weapon because the exhaustive winner is not active."],
+      ["BASE VERT RECOIL ↓", Number.isFinite(Number(raw?.recoilV)) ? Number(raw.recoilV).toFixed(3) : "—", "Base weapon vertical recoil; winning-build transformed recoil pending."],
+      ["BASE RECOIL VAR ↓", Number.isFinite(Number(raw?.recoilVar)) ? `${Number(raw.recoilVar).toFixed(1)}°` : "—", "Base directional variation; lower is more repeatable."],
+      ["BASE ADS SPREAD ↓", Number.isFinite(Number(raw?.spread?.adsStand?.[0])) ? `${Number(raw.spread.adsStand[0]).toFixed(3)}°` : "—", "Base standing ADS minimum spread."],
+      ["MOVING ADS SPREAD ↓", Number.isFinite(Number(raw?._movingAdsMinSpreadDeg ?? raw?.spread?.adsMove?.[0])) ? `${Number(raw?._movingAdsMinSpreadDeg ?? raw.spread.adsMove[0]).toFixed(3)}°` : "—", "Base moving ADS minimum spread."],
+      ["WINNING-BUILD RECOIL", "PENDING", "The UI will not pretend the on-demand heuristic build has exact transformed recoil telemetry."],
+      ["OPTIC FIT ↑", Number.isFinite(Number(combat?.opticFit)) ? `${Math.round(Number(combat.opticFit))}/100` : "—", "0–100 range suitability when a verified winning optic is available."],
+      ["CONTROL SOURCE", "FALLBACK", "Useful for direction only; verified AUTO uses exhaustive transformed mechanics when cache is active."]
+    ];
+    box.innerHTML = rows.map(([k,v,sub]) => `<div class="control-metric"><span>${k}</span><strong>${v}</strong><small>${sub}</small></div>`).join("");
+  }
+
   function renderWeaponIntel(roster, raw) {
     $("dashboardWeapon").textContent = roster.name;
     $("weaponDescription").textContent = roster.desc || "Current BF6 weapon catalog entry.";
@@ -1276,6 +1346,7 @@
       $("combatNumbers").innerHTML = emptyStats("Exact raw stats are not available from the current analyzer feed yet.");
       $("statBars").innerHTML = `<div class="why-item"><strong>Catalog available, stat feed missing</strong><span>The weapon remains selectable; the site does not replace it with sample data.</span></div>`;
       $("rawStats").innerHTML = "";
+      renderControlMetrics(roster, raw, null);
       return;
     }
 
@@ -1298,6 +1369,7 @@
       $("combatNumbers").innerHTML = emptyStats("The audited combat model is not available for this exact weapon yet.");
       $("statBars").innerHTML = "";
       $("rawStats").innerHTML = "";
+      renderControlMetrics(roster, raw, null);
       return;
     }
     const optimized = raw && !cached ? auditedClassOptimized(raw, state.distance) : null;
@@ -1335,6 +1407,8 @@
       $("statBars").innerHTML = `<div class="why-item"><strong>Handling bars pending</strong><span>TTK is independently audited, but ${escapeHtml(roster.name)} is not yet in the Analyzer feed. The site will not fabricate recoil/spread bars.</span></div>`;
     }
 
+    renderControlMetrics(roster, raw, c);
+
     const lowTtkText = c.lowTtk == null ? "—" : c.lowBtk === 1 ? "1 SHOT" : `${Math.round(c.lowTtk)} ms`;
     const velocity = Number((roster.cls === "DMR" ? auditDef?.equippedVelocity : null) ?? c.bulletVel ?? raw?.bulletVel ?? auditDef?.bulletVel);
     const ads = Number((roster.cls === "DMR" ? auditDef?.adsTime : null) ?? c.adsTime ?? raw?.adsTime ?? auditDef?.adsTime);
@@ -1365,7 +1439,9 @@
       $("pointsMeter").style.width = `${result.points}%`;
       const audit = $("pointAuditBadge");
       if (result.exhaustive) {
-        audit.textContent = `VERIFIED RANGE BUILD • ${result.points}/100 • EXHAUSTIVE WINNER @ ${state.distance}m`;
+        const sight=result.picks.find(x=>x.slot==="sight");
+        const fit=Number(result.combat?.opticFit ?? (sight ? opticRangeFit(sight.id,state.distance) : NaN));
+        audit.textContent = `VERIFIED RANGE BUILD • ${result.points}/100 • ${sight?.name || prettifyId(sight?.id) || "OPTIC"}${Number.isFinite(fit)?` • OPTIC FIT ${Math.round(fit)}/100`:""} • ${state.distance}m`;
         audit.className = "audit-line ok";
       } else {
         audit.textContent = `ON-DEMAND BUILD • ${result.points}/100 • EXHAUSTIVE LETHALITY CACHE PENDING`;
@@ -1409,7 +1485,7 @@
       title: state.selectionMode === "manual" ? "Weapon locked — attachments only" : "Lethality first",
       text: state.selectionMode === "manual"
         ? (result.exhaustive
-          ? `You chose ${raw.name || rosterWeapon()?.name || "this weapon"}. AUTO cannot replace it. This is the exhaustive winning legal attachment build for ${state.distance}m, with kill speed protected first and recoil/spread used to favor the more laser-like build when lethal performance is close.`
+          ? `You chose ${raw.name || rosterWeapon()?.name || "this weapon"}. AUTO cannot replace it. This is the exhaustive winning legal attachment build for ${state.distance}m, with a sight appropriate to the selected range, kill speed protected first, and recoil/spread used to favor the more laser-like build when lethal performance is close.`
           : `You chose ${raw.name || rosterWeapon()?.name || "this weapon"}. AUTO cannot replace it. The on-demand attachment build is available now, but it is not labeled the most-lethal exhaustive winner until the combat cache passes.`)
         : "The weapon recommendation prioritizes exact-distance kill speed while transformed recoil/spread prevents tiny paper-TTK advantages from automatically beating a much more controllable gun."
     }, {
@@ -1568,7 +1644,11 @@
       el.innerHTML = `<strong>LIVE RANGE NOTE:</strong> ${escapeHtml(roster.name)} currently shows an all-body one-shot window around ${empirical[0]}–${empirical[1]}m.${chest} ${inRange ? "Your selected distance is inside the all-body window." : "Your selected distance is outside the all-body window."}`;
     } else if (Array.isArray(note) && note.length === 2) {
       const inRange = state.distance >= note[0] && state.distance <= note[1];
-      el.innerHTML = `<strong>EA RANGE NOTE:</strong> ${escapeHtml(roster.name)} is described as strongest around ${note[0]}–${note[1]}m. ${inRange ? "Your selected distance is inside that window." : "Your selected distance is outside that window."}`;
+      if (roster.cls === "Sniper Rifle") {
+        el.innerHTML = `<strong>ONE-SHOT SWEET SPOT: ${note[0]}–${note[1]}m</strong> • ${escapeHtml(roster.name)} can cross into a 1-shot chest window here, so TTK can drop sharply even though closer is normally easier. ${inRange ? "YOUR TARGET IS INSIDE THE SWEET SPOT." : "Your target is outside the sweet spot."}`;
+      } else {
+        el.innerHTML = `<strong>EA RANGE NOTE:</strong> ${escapeHtml(roster.name)} is described as strongest around ${note[0]}–${note[1]}m. ${inRange ? "Your selected distance is inside that window." : "Your selected distance is outside that window."}`;
+      }
     } else {
       el.textContent = `Exact target: ${state.distance}m. Quick labels are shortcuts only; ranking uses the actual distance, projectile flight time and verified BF6 drag when available.`;
     }
@@ -1590,9 +1670,9 @@
     }
     const leader=ranked[0];
     const scope = state.category === "__all__" ? "VERIFIED CLASSES ONLY" : state.category.toUpperCase();
-    const top = ranked.slice(0,3).map((x,i)=>`<div class="rank-chip ${i===0?'winner':''}"><span>#${i+1}</span><b>${escapeHtml(x.roster.name)}</b><small>${Number.isFinite(Number(x.combat.triggerTtk)) ? `${Math.round(x.combat.triggerTtk)}ms TTK • Beam ${Math.round(x.beamScore ?? 0)}` : "TTK pending"}${x.combat.btk === 1 ? " • 1 shot" : ""} • ${fmtDamage(x.combat.damage)} dmg</small></div>`).join("");
+    const top = ranked.slice(0,3).map((x,i)=>`<div class="rank-chip ${i===0?'winner':''}"><span>#${i+1}</span><b>${escapeHtml(x.roster.name)}</b><small>${Number.isFinite(Number(x.combat.triggerTtk)) ? `${Math.round(x.combat.triggerTtk)}ms TTK • Laser ${Math.round(x.beamScore ?? 0)}/100` : "TTK pending"}${x.combat.btk === 1 ? " • 1 shot" : ""} • ${fmtDamage(x.combat.damage)} dmg</small></div>`).join("");
     box.className = "auto-recommendation";
-    box.innerHTML = `<div class="auto-main"><span>AUTO BEST • ${escapeHtml(scope)} • ${state.distance}M</span><strong>${escapeHtml(leader.roster.name)}</strong><small>Laserbeam meta: 55% exact-distance lethality + 45% recoil/spread controllability. A gun more than 25% off the fastest kill pace is penalized. Community tier lists/popularity are not inputs. ${state.combatCache ? "Exhaustive ballistic cache active." : "Audited ballistic fallback active."} ${ranked.length}/${state.category === "__all__" ? ranked.length : categoryRoster().length} weapons are currently in this ranking. Cross-class AUTO remains gated to audited classes.</small></div><div class="rank-row">${top}</div>`;
+    box.innerHTML = `<div class="auto-main"><span>AUTO BEST • ${escapeHtml(scope)} • ${state.distance}M</span><strong>${escapeHtml(leader.roster.name)}</strong><small>Laserbeam meta: 55% exact-distance lethality + 45% recoil/spread controllability. Laser Score is higher-better; Beam Index is lower-better. A gun more than 25% off the fastest kill pace is penalized. Community tier lists/popularity are not inputs. ${state.combatCache ? "Exhaustive ballistic cache active." : "Audited ballistic fallback active."} ${ranked.length}/${state.category === "__all__" ? ranked.length : categoryRoster().length} weapons are currently in this ranking. Cross-class AUTO remains gated to audited classes.</small></div><div class="rank-row">${top}</div>`;
   }
 
   function fmtDamage(v) {
@@ -1631,10 +1711,13 @@
       const c=result.combat;
       const names=result.picks.filter(x=>x.id!=="none").slice(0,3).map(x=>x.name || prettifyId(x.id)).join(" • ") || "No-point baseline";
       const kill=Number.isFinite(Number(c.triggerTtk)) ? `${Math.round(c.triggerTtk)}ms kill` : `${Math.round(c.ttk||0)}ms mech`;
-      const beam=Number.isFinite(Number(c.beamIndex)) ? ` • Beam ${Number(c.beamIndex).toFixed(2)}` : "";
-      return `<button type="button" class="range-build ${state.distance===d?"active":""}" data-profile-distance="${d}"><span>${label}</span><strong>${d}m</strong><b>${kill}${beam}</b><small>${escapeHtml(names)}</small></button>`;
+      const beam=Number.isFinite(Number(c.beamIndex)) ? ` • BeamIdx ${Number(c.beamIndex).toFixed(2)}↓` : "";
+      const sight=result.picks.find(x=>x.slot==="sight");
+      const fit=Number(c.opticFit ?? (sight ? opticRangeFit(sight.id,d) : NaN));
+      const optic=sight?.name || prettifyId(sight?.id) || "Optic pending";
+      return `<button type="button" class="range-build ${state.distance===d?"active":""}" data-profile-distance="${d}"><span>${label}</span><strong>${d}m</strong><b>${kill}${beam}${Number.isFinite(fit)?` • Optic ${Math.round(fit)}/100`:""}</b><small>${escapeHtml(optic)} • ${escapeHtml(names)}</small></button>`;
     }).join("");
-    box.innerHTML=`<div class="manual-range-head"><div><span>MY WEAPON RANGE BUILDS</span><strong>${escapeHtml(roster.name)} stays locked</strong></div><small>${state.combatCache ? "Each card is the verified MAX LETHALITY winner for that exact range; recoil/spread only break lethal ties." : "Range cards unlock verified winners when the exhaustive combat cache passes; your selected-distance on-demand build still works below."}</small></div><div class="manual-range-grid">${cards}</div>`;
+    box.innerHTML=`<div class="manual-range-head"><div><span>MY WEAPON RANGE BUILDS</span><strong>${escapeHtml(roster.name)} stays locked</strong></div><small>${state.combatCache ? "Each card is the verified range-aware lethal winner: unsuitable optics are gated out first, then kill speed leads and recoil/spread break lethal ties." : "Range cards unlock verified winners when the exhaustive combat cache passes; your selected-distance on-demand build still works below."}</small></div><div class="manual-range-grid">${cards}</div>`;
   }
 
   function renderHeader(roster) {

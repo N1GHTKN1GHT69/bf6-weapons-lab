@@ -1,3 +1,21 @@
+# BF6 Weapons Lab v2.1 — Range-Aware Optics
+
+v2.1 makes sight selection part of the exact-distance build model instead of treating optics as mechanically-neutral point spend.
+
+## Range-aware attachment changes
+
+- **Sight tiers no longer dedupe together.** The upstream Analyzer currently exposes Iron / Standard / Variable Low / Variable High / Thermal / Thermal Hybrid tiers. Most have `noEffect:true`, so older exhaustive deduplication could collapse them and favor the cheapest sight.
+- **Optic fit is evaluated at every meter from 1–300 m.** Close range favors irons/standard optics; medium range favors standard/variable-low; long/extreme range requires an appropriate magnified/thermal tier.
+- **Clearly unsuitable sights fail the winner gate.** A 100–150 m build cannot win with irons merely because those 5 Pick points allow another attachment. Within range-eligible builds, BUILD MY GUN still prioritizes trigger→kill lethality before recoil/spread and point cost.
+- **AUTO META uses the same range-optic gate.** Weapon rankings therefore compare builds that are actually sighted for the selected engagement distance.
+- **The UI surfaces optic fit.** Verified builds and the 10/25/50/100/150 m BUILD MY GUN cards show the selected optic and its range-fit score.
+- **Sniper sweet spots are explicit.** Sniper range notes now label the one-shot sweet-spot window instead of only calling it an EA range note.
+- **Fail closed:** exhaustive caches must use `rankingModel=laserbeam-v2-range-optics`, `manualBuildModel=range-lethality-v2`, and `opticModel=tier-range-fit-v1`; every winning primary row must carry a range-eligible sight.
+
+### Important limitation
+
+The current source feed gives coarse optic tiers and Pick costs, not exact magnification/FOV/reticle data for most primaries. v2.1 therefore uses an explicit range-fit policy over those tiers and labels it as optimizer policy rather than pretending exact magnification values are datamined. Exact named-scope optimization can replace this layer when a verified per-weapon optic/magnification table is available.
+
 # BF6 Weapons Lab v2.0 — Build My Gun
 
 v2.0 makes the manual-weapon workflow a first-class mode instead of hiding it inside the weapon dropdown.
@@ -105,3 +123,8 @@ Download this ZIP and drag it onto `Deploy-BF6.bat`; GitHub and Cloudflare updat
 ## Shotgun audit
 
 Shotguns now have a fail-closed mechanical audit for #01 Buckshot, Flechette and Slugs across 1–300 m. M87A1 pump cadence and DB-12 paired cadence are modeled explicitly. #00 Buckshot remains legal but is excluded from VERIFIED META until its exact current full pellet/damage/range curve is independently validated. Shotguns also remain excluded from cross-class AUTO VERIFIED rankings until spread/pellet hit probability is modeled; ideal all-pellet TTK is only appropriate for within-class mechanical comparison.
+
+## v2.2 UI telemetry clarification
+- Added an always-available metric legend with explicit ↑/↓ directionality.
+- Renamed AUTO's normalized Beam display to `Laser Score` (higher is better) to avoid confusing it with `Beam Index` (lower is better).
+- Added an explicit Laserbeam Control / Recoil panel. When the exhaustive cache is active, it displays winning-build recoil magnitude, recoil variation, unpredictable recoil, sustained ADS spread, moving ADS spread, Beam Index and optic fit. When only fallback data is active, it labels base-weapon values as fallback rather than implying they are transformed winning-build metrics.

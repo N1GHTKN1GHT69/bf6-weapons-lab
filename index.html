@@ -53,7 +53,7 @@
         <div id="manualRangeProfiles" class="manual-range-profiles hidden"></div>
 
         <div class="divider"></div>
-        <div class="step-title"><span>02</span><div><b>TARGET DISTANCE</b><small>The optimizer uses the exact distance, not a fake short/medium/long bucket</small></div></div>
+        <div class="step-title"><span>02</span><div><b>TARGET DISTANCE</b><small>Exact distance drives lethality, recoil/spread weighting and the recommended optic tier</small></div></div>
         <div class="distance-panel">
           <div class="distance-number"><strong id="distanceValue">25</strong><span>m</span></div>
           <input id="distanceSlider" type="range" min="1" max="300" step="1" value="25" aria-label="Target distance in meters">
@@ -123,7 +123,40 @@
           <div id="statBars" class="stat-bars"></div>
         </div>
 
+        <div class="control-metrics-wrap">
+          <div class="stat-bars-head">
+            <b>LASERBEAM CONTROL / RECOIL</b>
+            <span id="controlSourceNote">Lower mechanical instability is better</span>
+          </div>
+          <div id="controlMetrics" class="control-metrics"></div>
+        </div>
+
         <div class="raw-strip" id="rawStats"></div>
+      </section>
+
+      <section class="card metric-legend-card">
+        <details open>
+          <summary>HOW TO READ THE NUMBERS / LEGEND</summary>
+          <p class="legend-intro">Arrows show which direction is better. <strong>Laser Score</strong> and <strong>Beam Index</strong> are different measurements and should not be read as the same scale.</p>
+          <div class="legend-grid">
+            <div><b>TRIGGER→KILL ↓</b><span>Lower is better. Trigger pull to lethal bullet impact at the selected distance; includes projectile flight.</span></div>
+            <div><b>MECH TTK ↓</b><span>Lower is better. First damaging hit to lethal hit; excludes projectile flight. A one-shot kill is 0 ms.</span></div>
+            <div><b>BTK ↓</b><span>Lower is better. Bullets or shells required to kill a 100 HP unarmored target.</span></div>
+            <div><b>DAMAGE ↑</b><span>Higher is generally better, but breakpoints matter more than raw damage once BTK is unchanged.</span></div>
+            <div><b>LASER SCORE ↑</b><span>Higher is better, 0–100. AUTO-only relative controllability score versus the weapons currently being ranked.</span></div>
+            <div><b>BEAM INDEX ↓</b><span>Lower is better. Absolute mechanical instability index built from recoil, recoil unpredictability and ADS spread at this distance.</span></div>
+            <div><b>ADS RECOIL ↓</b><span>Lower is better. Mechanical recoil magnitude after the winning attachments when exhaustive build data is active.</span></div>
+            <div><b>RECOIL VARIATION ↓</b><span>Lower is better. Directional variation in recoil; more variation means a less repeatable pattern.</span></div>
+            <div><b>UNPREDICTABLE RECOIL ↓</b><span>Lower is better. Portion of recoil converted into unpredictable lateral movement by directional variation.</span></div>
+            <div><b>SUSTAINED ADS SPREAD ↓</b><span>Lower is better. Effective spread while continuing to fire ADS after spread growth and recovery.</span></div>
+            <div><b>MOVING ADS SPREAD ↓</b><span>Lower is better. Minimum ADS spread while moving/strafe-firing.</span></div>
+            <div><b>OPTIC FIT ↑</b><span>Higher is better, 0–100. Range suitability of the selected optic tier; this is an optimizer policy, not claimed magnification data.</span></div>
+            <div><b>VELOCITY ↑</b><span>Higher is generally better. Faster bullets reduce flight time and make moving targets easier to lead.</span></div>
+            <div><b>ADS TIME ↓</b><span>Lower is better. Time to aim down sights.</span></div>
+            <div><b>ROF</b><span>Contextual. Higher fire rate can reduce TTK, but only together with damage, BTK, recoil and spread.</span></div>
+            <div><b>WEAPON CHARACTER BARS ↑</b><span>Higher bar is better relative to other weapons in the same class; these are descriptive bars, not the META score.</span></div>
+          </div>
+        </details>
       </section>
 
       <section class="result-grid">
@@ -176,7 +209,7 @@
           <div><span>PRIMARY BUDGET</span><strong>100 points</strong><small>Hard cap</small></div>
           <div><span>SECONDARY BUDGET</span><strong>60 points</strong><small>Different from primaries</small></div>
         </div>
-        <p class="method-note">AUTO uses LASERBEAM META: 55% exact-distance trigger→kill lethality and 45% transformed recoil/spread controllability. Weapons more than 25% off the fastest kill pace receive an additional penalty. Mechanical TTK remains visible separately. Exhaustive builds use the Analyzer's attachment transforms, recoil amount, directional variation and effective ADS spread; missing audited data fails closed.</p>
+        <p class="method-note">AUTO uses LASERBEAM META: 55% exact-distance trigger→kill lethality and 45% transformed recoil/spread controllability. Optic tiers are also range-gated so a cheap close-range sight cannot win a long-range build simply by saving Pick points. Weapons more than 25% off the fastest kill pace receive an additional penalty. Mechanical TTK remains visible separately. Exhaustive builds use the Analyzer's attachment transforms, recoil amount, directional variation and effective ADS spread; missing audited data fails closed.</p>
       </section>
     </main>
 
