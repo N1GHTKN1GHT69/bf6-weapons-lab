@@ -1,0 +1,299 @@
+{
+  "schema": 1,
+  "class": "DMR",
+  "gameVersion": "1.4.2.5",
+  "verifiedAt": "2026-09-01",
+  "pass": true,
+  "weaponCount": 6,
+  "ttkDefinition": "Ideal chest TTK is measured from the first damaging chest hit to the lethal chest hit against 100 HP. ADS time, reaction time, network latency, and projectile flight time are excluded.",
+  "lowBodyMultiplier": 0.91,
+  "notes": [
+    "All six current DMRs are independently audited at every integer meter from 1m through 300m.",
+    "Stepped damage endpoints are inclusive: the outgoing/higher tier remains valid through the exact breakpoint; the lower tier begins immediately after it.",
+    "The current Battlefield 6 Wiki independently confirms the original M39 EMR, LMR27, SVK-8.6 and SVDM TTK values at 467/400/400/400 ms respectively across their normal chest-damage bands.",
+    "GRT-CPS is a known stale-data exception in the upstream analyzer: current live references show 28.6/27.3/25 chest damage at 360 RPM, which is 4 BTK and 500 ms at every range. The older analyzer curve can incorrectly produce 3 BTK / 333 ms.",
+    "VSSM is 450 RPM semi-auto by default, but its verified 40-point Folding Stock enables 800 RPM full-auto. That legal direct-lethality transform is explicitly audited rather than treated as a generic attachment score.",
+    "BF6 1.4.2.0 fixed unintended Match Grade damage reductions on SVK-8.6 and adjusted VSSM limb multipliers. Current VSSM low-body/limb reference is 0.91.",
+    "No other verified DMR attachment or ammo is permitted to alter chest damage, RPM or fire mode without forcing this audit to fail and require an explicit post-attachment TTK audit."
+  ],
+  "knownGoodCrossCheck": {
+    "displayRoundedTtk": {
+      "m39emr": [
+        467,
+        467,
+        467,
+        467,
+        467
+      ],
+      "lmr27": [
+        400,
+        400,
+        400,
+        400,
+        400
+      ],
+      "svk86": [
+        400,
+        400,
+        400,
+        400,
+        400
+      ],
+      "svdm": [
+        400,
+        400,
+        400,
+        400,
+        400
+      ]
+    },
+    "grtcps": {
+      "displayRpm": 360,
+      "displayDamage": [
+        28.6,
+        27.3,
+        25
+      ],
+      "displayTtk": [
+        500,
+        500,
+        500
+      ]
+    },
+    "vssm": {
+      "baseRpm": 450,
+      "fullAutoRpm": 800,
+      "foldingStockPoints": 40,
+      "baseTtk": [
+        267,
+        400,
+        533,
+        533
+      ],
+      "fullAutoTtk": [
+        150,
+        225,
+        300,
+        300
+      ]
+    }
+  },
+  "weapons": {
+    "m39emr": {
+      "name": "M39 EMR",
+      "rpm": 257.142,
+      "mode": "semi",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 21,
+          "damage": 40,
+          "btk": 3,
+          "ttk": 467
+        },
+        {
+          "min": 22,
+          "max": 75,
+          "damage": 37.5,
+          "btk": 3,
+          "ttk": 467
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 33.4,
+          "btk": 3,
+          "ttk": 467
+        }
+      ]
+    },
+    "lmr27": {
+      "name": "LMR27",
+      "rpm": 449.999,
+      "mode": "semi",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 21,
+          "damage": 28.6,
+          "btk": 4,
+          "ttk": 400
+        },
+        {
+          "min": 22,
+          "max": 75,
+          "damage": 27.3,
+          "btk": 4,
+          "ttk": 400
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 25,
+          "btk": 4,
+          "ttk": 400
+        }
+      ]
+    },
+    "svk86": {
+      "name": "SVK-8.6",
+      "rpm": 149.999,
+      "mode": "semi",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 9,
+          "damage": 66.7,
+          "btk": 2,
+          "ttk": 400
+        },
+        {
+          "min": 10,
+          "max": 21,
+          "damage": 59.9,
+          "btk": 2,
+          "ttk": 400
+        },
+        {
+          "min": 22,
+          "max": 300,
+          "damage": 50,
+          "btk": 2,
+          "ttk": 400
+        }
+      ]
+    },
+    "svdm": {
+      "name": "SVDM",
+      "rpm": 299.999,
+      "mode": "semi",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 21,
+          "damage": 40,
+          "btk": 3,
+          "ttk": 400
+        },
+        {
+          "min": 22,
+          "max": 75,
+          "damage": 37.5,
+          "btk": 3,
+          "ttk": 400
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 33.4,
+          "btk": 3,
+          "ttk": 400
+        }
+      ]
+    },
+    "grtcps": {
+      "name": "GRT-CPS",
+      "rpm": 359.999,
+      "mode": "semi",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 21,
+          "damage": 28.6,
+          "btk": 4,
+          "ttk": 500
+        },
+        {
+          "min": 22,
+          "max": 75,
+          "damage": 27.3,
+          "btk": 4,
+          "ttk": 500
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 25,
+          "btk": 4,
+          "ttk": 500
+        }
+      ]
+    },
+    "vssm": {
+      "name": "VSSM",
+      "rpm": 449.999,
+      "mode": "semi",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 9,
+          "damage": 35,
+          "btk": 3,
+          "ttk": 267
+        },
+        {
+          "min": 10,
+          "max": 21,
+          "damage": 27,
+          "btk": 4,
+          "ttk": 400
+        },
+        {
+          "min": 22,
+          "max": 36,
+          "damage": 22,
+          "btk": 5,
+          "ttk": 533
+        },
+        {
+          "min": 37,
+          "max": 300,
+          "damage": 21,
+          "btk": 5,
+          "ttk": 533
+        }
+      ],
+      "optimized": {
+        "attachment": "Folding Stock",
+        "attachmentId": "full_auto_vssm",
+        "points": 40,
+        "mode": "auto",
+        "rpm": 799.999,
+        "ranges": [
+          {
+            "min": 1,
+            "max": 9,
+            "damage": 35,
+            "btk": 3,
+            "ttk": 150,
+            "rpm": 799.999
+          },
+          {
+            "min": 10,
+            "max": 21,
+            "damage": 27,
+            "btk": 4,
+            "ttk": 225,
+            "rpm": 799.999
+          },
+          {
+            "min": 22,
+            "max": 36,
+            "damage": 22,
+            "btk": 5,
+            "ttk": 300,
+            "rpm": 799.999
+          },
+          {
+            "min": 37,
+            "max": 300,
+            "damage": 21,
+            "btk": 5,
+            "ttk": 300,
+            "rpm": 799.999
+          }
+        ]
+      }
+    }
+  }
+}

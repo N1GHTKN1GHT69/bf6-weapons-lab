@@ -1,53 +1,34 @@
-# BF6 Weapons Lab v0.8 — Assault TTK Audited
+# BF6 Weapons Lab v1.2 — DMR TTK Audited
 
+v1.2 adds the fifth class-by-class verification gate: **DMRs**.
 
-## Assault Rifle audit gate (v0.8)
+## Verified classes
 
-Assault Rifles are the first class to receive a class-by-class verification pass. All 11 ARs are checked at every integer meter from 1–300m against a fixed audited damage/RPM/TTK baseline before the combat cache may publish. See `ASSAULT-AUDIT.md`.
+- Assault Rifles: 11/11, 1–300m
+- Carbines: 9/9, 1–300m
+- SMGs: 10/10, 1–300m
+- LMGs: 10/10, 1–300m
+- DMRs: 6/6, 1–300m
+- Cross-class `AUTO VERIFIED` now includes **46 independently audited primaries**.
 
-Corrections in this pass:
-- fixed exact stepped-damage breakpoint handling in the browser fallback;
-- excluded speculative `assumed` attachment mechanics from verified AUTO META;
-- separated M16A4 base burst TTK from the verified 25-point A3 Receiver full-auto TTK;
-- updated live game marker to 1.4.2.5 and enforced the current EF88 Match Trigger behavior;
-- added a GitHub Action gate that fails if any Assault Rifle deviates from the audited 1–300m baseline.
+See `DMR-AUDIT.md` for the DMR-specific values and corrections.
 
-v0.7 moves the project from an on-demand heuristic optimizer toward a precomputed independent meta engine.
+## Critical v1.2 corrections
 
-## What the engine does
+1. **GRT-CPS stale upstream curve fixed.** Current live factual data is 28.6 / 27.3 / 25 damage at 360 RPM, yielding 4 BTK / 500ms across all ranges. The older analyzer curve could incorrectly rank it as ~333ms.
+2. **VSSM Folding Stock explicitly modeled.** The 40-point stock enables verified 800 RPM full-auto. Its optimized chest TTK is 150ms at 1–9m, 225ms at 10–21m and 300ms from 22m onward.
+3. The VSSM optimized recommendation is now required to actually include Folding Stock. The site cannot display the 800-RPM TTK while recommending a build that omitted the stock.
+4. The generic combat cache cannot override the independent DMR baseline.
+5. Any other verified DMR damage/RPM/fire-mode transform causes CI to fail until explicitly audited.
 
-- Uses the upstream BF6 Weapon Analyzer's maintained raw data and its own `sim/applyAttachments.js`, `sim/damage.js`, and `sim/core.js` math.
-- Counts **every legal user-visible attachment combination** under the weapon budget.
-- Safely collapses functionally identical or strictly more-expensive duplicates before expensive simulation. This is mathematical redundancy pruning, not a skipped gameplay option.
-- Applies attachment transformations using the source simulator, not hand-written meta opinions.
-- Evaluates each modeled weapon from **1 m through 300 m**.
-- Picks the winning build at each meter using this hard order: ideal chest TTK, BTK, damage/shot, low-body TTK, then transformed mechanical delivery as a tie-break.
-- Primaries use a 100-point cap; sidearms use a 60-point cap.
-- Generates `data/combat-cache.json` plus `data/combat-audit.json`.
-- The PWA uses the exhaustive cache when it is present and visibly falls back when it is not.
+## TTK definition
 
-## What is NOT an input
+Ideal chest TTK = first damaging chest hit to lethal chest hit against 100 HP. It excludes ADS time, reaction time, network latency and bullet travel time.
 
-The meta calculation does not consume Reddit opinions, YouTube builds, Battlefinity tiers, popularity, pick rate, creator recommendations, community votes, or another site's weapon rank. External projects may provide measured facts or simulator math only.
+## Data policy
 
-## Automation
+External sources provide factual mechanics/data only. Community rankings, popularity, usage, tier lists and creator recommendations are never inputs to the meta calculation.
 
-`.github/workflows/combat-engine.yml` runs after relevant pushes, on manual dispatch, and daily. It checks out `raymdl/BF6-Weapon-Analyzer`, executes the audit, validates the result, commits the generated cache, and the resulting GitHub push causes Cloudflare Pages to redeploy automatically.
+## Deploy
 
-## Audit truthfulness
-
-The generated audit records:
-
-- upstream commit hash
-- source weapon count
-- modeled vs incomplete weapon count
-- exact count of all legal raw combinations
-- number of canonical combinations actually simulated after safe equivalence pruning
-- 300 distances per modeled weapon
-- errors / PASS state
-
-If compatibility, points, or required modeling data is missing, that weapon is marked incomplete rather than guessed.
-
-## Important limitation
-
-This engine can only be as current as the factual source data. The cache records the exact upstream commit. A newer EA patch can make an older source snapshot stale even when the math is correct. Source freshness is a separate validity dimension from calculation correctness.
+Download this ZIP and drag it onto `Deploy-BF6.bat`; GitHub and Cloudflare update automatically.

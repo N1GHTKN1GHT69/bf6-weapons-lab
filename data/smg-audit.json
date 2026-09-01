@@ -1,0 +1,489 @@
+{
+  "schema": 1,
+  "class": "SMG",
+  "gameVersion": "1.4.2.5",
+  "verifiedAt": "2026-09-01",
+  "pass": true,
+  "weaponCount": 10,
+  "ttkDefinition": "Ideal chest TTK is measured from the first damaging chest hit to the lethal chest hit against 100 HP. ADS time, reaction time, network latency, and projectile flight time are excluded.",
+  "lowBodyMultiplier": 0.84,
+  "notes": [
+    "Stepped damage endpoints are inclusive: the outgoing/higher tier remains valid through exactly 9m, 21m, 36m, and 75m where those breakpoints exist; the next lower tier begins immediately after the breakpoint.",
+    "The current Battlefield 6 Wiki TTK/BTK table independently matches the eight launch/early SMGs within 1 ms when its rounded display RPM is compared with the more precise internal fire rates used here.",
+    "CZ3A1 is independently documented at 981 RPM, 25/20/16.7/14.3/12.5 displayed damage and 4/5/6/7/8 BTK; its close-range 183 ms TTK is independently published. The audit uses the precise 981.818 RPM and Sym curve values.",
+    "PP-19 is independently documented at 720 RPM and 25/20/16.7/14.3/12.5 displayed damage. Its TTK bands are derived directly from those independently verified inputs using first-hit-to-kill timing.",
+    "BF6 1.3.2.0 states Burst Fire attachments on UMG-40, PW5A3 and CZ3A1 apply effects only to burst fire modes. They cannot create a verified full-auto chest-TTK improvement.",
+    "Burst Training / Burst Mode records in the current analyzer remain assumed and are excluded from VERIFIED AUTO META until exact burst cadence is independently validated.",
+    "No current verified SMG ammo or ordinary attachment is permitted to alter chest damage or full-auto RPM without forcing this audit to fail and require an explicit post-attachment TTK re-audit."
+  ],
+  "knownGoodCrossCheck": {
+    "displayRoundedTtk": {
+      "sgx": [
+        217,
+        289,
+        361,
+        434,
+        506
+      ],
+      "pw5a3": [
+        233,
+        311,
+        389,
+        467,
+        545
+      ],
+      "pw7a2": [
+        317,
+        317,
+        380,
+        380,
+        444
+      ],
+      "umg40": [
+        283,
+        378,
+        472,
+        472,
+        567
+      ],
+      "usg90": [
+        267,
+        333,
+        400,
+        400,
+        467
+      ],
+      "kv9": [
+        167,
+        222,
+        278,
+        333,
+        389
+      ],
+      "scw10": [
+        150,
+        225,
+        300,
+        375,
+        450
+      ],
+      "sl9": [
+        267,
+        356,
+        444,
+        533,
+        622
+      ]
+    },
+    "cz3a1CloseTtk": 183,
+    "pp19CloseTtk": 250
+  },
+  "weapons": {
+    "sgx": {
+      "name": "SGX",
+      "rpm": 830.769,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 9,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 217
+        },
+        {
+          "min": 10,
+          "max": 21,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 289
+        },
+        {
+          "min": 22,
+          "max": 36,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 361
+        },
+        {
+          "min": 37,
+          "max": 75,
+          "damage": 14.62,
+          "btk": 7,
+          "ttk": 433
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 12.76,
+          "btk": 8,
+          "ttk": 506
+        }
+      ]
+    },
+    "pw5a3": {
+      "name": "PW5A3",
+      "rpm": 771.428,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 9,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 233
+        },
+        {
+          "min": 10,
+          "max": 21,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 311
+        },
+        {
+          "min": 22,
+          "max": 36,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 389
+        },
+        {
+          "min": 37,
+          "max": 75,
+          "damage": 14.62,
+          "btk": 7,
+          "ttk": 467
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 12.76,
+          "btk": 8,
+          "ttk": 544
+        }
+      ]
+    },
+    "pw7a2": {
+      "name": "PW7A2",
+      "rpm": 947.368,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 21,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 317
+        },
+        {
+          "min": 22,
+          "max": 75,
+          "damage": 14.62,
+          "btk": 7,
+          "ttk": 380
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 12.76,
+          "btk": 8,
+          "ttk": 443
+        }
+      ]
+    },
+    "umg40": {
+      "name": "UMG-40",
+      "rpm": 635.294,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 9,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 283
+        },
+        {
+          "min": 10,
+          "max": 21,
+          "damage": 21.56,
+          "btk": 5,
+          "ttk": 378
+        },
+        {
+          "min": 22,
+          "max": 36,
+          "damage": 17.74,
+          "btk": 6,
+          "ttk": 472
+        },
+        {
+          "min": 37,
+          "max": 75,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 472
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 14.62,
+          "btk": 7,
+          "ttk": 567
+        }
+      ]
+    },
+    "usg90": {
+      "name": "USG-90",
+      "rpm": 899.999,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 9,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 267
+        },
+        {
+          "min": 10,
+          "max": 21,
+          "damage": 17.74,
+          "btk": 6,
+          "ttk": 333
+        },
+        {
+          "min": 22,
+          "max": 36,
+          "damage": 15.07,
+          "btk": 7,
+          "ttk": 400
+        },
+        {
+          "min": 37,
+          "max": 75,
+          "damage": 14.62,
+          "btk": 7,
+          "ttk": 400
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 12.76,
+          "btk": 8,
+          "ttk": 467
+        }
+      ]
+    },
+    "kv9": {
+      "name": "KV9",
+      "rpm": 1079.999,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 9,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 167
+        },
+        {
+          "min": 10,
+          "max": 21,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 222
+        },
+        {
+          "min": 22,
+          "max": 36,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 278
+        },
+        {
+          "min": 37,
+          "max": 75,
+          "damage": 14.62,
+          "btk": 7,
+          "ttk": 333
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 12.76,
+          "btk": 8,
+          "ttk": 389
+        }
+      ]
+    },
+    "scw10": {
+      "name": "SCW-10",
+      "rpm": 799.999,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 9,
+          "damage": 35.22,
+          "btk": 3,
+          "ttk": 150
+        },
+        {
+          "min": 10,
+          "max": 21,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 225
+        },
+        {
+          "min": 22,
+          "max": 36,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 300
+        },
+        {
+          "min": 37,
+          "max": 75,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 375
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 14.62,
+          "btk": 7,
+          "ttk": 450
+        }
+      ]
+    },
+    "sl9": {
+      "name": "SL9",
+      "rpm": 674.999,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 9,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 267
+        },
+        {
+          "min": 10,
+          "max": 21,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 356
+        },
+        {
+          "min": 22,
+          "max": 36,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 444
+        },
+        {
+          "min": 37,
+          "max": 75,
+          "damage": 14.62,
+          "btk": 7,
+          "ttk": 533
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 12.76,
+          "btk": 8,
+          "ttk": 622
+        }
+      ]
+    },
+    "cz3a1": {
+      "name": "CZ3A1",
+      "rpm": 981.818,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 9,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 183
+        },
+        {
+          "min": 10,
+          "max": 21,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 244
+        },
+        {
+          "min": 22,
+          "max": 36,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 306
+        },
+        {
+          "min": 37,
+          "max": 75,
+          "damage": 14.62,
+          "btk": 7,
+          "ttk": 367
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 12.76,
+          "btk": 8,
+          "ttk": 428
+        }
+      ]
+    },
+    "pp19": {
+      "name": "PP-19",
+      "rpm": 719.999,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 9,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 250
+        },
+        {
+          "min": 10,
+          "max": 21,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 333
+        },
+        {
+          "min": 22,
+          "max": 36,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 417
+        },
+        {
+          "min": 37,
+          "max": 75,
+          "damage": 14.62,
+          "btk": 7,
+          "ttk": 500
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 12.76,
+          "btk": 8,
+          "ttk": 583
+        }
+      ]
+    }
+  }
+}

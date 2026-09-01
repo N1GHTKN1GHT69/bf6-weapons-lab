@@ -1,0 +1,444 @@
+{
+  "schema": 1,
+  "class": "Carbine",
+  "gameVersion": "1.4.2.5",
+  "verifiedAt": "2026-09-01",
+  "pass": true,
+  "weaponCount": 9,
+  "ttkDefinition": "Ideal chest TTK is measured from the first damaging chest hit to the lethal chest hit against 100 HP. ADS time, reaction time, network latency, and projectile flight time are excluded.",
+  "notes": [
+    "Stepped damage endpoints are inclusive: the outgoing/higher tier remains valid through exactly 9m, 21m, 36m, and 75m where those breakpoints exist; the next lower tier begins immediately after the breakpoint.",
+    "The current Battlefield 6 Wiki TTK/BTK table independently matches the audited legacy-carbine values. GRT-BC and M417 A2 differ by 1ms at the final tier only because the public table rounds RPM to 830/654; this audit uses the more precise internal 830.769/654.545 rates.",
+    "BROD 3 is independently documented in the current Battlefield 6 Wiki as having the same damage, dropoff, and rate of fire as GRT-BC. Its audited chest TTK therefore matches GRT-BC at every distance.",
+    "BF6 1.4.2.5 explicitly states Match Trigger no longer affects BROD 3 fully automatic fire. Match Trigger therefore cannot create a verified chest-TTK advantage.",
+    "Carbine Burst Training / burst-mode attachment records currently marked assumed are excluded from VERIFIED AUTO META until their exact cadence is independently validated."
+  ],
+  "weapons": {
+    "m4a1": {
+      "name": "M4A1",
+      "rpm": 900,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 9,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 200
+        },
+        {
+          "min": 10,
+          "max": 21,
+          "damage": 21.56,
+          "btk": 5,
+          "ttk": 267
+        },
+        {
+          "min": 22,
+          "max": 36,
+          "damage": 17.74,
+          "btk": 6,
+          "ttk": 333
+        },
+        {
+          "min": 37,
+          "max": 75,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 333
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 14.62,
+          "btk": 7,
+          "ttk": 400
+        }
+      ]
+    },
+    "m277": {
+      "name": "M277",
+      "rpm": 720,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 75,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 250
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 333
+        }
+      ]
+    },
+    "ak205": {
+      "name": "AK-205",
+      "rpm": 720,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 9,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 333
+        },
+        {
+          "min": 10,
+          "max": 21,
+          "damage": 17.74,
+          "btk": 6,
+          "ttk": 417
+        },
+        {
+          "min": 22,
+          "max": 36,
+          "damage": 15.07,
+          "btk": 7,
+          "ttk": 500
+        },
+        {
+          "min": 37,
+          "max": 75,
+          "damage": 14.62,
+          "btk": 7,
+          "ttk": 500
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 12.76,
+          "btk": 8,
+          "ttk": 583
+        }
+      ]
+    },
+    "m417a2": {
+      "name": "M417 A2",
+      "rpm": 654.545,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 9,
+          "damage": 35.22,
+          "btk": 3,
+          "ttk": 183
+        },
+        {
+          "min": 10,
+          "max": 21,
+          "damage": 27.48,
+          "btk": 4,
+          "ttk": 275
+        },
+        {
+          "min": 22,
+          "max": 36,
+          "damage": 21.56,
+          "btk": 5,
+          "ttk": 367
+        },
+        {
+          "min": 37,
+          "max": 75,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 367
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 458
+        }
+      ]
+    },
+    "grtbc": {
+      "name": "GRT-BC",
+      "rpm": 830.769,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 9,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 217
+        },
+        {
+          "min": 10,
+          "max": 21,
+          "damage": 21.56,
+          "btk": 5,
+          "ttk": 289
+        },
+        {
+          "min": 22,
+          "max": 36,
+          "damage": 17.74,
+          "btk": 6,
+          "ttk": 361
+        },
+        {
+          "min": 37,
+          "max": 75,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 361
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 14.62,
+          "btk": 7,
+          "ttk": 433
+        }
+      ]
+    },
+    "qbz192": {
+      "name": "QBZ-192",
+      "rpm": 771.428,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 9,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 233
+        },
+        {
+          "min": 10,
+          "max": 21,
+          "damage": 21.56,
+          "btk": 5,
+          "ttk": 311
+        },
+        {
+          "min": 22,
+          "max": 36,
+          "damage": 17.74,
+          "btk": 6,
+          "ttk": 389
+        },
+        {
+          "min": 37,
+          "max": 75,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 389
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 14.62,
+          "btk": 7,
+          "ttk": 467
+        }
+      ]
+    },
+    "sg553r": {
+      "name": "SG 553R",
+      "rpm": 720,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 9,
+          "damage": 35.22,
+          "btk": 3,
+          "ttk": 167
+        },
+        {
+          "min": 10,
+          "max": 21,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 250
+        },
+        {
+          "min": 22,
+          "max": 36,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 333
+        },
+        {
+          "min": 37,
+          "max": 75,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 417
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 14.62,
+          "btk": 7,
+          "ttk": 500
+        }
+      ]
+    },
+    "sor300sc": {
+      "name": "SOR-300SC",
+      "rpm": 600,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 9,
+          "damage": 35.22,
+          "btk": 3,
+          "ttk": 200
+        },
+        {
+          "min": 10,
+          "max": 21,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 300
+        },
+        {
+          "min": 22,
+          "max": 36,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 400
+        },
+        {
+          "min": 37,
+          "max": 75,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 500
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 14.62,
+          "btk": 7,
+          "ttk": 600
+        }
+      ]
+    },
+    "brod3": {
+      "name": "BROD 3",
+      "rpm": 830.7692307692307,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 9,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 217
+        },
+        {
+          "min": 10,
+          "max": 21,
+          "damage": 21.56,
+          "btk": 5,
+          "ttk": 289
+        },
+        {
+          "min": 22,
+          "max": 36,
+          "damage": 17.74,
+          "btk": 6,
+          "ttk": 361
+        },
+        {
+          "min": 37,
+          "max": 75,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 361
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 14.62,
+          "btk": 7,
+          "ttk": 433
+        }
+      ]
+    }
+  },
+  "knownGoodCrossCheck": {
+    "source": "Battlefield 6 \u653b\u7565 BF6 Wiki current TTK/BTK comparison; BROD 3 current weapon page",
+    "displayRoundedTtk": {
+      "m4a1": [
+        200,
+        267,
+        333,
+        333,
+        400
+      ],
+      "m277": [
+        250,
+        250,
+        250,
+        250,
+        333
+      ],
+      "ak205": [
+        333,
+        417,
+        500,
+        500,
+        583
+      ],
+      "m417a2": [
+        183,
+        275,
+        367,
+        367,
+        459
+      ],
+      "grtbc": [
+        217,
+        289,
+        361,
+        361,
+        434
+      ],
+      "qbz192": [
+        233,
+        311,
+        389,
+        389,
+        467
+      ],
+      "sg553r": [
+        167,
+        250,
+        333,
+        417,
+        500
+      ],
+      "sor300sc": [
+        200,
+        300,
+        400,
+        500,
+        600
+      ],
+      "brod3": [
+        217,
+        289,
+        361,
+        361,
+        434
+      ]
+    },
+    "roundingNote": "Public table uses rounded RPM. The audit accepts a 1ms difference where precise internal RPM changes rounding."
+  }
+}

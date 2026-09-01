@@ -113,7 +113,11 @@ function dedupeDominated(slot, w, ids) {
     // Verified AUTO META must never depend on speculative/inferred attachment mechanics.
     // Raw combinations are still counted separately, but assumed options are not simulated
     // as candidates for a winning build until their behavior is validated.
-    if (data.assumed === true || (Array.isArray(data.assumedFields) && data.assumedFields.length)) continue;
+    const assumedFields = data.assumedFields;
+    const hasAssumedFields = Array.isArray(assumedFields)
+      ? assumedFields.length > 0
+      : !!(assumedFields && typeof assumedFields === 'object' && Object.keys(assumedFields).length);
+    if (data.assumed === true || hasAssumedFields) continue;
     const sig = functionalSignature(slot, data);
     const prev = keep.get(sig);
     if (!prev || pts < prev.pts || (pts === prev.pts && String(id).localeCompare(String(prev.id)) < 0)) {

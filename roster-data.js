@@ -57,7 +57,7 @@ window.BF6_CURRENT = {
 
     // DMRs (6)
     {id:"m39emr",name:"M39 EMR",cls:"DMR",unlock:"Rank 4",desc:"Versatile 7.62 marksman rifle."},
-    {id:"lmr27",name:"LMR27",cls:"DMR",unlock:"Rank 16",desc:"Fast follow-up precision rifle trading damage for speed."},
+    {id:"lmr27",name:"LMR27",cls:"DMR",unlock:"Rank 17",desc:"Fast follow-up precision rifle trading damage for speed."},
     {id:"svk86",name:"SVK-8.6",cls:"DMR",unlock:"Rank 33",desc:"High-lethality 8.6 precision rifle with slower effective fire rate."},
     {id:"svdm",name:"SVDM",cls:"DMR",unlock:"Deadeye 1",desc:"Classic marksman rifle configurable for mobility or range."},
     {id:"grtcps",name:"GRT-CPS",cls:"DMR",unlock:"Season 2 catch-up",desc:"Controllable intermediate marksman rifle with strong capacity."},

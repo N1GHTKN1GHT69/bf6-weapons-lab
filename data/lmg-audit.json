@@ -1,0 +1,386 @@
+{
+  "schema": 1,
+  "class": "LMG",
+  "gameVersion": "1.4.2.5",
+  "verifiedAt": "2026-09-01",
+  "pass": true,
+  "weaponCount": 10,
+  "ttkDefinition": "Ideal chest TTK is measured from the first damaging chest hit to the lethal chest hit against 100 HP. ADS time, reaction time, network latency, and projectile flight time are excluded.",
+  "lowBodyMultiplier": 0.84,
+  "notes": [
+    "Stepped damage endpoints are inclusive: the outgoing/higher tier remains valid through exactly 9m, 21m, 36m and 75m where those breakpoints exist; the next lower tier begins immediately after the breakpoint.",
+    "The current Battlefield 6 Wiki TTK/BTK table independently matches the eight original LMGs within 1 ms when rounded display RPM is compared with the precise internal fire rates used here.",
+    "M121 A2 is independently documented at 654 RPM with displayed damage 33.4 / 25 / 20 over 0-21m / 22-75m / 76m+, which independently yields 3/4/5 BTK and 183/275/367 ms first-hit-to-kill TTK. The raw analyzer uses numerically different exact damage values but identical BTK breakpoints.",
+    "RPK-74M is independently documented at 685 RPM with displayed damage 20 / 16.7 / 14.3 over 0-21m / 22-75m / 76m+, which independently yields 5/6/7 BTK and approximately 350/438/526 ms using rounded RPM; the precise 685.714 RPM used here produces 350/438/525 ms.",
+    "M250 is independently documented as a fixed 25-damage, 4-BTK weapon with no damage falloff; the precise source uses 26.05 but preserves the same 4-BTK, 267 ms TTK at every audited distance.",
+    "No verified LMG attachment or ammo is permitted to alter chest damage, full-auto RPM or fire mode without forcing this audit to fail and require an explicit post-attachment TTK audit."
+  ],
+  "knownGoodCrossCheck": {
+    "displayRoundedTtk": {
+      "l110": [
+        250,
+        250,
+        333,
+        333,
+        417
+      ],
+      "drsiar": [
+        233,
+        233,
+        311,
+        311,
+        389
+      ],
+      "m60": [
+        233,
+        233,
+        350,
+        350,
+        467
+      ],
+      "rpkm": [
+        217,
+        325,
+        434,
+        434,
+        542
+      ],
+      "m123k": [
+        217,
+        217,
+        289,
+        289,
+        361
+      ],
+      "m250": [
+        267,
+        267,
+        267,
+        267,
+        267
+      ],
+      "kts100": [
+        350,
+        350,
+        467,
+        467,
+        584
+      ],
+      "m240l": [
+        200,
+        200,
+        300,
+        300,
+        400
+      ]
+    },
+    "m121a2": {
+      "displayRpm": 654,
+      "displayDamage": [
+        33.4,
+        25,
+        20
+      ],
+      "displayTtk": [
+        183,
+        275,
+        367
+      ]
+    },
+    "rpk74m": {
+      "displayRpm": 685,
+      "displayDamage": [
+        20,
+        16.7,
+        14.3
+      ],
+      "displayTtk": [
+        350,
+        438,
+        526
+      ]
+    }
+  },
+  "weapons": {
+    "l110": {
+      "name": "L110",
+      "rpm": 719.999,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 21,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 250
+        },
+        {
+          "min": 22,
+          "max": 75,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 333
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 417
+        }
+      ]
+    },
+    "drsiar": {
+      "name": "DRS-IAR",
+      "rpm": 771.428,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 21,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 233
+        },
+        {
+          "min": 22,
+          "max": 75,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 311
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 389
+        }
+      ]
+    },
+    "m60": {
+      "name": "M/60",
+      "rpm": 514.285,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 21,
+          "damage": 35.22,
+          "btk": 3,
+          "ttk": 233
+        },
+        {
+          "min": 22,
+          "max": 75,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 350
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 467
+        }
+      ]
+    },
+    "rpkm": {
+      "name": "RPKM",
+      "rpm": 553.846,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 9,
+          "damage": 35.22,
+          "btk": 3,
+          "ttk": 217
+        },
+        {
+          "min": 10,
+          "max": 21,
+          "damage": 27.48,
+          "btk": 4,
+          "ttk": 325
+        },
+        {
+          "min": 22,
+          "max": 36,
+          "damage": 21.56,
+          "btk": 5,
+          "ttk": 433
+        },
+        {
+          "min": 37,
+          "max": 75,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 433
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 542
+        }
+      ]
+    },
+    "m123k": {
+      "name": "M123K",
+      "rpm": 830.769,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 21,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 217
+        },
+        {
+          "min": 22,
+          "max": 75,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 289
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 361
+        }
+      ]
+    },
+    "m250": {
+      "name": "M250",
+      "rpm": 674.999,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 300,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 267
+        }
+      ]
+    },
+    "kts100": {
+      "name": "KTS100 MK8",
+      "rpm": 514.285,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 21,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 350
+        },
+        {
+          "min": 22,
+          "max": 75,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 467
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 583
+        }
+      ]
+    },
+    "m240l": {
+      "name": "M240L",
+      "rpm": 599.999,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 21,
+          "damage": 35.22,
+          "btk": 3,
+          "ttk": 200
+        },
+        {
+          "min": 22,
+          "max": 75,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 300
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 400
+        }
+      ]
+    },
+    "m121a2": {
+      "name": "M121 A2",
+      "rpm": 654.545,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 21,
+          "damage": 35.22,
+          "btk": 3,
+          "ttk": 183
+        },
+        {
+          "min": 22,
+          "max": 75,
+          "damage": 26.05,
+          "btk": 4,
+          "ttk": 275
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 367
+        }
+      ]
+    },
+    "rpk74m": {
+      "name": "RPK-74M",
+      "rpm": 685.714,
+      "mode": "auto",
+      "ranges": [
+        {
+          "min": 1,
+          "max": 21,
+          "damage": 20.67,
+          "btk": 5,
+          "ttk": 350
+        },
+        {
+          "min": 22,
+          "max": 75,
+          "damage": 17.13,
+          "btk": 6,
+          "ttk": 438
+        },
+        {
+          "min": 76,
+          "max": 300,
+          "damage": 14.62,
+          "btk": 7,
+          "ttk": 525
+        }
+      ]
+    }
+  }
+}
