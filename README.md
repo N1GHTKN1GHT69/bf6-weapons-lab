@@ -1,3 +1,17 @@
+# BF6 Weapons Lab v2.0 — Build My Gun
+
+v2.0 makes the manual-weapon workflow a first-class mode instead of hiding it inside the weapon dropdown.
+
+## Build My Gun
+
+- **AUTO META:** the engine may choose both the weapon and its legal attachment build.
+- **BUILD MY GUN:** the selected primary is locked. Distance, class/context settings and attachment optimization may change; the weapon itself cannot be replaced by AUTO.
+- Entering BUILD MY GUN opens the complete primary catalog so any primary can be selected immediately.
+- CQB / Close / Mid / Long / Extreme range cards show the verified exhaustive winning build for 10 / 25 / 50 / 100 / 150m when the combat cache is valid.
+- Tapping a range card changes the exact-distance optimizer without unlocking the weapon.
+- If the exhaustive combat cache is unavailable, the app clearly labels the current attachment result as **on-demand / not exhaustive** rather than claiming it is the most-lethal verified winner.
+- Within a chosen weapon, verified exhaustive attachment winners preserve kill speed first; when lethal performance is close, transformed recoil/spread Beam Index decides the more laser-like build.
+
 # BF6 Weapons Lab v1.9 — Laserbeam META
 
 v1.9 changes AUTO from paper-TTK-first ranking to a recoil-aware laserbeam META. The previous engine already stored recoil/spread mechanics, but they were only attachment tie-breaks; a 1 ms TTK advantage could therefore keep the same high-recoil gun at #1. This release promotes transformed recoil/spread into the actual weapon ranking while retaining a hard lethality competitiveness penalty.

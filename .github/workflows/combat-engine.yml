@@ -31,6 +31,7 @@ on:
       - 'scripts/audit-ballistic-ttk.mjs'
       - 'scripts/audit-global.mjs'
       - 'scripts/audit-laserbeam-meta.mjs'
+      - 'scripts/audit-manual-weapon.mjs'
       - '.github/workflows/combat-engine.yml'
       - 'roster-data.js'
       - 'class-data.js'
@@ -81,6 +82,8 @@ jobs:
         run: node scripts/audit-global.mjs
       - name: Gate laserbeam recoil/spread META wiring
         run: node scripts/audit-laserbeam-meta.mjs
+      - name: Gate manual weapon / max-lethality builder
+        run: node scripts/audit-manual-weapon.mjs
       - name: Run exhaustive combat audit
         run: node scripts/build-combat-cache.mjs .upstream/bf6-analyzer data
       - name: Validate generated cache

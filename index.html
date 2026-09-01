@@ -28,11 +28,15 @@
       <section class="hero">
         <div class="kicker">BATTLEFIELD 6 • MULTIPLAYER</div>
         <h1>Pick the gun. Set the distance. Get the loadout.</h1>
-        <p>Built around BF6's weapon language, but simplified: choose a category or let AUTO BEST pick any primary, set the exact distance, then get an independently calculated laserbeam-meta weapon and valid full loadout. Ranking combines exact-distance lethality with transformed recoil/spread control; community tier lists and popularity are not inputs.</p>
+        <p>Use AUTO META to find the strongest weapon/build at an exact distance, or BUILD MY GUN to lock any primary and optimize only its attachments. The engine balances exact-distance lethality with transformed recoil/spread control; community tier lists and popularity are not inputs.</p>
       </section>
 
       <section class="builder card">
-        <div class="step-title"><span>01</span><div><b>PRIMARY WEAPON</b><small>Choose AUTO BEST or a category. AUTO defaults to the strongest laserbeam build at your exact distance, balancing kill speed with recoil/spread control.</small></div></div>
+        <div class="step-title"><span>01</span><div><b>WEAPON MODE</b><small>Let the engine choose the gun, or lock any primary and make that exact weapon as lethal and controllable as possible at your selected distance.</small></div></div>
+        <div class="mode-switch" id="modeSwitch" role="group" aria-label="Weapon selection mode">
+          <button id="autoModeBtn" type="button" class="active"><strong>AUTO META</strong><span>Best weapon + build</span></button>
+          <button id="manualModeBtn" type="button"><strong>BUILD MY GUN</strong><span>Lock weapon, optimize attachments</span></button>
+        </div>
         <nav class="weapon-tabs" id="weaponTabs" aria-label="Weapon categories"></nav>
         <div class="weapon-row">
           <div class="field grow">
@@ -46,6 +50,7 @@
           </div>
         </div>
         <div id="autoRecommendation" class="auto-recommendation"></div>
+        <div id="manualRangeProfiles" class="manual-range-profiles hidden"></div>
 
         <div class="divider"></div>
         <div class="step-title"><span>02</span><div><b>TARGET DISTANCE</b><small>The optimizer uses the exact distance, not a fake short/medium/long bucket</small></div></div>
@@ -166,7 +171,7 @@
         <span class="kicker">DATA STATUS</span>
         <h2>Show uncertainty instead of hiding it.</h2>
         <div class="method-grid">
-          <div><span>LIVE GAME</span><strong>1.4.2.0</strong><small>1.4.2.5 is scheduled for Sep 1</small></div>
+          <div><span>LIVE GAME</span><strong>1.4.2.5</strong><small>Current Sep 1 build gate</small></div>
           <div><span>CATALOG</span><strong>63 / 63 weapons</strong><small>56 primaries + 7 secondaries; always visible</small></div>
           <div><span>PRIMARY BUDGET</span><strong>100 points</strong><small>Hard cap</small></div>
           <div><span>SECONDARY BUDGET</span><strong>60 points</strong><small>Different from primaries</small></div>

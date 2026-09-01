@@ -120,10 +120,10 @@ const rankPos=app.indexOf('let combat = raw ? cachedCombat(raw, d) : null;');
 const auditPos=app.indexOf('if (!combat) combat = auditedRosterCombat(roster, raw, d);',rankPos);
 if(rankPos<0||auditPos<rankPos) errors.push('AUTO META is not cache-first');
 if(!app.includes('function flightTimeMs(distanceM, velocityMps, dragPerMeter)')) errors.push('generic projectile flight model missing');
-if(!app.includes('(a.combat.triggerTtk ?? Infinity) - (b.combat.triggerTtk ?? Infinity)')) errors.push('AUTO META is not trigger-to-impact TTK first');
+if(!/a\.combat\.triggerTtk\s*\?\?\s*Infinity/.test(app) || !/b\.combat\.triggerTtk\s*\?\?\s*Infinity/.test(app)) errors.push('AUTO META is not trigger-to-impact TTK first');
 if(app.includes('if (!combat && raw) combat = combatAtDistance(raw, d);')) errors.push('AUTO META still permits raw cadence/damage bypass');
 if(!app.includes('category !== "__all__" || x.combat.ballisticsExact === true')) errors.push('cross-class AUTO does not require verified ballistics');
-if(!app.includes('cachedBuild(raw, d, requiredAttachmentId)')) errors.push('optimized build path bypasses exhaustive cache for required lethal attachments');
+if(!app.includes('cachedBuild(raw, d, requiredAttachmentId, strategy)')) errors.push('optimized build path bypasses exhaustive cache for required lethal attachments/strategy');
 if(!builder.includes("if (w.cls === 'Sniper Rifle') modified = applyVerifiedSniperLethality(modified);")) errors.push('exhaustive builder does not enforce audited sniper cadence/damage');
 if(!builder.includes('const sniperInterval=Number(w?._sniperAuditDef?.shotIntervalMs);')) errors.push('exhaustive builder can leak raw sniper RPM into TTK');
 
@@ -146,6 +146,9 @@ if(cachePath){
       if(!row) { errors.push(`${cw?.id||'unknown'}: missing ${meter}m`); break; }
       if(!Number.isFinite(Number(row.flightMs))||Number(row.flightMs)<0) { errors.push(`${cw.id}@${meter}: invalid flightMs`); break; }
       if(!Number.isFinite(Number(row.triggerTtk))||Number(row.triggerTtk)<Number(row.ttk)) { errors.push(`${cw.id}@${meter}: invalid triggerTtk`); break; }
+      const lethal=cw?.bestLethal?.[String(meter)];
+      if(!lethal||!cw?.builds?.[lethal.buildId]) { errors.push(`${cw?.id||'unknown'}: missing manual max-lethality ${meter}m`); break; }
+      if(!Number.isFinite(Number(lethal.triggerTtk))||Number(lethal.triggerTtk)<Number(lethal.ttk)) { errors.push(`${cw.id}@${meter}: invalid manual triggerTtk`); break; }
     }
   }
   const rosterKeys=new Set(current.roster.flatMap(w=>[norm(w.id),norm(w.name),...(w.aliases??[]).map(norm)]));

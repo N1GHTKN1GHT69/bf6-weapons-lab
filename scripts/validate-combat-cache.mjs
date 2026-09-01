@@ -5,6 +5,7 @@ const c = JSON.parse(await readFile(path,'utf8'));
 const errors=[];
 if (typeof c?.source?.gameVersion !== 'string' || !c.source.gameVersion) errors.push('missing source.gameVersion');
 if (c?.source?.rankingModel !== 'laserbeam-v1') errors.push(`ranking model ${c?.source?.rankingModel || 'missing'}/laserbeam-v1`);
+if (c?.source?.manualBuildModel !== 'max-lethality-v1') errors.push(`manual build model ${c?.source?.manualBuildModel || 'missing'}/max-lethality-v1`);
 const expected=Number(c?.audit?.weaponsSource);
 const modeled=Number(c?.audit?.modeled);
 const incomplete=Number(c?.audit?.incomplete);
@@ -31,6 +32,11 @@ for (const [id,w] of entries) {
     if (!Number.isFinite(Number(x.btk)) || x.btk < 1) { errors.push(`${id}@${d}: invalid btk`); break; }
     if (!Number.isFinite(Number(x.beamIndex)) || x.beamIndex < 0) { errors.push(`${id}@${d}: invalid beam index`); break; }
     if (!Number.isFinite(Number(x.effectiveAdsSpreadDeg)) || x.effectiveAdsSpreadDeg < 0) { errors.push(`${id}@${d}: invalid effective ADS spread`); break; }
+    const l=w.bestLethal?.[String(d)];
+    if (!l) { errors.push(`${id}: missing manual max-lethality ${d}m`); break; }
+    if (!w.builds?.[l.buildId]) { errors.push(`${id}@${d}: missing manual winning build ${l.buildId}`); break; }
+    if (!Number.isFinite(Number(l.points)) || Number(l.points) > Number(w.budget) || Number(w.builds[l.buildId].points) !== Number(l.points)) { errors.push(`${id}@${d}: invalid manual winner points`); break; }
+    if (!Number.isFinite(Number(l.triggerTtk)) || l.triggerTtk < l.ttk || !Number.isFinite(Number(l.btk)) || l.btk < 1) { errors.push(`${id}@${d}: invalid manual lethal row`); break; }
   }
 }
 if (errors.length) {

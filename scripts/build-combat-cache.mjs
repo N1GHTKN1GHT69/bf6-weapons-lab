@@ -417,6 +417,20 @@ function betterAtDistance(a, b) {
   return a.buildId < b.buildId;
 }
 
+function betterLethalAtDistance(a, b) {
+  if (!b) return true;
+  if (a.triggerTtk !== b.triggerTtk) return (a.triggerTtk ?? Infinity) < (b.triggerTtk ?? Infinity);
+  if (a.ttk !== b.ttk) return (a.ttk ?? Infinity) < (b.ttk ?? Infinity);
+  if (a.btk !== b.btk) return (a.btk ?? Infinity) < (b.btk ?? Infinity);
+  if (a.damage !== b.damage) return (a.damage ?? -Infinity) > (b.damage ?? -Infinity);
+  if (a.lowTtk !== b.lowTtk) return (a.lowTtk ?? Infinity) < (b.lowTtk ?? Infinity);
+  // Equal lethality: take the more controllable / cheaper build.
+  if (a.beamIndex !== b.beamIndex) return (a.beamIndex ?? Infinity) < (b.beamIndex ?? Infinity);
+  if (a.practical !== b.practical) return a.practical > b.practical;
+  if (a.points !== b.points) return a.points < b.points;
+  return a.buildId < b.buildId;
+}
+
 function buildIdFor(attsSet) {
   const text=['sight','muzzle','barrel','grip','laser','light','ergo','mag','ammo'].map(k=>`${k}:${attsSet[k] ?? ''}`).join('|');
   let h=0xcbf29ce484222325n;
@@ -431,6 +445,7 @@ const results = {
     repository: 'raymdl/BF6-Weapon-Analyzer',
     gameVersion: GAME_VERSION,
     rankingModel: 'laserbeam-v1',
+    manualBuildModel: 'max-lethality-v1',
     commit: (() => { try { return execFileSync('git',['-C',upstream,'rev-parse','HEAD'],{encoding:'utf8'}).trim(); } catch { return null; } })(),
     policy: 'Raw weapon/attachment facts and upstream simulator math only. No tier lists, popularity, usage, creator rankings, or community meta scores are inputs.'
   },
@@ -439,7 +454,8 @@ const results = {
     primaryBudget: PRIMARY_BUDGET,
     sidearmBudget: SIDEARM_BUDGET,
     weaponRankOrder: ['laserbeam composite: 55% exact-distance lethality + 45% recoil/spread controllability','trigger-to-lethal-impact chest TTK','Beam Index','mechanical chest TTK','BTK','damage/shot'],
-    attachmentPolicy: 'All legal user-visible combinations are counted. Speculative/assumed attachment mechanics are excluded from verified AUTO META; functionally identical or strictly more-expensive verified duplicates are safely collapsed before simulation.'
+    attachmentPolicy: 'All legal user-visible combinations are counted. Speculative/assumed attachment mechanics are excluded from verified AUTO META; functionally identical or strictly more-expensive verified duplicates are safely collapsed before simulation.',
+    manualWeaponPolicy: 'BUILD MY GUN uses a separate strict bestLethal winner: trigger-to-kill first, then mechanical TTK/BTK/damage, with Beam Index only after lethal ties.'
   },
   audit: { weaponsSource: weapons.length, modeled:0, incomplete:0, rawLegalCombinations:'0', canonicalCombinationsEvaluated:0, distancesPerWeapon:DIST_MAX-DIST_MIN+1, errors:[] },
   weapons: {}
@@ -461,6 +477,7 @@ for (const w of weapons) {
   for (let i=slots.length-1;i>=0;i--) minRemaining[i] = minRemaining[i+1] + Math.min(...options[slots[i]].map(o=>o.pts));
 
   const best = Array(DIST_MAX + 1).fill(null);
+  const bestLethal = Array(DIST_MAX + 1).fill(null);
   const buildDict = {};
   const profileCache = new Map();
   let canonicalCount = 0;
@@ -496,9 +513,10 @@ for (const w of weapons) {
           ...beamMetrics(modified,row.d),
         };
         if (betterAtDistance(candidate,best[row.d])) best[row.d] = candidate;
+        if (betterLethalAtDistance(candidate,bestLethal[row.d])) bestLethal[row.d] = candidate;
       }
       // Store full build only if it is currently a winner somewhere. Final cleanup later.
-      if (best.some(x=>x?.buildId===buildId)) {
+      if (best.some(x=>x?.buildId===buildId) || bestLethal.some(x=>x?.buildId===buildId)) {
         buildDict[buildId] = {
           id:buildId, points:exactPts, atts:attSet,
           picks:picks.map(p=>{ const d=optionData(p.slot,w,p.id) ?? {id:p.id,name:p.id}; return {slot:p.slot,id:p.id,name:d.name ?? p.id,pts:p.pts}; }),
@@ -522,7 +540,7 @@ for (const w of weapons) {
 
   try {
     visit(0,0);
-    const winningIds = new Set(best.filter(Boolean).map(x=>x.buildId));
+    const winningIds = new Set([...best.filter(Boolean), ...bestLethal.filter(Boolean)].map(x=>x.buildId));
     for (const id of Object.keys(buildDict)) if (!winningIds.has(id)) delete buildDict[id];
     results.weapons[w.id] = {
       id:w.id,name:w.name,cls:w.cls,budget,status:'modeled',
@@ -530,6 +548,7 @@ for (const w of weapons) {
       uniqueLethalityProfiles:profileCache.size,
       builds:buildDict,
       best:Object.fromEntries(best.slice(DIST_MIN).map((x,idx)=>[String(idx+DIST_MIN),x])),
+      bestLethal:Object.fromEntries(bestLethal.slice(DIST_MIN).map((x,idx)=>[String(idx+DIST_MIN),x])),
     };
     results.audit.modeled++;
     results.audit.canonicalCombinationsEvaluated += canonicalCount;
