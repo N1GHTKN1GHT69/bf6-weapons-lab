@@ -1,0 +1,172 @@
+{
+  "schema": 1,
+  "class": "DMR",
+  "release": "v1.4-dmr-recheck",
+  "pass": true,
+  "mechanicalMeterChecks": 1800,
+  "errors": [],
+  "triggerToKillSamples": {
+    "10": {
+      "m39emr": {
+        "mechanicalTtkMs": 467,
+        "flightMs": 10.7,
+        "triggerToKillMs": 477.7
+      },
+      "lmr27": {
+        "mechanicalTtkMs": 400,
+        "flightMs": 12.7,
+        "triggerToKillMs": 412.7
+      },
+      "svk86": {
+        "mechanicalTtkMs": 400,
+        "flightMs": 12.0,
+        "triggerToKillMs": 412.0
+      },
+      "svdm": {
+        "mechanicalTtkMs": 400,
+        "flightMs": 16.7,
+        "triggerToKillMs": 416.7
+      },
+      "grtcps": {
+        "mechanicalTtkMs": 500,
+        "flightMs": 10.7,
+        "triggerToKillMs": 510.7
+      }
+    },
+    "25": {
+      "m39emr": {
+        "mechanicalTtkMs": 467,
+        "flightMs": 27.5,
+        "triggerToKillMs": 494.5
+      },
+      "lmr27": {
+        "mechanicalTtkMs": 400,
+        "flightMs": 32.7,
+        "triggerToKillMs": 432.7
+      },
+      "svk86": {
+        "mechanicalTtkMs": 400,
+        "flightMs": 30.7,
+        "triggerToKillMs": 430.7
+      },
+      "svdm": {
+        "mechanicalTtkMs": 400,
+        "flightMs": 43.0,
+        "triggerToKillMs": 443.0
+      },
+      "grtcps": {
+        "mechanicalTtkMs": 500,
+        "flightMs": 27.5,
+        "triggerToKillMs": 527.5
+      }
+    },
+    "50": {
+      "m39emr": {
+        "mechanicalTtkMs": 467,
+        "flightMs": 57.5,
+        "triggerToKillMs": 524.5
+      },
+      "lmr27": {
+        "mechanicalTtkMs": 400,
+        "flightMs": 68.3,
+        "triggerToKillMs": 468.3
+      },
+      "svk86": {
+        "mechanicalTtkMs": 400,
+        "flightMs": 64.3,
+        "triggerToKillMs": 464.3
+      },
+      "svdm": {
+        "mechanicalTtkMs": 400,
+        "flightMs": 89.9,
+        "triggerToKillMs": 489.9
+      },
+      "grtcps": {
+        "mechanicalTtkMs": 500,
+        "flightMs": 57.5,
+        "triggerToKillMs": 557.5
+      }
+    },
+    "100": {
+      "m39emr": {
+        "mechanicalTtkMs": 467,
+        "flightMs": 126.0,
+        "triggerToKillMs": 593.0
+      },
+      "lmr27": {
+        "mechanicalTtkMs": 400,
+        "flightMs": 149.7,
+        "triggerToKillMs": 549.7
+      },
+      "svk86": {
+        "mechanicalTtkMs": 400,
+        "flightMs": 140.9,
+        "triggerToKillMs": 540.9
+      },
+      "svdm": {
+        "mechanicalTtkMs": 400,
+        "flightMs": 196.9,
+        "triggerToKillMs": 596.9
+      },
+      "grtcps": {
+        "mechanicalTtkMs": 500,
+        "flightMs": 126.0,
+        "triggerToKillMs": 626.0
+      }
+    },
+    "150": {
+      "m39emr": {
+        "mechanicalTtkMs": 467,
+        "flightMs": 207.7,
+        "triggerToKillMs": 674.7
+      },
+      "lmr27": {
+        "mechanicalTtkMs": 400,
+        "flightMs": 246.6,
+        "triggerToKillMs": 646.6
+      },
+      "svk86": {
+        "mechanicalTtkMs": 400,
+        "flightMs": 232.1,
+        "triggerToKillMs": 632.1
+      },
+      "svdm": {
+        "mechanicalTtkMs": 400,
+        "flightMs": 324.5,
+        "triggerToKillMs": 724.5
+      },
+      "grtcps": {
+        "mechanicalTtkMs": 500,
+        "flightMs": 207.7,
+        "triggerToKillMs": 707.7
+      }
+    },
+    "200": {
+      "m39emr": {
+        "mechanicalTtkMs": 467,
+        "flightMs": 304.9,
+        "triggerToKillMs": 771.9
+      },
+      "lmr27": {
+        "mechanicalTtkMs": 400,
+        "flightMs": 362.1,
+        "triggerToKillMs": 762.1
+      },
+      "svk86": {
+        "mechanicalTtkMs": 400,
+        "flightMs": 340.8,
+        "triggerToKillMs": 740.8
+      },
+      "svdm": {
+        "mechanicalTtkMs": 400,
+        "flightMs": 476.4,
+        "triggerToKillMs": 876.4
+      },
+      "grtcps": {
+        "mechanicalTtkMs": 500,
+        "flightMs": 304.9,
+        "triggerToKillMs": 804.9
+      }
+    }
+  }
+}

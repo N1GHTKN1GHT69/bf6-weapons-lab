@@ -121,14 +121,16 @@ window.BF6_LOADOUT_DATA = {
     }
   },
 
+  // Fail-safe sidearm snapshot. These mirror the current analyzer's live Sidearm
+  // weapon records (mag includes the chambered round where the analyzer does).
   fallbackSecondaries:[
-    {id:"p18",name:"P18",cls:"Secondary",rpm:420,mag:17,bulletVel:375,adsTime:170,tacRld:1.6,fireMode:"semi"},
-    {id:"es57",name:"ES 5.7",cls:"Secondary",rpm:500,mag:20,bulletVel:600,adsTime:170,tacRld:1.7,fireMode:"semi"},
-    {id:"m45a1",name:"M45A1",cls:"Secondary",rpm:360,mag:8,bulletVel:300,adsTime:180,tacRld:1.55,fireMode:"semi"},
-    {id:"m44",name:"M44",cls:"Secondary",rpm:150,mag:6,bulletVel:450,adsTime:230,tacRld:2.5,fireMode:"revolver"},
-    {id:"ggh22",name:"GGH-22",cls:"Secondary",rpm:400,mag:13,bulletVel:390,adsTime:180,tacRld:1.7,fireMode:"semi"},
-    {id:"m357",name:"M357 TRAIT",cls:"Secondary",rpm:190,mag:8,bulletVel:430,adsTime:220,tacRld:2.35,fireMode:"revolver"},
-    {id:"vz61",name:"vz. 61",cls:"Secondary",rpm:850,mag:20,bulletVel:300,adsTime:170,tacRld:1.85,fireMode:"auto"}
+    {id:"p18",name:"P18",cls:"Secondary",rpm:399.999,mag:18,bulletVel:350,adsTime:175,tacRld:1.934,fireMode:"semi"},
+    {id:"es57",name:"ES 5.7",cls:"Secondary",rpm:449.999,mag:21,bulletVel:510,adsTime:175,tacRld:2.017,fireMode:"semi"},
+    {id:"m45a1",name:"M45A1",cls:"Secondary",rpm:327.272,mag:8,bulletVel:336,adsTime:200,tacRld:1.867,fireMode:"semi"},
+    {id:"m44",name:"M44",cls:"Secondary",rpm:163.636,mag:6,bulletVel:440,adsTime:225,tacRld:3.4,fireMode:"semi"},
+    {id:"ggh22",name:"GGH-22",cls:"Secondary",rpm:359.999,mag:16,bulletVel:400,adsTime:175,tacRld:1.934,fireMode:"semi"},
+    {id:"m357trait",name:"M357 TRAIT",cls:"Secondary",rpm:224.999,mag:8,bulletVel:410,adsTime:225,tacRld:3.067,fireMode:"semi"},
+    {id:"vz61",name:"vz. 61",cls:"Secondary",rpm:818.181,mag:11,bulletVel:313,adsTime:175,tacRld:2.134,fireMode:"auto"}
   ],
 
   secondaryRoles:{

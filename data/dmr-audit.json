@@ -5,16 +5,16 @@
   "verifiedAt": "2026-09-01",
   "pass": true,
   "weaponCount": 6,
-  "ttkDefinition": "Ideal chest TTK is measured from the first damaging chest hit to the lethal chest hit against 100 HP. ADS time, reaction time, network latency, and projectile flight time are excluded.",
+  "ttkDefinition": "Mechanical chest TTK is measured from the first damaging chest hit to the lethal chest hit against 100 HP. It deliberately excludes projectile flight time. Because the site uses an exact target-distance slider, DMRs also expose a separate trigger-to-kill metric that adds projectile flight where the ballistic model is verified.",
   "lowBodyMultiplier": 0.91,
   "notes": [
-    "All six current DMRs are independently audited at every integer meter from 1m through 300m.",
-    "Stepped damage endpoints are inclusive: the outgoing/higher tier remains valid through the exact breakpoint; the lower tier begins immediately after it.",
-    "The current Battlefield 6 Wiki independently confirms the original M39 EMR, LMR27, SVK-8.6 and SVDM TTK values at 467/400/400/400 ms respectively across their normal chest-damage bands.",
-    "GRT-CPS is a known stale-data exception in the upstream analyzer: current live references show 28.6/27.3/25 chest damage at 360 RPM, which is 4 BTK and 500 ms at every range. The older analyzer curve can incorrectly produce 3 BTK / 333 ms.",
-    "VSSM is 450 RPM semi-auto by default, but its verified 40-point Folding Stock enables 800 RPM full-auto. That legal direct-lethality transform is explicitly audited rather than treated as a generic attachment score.",
-    "BF6 1.4.2.0 fixed unintended Match Grade damage reductions on SVK-8.6 and adjusted VSSM limb multipliers. Current VSSM low-body/limb reference is 0.91.",
-    "No other verified DMR attachment or ammo is permitted to alter chest damage, RPM or fire mode without forcing this audit to fail and require an explicit post-attachment TTK audit."
+    "All six current DMR mechanical chest TTK values are independently audited at every integer meter from 1m through 300m.",
+    "Mechanical TTK is first hit to lethal hit and does NOT include bullet travel. This is why M39/LMR27/SVK-8.6/SVDM/GRT-CPS remain flat across distance when their BTK does not change.",
+    "The UI now separates MECH CHEST TTK from TRIGGER\u2192KILL so the target-distance slider does not imply projectile flight is included in the mechanical TTK number.",
+    "For M39 EMR, LMR27, SVK-8.6, SVDM and GRT-CPS, the current verified ballistic model uses dragPerMeter 0.0035. VSSM is not in the verified upstream ballistics weapon list, so its distance-adjusted value is shown only as a no-drag lower bound.",
+    "Current upstream GRT-CPS data now agrees with the audited 4-BTK / 500ms mechanical baseline; the old stale-3-BTK warning has been retired.",
+    "VSSM is 450 RPM semi-auto by default. Its verified 40-point Folding Stock enables 800 RPM full-auto, producing an explicitly audited optimized mechanical TTK curve.",
+    "No other verified DMR attachment or ammo may alter chest damage, RPM or fire mode without a fresh post-attachment audit."
   ],
   "knownGoodCrossCheck": {
     "displayRoundedTtk": {
@@ -58,7 +58,8 @@
         500,
         500,
         500
-      ]
+      ],
+      "upstreamStatus": "current upstream BTK/TTK agrees with audited 4-BTK / 500ms baseline"
     },
     "vssm": {
       "baseRpm": 450,
@@ -76,6 +77,44 @@
         300,
         300
       ]
+    },
+    "ballistics": {
+      "m39emr": {
+        "baseVelocity": 760,
+        "equippedVelocity": 950,
+        "adsTime": 367,
+        "verified": true
+      },
+      "lmr27": {
+        "baseVelocity": 800,
+        "equippedVelocity": 800,
+        "adsTime": 250,
+        "verified": true
+      },
+      "svk86": {
+        "baseVelocity": 680,
+        "equippedVelocity": 850,
+        "adsTime": 433,
+        "verified": true
+      },
+      "svdm": {
+        "baseVelocity": 760,
+        "equippedVelocity": 608,
+        "adsTime": 300,
+        "verified": true
+      },
+      "grtcps": {
+        "baseVelocity": 760,
+        "equippedVelocity": 950,
+        "adsTime": 300,
+        "verified": true
+      },
+      "vssm": {
+        "baseVelocity": 303,
+        "equippedVelocity": 303,
+        "adsTime": 250,
+        "verified": false
+      }
     }
   },
   "weapons": {
@@ -105,7 +144,12 @@
           "btk": 3,
           "ttk": 467
         }
-      ]
+      ],
+      "baseVelocity": 760,
+      "equippedVelocity": 950,
+      "adsTime": 367,
+      "ballisticsVerified": true,
+      "dragPerMeter": 0.0035
     },
     "lmr27": {
       "name": "LMR27",
@@ -133,7 +177,12 @@
           "btk": 4,
           "ttk": 400
         }
-      ]
+      ],
+      "baseVelocity": 800,
+      "equippedVelocity": 800,
+      "adsTime": 250,
+      "ballisticsVerified": true,
+      "dragPerMeter": 0.0035
     },
     "svk86": {
       "name": "SVK-8.6",
@@ -161,7 +210,12 @@
           "btk": 2,
           "ttk": 400
         }
-      ]
+      ],
+      "baseVelocity": 680,
+      "equippedVelocity": 850,
+      "adsTime": 433,
+      "ballisticsVerified": true,
+      "dragPerMeter": 0.0035
     },
     "svdm": {
       "name": "SVDM",
@@ -189,7 +243,12 @@
           "btk": 3,
           "ttk": 400
         }
-      ]
+      ],
+      "baseVelocity": 760,
+      "equippedVelocity": 608,
+      "adsTime": 300,
+      "ballisticsVerified": true,
+      "dragPerMeter": 0.0035
     },
     "grtcps": {
       "name": "GRT-CPS",
@@ -217,7 +276,12 @@
           "btk": 4,
           "ttk": 500
         }
-      ]
+      ],
+      "baseVelocity": 760,
+      "equippedVelocity": 950,
+      "adsTime": 300,
+      "ballisticsVerified": true,
+      "dragPerMeter": 0.0035
     },
     "vssm": {
       "name": "VSSM",
@@ -293,7 +357,14 @@
             "rpm": 799.999
           }
         ]
-      }
+      },
+      "baseVelocity": 303,
+      "equippedVelocity": 303,
+      "adsTime": 250,
+      "ballisticsVerified": false,
+      "dragPerMeter": null
     }
-  }
+  },
+  "baseDragPerMeter": 0.0035,
+  "gravityMps2": -9.81
 }

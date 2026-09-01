@@ -1,0 +1,235 @@
+{
+  "schema": 1,
+  "class": "Sniper Rifle",
+  "gameVersion": "1.4.2.5",
+  "verifiedAt": "2026-09-01",
+  "pass": true,
+  "weaponCount": 6,
+  "ttkDefinition": "Ideal chest TTK is measured from the first damaging chest hit to the lethal chest hit against 100 HP. A one-shot chest kill is represented as 0 ms / 1 SHOT. ADS time, reaction time, network latency and projectile flight time are excluded. Bolt-action follow-up timing uses independently verified effective shot-to-shot cadence rather than blindly trusting the upstream raw RPM field.",
+  "lowBodyMultiplier": 0.67,
+  "notes": [
+    "All six current sniper rifles are audited at every integer meter from 1m through 300m.",
+    "M2010 ESR, SV-98, PSR and L115 use the current EA 1.3.3 sweet-spot windows and linear game-file damage curves.",
+    "Mini Scout has no sweet spot. Its current game-file damage curve is 62 damage through 21m, linearly falling to 58 at 75m and remaining at 58 beyond. Its effective follow-up interval includes the official 1.1.3.0 +100ms minimum time between shots, producing about 47 RPM effective cadence.",
+    "Interdictor is missing from the upstream analyzer as of this audit. It is modeled from current live field evidence: 31 RPM, 732m/s, 150 maximum damage, guaranteed all-body one-shot window 120-150m, and observed chest one-shot window 106-164m. Its transition curve is marked empirical-current until a current game-file curve is published.",
+    "Recon sniper proficiency is known to improve rechambering, but no verified numeric multiplier is applied here. This audit is class-neutral and will not guess a class-specific TTK bonus.",
+    "DLC Bolt / straight-pull behavior can preserve the sight picture while cycling; it is utility, not a verified reduction of the actual shot-to-shot interval, so it does not change this theoretical TTK.",
+    "No sniper attachment or ammo may alter chest damage, effective shot interval or fire mode in VERIFIED META unless that transform is explicitly audited."
+  ],
+  "knownGoodCrossCheck": {
+    "sweetSpots": {
+      "sv98": [
+        54,
+        75
+      ],
+      "m2010esr": [
+        75,
+        100
+      ],
+      "psr": [
+        90,
+        120
+      ],
+      "l115": [
+        100,
+        133
+      ],
+      "miniscout": null,
+      "interdictorAllBody": [
+        120,
+        150
+      ],
+      "interdictorChestObserved": [
+        106,
+        164
+      ]
+    },
+    "effectiveFollowUpMs": {
+      "m2010esr": 1395,
+      "sv98": 1579,
+      "psr": 1579,
+      "miniscout": 1276,
+      "l115": 1304,
+      "interdictor": 1935
+    },
+    "miniScoutOfficialMinimumShotTimeIncreaseMs": 100,
+    "miniScoutRawNominalRpmBeforeMinimumInterval": 51
+  },
+  "weapons": {
+    "m2010esr": {
+      "name": "M2010 ESR",
+      "mode": "bolt",
+      "displayRpm": 43,
+      "rpm": 43,
+      "shotIntervalMs": 1395.3488372093022,
+      "bulletVel": 760,
+      "mag": 5,
+      "curve": [
+        {
+          "r": 54,
+          "d": 80
+        },
+        {
+          "r": 75,
+          "d": 100
+        },
+        {
+          "r": 100,
+          "d": 100
+        },
+        {
+          "r": 133,
+          "d": 62
+        }
+      ],
+      "curveSource": "EA 1.3.3 sweet spot + Sym 1.3.3 game-file linear curve"
+    },
+    "sv98": {
+      "name": "SV-98",
+      "mode": "bolt",
+      "displayRpm": 38,
+      "rpm": 38,
+      "shotIntervalMs": 1578.9473684210527,
+      "bulletVel": 680,
+      "mag": 10,
+      "curve": [
+        {
+          "r": 0,
+          "d": 80
+        },
+        {
+          "r": 36,
+          "d": 80
+        },
+        {
+          "r": 54,
+          "d": 100
+        },
+        {
+          "r": 75,
+          "d": 100
+        },
+        {
+          "r": 100,
+          "d": 62
+        }
+      ],
+      "curveSource": "EA 1.3.3 sweet spot + Sym 1.3.3 game-file linear curve"
+    },
+    "psr": {
+      "name": "PSR",
+      "mode": "bolt",
+      "displayRpm": 38,
+      "rpm": 38,
+      "shotIntervalMs": 1578.9473684210527,
+      "bulletVel": 680,
+      "mag": 10,
+      "curve": [
+        {
+          "r": 75,
+          "d": 80
+        },
+        {
+          "r": 90,
+          "d": 100
+        },
+        {
+          "r": 120,
+          "d": 100
+        },
+        {
+          "r": 160,
+          "d": 62
+        }
+      ],
+      "curveSource": "EA 1.3.3 sweet spot + Sym 1.3.3 game-file linear curve"
+    },
+    "miniscout": {
+      "name": "Mini Scout",
+      "mode": "bolt",
+      "displayRpm": 47,
+      "rpm": 47.004608294930875,
+      "shotIntervalMs": 1276.4705882352941,
+      "bulletVel": 760,
+      "mag": 10,
+      "curve": [
+        {
+          "r": 0,
+          "d": 62
+        },
+        {
+          "r": 21,
+          "d": 62
+        },
+        {
+          "r": 75,
+          "d": 58
+        }
+      ],
+      "curveSource": "Current Sym game-file damage curve; effective cadence includes official +100ms minimum shot interval",
+      "upstreamCadenceOverride": true
+    },
+    "l115": {
+      "name": "L115",
+      "mode": "bolt",
+      "displayRpm": 46,
+      "rpm": 46,
+      "shotIntervalMs": 1304.3478260869565,
+      "bulletVel": 664,
+      "mag": 5,
+      "curve": [
+        {
+          "r": 75,
+          "d": 80
+        },
+        {
+          "r": 100,
+          "d": 100
+        },
+        {
+          "r": 133,
+          "d": 100
+        },
+        {
+          "r": 175,
+          "d": 62
+        }
+      ],
+      "curveSource": "EA 1.3.3 sweet spot + Sym 1.3.3 game-file linear curve"
+    },
+    "interdictor": {
+      "name": "Interdictor",
+      "mode": "bolt",
+      "displayRpm": 31,
+      "rpm": 31,
+      "shotIntervalMs": 1935.483870967742,
+      "bulletVel": 732,
+      "mag": 5,
+      "adsTime": 433,
+      "curve": [
+        {
+          "r": 100,
+          "d": 80
+        },
+        {
+          "r": 120,
+          "d": 150
+        },
+        {
+          "r": 150,
+          "d": 150
+        },
+        {
+          "r": 170,
+          "d": 80
+        }
+      ],
+      "curveSource": "Empirical current live model constrained to observed 106-164m chest OHK and 120-150m all-body OHK",
+      "confidence": "empirical-current",
+      "upstreamMissing": true
+    }
+  },
+  "fullyVerifiedCount": 5,
+  "empiricalCurrentCount": 1,
+  "passMeaning": "Sniper class math gate passes for five game-file/official-backed rifles plus one explicitly labeled empirical-current Interdictor model. Empirical-current is excluded from cross-class AUTO VERIFIED."
+}

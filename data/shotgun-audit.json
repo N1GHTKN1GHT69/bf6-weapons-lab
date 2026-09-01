@@ -1,0 +1,672 @@
+{
+  "schema": 1,
+  "class": "Shotgun",
+  "gameVersion": "1.4.2.5",
+  "verifiedAt": "2026-09-01",
+  "pass": true,
+  "weaponCount": 4,
+  "crossClassEligible": false,
+  "ttkDefinition": "Ideal mechanical chest TTK is measured from the first damaging shell/projectile to the lethal shell/projectile against 100 HP, excludes projectile flight time, and for pellet loads assumes every pellet in the shell connects. Pump/pair cadence is weapon-specific rather than derived from the analyzer raw RPM field.",
+  "verifiedAmmoIds": [
+    "buckshot",
+    "flechette",
+    "slugs"
+  ],
+  "excludedAmmo": {
+    "buckshot_00": "Exact current full #00 Buckshot pellet-count/damage/range curve is not exposed in the current analyzer ammo transform or sufficiently complete independent source. It is legal but excluded from VERIFIED META until validated."
+  },
+  "notes": [
+    "Current Analyzer shotgun damage curves are per pellet; audited #01/Flechette shell damage multiplies the per-pellet curve by 16 pellets.",
+    "Flechette uses the same direct-damage/TTK curve as #01 Buckshot; its penetration/regen utility remains a separate non-TTK property.",
+    "Slugs are audited as one projectile with their own current range damage curve and 1.34x headshot multiplier; this gate is chest-only.",
+    "M87A1 uses 94 RPM effective pump cadence. The analyzer raw ~1800 RPM field is an internal event rate and must not be used as effective follow-up cadence.",
+    "DB-12 uses 360 RPM within its two-shell pair and ~800 ms from pair start to the next pair start; sustained display cadence is ~150 RPM.",
+    "DB-12 current #01 close shell damage is 89.6 (5.6 x 16), superseding the older 80-damage close value.",
+    "Shotguns are intentionally excluded from cross-class AUTO VERIFIED ranking until spread/pellet hit probability is modeled; ideal all-pellet long-range TTK is not comparable to rifle hit certainty."
+  ],
+  "weapons": {
+    "m87a1": {
+      "name": "M87A1",
+      "upstreamId": "m87a1",
+      "cadence": {
+        "type": "constant",
+        "rpm": 94
+      },
+      "pellets": 16,
+      "ranges": [
+        {
+          "min": 1,
+          "max": 8,
+          "damage": 134.4,
+          "btk": 1,
+          "ttk": 0
+        },
+        {
+          "min": 9,
+          "max": 15,
+          "damage": 115.2,
+          "btk": 1,
+          "ttk": 0
+        },
+        {
+          "min": 16,
+          "max": 30,
+          "damage": 89.6,
+          "btk": 2,
+          "ttk": 638
+        },
+        {
+          "min": 31,
+          "max": 300,
+          "damage": 60.8,
+          "btk": 2,
+          "ttk": 638
+        }
+      ],
+      "ammoProfiles": {
+        "buckshot": {
+          "name": "#01 Buckshot",
+          "verified": true,
+          "pellets": 16,
+          "ranges": [
+            {
+              "min": 1,
+              "max": 8,
+              "damage": 134.4,
+              "btk": 1,
+              "ttk": 0
+            },
+            {
+              "min": 9,
+              "max": 15,
+              "damage": 115.2,
+              "btk": 1,
+              "ttk": 0
+            },
+            {
+              "min": 16,
+              "max": 30,
+              "damage": 89.6,
+              "btk": 2,
+              "ttk": 638
+            },
+            {
+              "min": 31,
+              "max": 300,
+              "damage": 60.8,
+              "btk": 2,
+              "ttk": 638
+            }
+          ]
+        },
+        "flechette": {
+          "name": "Flechette",
+          "verified": true,
+          "pellets": 16,
+          "sameDirectDamageAs": "buckshot",
+          "ranges": [
+            {
+              "min": 1,
+              "max": 8,
+              "damage": 134.4,
+              "btk": 1,
+              "ttk": 0
+            },
+            {
+              "min": 9,
+              "max": 15,
+              "damage": 115.2,
+              "btk": 1,
+              "ttk": 0
+            },
+            {
+              "min": 16,
+              "max": 30,
+              "damage": 89.6,
+              "btk": 2,
+              "ttk": 638
+            },
+            {
+              "min": 31,
+              "max": 300,
+              "damage": 60.8,
+              "btk": 2,
+              "ttk": 638
+            }
+          ]
+        },
+        "slugs": {
+          "name": "Slugs",
+          "verified": true,
+          "pellets": 1,
+          "headshotMultiplier": 1.34,
+          "ranges": [
+            {
+              "min": 1,
+              "max": 15,
+              "damage": 100,
+              "btk": 1,
+              "ttk": 0
+            },
+            {
+              "min": 16,
+              "max": 36,
+              "damage": 75,
+              "btk": 2,
+              "ttk": 638
+            },
+            {
+              "min": 37,
+              "max": 75,
+              "damage": 50,
+              "btk": 2,
+              "ttk": 638
+            },
+            {
+              "min": 76,
+              "max": 300,
+              "damage": 42.9,
+              "btk": 3,
+              "ttk": 1277
+            }
+          ]
+        },
+        "buckshot_00": {
+          "name": "#00 Buckshot",
+          "verified": false,
+          "reason": "Exact current full #00 Buckshot pellet-count/damage/range curve is not exposed in the current analyzer ammo transform or sufficiently complete independent source. It is legal but excluded from VERIFIED META until validated."
+        }
+      },
+      "rpm": 94
+    },
+    "m1014": {
+      "name": "M1014",
+      "upstreamId": "m1014",
+      "cadence": {
+        "type": "constant",
+        "rpm": 200
+      },
+      "pellets": 16,
+      "ranges": [
+        {
+          "min": 1,
+          "max": 8,
+          "damage": 115.2,
+          "btk": 1,
+          "ttk": 0
+        },
+        {
+          "min": 9,
+          "max": 15,
+          "damage": 80,
+          "btk": 2,
+          "ttk": 300
+        },
+        {
+          "min": 16,
+          "max": 21,
+          "damage": 49.6,
+          "btk": 3,
+          "ttk": 600
+        },
+        {
+          "min": 22,
+          "max": 300,
+          "damage": 36.8,
+          "btk": 3,
+          "ttk": 600
+        }
+      ],
+      "ammoProfiles": {
+        "buckshot": {
+          "name": "#01 Buckshot",
+          "verified": true,
+          "pellets": 16,
+          "ranges": [
+            {
+              "min": 1,
+              "max": 8,
+              "damage": 115.2,
+              "btk": 1,
+              "ttk": 0
+            },
+            {
+              "min": 9,
+              "max": 15,
+              "damage": 80,
+              "btk": 2,
+              "ttk": 300
+            },
+            {
+              "min": 16,
+              "max": 21,
+              "damage": 49.6,
+              "btk": 3,
+              "ttk": 600
+            },
+            {
+              "min": 22,
+              "max": 300,
+              "damage": 36.8,
+              "btk": 3,
+              "ttk": 600
+            }
+          ]
+        },
+        "flechette": {
+          "name": "Flechette",
+          "verified": true,
+          "pellets": 16,
+          "sameDirectDamageAs": "buckshot",
+          "ranges": [
+            {
+              "min": 1,
+              "max": 8,
+              "damage": 115.2,
+              "btk": 1,
+              "ttk": 0
+            },
+            {
+              "min": 9,
+              "max": 15,
+              "damage": 80,
+              "btk": 2,
+              "ttk": 300
+            },
+            {
+              "min": 16,
+              "max": 21,
+              "damage": 49.6,
+              "btk": 3,
+              "ttk": 600
+            },
+            {
+              "min": 22,
+              "max": 300,
+              "damage": 36.8,
+              "btk": 3,
+              "ttk": 600
+            }
+          ]
+        },
+        "slugs": {
+          "name": "Slugs",
+          "verified": true,
+          "pellets": 1,
+          "headshotMultiplier": 1.34,
+          "ranges": [
+            {
+              "min": 1,
+              "max": 9,
+              "damage": 100,
+              "btk": 1,
+              "ttk": 0
+            },
+            {
+              "min": 10,
+              "max": 15,
+              "damage": 75,
+              "btk": 2,
+              "ttk": 300
+            },
+            {
+              "min": 16,
+              "max": 36,
+              "damage": 50,
+              "btk": 2,
+              "ttk": 300
+            },
+            {
+              "min": 37,
+              "max": 75,
+              "damage": 42.9,
+              "btk": 3,
+              "ttk": 600
+            },
+            {
+              "min": 76,
+              "max": 300,
+              "damage": 30,
+              "btk": 4,
+              "ttk": 900
+            }
+          ]
+        },
+        "buckshot_00": {
+          "name": "#00 Buckshot",
+          "verified": false,
+          "reason": "Exact current full #00 Buckshot pellet-count/damage/range curve is not exposed in the current analyzer ammo transform or sufficiently complete independent source. It is legal but excluded from VERIFIED META until validated."
+        }
+      },
+      "optimized": {
+        "mode": "verified-ammo-strict-ttk",
+        "ranges": [
+          {
+            "min": 9,
+            "max": 9,
+            "damage": 100,
+            "btk": 1,
+            "ttk": 0,
+            "attachment": "Slugs",
+            "attachmentId": "slugs"
+          },
+          {
+            "min": 16,
+            "max": 36,
+            "damage": 50,
+            "btk": 2,
+            "ttk": 300,
+            "attachment": "Slugs",
+            "attachmentId": "slugs"
+          }
+        ]
+      },
+      "rpm": 200
+    },
+    "185ksk": {
+      "name": "18.5KS-K",
+      "upstreamId": "ks18k",
+      "cadence": {
+        "type": "constant",
+        "rpm": 300
+      },
+      "pellets": 16,
+      "ranges": [
+        {
+          "min": 1,
+          "max": 15,
+          "damage": 80,
+          "btk": 2,
+          "ttk": 200
+        },
+        {
+          "min": 16,
+          "max": 21,
+          "damage": 44.8,
+          "btk": 3,
+          "ttk": 400
+        },
+        {
+          "min": 22,
+          "max": 300,
+          "damage": 32,
+          "btk": 4,
+          "ttk": 600
+        }
+      ],
+      "ammoProfiles": {
+        "buckshot": {
+          "name": "#01 Buckshot",
+          "verified": true,
+          "pellets": 16,
+          "ranges": [
+            {
+              "min": 1,
+              "max": 15,
+              "damage": 80,
+              "btk": 2,
+              "ttk": 200
+            },
+            {
+              "min": 16,
+              "max": 21,
+              "damage": 44.8,
+              "btk": 3,
+              "ttk": 400
+            },
+            {
+              "min": 22,
+              "max": 300,
+              "damage": 32,
+              "btk": 4,
+              "ttk": 600
+            }
+          ]
+        },
+        "flechette": {
+          "name": "Flechette",
+          "verified": true,
+          "pellets": 16,
+          "sameDirectDamageAs": "buckshot",
+          "ranges": [
+            {
+              "min": 1,
+              "max": 15,
+              "damage": 80,
+              "btk": 2,
+              "ttk": 200
+            },
+            {
+              "min": 16,
+              "max": 21,
+              "damage": 44.8,
+              "btk": 3,
+              "ttk": 400
+            },
+            {
+              "min": 22,
+              "max": 300,
+              "damage": 32,
+              "btk": 4,
+              "ttk": 600
+            }
+          ]
+        },
+        "slugs": {
+          "name": "Slugs",
+          "verified": true,
+          "pellets": 1,
+          "headshotMultiplier": 1.34,
+          "ranges": [
+            {
+              "min": 1,
+              "max": 9,
+              "damage": 75,
+              "btk": 2,
+              "ttk": 200
+            },
+            {
+              "min": 10,
+              "max": 15,
+              "damage": 50,
+              "btk": 2,
+              "ttk": 200
+            },
+            {
+              "min": 16,
+              "max": 36,
+              "damage": 42.9,
+              "btk": 3,
+              "ttk": 400
+            },
+            {
+              "min": 37,
+              "max": 75,
+              "damage": 37.5,
+              "btk": 3,
+              "ttk": 400
+            },
+            {
+              "min": 76,
+              "max": 300,
+              "damage": 27.3,
+              "btk": 4,
+              "ttk": 600
+            }
+          ]
+        },
+        "buckshot_00": {
+          "name": "#00 Buckshot",
+          "verified": false,
+          "reason": "Exact current full #00 Buckshot pellet-count/damage/range curve is not exposed in the current analyzer ammo transform or sufficiently complete independent source. It is legal but excluded from VERIFIED META until validated."
+        }
+      },
+      "optimized": {
+        "mode": "verified-ammo-strict-ttk",
+        "ranges": [
+          {
+            "min": 22,
+            "max": 36,
+            "damage": 42.9,
+            "btk": 3,
+            "ttk": 400,
+            "attachment": "Slugs",
+            "attachmentId": "slugs"
+          },
+          {
+            "min": 37,
+            "max": 75,
+            "damage": 37.5,
+            "btk": 3,
+            "ttk": 400,
+            "attachment": "Slugs",
+            "attachmentId": "slugs"
+          }
+        ]
+      },
+      "rpm": 300
+    },
+    "db12": {
+      "name": "DB-12",
+      "upstreamId": "db12",
+      "cadence": {
+        "type": "paired",
+        "sustainedRpm": 150,
+        "pairRpm": 360,
+        "pairCycleMs": 800
+      },
+      "pellets": 16,
+      "ranges": [
+        {
+          "min": 1,
+          "max": 15,
+          "damage": 89.6,
+          "btk": 2,
+          "ttk": 167
+        },
+        {
+          "min": 16,
+          "max": 21,
+          "damage": 52.8,
+          "btk": 2,
+          "ttk": 167
+        },
+        {
+          "min": 22,
+          "max": 300,
+          "damage": 40,
+          "btk": 3,
+          "ttk": 800
+        }
+      ],
+      "ammoProfiles": {
+        "buckshot": {
+          "name": "#01 Buckshot",
+          "verified": true,
+          "pellets": 16,
+          "ranges": [
+            {
+              "min": 1,
+              "max": 15,
+              "damage": 89.6,
+              "btk": 2,
+              "ttk": 167
+            },
+            {
+              "min": 16,
+              "max": 21,
+              "damage": 52.8,
+              "btk": 2,
+              "ttk": 167
+            },
+            {
+              "min": 22,
+              "max": 300,
+              "damage": 40,
+              "btk": 3,
+              "ttk": 800
+            }
+          ]
+        },
+        "flechette": {
+          "name": "Flechette",
+          "verified": true,
+          "pellets": 16,
+          "sameDirectDamageAs": "buckshot",
+          "ranges": [
+            {
+              "min": 1,
+              "max": 15,
+              "damage": 89.6,
+              "btk": 2,
+              "ttk": 167
+            },
+            {
+              "min": 16,
+              "max": 21,
+              "damage": 52.8,
+              "btk": 2,
+              "ttk": 167
+            },
+            {
+              "min": 22,
+              "max": 300,
+              "damage": 40,
+              "btk": 3,
+              "ttk": 800
+            }
+          ]
+        },
+        "slugs": {
+          "name": "Slugs",
+          "verified": true,
+          "pellets": 1,
+          "headshotMultiplier": 1.34,
+          "ranges": [
+            {
+              "min": 1,
+              "max": 9,
+              "damage": 75,
+              "btk": 2,
+              "ttk": 167
+            },
+            {
+              "min": 10,
+              "max": 15,
+              "damage": 50,
+              "btk": 2,
+              "ttk": 167
+            },
+            {
+              "min": 16,
+              "max": 36,
+              "damage": 42.9,
+              "btk": 3,
+              "ttk": 800
+            },
+            {
+              "min": 37,
+              "max": 75,
+              "damage": 37.5,
+              "btk": 3,
+              "ttk": 800
+            },
+            {
+              "min": 76,
+              "max": 300,
+              "damage": 30,
+              "btk": 4,
+              "ttk": 967
+            }
+          ]
+        },
+        "buckshot_00": {
+          "name": "#00 Buckshot",
+          "verified": false,
+          "reason": "Exact current full #00 Buckshot pellet-count/damage/range curve is not exposed in the current analyzer ammo transform or sufficiently complete independent source. It is legal but excluded from VERIFIED META until validated."
+        }
+      },
+      "rpm": 150
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "class": "Sidearm",
+  "gameVersion": "1.4.2.5",
+  "verifiedAt": "2026-09-01",
+  "pass": true,
+  "weaponCount": 7,
+  "ttkDefinition": "Mechanical chest TTK is measured from the first damaging chest hit to the lethal chest hit against 100 HP and excludes projectile flight time. Semi-auto and full-auto sidearms use (BTK-1)*60000/RPM because none of the seven audited base sidearms uses a burst/pump pair cadence.",
+  "notes": [
+    "All seven current sidearms are audited at every integer meter from 1m through 300m against the current analyzer weapon records.",
+    "The analyzer class label is Sidearm while the Build Lab roster/UI label is Secondary; both labels are intentionally mapped to this audit.",
+    "The previous hard-coded fallback RPMs were stale for all seven weapons and the M357 fallback used the wrong id. The fallback snapshot now mirrors the live analyzer base records.",
+    "VZ.61 uses its complete current stepped damage curve: 17.13 / 15.07 / 13.09 / 12.76 / 11.32.",
+    "Headshot/ammo modifiers are not folded into base chest TTK. Any attachment that changes damage, RPM or fire mode must be separately transformed and re-audited before it can alter verified TTK."
+  ],
+  "knownGoodCrossCheck": {
+    "rpm": {"p18":399.999,"es57":449.999,"m45a1":327.272,"m44":163.636,"ggh22":359.999,"m357trait":224.999,"vz61":818.181},
+    "closeTtkMs": {"p18":450,"es57":533,"m45a1":367,"m44":367,"ggh22":500,"m357trait":267,"vz61":367}
+  },
+  "weapons": {
+    "p18": {"name":"P18","rpm":399.999,"mode":"semi","ranges":[
+      {"min":1,"max":9,"damage":25,"btk":4,"ttk":450},
+      {"min":10,"max":21,"damage":20,"btk":5,"ttk":600},
+      {"min":22,"max":36,"damage":16.7,"btk":6,"ttk":750},
+      {"min":37,"max":75,"damage":14.3,"btk":7,"ttk":900},
+      {"min":76,"max":300,"damage":12.5,"btk":8,"ttk":1050}]},
+    "es57": {"name":"ES 5.7","rpm":449.999,"mode":"semi","ranges":[
+      {"min":1,"max":9,"damage":20,"btk":5,"ttk":533},
+      {"min":10,"max":21,"damage":17.7,"btk":6,"ttk":667},
+      {"min":22,"max":36,"damage":15,"btk":7,"ttk":800},
+      {"min":37,"max":75,"damage":14.3,"btk":7,"ttk":800},
+      {"min":76,"max":300,"damage":12.5,"btk":8,"ttk":933}]},
+    "m45a1": {"name":"M45A1","rpm":327.272,"mode":"semi","ranges":[
+      {"min":1,"max":9,"damage":33.4,"btk":3,"ttk":367},
+      {"min":10,"max":21,"damage":25,"btk":4,"ttk":550},
+      {"min":22,"max":36,"damage":20,"btk":5,"ttk":733},
+      {"min":37,"max":54,"damage":16.7,"btk":6,"ttk":917},
+      {"min":55,"max":75,"damage":14.3,"btk":7,"ttk":1100},
+      {"min":76,"max":300,"damage":12.5,"btk":8,"ttk":1283}]},
+    "m44": {"name":"M44","rpm":163.636,"mode":"semi","ranges":[
+      {"min":1,"max":9,"damage":66.7,"btk":2,"ttk":367},
+      {"min":10,"max":21,"damage":59.9,"btk":2,"ttk":367},
+      {"min":22,"max":75,"damage":33.4,"btk":3,"ttk":733},
+      {"min":76,"max":300,"damage":25,"btk":4,"ttk":1100}]},
+    "ggh22": {"name":"GGH-22","rpm":359.999,"mode":"semi","ranges":[
+      {"min":1,"max":9,"damage":25,"btk":4,"ttk":500},
+      {"min":10,"max":21,"damage":21.5,"btk":5,"ttk":667},
+      {"min":22,"max":36,"damage":17.7,"btk":6,"ttk":833},
+      {"min":37,"max":75,"damage":16.7,"btk":6,"ttk":833},
+      {"min":76,"max":300,"damage":14.3,"btk":7,"ttk":1000}]},
+    "m357trait": {"name":"M357 TRAIT","rpm":224.999,"mode":"semi","ranges":[
+      {"min":1,"max":9,"damage":50,"btk":2,"ttk":267},
+      {"min":10,"max":21,"damage":37.5,"btk":3,"ttk":533},
+      {"min":22,"max":36,"damage":27.3,"btk":4,"ttk":800},
+      {"min":37,"max":75,"damage":25,"btk":4,"ttk":800},
+      {"min":76,"max":300,"damage":20,"btk":5,"ttk":1067}]},
+    "vz61": {"name":"VZ. 61","rpm":818.181,"mode":"auto","ranges":[
+      {"min":1,"max":9,"damage":17.13,"btk":6,"ttk":367},
+      {"min":10,"max":21,"damage":15.07,"btk":7,"ttk":440},
+      {"min":22,"max":36,"damage":13.09,"btk":8,"ttk":513},
+      {"min":37,"max":75,"damage":12.76,"btk":8,"ttk":513},
+      {"min":76,"max":300,"damage":11.32,"btk":9,"ttk":587}]}
+  }
+}

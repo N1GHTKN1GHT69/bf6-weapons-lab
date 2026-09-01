@@ -27,7 +27,10 @@
     smgAudit: null,
     lmgAudit: null,
     dmrAudit: null,
-    source: { weapons: "loading", attachments: "loading", ammo: "loading", combat: "loading", assaultAudit: "loading", carbineAudit: "loading", smgAudit: "loading", lmgAudit: "loading", dmrAudit: "loading" }
+    sniperAudit: null,
+    sidearmAudit: null,
+    shotgunAudit: null,
+    source: { weapons: "loading", attachments: "loading", ammo: "loading", combat: "loading", assaultAudit: "loading", carbineAudit: "loading", smgAudit: "loading", lmgAudit: "loading", dmrAudit: "loading", sniperAudit: "loading", sidearmAudit: "loading", shotgunAudit: "loading" }
   };
 
   const CATALOG_KEYS = {
@@ -70,7 +73,7 @@
     const n = normalizeName(v);
     const aliases = {
       l115a3: "l115", l115: "l115",
-      m60: "m60", tr7: "tr7", "185ksk": "185ksk", "18_5ksk": "185ksk"
+      m60: "m60", tr7: "tr7", "185ksk": "185ksk", "18_5ksk": "185ksk", ks18k: "185ksk"
     };
     return aliases[n] || n;
   }
@@ -288,6 +291,87 @@
     }
   }
 
+  async function loadSniperAudit() {
+    try {
+      const runtime = await fetchJson("./data/sniper-audit-runtime.json", 2500);
+      if (runtime?.pass && runtime?.class === "Sniper Rifle") {
+        const baseline = await fetchJson("./data/sniper-audit.json", 2500);
+        if (baseline?.pass && baseline?.weapons) {
+          state.sniperAudit = { ...baseline, runtime };
+          state.source.sniperAudit = "runtime-pass";
+          return state.sniperAudit;
+        }
+      }
+    } catch (_) {}
+    try {
+      const audit = await fetchJson("./data/sniper-audit.json", 5000);
+      if (audit?.pass && audit?.class === "Sniper Rifle" && audit?.weapons) {
+        state.sniperAudit = audit;
+        state.source.sniperAudit = "baseline-pass";
+        return audit;
+      }
+      state.source.sniperAudit = "invalid";
+      return null;
+    } catch (_) {
+      state.source.sniperAudit = "failed";
+      return null;
+    }
+  }
+
+  async function loadSidearmAudit() {
+    try {
+      const runtime = await fetchJson("./data/sidearm-audit-runtime.json", 2500);
+      if (runtime?.pass && runtime?.class === "Sidearm") {
+        const baseline = await fetchJson("./data/sidearm-audit.json", 2500);
+        if (baseline?.pass && baseline?.weapons) {
+          state.sidearmAudit = { ...baseline, runtime };
+          state.source.sidearmAudit = "runtime-pass";
+          return state.sidearmAudit;
+        }
+      }
+    } catch (_) {}
+    try {
+      const audit = await fetchJson("./data/sidearm-audit.json", 5000);
+      if (audit?.pass && audit?.class === "Sidearm" && audit?.weapons) {
+        state.sidearmAudit = audit;
+        state.source.sidearmAudit = "baseline-pass";
+        return audit;
+      }
+      state.source.sidearmAudit = "invalid";
+      return null;
+    } catch (_) {
+      state.source.sidearmAudit = "failed";
+      return null;
+    }
+  }
+
+  async function loadShotgunAudit() {
+    try {
+      const runtime = await fetchJson("./data/shotgun-audit-runtime.json", 2500);
+      if (runtime?.pass && runtime?.class === "Shotgun") {
+        const baseline = await fetchJson("./data/shotgun-audit.json", 2500);
+        if (baseline?.pass && baseline?.weapons) {
+          state.shotgunAudit = { ...baseline, runtime };
+          state.source.shotgunAudit = "runtime-pass";
+          return state.shotgunAudit;
+        }
+      }
+    } catch (_) {}
+    try {
+      const audit = await fetchJson("./data/shotgun-audit.json", 5000);
+      if (audit?.pass && audit?.class === "Shotgun" && audit?.weapons) {
+        state.shotgunAudit = audit;
+        state.source.shotgunAudit = "baseline-pass";
+        return audit;
+      }
+      state.source.shotgunAudit = "invalid";
+      return null;
+    } catch (_) {
+      state.source.shotgunAudit = "failed";
+      return null;
+    }
+  }
+
   async function loadData() {
     // Deliberately independent. One bad source must never erase the catalog or the other data.
     const [weapons, attachments, ammo] = await Promise.all([
@@ -297,18 +381,20 @@
     state.rawWeapons = Array.isArray(weapons) ? weapons : [];
     state.attachments = attachments && typeof attachments === "object" ? attachments : null;
     state.ammo = ammo && typeof ammo === "object" ? ammo : null;
-    await Promise.all([loadCombatCache(), loadAssaultAudit(), loadCarbineAudit(), loadSmgAudit(), loadLmgAudit(), loadDmrAudit()]);
+    await Promise.all([loadCombatCache(), loadAssaultAudit(), loadCarbineAudit(), loadSmgAudit(), loadLmgAudit(), loadDmrAudit(), loadSniperAudit(), loadSidearmAudit(), loadShotgunAudit()]);
 
     const matched = CURRENT.roster.filter(r => rawForRoster(r)).length;
     if (state.rawWeapons.length) setChip("statsChip", `STATS ${matched}/${CURRENT.roster.length}`, matched >= 60 ? "ok" : "warn");
     else setChip("statsChip", "STATS FEED DOWN", "bad");
-    if (state.assaultAudit?.pass || state.carbineAudit?.pass || state.smgAudit?.pass || state.lmgAudit?.pass || state.dmrAudit?.pass) {
-      const ar = state.assaultAudit?.pass ? CURRENT.roster.filter(w => w.cls === "Assault Rifle").length : 0;
-      const c = state.carbineAudit?.pass ? CURRENT.roster.filter(w => w.cls === "Carbine").length : 0;
-      const smg = state.smgAudit?.pass ? CURRENT.roster.filter(w => w.cls === "SMG").length : 0;
-      const lmg = state.lmgAudit?.pass ? CURRENT.roster.filter(w => w.cls === "LMG").length : 0;
-      const dmr = state.dmrAudit?.pass ? CURRENT.roster.filter(w => w.cls === "DMR").length : 0;
-      setChip("rosterChip", `ROSTER ${CURRENT.roster.length}/${CURRENT.rosterCount} • VERIFIED ${ar + c + smg + lmg + dmr}/56`, "ok");
+    if (state.assaultAudit?.pass || state.carbineAudit?.pass || state.smgAudit?.pass || state.lmgAudit?.pass || state.dmrAudit?.pass || state.sniperAudit?.pass || state.sidearmAudit?.pass || state.shotgunAudit?.pass) {
+      const primaries = CURRENT.roster.filter(w => w.cls !== "Secondary");
+      const fullyVerified = primaries.filter(w => {
+        const audit=auditForClass(w.cls);
+        const def=audit ? auditedDefForRoster(w,rawForRoster(w)) : null;
+        return !!def && audit?.crossClassEligible !== false && def.confidence !== "empirical-current";
+      }).length;
+      const empirical = primaries.filter(w => auditedDefForRoster(w,rawForRoster(w))?.confidence === "empirical-current").length;
+      setChip("rosterChip", `ROSTER ${CURRENT.roster.length}/${CURRENT.rosterCount} • VERIFIED ${fullyVerified}/56${empirical ? ` • EMPIRICAL ${empirical}` : ""}`, "ok");
     }
 
     if (state.combatCache) {
@@ -352,7 +438,7 @@
   }
 
   function budgetFor(rawOrRoster) {
-    return rawOrRoster?.cls === "Secondary" ? 60 : 100;
+    return (rawOrRoster?.cls === "Secondary" || rawOrRoster?.cls === "Sidearm") ? 60 : 100;
   }
 
   function pointCost(opt) {
@@ -443,6 +529,10 @@
       ...(ammoData.velocityTreatments?.[id] || {}),
       id, pts, slot: "ammo"
     }));
+    if (raw.cls === "Shotgun" && state.shotgunAudit?.pass) {
+      const verified = new Set(state.shotgunAudit.verifiedAmmoIds || []);
+      options.ammo = options.ammo.filter(x => verified.has(x.id));
+    }
 
     for (const [slot, list] of Object.entries(options)) {
       options[slot] = list.filter(opt => pointCost(opt) !== null && (!isAssumedOption(opt) || auditedAssumedException(raw, opt)));
@@ -575,30 +665,92 @@
     if (cls === "SMG" && state.smgAudit?.pass) return state.smgAudit;
     if (cls === "LMG" && state.lmgAudit?.pass) return state.lmgAudit;
     if (cls === "DMR" && state.dmrAudit?.pass) return state.dmrAudit;
+    if (cls === "Sniper Rifle" && state.sniperAudit?.pass) return state.sniperAudit;
+    if ((cls === "Secondary" || cls === "Sidearm") && state.sidearmAudit?.pass) return state.sidearmAudit;
+    if (cls === "Shotgun" && state.shotgunAudit?.pass) return state.shotgunAudit;
+    return null;
+  }
+
+  function auditedDefForRoster(roster, raw = null) {
+    const cls = roster?.cls || raw?.cls;
+    const audit = auditForClass(cls);
+    if (!audit?.weapons) return null;
+    const ids = [raw?.id, roster?.id, raw?.name, roster?.name].filter(Boolean).map(aliasKey);
+    for (const [id, def] of Object.entries(audit.weapons)) {
+      if (ids.includes(aliasKey(id)) || ids.includes(aliasKey(def?.name))) return def;
+    }
     return null;
   }
 
   function auditedClassDef(raw) {
-    if (!raw) return null;
-    const audit = auditForClass(raw.cls);
-    return audit?.weapons?.[raw.id] || null;
+    return auditedDefForRoster(rosterForRaw(raw), raw);
   }
 
-  function auditedClassCombat(raw, d = state.distance) {
-    const def = auditedClassDef(raw);
-    if (!def) return null;
+  function auditedCurveDamage(curve, d) {
+    const pts = (curve || []).map(x => ({ r:Number(x.r), d:Number(x.d) }))
+      .filter(x => Number.isFinite(x.r) && Number.isFinite(x.d)).sort((a,b)=>a.r-b.r);
+    if (!pts.length) return null;
+    const meter = Number(d);
+    if (meter <= pts[0].r) return pts[0].d;
+    for (let i=1;i<pts.length;i++) {
+      const a=pts[i-1], b=pts[i];
+      if (meter <= b.r) {
+        if (b.r === a.r) return b.d;
+        const t=(meter-a.r)/(b.r-a.r);
+        return a.d+(b.d-a.d)*Math.max(0,Math.min(1,t));
+      }
+    }
+    return pts.at(-1).d;
+  }
+
+  function auditedRosterCombat(roster, raw = null, d = state.distance) {
+    const audit = auditForClass(roster?.cls || raw?.cls);
+    const def = auditedDefForRoster(roster, raw);
+    if (!audit || !def) return null;
     const meter = Math.max(1, Math.min(300, Math.round(Number(d) || 25)));
+
+    // Snipers use linearly interpolated sweet-spot curves and independently
+    // audited effective shot-to-shot cadence. Do not derive sniper TTK from
+    // the Analyzer's internal raw RPM field.
+    if (Array.isArray(def.curve) && Number.isFinite(Number(def.shotIntervalMs))) {
+      const damage = auditedCurveDamage(def.curve, meter);
+      if (!Number.isFinite(Number(damage)) || Number(damage) <= 0) return null;
+      const btk = Math.ceil((100 - 1e-9) / Number(damage));
+      const ttk = btk <= 1 ? 0 : Math.round((btk - 1) * Number(def.shotIntervalMs));
+      const lowMult = Number(audit.lowBodyMultiplier || .67);
+      const lowDamage = Number(damage) * lowMult;
+      const lowBtk = Math.ceil((100 - 1e-9) / lowDamage);
+      const lowTtk = lowBtk <= 1 ? 0 : Math.round((lowBtk - 1) * Number(def.shotIntervalMs));
+      return {
+        damage:Number(damage), btk, ttk, rpm:Number(def.displayRpm ?? def.rpm),
+        shotIntervalMs:Number(def.shotIntervalMs), lowDamage, lowBtk, lowTtk, lowMult,
+        mag:Number(raw?.mag ?? def.mag)||null, bulletVel:Number(raw?.bulletVel ?? def.bulletVel)||null,
+        adsTime:Number(raw?.adsTime ?? def.adsTime)||null, source:`${(roster?.cls || raw?.cls).toLowerCase().replace(/\s+/g,"-")}-audit`,
+        confidence:def.confidence || "audited"
+      };
+    }
+
     const r = (def.ranges || []).find(x => meter >= x.min && meter <= x.max);
-    if (!r) return null;
+    if (!r || !raw) return null;
     const lowMult = lowBodyMultiplier(raw);
     const lowDamage = Number(r.damage) * lowMult;
     const lowBtk = lowDamage > 0 ? Math.ceil((100 - 1e-9) / lowDamage) : null;
     const lowTtkRaw = lowBtk ? timeToNthShot(raw, lowBtk) : null;
+    const auditedPellets = raw.cls === "Shotgun" ? Number(def.pellets || raw.pellets || 1) : 1;
+    const auditedRpm = Number(def.rpm ?? def.cadence?.rpm ?? def.cadence?.sustainedRpm);
     return {
-      damage:r.damage, btk:r.btk, ttk:r.ttk, rpm:def.rpm,
+      damage:r.damage, pelletDamage:raw.cls === "Shotgun" && auditedPellets > 1 ? Number(r.damage) / auditedPellets : null, pellets:auditedPellets,
+      btk:r.btk, ttk:r.ttk, rpm:Number.isFinite(auditedRpm) ? auditedRpm : def.rpm,
       lowDamage, lowBtk, lowTtk:Number.isFinite(lowTtkRaw) ? Math.round(lowTtkRaw) : null, lowMult,
-      mag:Number(raw.mag)||null, source:`${raw.cls.toLowerCase().replace(/\s+/g,"-")}-audit`
+      mag:Number(raw.mag)||null,
+      bulletVel:Number((raw.cls === "DMR" ? def.equippedVelocity : null) ?? raw.bulletVel ?? def.bulletVel)||null,
+      adsTime:Number((raw.cls === "DMR" ? def.adsTime : null) ?? raw.adsTime ?? def.adsTime)||null,
+      source:`${raw.cls.toLowerCase().replace(/\s+/g,"-")}-audit`
     };
+  }
+
+  function auditedClassCombat(raw, d = state.distance) {
+    return raw ? auditedRosterCombat(rosterForRaw(raw), raw, d) : null;
   }
 
   function auditedClassOptimized(raw, d = state.distance) {
@@ -608,9 +760,35 @@
     const r = (def.optimized.ranges || []).find(x => meter >= x.min && meter <= x.max);
     return r ? {
       damage:r.damage,btk:r.btk,ttk:r.ttk,rpm:r.rpm ?? def.optimized.rpm,
-      attachment:def.optimized.attachment,attachmentId:def.optimized.attachmentId,points:def.optimized.points,mode:def.optimized.mode,
+      attachment:r.attachment ?? def.optimized.attachment,attachmentId:r.attachmentId ?? def.optimized.attachmentId,points:r.points ?? def.optimized.points,mode:def.optimized.mode,
       source:`${raw.cls.toLowerCase().replace(/\s+/g,"-")}-audit-optimized`
     } : null;
+  }
+
+  function dmrFlightTimeMs(def, distanceM, useEquippedVelocity = true) {
+    if (!def) return null;
+    const d = Math.max(0, Number(distanceM) || 0);
+    const velocity = Number(useEquippedVelocity ? (def.equippedVelocity ?? def.baseVelocity) : def.baseVelocity);
+    if (!(velocity > 0)) return null;
+    if (def.ballisticsVerified !== true) return d / velocity * 1000; // no-drag lower bound only
+    const drag = Number(def.dragPerMeter ?? state.dmrAudit?.baseDragPerMeter ?? .0035);
+    if (!(drag >= 0)) return null;
+    return (drag === 0 ? d / velocity : Math.expm1(drag * d) / (drag * velocity)) * 1000;
+  }
+
+  function dmrTriggerKill(roster, raw, combat, distanceM = state.distance, optimized = false) {
+    if ((roster?.cls || raw?.cls) !== "DMR" || !combat) return null;
+    const def = auditedDefForRoster(roster, raw);
+    if (!def) return null;
+    const flightMs = dmrFlightTimeMs(def, distanceM, true);
+    if (!Number.isFinite(flightMs) || !Number.isFinite(Number(combat.ttk))) return null;
+    return {
+      ms: Number(combat.ttk) + flightMs,
+      flightMs,
+      exact: def.ballisticsVerified === true,
+      optimized,
+      velocity: Number(def.equippedVelocity ?? def.baseVelocity) || null
+    };
   }
 
   function cacheWeapon(raw) {
@@ -857,17 +1035,30 @@
 
   function rankWeapons(category = state.category, d = state.distance) {
     const pool = CURRENT.roster
-      .filter(w => w.cls !== "Secondary" && (category === "__all__" ? !!auditForClass(w.cls) : w.cls === category))
+      .filter(w => {
+        if (w.cls === "Secondary") return false;
+        if (category !== "__all__") return w.cls === category;
+        const classAudit = auditForClass(w.cls);
+        if (!classAudit || classAudit.crossClassEligible === false) return false;
+        // AUTO VERIFIED is fail-closed. Empirical-current weapons may rank
+        // inside their own class, but do not enter the cross-class verified meta.
+        return auditedDefForRoster(w, rawForRoster(w))?.confidence !== "empirical-current";
+      })
       .map(roster => {
         const raw = rawForRoster(roster);
-        // For independently audited classes, the class audit is authoritative.
-        // Exhaustive cache data may not override audited base chest TTK.
-        let combat = raw ? (auditedClassOptimized(raw, d) || auditedClassCombat(raw, d)) : null;
+        // Independent class audit is authoritative. This path deliberately
+        // works without raw Analyzer data so a newly audited weapon such as
+        // Interdictor can rank while its attachment model remains pending.
+        let combat = auditedRosterCombat(roster, raw, d);
+        if (raw) combat = auditedClassOptimized(raw, d) || combat;
         if (!combat && raw) combat = cachedCombat(raw, d);
         if (!combat && raw) combat = combatAtDistance(raw, d);
-        return { roster, raw, combat };
+        const def = auditedDefForRoster(roster, raw);
+        const velocity = Number((roster.cls === "DMR" ? def?.equippedVelocity : null) ?? raw?.bulletVel ?? def?.bulletVel) || 0;
+        const ads = Number((roster.cls === "DMR" ? def?.adsTime : null) ?? raw?.adsTime ?? def?.adsTime);
+        return { roster, raw, combat, velocity, ads:Number.isFinite(ads) ? ads : 9999 };
       })
-      .filter(x => x.raw && x.combat && Number.isFinite(x.combat.ttk) && Number.isFinite(x.combat.damage));
+      .filter(x => x.combat && Number.isFinite(x.combat.ttk) && Number.isFinite(x.combat.damage));
 
     // Meta ranking is independent and lethality-first. No outside tier list or
     // popularity value enters here. Fastest ideal chest TTK is the hard primary
@@ -876,8 +1067,8 @@
       a.combat.ttk - b.combat.ttk ||
       a.combat.btk - b.combat.btk ||
       b.combat.damage - a.combat.damage ||
-      (Number(b.raw.bulletVel)||0) - (Number(a.raw.bulletVel)||0) ||
-      (Number(a.raw.adsTime)||9999) - (Number(b.raw.adsTime)||9999)
+      b.velocity - a.velocity ||
+      a.ads - b.ads
     ).map((x,i) => ({...x, rankScore:Math.max(0,100-i)}));
   }
 
@@ -929,9 +1120,12 @@
     $("dashboardWeapon").textContent = roster.name;
     $("weaponDescription").textContent = roster.desc || "Current BF6 weapon catalog entry.";
     const badge = $("weaponDataBadge");
+    const classAudit = auditForClass(roster.cls);
+    const auditDef = auditedDefForRoster(roster, raw);
+    const audited = auditedRosterCombat(roster, raw, state.distance);
 
-    if (!raw) {
-      badge.textContent = roster.id === "interdictor" ? "NEW WEAPON • STATS PENDING" : "STATS DATA PENDING";
+    if (!raw && !audited) {
+      badge.textContent = "STATS DATA PENDING";
       badge.className = "source-badge warn";
       $("combatNumbers").innerHTML = emptyStats("Exact raw stats are not available from the current analyzer feed yet.");
       $("statBars").innerHTML = `<div class="why-item"><strong>Catalog available, stat feed missing</strong><span>The weapon remains selectable; the site does not replace it with sample data.</span></div>`;
@@ -940,51 +1134,72 @@
     }
 
     const ver = sourceVersion(raw);
-    const classAudit = auditForClass(raw.cls);
     if (classAudit?.pass) {
-      const short = raw.cls === "Assault Rifle" ? "AR" : raw.cls.toUpperCase();
-      badge.textContent = `${short} TTK AUDITED ${classAudit.gameVersion}`;
-      badge.className = "source-badge ok";
+      const short = roster.cls === "Assault Rifle" ? "AR" : roster.cls === "Sniper Rifle" ? "SNIPER" : roster.cls.toUpperCase();
+      const empirical = auditDef?.confidence === "empirical-current" ? " • EMPIRICAL CURRENT" : "";
+      badge.textContent = `${short} TTK AUDITED ${classAudit.gameVersion}${empirical}`;
+      badge.className = auditDef?.confidence === "empirical-current" ? "source-badge warn" : "source-badge ok";
     } else {
       badge.textContent = ver ? `RAW SOURCE ${ver}` : "RAW DATA LOADED";
       badge.className = ver && ver !== CURRENT.liveVersion ? "source-badge warn" : "source-badge ok";
     }
 
-    const c = auditedClassCombat(raw, state.distance) || combatAtDistance(raw, state.distance);
-    // Only show an optimized TTK when a verified audited transform explicitly
-    // changes lethality. Generic cache builds are not allowed to replace the
-    // independently audited base-class TTK label.
-    const optimized = auditedClassOptimized(raw, state.distance) || (!classAudit ? cachedCombat(raw, state.distance) : null);
+    const c = audited || (raw ? combatAtDistance(raw, state.distance) : null);
+    if (!c) {
+      $("combatNumbers").innerHTML = emptyStats("The audited combat model is not available for this exact weapon yet.");
+      $("statBars").innerHTML = "";
+      $("rawStats").innerHTML = "";
+      return;
+    }
+    const optimized = raw ? (auditedClassOptimized(raw, state.distance) || (!classAudit ? cachedCombat(raw, state.distance) : null)) : null;
     const damageLabel = c.pellets > 1 ? "MAX SHELL" : "CHEST DMG";
     const damageSub = c.pellets > 1 ? `${c.pelletDamage?.toFixed(1) ?? "—"} × ${c.pellets} pellets @ ${state.distance}m` : `@ ${state.distance}m`;
     const ttkText = c.ttk == null ? "—" : c.btk === 1 ? "1 SHOT" : `${Math.round(c.ttk)} ms`;
-    const ttkSub = c.pellets > 1 ? "ideal full-pellet chest" : "ideal chest • first hit → kill";
+    const ttkSub = roster.cls === "Sniper Rifle" ? "audited bolt cadence • first hit → kill" : (c.pellets > 1 ? "ideal full-pellet chest" : "ideal chest • first hit → kill");
+    const rof = c.rpm == null ? "—" : (Math.abs(Number(c.rpm)-Math.round(Number(c.rpm))) > .05 ? Number(c.rpm).toFixed(1) : Math.round(c.rpm));
     const combat = [
       [damageLabel, c.damage == null ? "—" : Number(c.damage).toFixed(Number(c.damage) % 1 ? 1 : 0), damageSub],
       ["CHEST BTK", c.btk ?? "—", "100 HP • unarmored"],
-      ["BASE CHEST TTK", ttkText, classAudit?.pass ? `${raw.cls} audited • first hit → kill` : ttkSub],
-      ["ROF", c.rpm == null ? "—" : (Math.abs(Number(c.rpm)-Math.round(Number(c.rpm))) > .05 ? Number(c.rpm).toFixed(1) : Math.round(c.rpm)), raw.id === "db12" ? "150 sustained • 360 pair" : "internal RPM"],
-      ["MAG", c.mag ?? "—", "base rounds"]
+      ["MECH CHEST TTK", ttkText, classAudit?.pass ? `${roster.cls} audited • first hit → kill • flight excluded` : ttkSub],
+      ["ROF", rof, roster.cls === "Sniper Rifle" ? "effective follow-up cadence" : (raw?.id === "db12" ? "150 sustained • 360 pair" : "internal RPM")],
+      ["MAG", c.mag ?? raw?.mag ?? auditDef?.mag ?? "—", "base rounds"]
     ];
     if (optimized && Number.isFinite(Number(optimized.ttk)) && Number(optimized.ttk) !== Number(c.ttk)) {
-      combat.splice(3,0,["OPT BUILD TTK", `${Math.round(optimized.ttk)} ms`, optimized.attachment ? `${optimized.attachment}${optimized.rpm ? ` • ${Math.round(optimized.rpm)} RPM` : ""} • verified transform` : "exhaustive winning build"]);
+      combat.splice(3,0,["OPT MECH TTK", optimized.btk === 1 ? "1 SHOT" : `${Math.round(optimized.ttk)} ms`, optimized.attachment ? `${optimized.attachment}${optimized.rpm ? ` • ${Math.round(optimized.rpm)} RPM` : ""} • flight excluded` : "exhaustive winning build • flight excluded"]);
     }
-    $("combatNumbers").innerHTML = combat.map(([k, v, s]) => `<div class="combat-stat"><span>${k}</span><strong>${v}</strong><small>${s}</small></div>`).join("");
+    if (roster.cls === "DMR") {
+      const distanceCombat = optimized || c;
+      const dt = dmrTriggerKill(roster, raw, distanceCombat, state.distance, !!optimized);
+      if (dt) {
+        const value = `${dt.exact ? "" : "≥ "}${Math.round(dt.ms)} ms`;
+        const detail = dt.exact
+          ? `trigger → lethal impact • ${Math.round(dt.flightMs)}ms flight • ${Math.round(dt.velocity)}m/s current barrel`
+          : `NO-DRAG LOWER BOUND • exact VSSM drag pending • ${Math.round(dt.velocity)}m/s`;
+        combat.splice(optimized && Number(optimized.ttk) !== Number(c.ttk) ? 4 : 3, 0, ["TRIGGER→KILL", value, detail]);
+      }
+    }
+    $("combatNumbers").innerHTML = combat.map(([k, v, sub]) => `<div class="combat-stat"><span>${k}</span><strong>${v}</strong><small>${sub}</small></div>`).join("");
 
-    const bars = relativeBars(raw);
-    $("statBars").innerHTML = [
-      ["HIPFIRE", bars.hip], ["PRECISION", bars.precision], ["CONTROL", bars.control], ["MOBILITY", bars.mobility]
-    ].map(([name, val]) => `<div class="statbar"><label>${name}</label><div class="bartrack"><i style="width:${val ?? 0}%"></i></div><output>${val ?? "—"}</output></div>`).join("");
+    if (raw) {
+      const bars = relativeBars(raw);
+      $("statBars").innerHTML = [
+        ["HIPFIRE", bars.hip], ["PRECISION", bars.precision], ["CONTROL", bars.control], ["MOBILITY", bars.mobility]
+      ].map(([name, val]) => `<div class="statbar"><label>${name}</label><div class="bartrack"><i style="width:${val ?? 0}%"></i></div><output>${val ?? "—"}</output></div>`).join("");
+    } else {
+      $("statBars").innerHTML = `<div class="why-item"><strong>Handling bars pending</strong><span>TTK is independently audited, but ${escapeHtml(roster.name)} is not yet in the Analyzer feed. The site will not fabricate recoil/spread bars.</span></div>`;
+    }
 
     const lowTtkText = c.lowTtk == null ? "—" : c.lowBtk === 1 ? "1 SHOT" : `${Math.round(c.lowTtk)} ms`;
+    const velocity = Number((roster.cls === "DMR" ? auditDef?.equippedVelocity : null) ?? c.bulletVel ?? raw?.bulletVel ?? auditDef?.bulletVel);
+    const ads = Number((roster.cls === "DMR" ? auditDef?.adsTime : null) ?? c.adsTime ?? raw?.adsTime ?? auditDef?.adsTime);
     const rawStats = [
-      ["Velocity", raw.bulletVel ? `${Math.round(raw.bulletVel)} m/s` : "—"],
-      ["ADS", raw.adsTime ? `${Math.round(raw.adsTime)} ms` : "—"],
+      ["Velocity", Number.isFinite(velocity) ? `${Math.round(velocity)} m/s` : "—"],
+      ["ADS", Number.isFinite(ads) ? `${Math.round(ads)} ms` : "—"],
       ["Low-body TTK", `${lowTtkText} (${c.lowBtk ?? "—"} BTK)`],
-      ["Tac reload", raw.tacRld ? `${Number(raw.tacRld).toFixed(2)} s` : "—"],
-      ["Vert recoil", Number.isFinite(Number(raw.recoilV)) ? Number(raw.recoilV).toFixed(3) : "—"],
-      ["Recoil var.", Number.isFinite(Number(raw.recoilVar)) ? Number(raw.recoilVar).toFixed(1) : "—"],
-      ["Fire mode", raw.fireMode || "—"]
+      ["Tac reload", raw?.tacRld ? `${Number(raw.tacRld).toFixed(2)} s` : "—"],
+      ["Vert recoil", Number.isFinite(Number(raw?.recoilV)) ? Number(raw.recoilV).toFixed(3) : "—"],
+      ["Recoil var.", Number.isFinite(Number(raw?.recoilVar)) ? Number(raw.recoilVar).toFixed(1) : "—"],
+      ["Fire mode", raw?.fireMode || auditDef?.mode || "—"]
     ];
     $("rawStats").innerHTML = rawStats.map(([k, v]) => `<div class="raw"><span>${k}</span><strong>${v}</strong></div>`).join("");
   }
@@ -1116,7 +1331,7 @@
   }
 
   function chooseSecondary() {
-    const rawSecondaries = state.rawWeapons.filter(w => w.cls === "Secondary");
+    const rawSecondaries = state.rawWeapons.filter(w => w.cls === "Sidearm" || w.cls === "Secondary");
     const pool = (LOADOUT.fallbackSecondaries || []).map(f => {
       const raw = rawSecondaries.find(w => aliasKey(w.id) === aliasKey(f.id)) || rawSecondaries.find(w => aliasKey(w.name) === aliasKey(f.name));
       return raw || f;
@@ -1137,7 +1352,8 @@
   function renderSecondary() {
     const rec = chooseSecondary();
     if (!rec) return renderBuildPending("secondary", "No secondary data available.");
-    const raw = state.rawWeapons.find(w => aliasKey(w.id) === aliasKey(rec.weapon.id)) || null;
+    const raw = state.rawWeapons.find(w => aliasKey(w.id) === aliasKey(rec.weapon.id)) ||
+      state.rawWeapons.find(w => aliasKey(w.name) === aliasKey(rec.weapon.name)) || null;
     $("secondaryTitle").textContent = rec.weapon.name;
     const target = secondaryTargetDistance();
     $("secondaryWhy").textContent = `${rec.role?.why || "Selected to cover the primary weapon's weak range."} Sidearm build is optimized around ~${target}m as a complement to your ${state.distance}m primary setup.`;
@@ -1147,7 +1363,8 @@
       const result = optimize(raw, target);
       $("secondaryPointsUsed").textContent = result.points;
       $("secondaryPointsMeter").style.width = `${Math.min(100, result.points / 60 * 100)}%`;
-      $("secondaryAudit").textContent = `POINT MATH PASS • ${result.points}/60 • SIDEARM BUDGET`;
+      const sidearmGate = state.sidearmAudit?.pass ? ` • TTK AUDITED ${state.sidearmAudit.gameVersion}` : " • TTK AUDIT PENDING";
+      $("secondaryAudit").textContent = `POINT MATH PASS • ${result.points}/60 • SIDEARM BUDGET${sidearmGate}`;
       $("secondaryAudit").className = "audit-line ok";
       $("secondaryAttachmentGrid").innerHTML = result.picks.filter(x => x.id !== "none").map(attachmentCard).join("");
     } catch (err) {
@@ -1165,17 +1382,20 @@
     if (roster.cls === "Carbine" && classAudit?.pass) warnings.push("CARBINE AUDIT PASS: base chest damage/BTK/TTK were independently checked across 1–300m for all 9 Carbines, including BROD 3.");
     if (roster.cls === "SMG" && classAudit?.pass) warnings.push("SMG AUDIT PASS: base chest damage/BTK/TTK were independently checked across 1–300m for all 10 current SMGs. Burst-mode attachments remain excluded from verified TTK until their cadence is independently validated.");
     if (roster.cls === "LMG" && classAudit?.pass) warnings.push("LMG AUDIT PASS: base chest damage/BTK/TTK were independently checked across 1–300m for all 10 current LMGs. M250 no-falloff and the newer M121 A2/RPK-74M breakpoints are explicitly verified.");
-    if (roster.cls === "DMR" && classAudit?.pass) warnings.push("DMR AUDIT PASS: all 6 current DMRs were independently checked across 1–300m. GRT-CPS uses the corrected live 4-BTK / 500ms baseline, and VSSM Folding Stock is explicitly audited as a 40-point 800-RPM full-auto transform.");
+    if (roster.cls === "DMR" && classAudit?.pass) warnings.push("DMR RECHECK PASS: mechanical TTK is independently verified across 1–300m. The site now separates first-hit→kill MECH TTK from distance-sensitive TRIGGER→KILL so projectile travel is not silently omitted.");
+    if (roster.cls === "Sniper Rifle" && classAudit?.pass) warnings.push("SNIPER AUDIT PASS: all 6 current sniper rifles were checked at every meter from 1–300m using linear sweet-spot damage and audited effective bolt cadence. No guessed Recon rechamber multiplier is applied.");
     if (!classAudit) warnings.push(`${roster.cls} TTK audit is still pending. Values remain visible for testing, but this class is not yet allowed into the cross-class verified meta.`);
     const ver = sourceVersion(raw);
     if (ver && ver !== CURRENT.liveVersion) {
       if (classAudit?.pass) warnings.push(`Raw analyzer provenance reports ${ver}, but ${roster.cls} chest damage/BTK/TTK has been independently audited for live ${CURRENT.liveVersion}. Non-lethality mechanics remain source-version sensitive.`);
       else warnings.push(`This weapon's damage provenance reports ${ver}; live BF6 is ${CURRENT.liveVersion}. Use the recommendation as version-sensitive, not guaranteed current meta.`);
     }
-    if (roster.id === "interdictor" && !raw) warnings.push("Interdictor is in the current roster, but this analyzer feed has not published its raw weapon/attachment model yet.");
+    if (roster.id === "interdictor" && state.sniperAudit?.pass) warnings.push("INTERDICTOR: TTK is available from an empirical-current model constrained to current 31 RPM / 732 m/s / 150 max damage and observed 106–164m chest OHK plus 120–150m all-body OHK. Its raw attachment/recoil model is still pending, so no fabricated Pick-100 build is shown.");
+    if (roster.id === "miniscout" && state.sniperAudit?.pass) warnings.push("MINI SCOUT CADENCE: the audit adds EA's official +100ms minimum time between shots to the upstream 51-RPM nominal interval, producing about 47 effective RPM for TTK.");
     if (roster.id === "ef88") warnings.push("1.4.2.5 rule: Match Trigger must not alter EF88 full-auto fire rate; the verified optimizer excludes any source interpretation that does.");
     if (roster.id === "brod3") warnings.push("1.4.2.5 rule: Match Trigger must not alter BROD 3 full-auto fire; the Carbine audit fails closed if a source claims otherwise.");
-    if (roster.id === "grtcps" && state.dmrAudit?.pass) warnings.push("GRT-CPS CORRECTION: the upstream analyzer damage curve is stale. VERIFIED META uses current live 28.6/27.3/25 damage at 360 RPM = 4 BTK / 500ms, not the stale ~333ms result.");
+    if (roster.id === "grtcps" && state.dmrAudit?.pass) warnings.push("GRT-CPS VERIFIED: current upstream and independent checks agree on 4 BTK / 500ms mechanical chest TTK. The old stale-3-BTK warning is retired.");
+    if (roster.id === "vssm" && state.dmrAudit?.pass) warnings.push("VSSM BALLISTICS PENDING: 800-RPM Folding Stock mechanical TTK is verified, but the upstream verified projectile-drag list does not yet include VSSM. TRIGGER→KILL is therefore shown only as a no-drag lower bound (≥), not a fabricated exact value.");
     if (roster.id === "vssm" && state.dmrAudit?.pass) warnings.push("VSSM FOLDING STOCK: 40 points, verified full-auto conversion at 800 RPM. The optimized TTK shown by this site is tied to that exact attachment and the recommended build is required to include it.");
     const card = $("warningCard");
     if (!warnings.length) { card.classList.add("hidden"); card.innerHTML = ""; return; }
@@ -1185,8 +1405,13 @@
 
   function renderRangeNote(roster) {
     const note = roster.officialRange;
+    const empirical = roster.empiricalRange;
     const el = $("officialRangeNote");
-    if (Array.isArray(note) && note.length === 2) {
+    if (Array.isArray(empirical) && empirical.length === 2) {
+      const inRange = state.distance >= empirical[0] && state.distance <= empirical[1];
+      const chest = Array.isArray(roster.chestRange) ? ` Chest one-shot testing currently spans ${roster.chestRange[0]}–${roster.chestRange[1]}m.` : "";
+      el.innerHTML = `<strong>LIVE RANGE NOTE:</strong> ${escapeHtml(roster.name)} currently shows an all-body one-shot window around ${empirical[0]}–${empirical[1]}m.${chest} ${inRange ? "Your selected distance is inside the all-body window." : "Your selected distance is outside the all-body window."}`;
+    } else if (Array.isArray(note) && note.length === 2) {
       const inRange = state.distance >= note[0] && state.distance <= note[1];
       el.innerHTML = `<strong>EA RANGE NOTE:</strong> ${escapeHtml(roster.name)} is described as strongest around ${note[0]}–${note[1]}m. ${inRange ? "Your selected distance is inside that window." : "Your selected distance is outside that window."}`;
     } else {
@@ -1210,7 +1435,7 @@
     }
     const leader=ranked[0];
     const scope = state.category === "__all__" ? "VERIFIED CLASSES ONLY" : state.category.toUpperCase();
-    const top = ranked.slice(0,3).map((x,i)=>`<div class="rank-chip ${i===0?'winner':''}"><span>#${i+1}</span><b>${escapeHtml(x.roster.name)}</b><small>${Math.round(x.combat.ttk)}ms TTK • ${fmtDamage(x.combat.damage)} dmg</small></div>`).join("");
+    const top = ranked.slice(0,3).map((x,i)=>`<div class="rank-chip ${i===0?'winner':''}"><span>#${i+1}</span><b>${escapeHtml(x.roster.name)}</b><small>${x.combat.btk === 1 ? "1 SHOT" : `${Math.round(x.combat.ttk)}ms TTK`} • ${fmtDamage(x.combat.damage)} dmg</small></div>`).join("");
     box.className = "auto-recommendation";
     box.innerHTML = `<div class="auto-main"><span>AUTO BEST • ${escapeHtml(scope)} • ${state.distance}M</span><strong>${escapeHtml(leader.roster.name)}</strong><small>Independent meta: fastest ideal chest TTK is the hard first key, then BTK, damage, low-body TTK and mechanical delivery tie-breaks. Community tier lists/popularity are not inputs. ${state.combatCache ? "Exhaustive cache active." : "Live fallback active."} ${ranked.length}/${state.category === "__all__" ? ranked.length : categoryRoster().length} weapons are currently in this ranking. Cross-class AUTO remains gated to audited classes.</small></div><div class="rank-row">${top}</div>`;
   }
@@ -1248,7 +1473,10 @@
 
   function populateTabs() {
     const tabs = $("weaponTabs");
-    const verifiedCount = CURRENT.roster.filter(w => w.cls !== "Secondary" && !!auditForClass(w.cls)).length;
+    const verifiedCount = CURRENT.roster.filter(w => {
+      if (w.cls === "Secondary" || !auditForClass(w.cls)) return false;
+      return auditedDefForRoster(w, rawForRoster(w))?.confidence !== "empirical-current";
+    }).length;
     const all = `<button data-category="__all__" class="${state.category === "__all__" ? "active" : ""}">AUTO VERIFIED <em>${verifiedCount}</em></button>`;
     const cats = CURRENT.primaryClasses.map(cls => {
       const count=CURRENT.roster.filter(w=>w.cls===cls).length;
@@ -1276,7 +1504,12 @@
     else if (!list.some(w=>w.id===state.weaponId)) state.weaponId=list[0]?.id || null;
 
     $("weaponSelect").innerHTML = `<option value="__auto__">${escapeHtml(autoOptionLabel())}</option>` +
-      list.map(w => `<option value="${escapeHtml(w.id)}">${escapeHtml(w.name)}${rawForRoster(w)?"":" • data pending"}</option>`).join("");
+      list.map(w => {
+        const raw=rawForRoster(w);
+        const audited=auditedDefForRoster(w,raw);
+        const suffix=raw ? "" : audited ? " • build data pending" : " • data pending";
+        return `<option value="${escapeHtml(w.id)}">${escapeHtml(w.name)}${suffix}</option>`;
+      }).join("");
     $("weaponSelect").value = state.selectionMode === "auto" ? "__auto__" : (state.weaponId || "");
   }
 

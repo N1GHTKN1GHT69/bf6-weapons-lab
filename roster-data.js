@@ -69,7 +69,7 @@ window.BF6_CURRENT = {
     {id:"psr",name:"PSR",cls:"Sniper Rifle",unlock:"Deadeye 2",desc:"Powerful 8.6 precision rifle; EA 1.3.3 ideal zone is 90–120 m.",officialRange:[90,120]},
     {id:"miniscout",name:"Mini Scout",cls:"Sniper Rifle",unlock:"Season 1 catch-up",desc:"Light scout rifle allowing fast follow-up shots while maintaining focus."},
     {id:"l115",name:"L115A3",aliases:["L115"],cls:"Sniper Rifle",unlock:"Season 3 catch-up",desc:"Magnum bolt action; EA 1.3.3 ideal zone is 100–133 m.",officialRange:[100,133]},
-    {id:"interdictor",name:"Interdictor",cls:"Sniper Rifle",unlock:"Season 4 Top Gun event",desc:"Longest-range BF6 sniper; EA says lethality peaks at 120–150 m.",officialRange:[120,150],newIn:"1.4.2.0"},
+    {id:"interdictor",name:"Interdictor",cls:"Sniper Rifle",unlock:"Season 4 Top Gun event",desc:"EA describes it as BF6’s longest-range sniper. Current live testing shows a 120–150m all-body one-shot window.",empiricalRange:[120,150],chestRange:[106,164],newIn:"1.4.2.0"},
 
     // Shotguns (4)
     {id:"m87a1",name:"M87A1",cls:"Shotgun",unlock:"Default",desc:"Pump-action 3-inch shotgun with strong stopping power."},

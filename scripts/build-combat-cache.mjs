@@ -18,6 +18,9 @@ const atts = await json(join(upstream, 'data/attachments.json'));
 const ammo = await json(join(upstream, 'data/ammo.json'));
 const balance = await json(join(upstream, 'data/balance_tables.json'));
 const recoilDecay = await json(join(upstream, 'data/recoil_decay.json'));
+const shotgunAudit = await json(join(outDir, 'shotgun-audit.json'));
+const SHOTGUN_ALIAS = { m87a1:'m87a1', m1014:'m1014', ks18k:'185ksk', db12:'db12' };
+function shotgunDef(w){ return w?.cls === 'Shotgun' ? shotgunAudit.weapons?.[SHOTGUN_ALIAS[w.id] ?? w.id] ?? null : null; }
 
 const applyMod = await import(pathToFileURL(join(upstream, 'sim/applyAttachments.js')).href);
 const damageMod = await import(pathToFileURL(join(upstream, 'sim/damage.js')).href);
@@ -166,8 +169,10 @@ function canonicalOptions(w) {
   const ids = slotIdsForWeapon(w);
   if (!ids) return null;
   const result = {};
+  const verifiedShotgunAmmo = w.cls === 'Shotgun' ? new Set(shotgunAudit.verifiedAmmoIds ?? []) : null;
   for (const [slot, list] of Object.entries(ids)) {
-    result[slot] = dedupeDominated(slot, w, [...new Set(list)]);
+    const sourceList = slot === 'ammo' && verifiedShotgunAmmo ? list.filter(id => verifiedShotgunAmmo.has(id)) : list;
+    result[slot] = dedupeDominated(slot, w, [...new Set(sourceList)]);
     if (!result[slot].length) return null;
   }
   return result;
@@ -207,8 +212,27 @@ function toAttSet(picks, w) {
   return a;
 }
 
+function shotgunRangeAt(ranges,d){ return (ranges ?? []).find(r => d >= Number(r.min) && d <= Number(r.max)) ?? null; }
+function shotgunProfileFor(w, ammoId) {
+  const def=shotgunDef(w);
+  const p=def?.ammoProfiles?.[ammoId];
+  return p?.verified ? {def,profile:p} : null;
+}
+function applyVerifiedShotgunLethality(w, ammoId) {
+  const found=shotgunProfileFor(w,ammoId);
+  if(!found) return w;
+  return { ...w, _shotgunAuditDef:found.def, _shotgunAmmoProfile:found.profile, _shotgunAmmoId:ammoId };
+}
 function ttkMs(w, btk) {
-  if (!Number.isFinite(btk) || btk <= 0 || !w?.rpm) return null;
+  if (!Number.isFinite(btk) || btk <= 0) return null;
+  const cad=w?._shotgunAuditDef?.cadence;
+  if(cad?.type==='paired'){
+    if(btk<=1)return 0;
+    const idx=btk-1;
+    return Math.round((Math.floor(idx/2)*Number(cad.pairCycleMs)+(idx%2)*(60000/Number(cad.pairRpm))));
+  }
+  if(cad?.type==='constant' && Number(cad.rpm)>0) return Math.round((btk-1)*60000/Number(cad.rpm));
+  if(!w?.rpm)return null;
   let sec = 0;
   for (let shot=1; shot<btk; shot++) sec += shotIntervalAfter(w, shot);
   return Math.round(sec * 1000);
@@ -216,13 +240,22 @@ function ttkMs(w, btk) {
 function combatProfile(w) {
   const rows = [];
   for (let d=DIST_MIN; d<=DIST_MAX; d++) {
-    const damage = damagePerShotAtRange(w, d);
+    let damage, pellets=Number(w?.pellets)||1, pelletDamage=null;
+    if(w?._shotgunAmmoProfile){
+      const r=shotgunRangeAt(w._shotgunAmmoProfile.ranges,d);
+      damage=r ? Number(r.damage) : null;
+      pellets=Number(w._shotgunAmmoProfile.pellets)||1;
+      pelletDamage=(damage!=null && pellets>1) ? damage/pellets : damage;
+    } else {
+      damage = damagePerShotAtRange(w, d);
+    }
     const chestBtk = damage > 0 ? Math.ceil((100 - 1e-9) / damage) : null;
-    const lowDamage = damage != null ? damage * (w._limbMult ?? 1) : null;
+    const lowMult = w?.cls === 'Shotgun' ? 1 : (w._limbMult ?? 1);
+    const lowDamage = damage != null ? damage * lowMult : null;
     const lowBtk = lowDamage > 0 ? Math.ceil((100 - 1e-9) / lowDamage) : null;
     rows.push({
       d,
-      damage: damage == null ? null : +damage.toFixed(4),
+      damage: damage == null ? null : +damage.toFixed(4), pelletDamage: pelletDamage == null ? null : +pelletDamage.toFixed(4), pellets,
       btk: chestBtk,
       ttk: chestBtk ? ttkMs(w, chestBtk) : null,
       lowBtk,
@@ -330,12 +363,13 @@ for (const w of weapons) {
       const attSet = toAttSet(picks, w);
       const exactPts = computeAttPts(attSet, w, { ...atts, ...ammo });
       if (exactPts !== used || exactPts > budget) throw new Error(`${w.id}: point mismatch ${used} vs ${exactPts}`);
-      const modified = applyAttachments(w, attSet);
+      let modified = applyAttachments(w, attSet);
+      if (w.cls === 'Shotgun') modified = applyVerifiedShotgunLethality(modified, attSet.ammo);
       const buildId = buildIdFor(attSet);
       const lethalityKey = JSON.stringify({
         dmg:modified.dmg, pellets:modified.pellets ?? 1, rpm:modified.rpm, fireMode:modified.fireMode,
         burstRounds:modified.burstRounds, burstBurstsPerMinute:modified.burstBurstsPerMinute,
-        burstRpm:modified.burstRpm, limb:modified._limbMult ?? 1,
+        burstRpm:modified.burstRpm, limb:modified._limbMult ?? 1, shotgunAmmo:modified._shotgunAmmoId ?? null, shotgunCadence:modified._shotgunAuditDef?.cadence ?? null,
       });
       let profile = profileCache.get(lethalityKey);
       if (!profile) { profile = combatProfile(modified); profileCache.set(lethalityKey, profile); }

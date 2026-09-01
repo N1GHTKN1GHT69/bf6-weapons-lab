@@ -15,9 +15,16 @@ on:
       - 'data/lmg-audit.json'
       - 'scripts/audit-dmr.mjs'
       - 'data/dmr-audit.json'
+      - 'scripts/audit-sniper.mjs'
+      - 'data/sniper-audit.json'
+      - 'scripts/audit-sidearm.mjs'
+      - 'data/sidearm-audit.json'
+      - 'scripts/audit-shotgun.mjs'
+      - 'data/shotgun-audit.json'
       - 'scripts/validate-combat-cache.mjs'
       - '.github/workflows/combat-engine.yml'
       - 'roster-data.js'
+      - 'class-data.js'
       - 'app.js'
   schedule:
     - cron: '17 10 * * *'
@@ -53,6 +60,12 @@ jobs:
         run: node scripts/audit-lmg.mjs .upstream/bf6-analyzer data data/lmg-audit.json
       - name: Gate DMR math against audited values
         run: node scripts/audit-dmr.mjs .upstream/bf6-analyzer data data/dmr-audit.json
+      - name: Gate Sniper Rifle math against audited values
+        run: node scripts/audit-sniper.mjs .upstream/bf6-analyzer data data/sniper-audit.json
+      - name: Gate Sidearm math against audited values
+        run: node scripts/audit-sidearm.mjs .upstream/bf6-analyzer data data/sidearm-audit.json
+      - name: Gate Shotgun math against audited values
+        run: node scripts/audit-shotgun.mjs .upstream/bf6-analyzer data data/shotgun-audit.json
       - name: Run exhaustive combat audit
         run: node scripts/build-combat-cache.mjs .upstream/bf6-analyzer data
       - name: Validate generated cache
@@ -61,7 +74,7 @@ jobs:
         run: |
           git config user.name "bf6-combat-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/combat-cache.json data/combat-audit.json data/assault-audit-runtime.json data/carbine-audit-runtime.json data/smg-audit-runtime.json data/lmg-audit-runtime.json data/dmr-audit-runtime.json
+          git add data/combat-cache.json data/combat-audit.json data/assault-audit-runtime.json data/carbine-audit-runtime.json data/smg-audit-runtime.json data/lmg-audit-runtime.json data/dmr-audit-runtime.json data/sniper-audit-runtime.json data/sidearm-audit-runtime.json data/shotgun-audit-runtime.json
           git diff --cached --quiet && exit 0
           git commit -m "data: rebuild independent BF6 combat meta [skip ci]"
           git push
