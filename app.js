@@ -144,6 +144,9 @@
 
   function validateCombatCacheObject(cache) {
     const errors = [];
+    const atomicKinds = ["weapons","attachments","ammo","ballistics"];
+    const nonLocal = atomicKinds.filter(kind => state.source[kind] !== "local");
+    if (nonLocal.length) errors.push(`cache requires atomic local source snapshot; non-local: ${nonLocal.join(", ")}`);
     if (!cache?.audit?.pass) errors.push("audit.pass is false");
     const expected = Number(cache?.audit?.weaponsSource);
     const modeled = Number(cache?.audit?.modeled);

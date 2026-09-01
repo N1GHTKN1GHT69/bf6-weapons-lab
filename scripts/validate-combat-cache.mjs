@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 import { readFile } from 'node:fs/promises';
 const path = process.argv[2] || 'data/combat-cache.json';
+const manifestPath = process.argv[3] || null;
 const c = JSON.parse(await readFile(path,'utf8'));
+const manifest = manifestPath ? JSON.parse(await readFile(manifestPath,'utf8')) : null;
 const errors=[];
 if (typeof c?.source?.gameVersion !== 'string' || !c.source.gameVersion) errors.push('missing source.gameVersion');
+if (manifest && (!c?.source?.commit || !manifest?.commit || c.source.commit !== manifest.commit)) errors.push(`cache/source commit mismatch ${c?.source?.commit || 'missing'}/${manifest?.commit || 'missing'}`);
 if (c?.source?.rankingModel !== 'laserbeam-v2-range-optics') errors.push(`ranking model ${c?.source?.rankingModel || 'missing'}/laserbeam-v2-range-optics`);
 if (c?.source?.manualBuildModel !== 'range-lethality-v2') errors.push(`manual build model ${c?.source?.manualBuildModel || 'missing'}/range-lethality-v2`);
 if (c?.source?.opticModel !== 'tier-range-fit-v1') errors.push(`optic model ${c?.source?.opticModel || 'missing'}/tier-range-fit-v1`);

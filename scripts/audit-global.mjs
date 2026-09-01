@@ -114,6 +114,7 @@ for(const f of fallback){
 
 // Architecture invariants. These protect the exact failure modes found in v1.6.
 if(!app.includes('function validateCombatCacheObject(cache)')) errors.push('app missing strict combat-cache integrity gate');
+if(!app.includes('cache requires atomic local source snapshot')) errors.push('app cache gate does not require the atomic local source snapshot');
 if(!app.includes('modeled !== expected')) errors.push('cache gate does not require complete modeled roster');
 if(!app.includes('rawOrRoster?.cls === "Secondary" || rawOrRoster?.cls === "Sidearm"')) errors.push('60-point Sidearm/Secondary budget invariant missing');
 const rankPos=app.indexOf('let combat = raw ? cachedCombat(raw, d) : null;');

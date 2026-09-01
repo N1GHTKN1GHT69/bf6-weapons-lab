@@ -338,21 +338,24 @@ function combatProfile(w, attSet) {
   return rows;
 }
 
-function beamMetrics(w, distance) {
-  // "Laserbeam" is intentionally derived from the Analyzer's transformed weapon
-  // mechanics, not UI stat bars or community rankings. Lower beamIndex is better.
-  // Recoil amount is deterministic kick. Directional variation converts part of
-  // that kick into unpredictable lateral movement. Effective spread is the
-  // simulator's sustained ADS spread after firing/recovery, and moving ADS is
-  // retained as a smaller penalty because most real fights involve some strafe.
+function beamPrimitives(w) {
+  // These transformed weapon mechanics do not change with target distance. The
+  // older builder recomputed effectiveSpreadMax() for every one of the 300 range
+  // rows of every attachment combination, multiplying the expensive spread
+  // simulation needlessly. Compute them once per transformed build instead.
   const recoil = Math.max(0, Number(selectedRecoilAmountFor(w)) || 0);
   const variationDeg = Math.max(0, Number(selectedRecoilVariationFor(w)) || 0);
   const unpredictable = recoil * Math.sin(Math.min(90, variationDeg) * Math.PI / 180);
   const effSpread = Math.max(0, Number(effectiveSpreadMax(w, 8)) || 0);
   const moving = Math.max(0, Number(w._movingAdsMinSpreadDeg) || 0);
+  return { recoil, variationDeg, unpredictable, effSpread, moving };
+}
+
+function beamMetricsFromPrimitives(base, distance) {
+  // Range changes how much angular instability matters, not the weapon's base
+  // transformed recoil/spread mechanics themselves.
+  const { recoil, variationDeg, unpredictable, effSpread, moving } = base;
   const rangeT = Math.min(1, Math.max(1, Number(distance) || 1) / 120);
-  // Range makes angular instability increasingly important. No fake hit-rate is
-  // claimed here: this is an angular controllability index used for ranking.
   const beamIndex = (recoil * (1.00 + 0.35 * rangeT))
     + (unpredictable * (1.25 + 0.75 * rangeT))
     + (effSpread * (2.00 + 2.50 * rangeT))
@@ -559,6 +562,7 @@ for (const w of weapons) {
       });
       let profile = profileCache.get(lethalityKey);
       if (!profile) { profile = combatProfile(modified,attSet); profileCache.set(lethalityKey, profile); }
+      const beamBase = beamPrimitives(modified);
       for (const row of profile) {
         const opticFit = opticRangeFit(attSet.sight, row.d);
         const candidate = {
@@ -568,7 +572,7 @@ for (const w of weapons) {
           sightId:attSet.sight, sightName:opticLabel(attSet.sight), opticFit,
           opticEligible:opticFit >= minimumOpticFit(modified,row.d),
           practical: practicalScore(modified,row.d,attSet),
-          ...beamMetrics(modified,row.d),
+          ...beamMetricsFromPrimitives(beamBase,row.d),
         };
         if (betterAtDistance(candidate,best[row.d])) best[row.d] = candidate;
         if (betterLethalAtDistance(candidate,bestLethal[row.d])) bestLethal[row.d] = candidate;
@@ -581,7 +585,7 @@ for (const w of weapons) {
           stats:{ rpm:modified.rpm, bulletVel:modified.bulletVel, recoilV:modified.recoilV, recoilVar:modified.recoilVar,
             recoilIncAds:modified.recoilIncAds, adsTimeMs:modified._adsTimeMs ?? modified.adsTime ?? null,
             movingAdsMinSpreadDeg:modified._movingAdsMinSpreadDeg ?? null,
-            beam:beamMetrics(modified,50), mag:modified.mag, tacRld:modified.tacRld,
+            beam:beamMetricsFromPrimitives(beamBase,50), mag:modified.mag, tacRld:modified.tacRld,
             fireMode:modified.fireMode, burstRounds:modified.burstRounds ?? null },
         };
       }

@@ -128,3 +128,19 @@ Shotguns now have a fail-closed mechanical audit for #01 Buckshot, Flechette and
 - Added an always-available metric legend with explicit ↑/↓ directionality.
 - Renamed AUTO's normalized Beam display to `Laser Score` (higher is better) to avoid confusing it with `Beam Index` (lower is better).
 - Added an explicit Laserbeam Control / Recoil panel. When the exhaustive cache is active, it displays winning-build recoil magnitude, recoil variation, unpredictable recoil, sustained ADS spread, moving ADS spread, Beam Index and optic fit. When only fallback data is active, it labels base-weapon values as fallback rather than implying they are transformed winning-build metrics.
+
+## v2.3 Phase A — atomic exhaustive-cache pipeline
+
+Phase A hardens the production path before trusting final META winners:
+
+- `BF6 Combat Engine` is now the single scheduled 6-hour source/cache pipeline.
+- One Analyzer checkout supplies both simulator code and the source JSON committed with the cache.
+- `scripts/preflight-upstream.mjs` fails early on roster, compatibility-map, point-schema or simulator-export drift.
+- `scripts/sync-from-upstream.mjs` writes an atomic source snapshot and `data/source-manifest.json` with the exact upstream commit and SHA-256 hashes.
+- Cache validation can require the cache upstream commit to match the source manifest commit.
+- The browser refuses exhaustive cache activation if core data had to fall back to the remote live feed.
+- Spread/recoil primitives are computed once per transformed build rather than redundantly at every one of 300 distances.
+- Failed workflows upload diagnostic runtime audit/cache artifacts for seven days.
+- The legacy source-sync workflow is manual-only; production source sync is coupled to cache generation.
+
+A checked-in `combat-cache.json` may still say `pending` before the first successful production run. That is fail-closed behavior, not a valid META cache.

@@ -4,54 +4,35 @@ on:
   push:
     branches: [main]
     paths:
-      - 'scripts/build-combat-cache.mjs'
-      - 'scripts/audit-assault.mjs'
-      - 'data/assault-audit.json'
-      - 'scripts/audit-carbine.mjs'
-      - 'data/carbine-audit.json'
-      - 'scripts/audit-smg.mjs'
-      - 'data/smg-audit.json'
-      - 'scripts/audit-lmg.mjs'
-      - 'data/lmg-audit.json'
-      - 'scripts/audit-dmr.mjs'
-      - 'data/dmr-audit.json'
-      - 'scripts/audit-sniper.mjs'
-      - 'data/sniper-audit.json'
-      - 'scripts/audit-sidearm.mjs'
-      - 'data/sidearm-audit.json'
-      - 'scripts/audit-shotgun.mjs'
-      - 'data/shotgun-audit.json'
+      - 'scripts/**'
+      - 'data/*-audit.json'
       - 'data/weapons.json'
       - 'data/attachments.json'
       - 'data/ammo.json'
       - 'data/ballistics.json'
-      - 'data/balance_tables.json'
-      - 'data/recoil_decay.json'
-      - 'scripts/validate-combat-cache.mjs'
-      - 'scripts/audit-ballistic-ttk.mjs'
-      - 'scripts/audit-global.mjs'
-      - 'scripts/audit-laserbeam-meta.mjs'
-      - 'scripts/audit-manual-weapon.mjs'
-      - 'scripts/audit-range-optics.mjs'
-      - '.github/workflows/combat-engine.yml'
+      - 'data/combat-cache.json'
+      - 'data/source-manifest.json'
       - 'roster-data.js'
       - 'class-data.js'
       - 'app.js'
+      - '.github/workflows/combat-engine.yml'
   schedule:
-    - cron: '17 10 * * *'
+    - cron: '23 */6 * * *'
 permissions:
   contents: write
 concurrency:
-  group: bf6-combat-engine
+  group: bf6-data-pipeline
   cancel-in-progress: false
 jobs:
   audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 55
+    timeout-minutes: 110
     steps:
       - name: Checkout Weapons Lab
         uses: actions/checkout@v4
-      - name: Checkout exact simulator source
+        with:
+          fetch-depth: 0
+      - name: Checkout current simulator source
         uses: actions/checkout@v4
         with:
           repository: raymdl/BF6-Weapon-Analyzer
@@ -61,6 +42,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Record upstream revision
+        run: |
+          echo "Upstream commit: $(git -C .upstream/bf6-analyzer rev-parse HEAD)"
+          echo "Lab commit:      $(git rev-parse HEAD)"
+      - name: Upstream compatibility preflight
+        run: node scripts/preflight-upstream.mjs .upstream/bf6-analyzer
+      - name: Syntax preflight
+        run: |
+          set -euo pipefail
+          node --check app.js
+          node --check class-data.js
+          node --check roster-data.js
+          node --check sw.js
+          for f in scripts/*.mjs; do node --check "$f"; done
       - name: Gate Assault Rifle math against audited values
         run: node scripts/audit-assault.mjs .upstream/bf6-analyzer data data/assault-audit.json
       - name: Gate Carbine math against audited values
@@ -87,17 +82,36 @@ jobs:
         run: node scripts/audit-manual-weapon.mjs
       - name: Gate range-aware optic selection
         run: node scripts/audit-range-optics.mjs
+      - name: Snapshot exact upstream data used by this run
+        run: node scripts/sync-from-upstream.mjs .upstream/bf6-analyzer data
       - name: Run exhaustive combat audit
         run: node scripts/build-combat-cache.mjs .upstream/bf6-analyzer data
       - name: Validate generated cache
-        run: node scripts/validate-combat-cache.mjs data/combat-cache.json
+        run: node scripts/validate-combat-cache.mjs data/combat-cache.json data/source-manifest.json
       - name: Gate global integration against generated cache
         run: node scripts/audit-global.mjs data/combat-cache.json
-      - name: Commit changed cache
+      - name: Upload diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bf6-combat-engine-diagnostics
+          if-no-files-found: ignore
+          retention-days: 7
+          path: |
+            data/*-audit-runtime.json
+            data/combat-audit.json
+            data/combat-cache.json
+            data/source-manifest.json
+      - name: Commit atomic source + cache update
         run: |
+          set -euo pipefail
           git config user.name "bf6-combat-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/combat-cache.json data/combat-audit.json data/assault-audit-runtime.json data/carbine-audit-runtime.json data/smg-audit-runtime.json data/lmg-audit-runtime.json data/dmr-audit-runtime.json data/sniper-audit-runtime.json data/sidearm-audit-runtime.json data/shotgun-audit-runtime.json
-          git diff --cached --quiet && exit 0
-          git commit -m "data: rebuild independent BF6 combat meta [skip ci]"
-          git push
+          git add data/weapons.json data/attachments.json data/ammo.json data/ballistics.json data/source-manifest.json \
+            data/combat-cache.json data/combat-audit.json data/*-audit-runtime.json
+          if git diff --cached --quiet; then
+            echo "No source/cache changes to commit."
+            exit 0
+          fi
+          git commit -m "data: atomic BF6 source + combat cache rebuild [skip ci]"
+          git push origin HEAD:main
