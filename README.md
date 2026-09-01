@@ -1,6 +1,6 @@
-# BF6 Weapons Lab v0.4
+# BF6 Weapons Lab v0.5
 
-v0.4 is the first structural rebuild after live testing the deployed prototype.
+v0.5 is the first structural rebuild after live testing the deployed prototype.
 
 ## What changed
 
@@ -35,8 +35,19 @@ v0.4 is the first structural rebuild after live testing the deployed prototype.
 
 Replace the repository files with the contents of this folder and commit to `main`. Cloudflare Pages should redeploy automatically.
 
-Because the service worker cache name changed, v0.4 should replace the old cached app after refresh/reopen.
+Because the service worker cache name changed, v0.5 should replace the old cached app after refresh/reopen.
 
-## Point-budget correction found during v0.4
+## Point-budget correction found during v0.5
 
-The data audit now allows legitimate **0-point ammunition choices on specific sidearms** (for example, the source currently lists Standard ammo at 0 points on M44 and M357 TRAIT). The old v0.3 audit incorrectly assumed every ammo selection had to consume points; that could cause the whole data feed to fail and trigger the four-gun sample fallback. v0.4 removes that failure mode and re-adds every recommended build from its exact source costs before displaying it.
+The data audit now allows legitimate **0-point ammunition choices on specific sidearms** (for example, the source currently lists Standard ammo at 0 points on M44 and M357 TRAIT). The old v0.3 audit incorrectly assumed every ammo selection had to consume points; that could cause the whole data feed to fail and trigger the four-gun sample fallback. v0.5 removes that failure mode and re-adds every recommended build from its exact source costs before displaying it.
+
+
+## v0.5 auto-weapon behavior
+
+- `AUTO BEST` compares every rankable primary at the exact selected distance.
+- Selecting a weapon category enters **auto-in-class** mode. Moving the distance slider can automatically switch to a different weapon in that class.
+- Choosing a named weapon from the dropdown enters **manual weapon lock** mode; distance changes keep the gun but re-optimize attachments.
+- Choosing the first `AUTO` option in the dropdown resumes automatic switching.
+- Ranking is deliberately lethality-first: 70% ideal body TTK, 20% body damage, 5% BTK, 3% velocity and 2% ADS.
+- All 63 catalog weapons remain present even if a source lacks stats; unrankable entries remain manually selectable and are marked data-pending.
+- Linear sniper sweet-spot damage curves are interpolated instead of incorrectly treated as stepped curves.

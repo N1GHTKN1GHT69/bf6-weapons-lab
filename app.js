@@ -12,8 +12,9 @@
   const $ = id => document.getElementById(id);
 
   const state = {
-    category: CURRENT.primaryClasses?.[0] || "Assault Rifle",
+    category: "__all__",
     weaponId: null,
+    selectionMode: "auto",
     distance: 25,
     classChoice: "auto",
     context: "mixed",
@@ -336,6 +337,15 @@
   function scoreOption(opt, raw, d) {
     const w = blendedWeights(d);
     let s = 0;
+
+    // Direct lethality wins first whenever the source exposes it. These keys are
+    // intentionally defensive because community datasets use different names.
+    const damageMult = Number(opt.damageMult ?? opt.dmgMult ?? opt.damageMultiplier ?? opt.dmgMultiplier);
+    const rpmMult = Number(opt.rpmMult ?? opt.rateOfFireMult ?? opt.rofMult);
+    const damageAdd = Number(opt.damageAdd ?? opt.dmgAdd);
+    if (Number.isFinite(damageMult) && damageMult !== 1) s += (damageMult - 1) * 1200;
+    if (Number.isFinite(rpmMult) && rpmMult !== 1) s += (rpmMult - 1) * 1000;
+    if (Number.isFinite(damageAdd) && damageAdd !== 0) s += damageAdd * 16;
     s += (Number(opt.adsTimeTierMod) || 0) * w.ads;
     s += (-(Number(opt.adsTimeTierShift) || 0)) * w.ads;
     s += (Number(opt.movingAdsSpreadTierMod) || 0) * (preference("movingAds") ? w.move * 1.6 : w.move * .55);
@@ -435,10 +445,31 @@
 
   function damageAtDistance(raw, d) {
     if (!Array.isArray(raw?.dmg) || !raw.dmg.length) return null;
-    const sorted = raw.dmg.map((x, i) => ({ ...x, i })).sort((a, b) => Number(a.r) - Number(b.r) || a.i - b.i);
-    let val = Number(sorted[0].d);
-    for (const p of sorted) if (Number(p.r) <= d && Number.isFinite(Number(p.d))) val = Number(p.d);
-    return Number.isFinite(val) ? val : null;
+    const pts = raw.dmg
+      .map((x, i) => ({ r:Number(x.r), d:Number(x.d), i }))
+      .filter(x => Number.isFinite(x.r) && Number.isFinite(x.d))
+      .sort((a,b) => a.r - b.r || a.i - b.i);
+    if (!pts.length) return null;
+
+    // Most automatic-weapon curves are stepped and encode a discontinuity by
+    // repeating the same range twice. Sniper sweet-spots are explicitly linear.
+    const linear = /linear/i.test(String(raw?.damageSource || ""));
+    if (!linear) {
+      let val = pts[0].d;
+      for (const p of pts) if (p.r <= d) val = p.d;
+      return val;
+    }
+
+    if (d <= pts[0].r) return pts[0].d;
+    for (let i=1;i<pts.length;i++) {
+      const a=pts[i-1], b=pts[i];
+      if (d <= b.r) {
+        if (b.r === a.r) return b.d;
+        const t=(d-a.r)/(b.r-a.r);
+        return a.d + (b.d-a.d)*Math.max(0,Math.min(1,t));
+      }
+    }
+    return pts[pts.length-1].d;
   }
 
   function combatAtDistance(raw, d) {
@@ -447,6 +478,65 @@
     const btk = damage && damage > 0 ? Math.ceil(100 / damage) : null;
     const ttk = btk && rpm > 0 ? (btk - 1) * 60000 / rpm : null;
     return { damage, btk, ttk, rpm: Number.isFinite(rpm) ? rpm : null, mag: Number(raw?.mag) || null };
+  }
+
+  function norm(value, min, max, invert=false) {
+    if (!Number.isFinite(value)) return 0;
+    if (!Number.isFinite(min) || !Number.isFinite(max) || max === min) return .5;
+    const n = Math.max(0, Math.min(1, (value-min)/(max-min)));
+    return invert ? 1-n : n;
+  }
+
+  function candidatePool(category = state.category) {
+    const roster = CURRENT.roster.filter(w => w.cls !== "Secondary" && (category === "__all__" || w.cls === category));
+    return roster.map(r => {
+      const raw = rawForRoster(r);
+      const c = raw ? combatAtDistance(raw, state.distance) : null;
+      return { roster:r, raw, combat:c };
+    });
+  }
+
+  function rankWeapons(category = state.category, d = state.distance) {
+    const pool = CURRENT.roster
+      .filter(w => w.cls !== "Secondary" && (category === "__all__" || w.cls === category))
+      .map(roster => {
+        const raw = rawForRoster(roster);
+        const combat = raw ? combatAtDistance(raw, d) : null;
+        return { roster, raw, combat };
+      })
+      .filter(x => x.raw && x.combat && Number.isFinite(x.combat.ttk) && Number.isFinite(x.combat.damage));
+
+    if (!pool.length) return [];
+    const ttks=pool.map(x=>x.combat.ttk), damages=pool.map(x=>x.combat.damage), btks=pool.map(x=>x.combat.btk).filter(Number.isFinite);
+    const velocities=pool.map(x=>Number(x.raw.bulletVel)).filter(Number.isFinite);
+    const adsVals=pool.map(x=>Number(x.raw.adsTime)).filter(Number.isFinite);
+    const minT=Math.min(...ttks), maxT=Math.max(...ttks), minD=Math.min(...damages), maxD=Math.max(...damages);
+    const minB=Math.min(...btks), maxB=Math.max(...btks);
+    const minV=velocities.length?Math.min(...velocities):0, maxV=velocities.length?Math.max(...velocities):1;
+    const minA=adsVals.length?Math.min(...adsVals):0, maxA=adsVals.length?Math.max(...adsVals):1;
+
+    for (const x of pool) {
+      const ttkScore=norm(x.combat.ttk,minT,maxT,true);
+      const damageScore=norm(x.combat.damage,minD,maxD,false);
+      const btkScore=norm(x.combat.btk,minB,maxB,true);
+      const velocityScore=norm(Number(x.raw.bulletVel),minV,maxV,false);
+      const adsScore=norm(Number(x.raw.adsTime),minA,maxA,true);
+      // Lethality is deliberately dominant: TTK 70%, damage 20%, BTK 5%.
+      // Delivery/handling is only a 5% tie-breaker so a smooth gun cannot outrank
+      // a materially faster-killing gun merely because it is easier to handle.
+      x.rankScore = 100*(.70*ttkScore + .20*damageScore + .05*btkScore + .03*velocityScore + .02*adsScore);
+    }
+    return pool.sort((a,b) => b.rankScore-a.rankScore || a.combat.ttk-b.combat.ttk || b.combat.damage-a.combat.damage);
+  }
+
+  function resolveAutoWeapon() {
+    if (state.selectionMode !== "auto") return;
+    const ranked = rankWeapons(state.category, state.distance);
+    if (ranked.length) state.weaponId = ranked[0].roster.id;
+    else {
+      const fallback = CURRENT.roster.find(w => w.cls !== "Secondary" && (state.category === "__all__" || w.cls === state.category));
+      state.weaponId = fallback?.id || null;
+    }
   }
 
   function metricInputs(raw) {
@@ -578,6 +668,9 @@
   function renderWhy(raw, result) {
     const top = [...result.picks].filter(x => x.id !== "none").sort((a, b) => b.score - a.score).slice(0, 5);
     const items = [{
+      title: "Lethality first",
+      text: "The weapon recommendation prioritizes fastest ideal body TTK and damage. Attachments use any verified direct damage/ROF effect first; otherwise they focus on landing that damage reliably at the selected distance."
+    }, {
       title: `${state.distance}m target distance`,
       text: distanceExplanation(state.distance)
     }, ...top.filter(x => x.score > 0).map(x => ({ title: x.name || prettifyId(x.id), text: attachmentNote(x) }))];
@@ -715,6 +808,33 @@
     }
   }
 
+  function renderAutoRecommendation() {
+    const box = $("autoRecommendation");
+    if (!box) return;
+    const ranked = rankWeapons(state.category, state.distance);
+    if (state.selectionMode !== "auto") {
+      box.className = "auto-recommendation manual";
+      box.innerHTML = `<div><span>MANUAL WEAPON LOCK</span><strong>${escapeHtml(rosterWeapon()?.name || "—")}</strong><small>Distance changes will keep this weapon and only re-optimize its attachments. Choose AUTO in the weapon menu to resume automatic weapon switching.</small></div>`;
+      return;
+    }
+    if (!ranked.length) {
+      box.className = "auto-recommendation warn";
+      box.innerHTML = `<div><span>AUTO RANKING WAITING</span><strong>Weapon stats are not available yet</strong><small>The complete catalog remains selectable manually.</small></div>`;
+      return;
+    }
+    const leader=ranked[0];
+    const scope = state.category === "__all__" ? "ALL PRIMARY WEAPONS" : state.category.toUpperCase();
+    const top = ranked.slice(0,3).map((x,i)=>`<div class="rank-chip ${i===0?'winner':''}"><span>#${i+1}</span><b>${escapeHtml(x.roster.name)}</b><small>${Math.round(x.combat.ttk)}ms TTK • ${fmtDamage(x.combat.damage)} dmg</small></div>`).join("");
+    box.className = "auto-recommendation";
+    box.innerHTML = `<div class="auto-main"><span>AUTO BEST • ${escapeHtml(scope)} • ${state.distance}M</span><strong>${escapeHtml(leader.roster.name)}</strong><small>Lethality-first ranking: TTK 70% • damage 20% • BTK 5% • delivery 5%. ${ranked.length}/${categoryRoster().length} weapons currently have enough stat data to rank. Moving the distance can change the winner.</small></div><div class="rank-row">${top}</div>`;
+  }
+
+  function fmtDamage(v) {
+    if (!Number.isFinite(Number(v))) return "—";
+    const n=Number(v);
+    return n.toFixed(n%1?1:0);
+  }
+
   function renderHeader(roster) {
     $("weaponClassLabel").textContent = roster.cls;
     $("weaponHeaderName").textContent = roster.name;
@@ -728,6 +848,7 @@
     if (!roster) return;
     const raw = rawForRoster(roster);
     renderHeader(roster);
+    renderAutoRecommendation();
     renderWeaponIntel(roster, raw);
     renderPrimaryBuild(roster, raw);
     renderCompleteLoadout(roster);
@@ -736,12 +857,17 @@
   }
 
   function categoryRoster() {
-    return CURRENT.roster.filter(w => w.cls === state.category);
+    return CURRENT.roster.filter(w => w.cls !== "Secondary" && (state.category === "__all__" || w.cls === state.category));
   }
 
   function populateTabs() {
     const tabs = $("weaponTabs");
-    tabs.innerHTML = CURRENT.primaryClasses.map(cls => `<button data-category="${escapeHtml(cls)}" class="${cls === state.category ? "active" : ""}">${escapeHtml(tabLabel(cls))}</button>`).join("");
+    const all = `<button data-category="__all__" class="${state.category === "__all__" ? "active" : ""}">AUTO BEST <em>56</em></button>`;
+    const cats = CURRENT.primaryClasses.map(cls => {
+      const count=CURRENT.roster.filter(w=>w.cls===cls).length;
+      return `<button data-category="${escapeHtml(cls)}" class="${cls === state.category ? "active" : ""}">${escapeHtml(tabLabel(cls))} <em>${count}</em></button>`;
+    }).join("");
+    tabs.innerHTML = all + cats;
   }
 
   function tabLabel(cls) {
@@ -749,12 +875,22 @@
     return map[cls] || cls;
   }
 
+  function autoOptionLabel() {
+    const scope = state.category === "__all__" ? "ANY WEAPON" : tabLabel(state.category).toUpperCase();
+    const winner = rankWeapons(state.category, state.distance)[0]?.roster?.name;
+    return winner ? `AUTO — BEST ${scope} @ ${state.distance}m → ${winner}` : `AUTO — BEST ${scope} @ ${state.distance}m`;
+  }
+
   function populateWeaponSelect(keepId = null) {
     const list = categoryRoster();
-    $("weaponSelect").innerHTML = list.map(w => `<option value="${escapeHtml(w.id)}">${escapeHtml(w.name)}</option>`).join("");
-    const valid = keepId && list.some(w => w.id === keepId);
-    state.weaponId = valid ? keepId : list[0]?.id || null;
-    $("weaponSelect").value = state.weaponId || "";
+    if (state.selectionMode === "manual" && keepId && !list.some(w=>w.id===keepId)) state.selectionMode="auto";
+    if (state.selectionMode === "auto") resolveAutoWeapon();
+    else if (keepId && list.some(w=>w.id===keepId)) state.weaponId=keepId;
+    else if (!list.some(w=>w.id===state.weaponId)) state.weaponId=list[0]?.id || null;
+
+    $("weaponSelect").innerHTML = `<option value="__auto__">${escapeHtml(autoOptionLabel())}</option>` +
+      list.map(w => `<option value="${escapeHtml(w.id)}">${escapeHtml(w.name)}${rawForRoster(w)?"":" • data pending"}</option>`).join("");
+    $("weaponSelect").value = state.selectionMode === "auto" ? "__auto__" : (state.weaponId || "");
   }
 
   function setDistance(d) {
@@ -762,6 +898,8 @@
     $("distanceSlider").value = state.distance;
     $("distanceValue").textContent = state.distance;
     document.querySelectorAll("#distancePresets button").forEach(b => b.classList.toggle("active", Number(b.dataset.distance) === state.distance));
+    if (state.selectionMode === "auto") resolveAutoWeapon();
+    populateWeaponSelect(state.weaponId);
     renderAll();
   }
 
@@ -770,11 +908,23 @@
       const btn = e.target.closest("button[data-category]");
       if (!btn) return;
       state.category = btn.dataset.category;
+      state.selectionMode = "auto";
+      resolveAutoWeapon();
       populateTabs();
       populateWeaponSelect();
       renderAll();
     });
-    $("weaponSelect").addEventListener("change", e => { state.weaponId = e.target.value; renderAll(); });
+    $("weaponSelect").addEventListener("change", e => {
+      if (e.target.value === "__auto__") {
+        state.selectionMode="auto";
+        resolveAutoWeapon();
+      } else {
+        state.selectionMode="manual";
+        state.weaponId=e.target.value;
+      }
+      populateWeaponSelect(state.weaponId);
+      renderAll();
+    });
     $("distanceSlider").addEventListener("input", e => setDistance(e.target.value));
     $("distancePresets").addEventListener("click", e => {
       const btn = e.target.closest("button[data-distance]");
@@ -794,12 +944,16 @@
   }
 
   async function init() {
-    state.category = "Assault Rifle";
+    state.category = "__all__";
+    state.selectionMode = "auto";
     populateTabs();
-    populateWeaponSelect("b36a4");
+    resolveAutoWeapon();
+    populateWeaponSelect();
     bind();
     renderAll(); // catalog shell appears instantly
     await loadData();
+    resolveAutoWeapon();
+    populateWeaponSelect();
     renderAll();
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(() => {});
   }

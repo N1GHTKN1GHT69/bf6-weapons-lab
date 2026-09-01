@@ -28,11 +28,11 @@
       <section class="hero">
         <div class="kicker">BATTLEFIELD 6 • MULTIPLAYER</div>
         <h1>Pick the gun. Set the distance. Get the loadout.</h1>
-        <p>Built around BF6's weapon language, but simplified: exact engagement distance, visible stat tradeoffs, valid attachment budgets, class synergy, secondary, gadgets and throwable.</p>
+        <p>Built around BF6's weapon language, but simplified: choose a category or let AUTO BEST pick any primary, set the exact distance, then get the fastest-killing weapon and a valid full loadout.</p>
       </section>
 
       <section class="builder card">
-        <div class="step-title"><span>01</span><div><b>PRIMARY WEAPON</b><small>Choose a category, then a weapon</small></div></div>
+        <div class="step-title"><span>01</span><div><b>PRIMARY WEAPON</b><small>Choose AUTO BEST or a category. Categories default to the fastest-killing weapon at your selected distance.</small></div></div>
         <nav class="weapon-tabs" id="weaponTabs" aria-label="Weapon categories"></nav>
         <div class="weapon-row">
           <div class="field grow">
@@ -45,6 +45,7 @@
             <small id="weaponUnlock">—</small>
           </div>
         </div>
+        <div id="autoRecommendation" class="auto-recommendation"></div>
 
         <div class="divider"></div>
         <div class="step-title"><span>02</span><div><b>TARGET DISTANCE</b><small>The optimizer uses the exact distance, not a fake short/medium/long bucket</small></div></div>
@@ -166,11 +167,11 @@
         <h2>Show uncertainty instead of hiding it.</h2>
         <div class="method-grid">
           <div><span>LIVE GAME</span><strong>1.4.2.0</strong><small>1.4.2.5 is scheduled for Sep 1</small></div>
-          <div><span>CATALOG</span><strong>63 weapons</strong><small>Always visible even if stat feeds fail</small></div>
+          <div><span>CATALOG</span><strong>63 / 63 weapons</strong><small>56 primaries + 7 secondaries; always visible</small></div>
           <div><span>PRIMARY BUDGET</span><strong>100 points</strong><small>Hard cap</small></div>
           <div><span>SECONDARY BUDGET</span><strong>60 points</strong><small>Different from primaries</small></div>
         </div>
-        <p class="method-note">The optimizer only produces an attachment build when it has weapon-specific compatibility, magazine and ammunition tables. Missing data now results in “data pending,” not a fabricated loadout.</p>
+        <p class="method-note">AUTO weapon ranking is lethality-first: ideal body TTK is weighted most heavily, then damage and bullets-to-kill; velocity/ADS are tie-breakers. Attachment builds use direct damage/ROF effects first when the source exposes them, then optimize hit delivery at the selected distance. Missing data results in “data pending,” never a fabricated loadout.</p>
       </section>
     </main>
 
