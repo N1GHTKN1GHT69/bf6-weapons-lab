@@ -1,120 +1,42 @@
-# BF6 Build Lab v0.2
+# BF6 Weapons Lab v0.4
 
-A mobile-first PWA prototype that recommends a complete Battlefield 6 loadout: primary Pick-100 attachments, best-fit class, training path, signature synergy, two gadgets, throwable, complementary secondary weapon, and secondary attachments for short, medium or long range.
+v0.4 is the first structural rebuild after live testing the deployed prototype.
 
+## What changed
 
-## Pick-100 point accuracy
+- Current 63-weapon multiplayer catalog is always present, independent of stat-feed health.
+- Exact 5–300 m target-distance control replaces the old short/medium/long buckets.
+- Quick distance presets are shortcuts only; the exact selected meter value drives scoring.
+- BF6-style visual weapon dashboard with damage/BTK/TTK/ROF/MAG and colored characteristic bars.
+- Character bars are explicitly **relative within the weapon class**; they are not fake copies of BF6's hidden UI formula.
+- Live weapon, attachment and ammo feeds fail independently. A bad attachment record no longer erases the weapon catalog.
+- Builds fail closed: no weapon-specific compatibility + magazine + ammo tables means **DATA PENDING**, not a guessed loadout.
+- Removed inferred Range Finder compatibility. The optimizer only uses Range Finder when the weapon compatibility table actually lists it.
+- Primary attachment budget: **100**.
+- Secondary attachment budget: **60**.
+- Complete loadout presentation is compact and closer to the Battlefield loadout mental model.
+- Service worker cache bumped to `v04` and uses network-first app assets so updates appear reliably.
 
-The weapon attachment budget is **100 points maximum**. A valid build may use less than 100 if spending the remainder would make the build worse, but it may never exceed 100.
+## Current data architecture
 
-This project now treats point accuracy as a hard validation rule:
+1. `roster-data.js` — current catalog shell and official range notes that should remain visible even if external data fails.
+2. BF6 Weapon Analyzer raw JSON — weapon simulation values and weapon-specific attachment compatibility when reachable.
+3. `class-data.js` — class / training / gadget / throwable utility layer.
+4. Optimizer — exact-distance weighted Pick-100 (or Pick-60 sidearm) search.
 
-- Point costs are never inferred from attachment names.
-- Weapon-specific magazine costs come from `WEAPON_MAG` for that exact weapon.
-- Weapon-specific ammo costs come from `WEAPON_AMMO` for that exact weapon.
-- Optic, barrel, magazine and ammo are mandatory paid categories; the optimizer does not inject a fake 0-point barrel.
-- Missing/unknown point costs make a build invalid instead of silently counting as 0.
-- Every recommended primary and secondary build is re-summed after optimization and rejected if it is over 100.
-- Synced source data must pass `scripts/point-audit.mjs` before it is written to `/data`.
-- The UI shows **POINTS VERIFIED** only for live data that passed the audit. Offline fallback data is clearly marked as non-production sample data.
+## Important truth-in-data rules
 
-Run a local audit after syncing:
+- `POINT MATH PASS` means the selected source costs add up and are within the weapon budget. It does **not** mean every third-party cost has been independently confirmed in the current in-game UI.
+- Source freshness is shown separately.
+- The Interdictor is in the catalog because it is live in 1.4.2.0; if the stat feed does not yet contain it, its build stays unavailable.
+- BF6 Character bars are relative class indexes derived from measurable recoil/spread/handling inputs. The exact raw values remain visible underneath.
 
-```bash
-node scripts/sync-sources.mjs
-node scripts/validate-points.mjs
-```
+## Deploy
 
-The current fixed-cost cross-check includes known optics, muzzles, barrels, lights/rangefinder and ergonomics. Magazine and variable-ammo pricing remain weapon-specific by design.
+Replace the repository files with the contents of this folder and commit to `main`. Cloudflare Pages should redeploy automatically.
 
-## What is different about this optimizer
+Because the service worker cache name changed, v0.4 should replace the old cached app after refresh/reopen.
 
-It does not treat every attachment as a simple stat modifier. It has a separate behavior layer for mechanics such as:
+## Point-budget correction found during v0.4
 
-- Range Finder target-distance display
-- Magwell Flare / staying ADS during reload flow
-- DLC Bolt / maintaining sight picture on supported sniper rifles
-- Aftermarket Buffer visual recoil
-- Bipod positional utility
-- Suppressor / signature utility
-- Magazine capacity vs handling/reload tradeoffs
-
-## Data
-
-At runtime the app tries, in order:
-
-1. Same-origin files in `/data/` (recommended production path)
-2. Current raw JSON from `raymdl/BF6-Weapon-Analyzer` on GitHub
-3. A tiny bundled fallback sample so the UI still runs
-
-The source project currently exposes:
-- `data/weapons.json`
-- `data/attachments.json`
-- `data/ammo.json`
-
-Important: data provenance/version matters. The UI surfaces the version string found in weapon damage provenance when available.
-
-## Run locally
-
-Do not double-click `index.html`; use an HTTP server.
-
-Python:
-
-```bash
-python -m http.server 8080
-```
-
-Then open `http://localhost:8080`.
-
-## Production deployment
-
-This is static and works well on:
-- Cloudflare Pages
-- GitHub Pages
-- Netlify
-- Vercel static hosting
-
-## Syncing source JSON into the site
-
-Run:
-
-```bash
-node scripts/sync-sources.mjs
-```
-
-That downloads current weapon, attachment and ammo JSON into `/data/`, which makes the PWA same-origin and cacheable.
-
-The included GitHub Action runs the sync every 6 hours and on manual dispatch. For a production repo, decide whether the action should commit changed JSON or trigger your deployment platform after sync.
-
-## Important limitation in v0.1
-
-The BF6 Weapon Analyzer currently defines `Range Finder` but does not expose exact per-weapon Range Finder compatibility in the same weapon availability mapping used by the optimizer. This prototype only infers Range Finder eligibility for Sniper Rifle / DMR and clearly flags that result.
-
-Before public launch, replace that inference with an exact compatibility overlay collected from in-game tooltips or another validated source.
-
-## Next engineering steps
-
-1. Exact rangefinder/optic-accessory compatibility table.
-2. Import the analyzer's full simulation functions for true post-attachment recoil/spread/TTK, instead of the current weighted tier optimizer.
-3. EA/BFComms patch watcher that writes a `latest-game-version.json`.
-4. Version mismatch gate: do not call a result “current meta” if weapon data version lags the official game version.
-5. Shareable build URLs and QR codes.
-6. Weapon images/icons with appropriate licensing/source handling.
-7. Optional controller/mouse profiles and player priorities.
-
-
-## v0.2 full-loadout optimizer
-
-Added:
-- Auto or manual class selection
-- Class signature-weapon proficiency scoring
-- Class signature trait + signature gadget context
-- Training Path recommendation
-- Two-gadget recommendation with Engineer launcher constraint
-- Class-specific throwable recommendation
-- Battle context: Infantry, Objective, Mixed, Vehicle-heavy
-- Secondary weapon recommendation designed to complement the selected primary/range
-- Secondary Pick-100 attachment optimization when source mappings are available
-- Current class/gadget rules layer separated from raw weapon JSON so live balance changes can be versioned independently
-
-Class/rules source layer should be kept versioned against EA's current class guides and game updates. Exact gadget availability and training names can change independently of raw gun stats.
+The data audit now allows legitimate **0-point ammunition choices on specific sidearms** (for example, the source currently lists Standard ammo at 0 points on M44 and M357 TRAIT). The old v0.3 audit incorrectly assumed every ammo selection had to consume points; that could cause the whole data feed to fail and trigger the four-gun sample fallback. v0.4 removes that failure mode and re-adds every recommended build from its exact source costs before displaying it.

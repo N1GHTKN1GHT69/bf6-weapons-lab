@@ -7,634 +7,801 @@
     ammo: "https://raw.githubusercontent.com/raymdl/BF6-Weapon-Analyzer/refs/heads/main/data/ammo.json"
   };
 
+  const CURRENT = window.BF6_CURRENT || { roster: [], primaryClasses: [] };
+  const LOADOUT = window.BF6_LOADOUT_DATA || { classes: {}, fallbackSecondaries: [], secondaryRoles: {} };
+  const $ = id => document.getElementById(id);
+
   const state = {
-    data: null,
-    range: "medium",
+    category: CURRENT.primaryClasses?.[0] || "Assault Rifle",
     weaponId: null,
+    distance: 25,
     classChoice: "auto",
     context: "mixed",
-    usingFallback: false,
-    pointAudit: null
+    rawWeapons: [],
+    attachments: null,
+    ammo: null,
+    source: { weapons: "loading", attachments: "loading", ammo: "loading" }
   };
 
-  const $ = (id) => document.getElementById(id);
-  const catalogKeys = { muzzle:"MUZZLES", barrel:"BARRELS", grip:"GRIPS", laser:"LASERS", light:"LIGHTS", ergo:"ERGOS", sight:"SIGHTS" };
-  const slotLabels = { sight:"Optic", muzzle:"Muzzle", barrel:"Barrel", grip:"Underbarrel", laser:"Laser", light:"Accessory", ergo:"Ergonomics", mag:"Magazine", ammo:"Ammo" };
-  const PICK_100_LIMIT = 100;
-  const REQUIRED_SLOTS = new Set(["sight","barrel","mag","ammo"]);
-
-  function isValidPointCost(v, allowZero=true) {
-    return Number.isInteger(v) && v >= (allowZero ? 0 : 5) && v <= PICK_100_LIMIT && v % 5 === 0;
-  }
-
-  function pointCost(opt, allowZero=true) {
-    const v = Number(opt?.pts);
-    return isValidPointCost(v, allowZero) ? v : null;
-  }
-
-  function auditPointData(data) {
-    const errors = [];
-    const catalogs = ["SIGHTS","MUZZLES","BARRELS","GRIPS","LASERS","LIGHTS","ERGOS"];
-    for (const key of catalogs) {
-      const arr = data?.attachments?.[key];
-      if (!Array.isArray(arr)) { errors.push("Missing " + key + " point catalog"); continue; }
-      for (const item of arr) {
-        if (!isValidPointCost(Number(item.pts), true)) errors.push(key + "/" + (item.id || item.name) + ": invalid points " + item.pts);
-      }
-    }
-    for (const [weaponId, magData] of Object.entries(data?.attachments?.WEAPON_MAG || {})) {
-      for (const [magId, mag] of Object.entries(magData?.mags || {})) {
-        if (!isValidPointCost(Number(mag.pts), false)) errors.push(weaponId + "/mag/" + magId + ": invalid points " + mag.pts);
-      }
-    }
-    for (const [weaponId, ammoData] of Object.entries(data?.ammo?.WEAPON_AMMO || {})) {
-      for (const [ammoId, pts] of Object.entries(ammoData?.ammo || {})) {
-        if (!isValidPointCost(Number(pts), false)) errors.push(weaponId + "/ammo/" + ammoId + ": invalid points " + pts);
-      }
-    }
-    if ((data?.attachments?.SIGHTS || []).some(x => Number(x.pts) <= 0)) errors.push("0-point optic found in mandatory optic category");
-    return {ok:errors.length===0, errors};
-  }
-
-  function auditBuildPoints(picks) {
-    const errors = [];
-    let total = 0;
-    const seen = new Set();
-    for (const opt of picks || []) {
-      const allowZero = !REQUIRED_SLOTS.has(opt.slot);
-      const pts = pointCost(opt, allowZero);
-      if (pts === null) errors.push(opt.slot + "/" + opt.id + ": missing or invalid point cost");
-      else total += pts;
-      seen.add(opt.slot);
-    }
-    for (const slot of REQUIRED_SLOTS) if (!seen.has(slot)) errors.push("missing mandatory " + slot + " selection");
-    if (total > PICK_100_LIMIT) errors.push("build exceeds Pick 100: " + total + "/100");
-    return {ok:errors.length===0,total,errors};
-  }
-
-  // Functional mechanics that a purely numerical simulator can miss.
-  const behavior = {
-    range_finder: {
-      title:"Range Finder",
-      description:"Displays target distance. Valuable when distance judgment affects hold, zero or shot selection.",
-      scores:{short:-2, medium:3, long:13}
-    },
-    mag_flare: {
-      title:"Magwell Flare",
-      description:"Allows reload behavior while maintaining the sight picture / ADS flow.",
-      scores:{short:7, medium:9, long:7},
-      pref:"stayAds", bonus:5
-    },
-    ads_bolt: {
-      title:"DLC Bolt",
-      description:"Sniper utility: maintain ADS / sight picture while cycling or reloading instead of breaking aim.",
-      scores:{short:2, medium:12, long:18},
-      pref:"stayAds", bonus:10
-    },
-    buffer: {
-      title:"Aftermarket Buffer",
-      description:"Reduces visual recoil/sight disruption even when underlying bullet behavior is unchanged.",
-      scores:{short:4, medium:8, long:10}
-    },
-    bipod: {
-      title:"Bipod",
-      description:"Positional stability utility. Not captured well by generic always-moving stat models.",
-      scores:{short:-3, medium:4, long:12}
-    },
-    mag_catch: {
-      title:"Improved Mag Catch",
-      description:"Faster reload utility.",
-      scores:{short:8, medium:6, long:3}
-    },
-    std_supp: {title:"Standard Suppressor",description:"Reduces spotting signature; more valuable when stealth is prioritized.",scores:{short:2,medium:2,long:2},pref:"stealth",bonus:12},
-    long_supp: {title:"Long Suppressor",description:"Suppression plus recoil/recovery tradeoffs.",scores:{short:1,medium:3,long:3},pref:"stealth",bonus:12},
-    light_supp: {title:"Lightened Suppressor",description:"Suppression-focused behavior.",scores:{short:2,medium:2,long:2},pref:"stealth",bonus:12},
-    cqb_supp: {title:"CQB Suppressor",description:"Close-range suppression utility.",scores:{short:5,medium:2,long:0},pref:"stealth",bonus:12}
+  const CATALOG_KEYS = {
+    sight: "SIGHTS", muzzle: "MUZZLES", barrel: "BARRELS", grip: "GRIPS",
+    laser: "LASERS", light: "LIGHTS", ergo: "ERGOS"
+  };
+  const SLOT_LABELS = {
+    sight: "Optic", muzzle: "Muzzle", barrel: "Barrel", grip: "Underbarrel",
+    laser: "Laser", light: "Accessory", accessory: "Rail Accessory",
+    ergo: "Ergonomics", mag: "Magazine", ammo: "Ammo"
   };
 
-  const weights = {
-    short:  {ads:6.0, move:3.0, recoil:2.0, recoilVar:1.4, velocity:.4, hip:5.5, reload:4.0, capacity:.12, visual:2.5, sprint:4.5},
-    medium: {ads:3.5, move:4.0, recoil:5.5, recoilVar:4.0, velocity:2.5, hip:1.2, reload:2.5, capacity:.16, visual:3.5, sprint:2.0},
-    long:   {ads:1.5, move:4.5, recoil:6.0, recoilVar:6.0, velocity:6.5, hip:0.0, reload:1.5, capacity:.10, visual:4.5, sprint:.8}
+  const BEHAVIOR = {
+    range_finder: { title: "Range Finder", text: "Displays target distance; value rises sharply for long-range precision work." },
+    mag_flare: { title: "Magwell Flare", text: "Preserves sight-picture/reload flow; useful when you prioritize staying ADS." },
+    ads_bolt: { title: "DLC Bolt", text: "Lets supported sniper rifles maintain the sight picture while cycling/reloading." },
+    buffer: { title: "Aftermarket Buffer", text: "Reduces visual recoil/sight disruption even where projectile behavior is unchanged." },
+    mag_catch: { title: "Improved Mag Catch", text: "Faster reload utility." },
+    bipod: { title: "Bipod", text: "Positional stability becomes more useful as engagement distance rises." },
+    bipod_sr: { title: "Bipod", text: "Positional stability becomes more useful as engagement distance rises." },
+    std_supp: { title: "Suppressor", text: "Signature reduction; weighted higher when stealth is selected." },
+    long_supp: { title: "Long Suppressor", text: "Signature reduction with long-range tradeoffs." },
+    light_supp: { title: "Light Suppressor", text: "Signature reduction with handling tradeoffs." },
+    cqb_supp: { title: "CQB Suppressor", text: "Close-range signature reduction." }
   };
 
-  async function fetchJson(url, timeoutMs=6000) {
+  const BASE_WEIGHTS = {
+    short:  { ads:6.0, move:3.0, recoil:2.0, recoilVar:1.4, velocity:.4, hip:5.5, reload:4.0, capacity:.12, visual:2.5, sprint:4.5 },
+    medium: { ads:3.5, move:4.0, recoil:5.5, recoilVar:4.0, velocity:2.5, hip:1.2, reload:2.5, capacity:.16, visual:3.5, sprint:2.0 },
+    long:   { ads:1.5, move:4.5, recoil:6.0, recoilVar:6.0, velocity:6.5, hip:0.0, reload:1.5, capacity:.10, visual:4.5, sprint:.8 }
+  };
+
+  const BLOCKED_UNTIL_PATCH = new Set(["ef88:match_trigger", "brod3:match_trigger"]);
+
+  function normalizeName(v) {
+    return String(v || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+  }
+
+  function aliasKey(v) {
+    const n = normalizeName(v);
+    const aliases = {
+      l115a3: "l115", l115: "l115",
+      m60: "m60", tr7: "tr7", "185ksk": "185ksk", "18_5ksk": "185ksk"
+    };
+    return aliases[n] || n;
+  }
+
+  function rosterWeapon(id = state.weaponId) {
+    return CURRENT.roster.find(w => w.id === id) || null;
+  }
+
+  function rawForRoster(roster) {
+    if (!roster) return null;
+    const targetId = aliasKey(roster.id);
+    const targetName = aliasKey(roster.name);
+    return state.rawWeapons.find(w => aliasKey(w.id) === targetId) ||
+      state.rawWeapons.find(w => aliasKey(w.name) === targetName) || null;
+  }
+
+  function rosterForRaw(raw) {
+    if (!raw) return null;
+    return CURRENT.roster.find(w => aliasKey(w.id) === aliasKey(raw.id)) ||
+      CURRENT.roster.find(w => aliasKey(w.name) === aliasKey(raw.name)) || null;
+  }
+
+  function setChip(id, text, cls = "") {
+    const el = $(id);
+    if (!el) return;
+    el.textContent = text;
+    el.className = `data-chip ${cls}`.trim();
+  }
+
+  async function fetchJson(url, timeoutMs = 9000) {
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), timeoutMs);
     try {
-      const r = await fetch(url, {cache:"no-store", signal:ctrl.signal});
-      if (!r.ok) throw new Error(`${r.status}`);
-      return await r.json();
-    } finally { clearTimeout(timer); }
+      const res = await fetch(url, { cache: "no-store", signal: ctrl.signal });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json();
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  async function loadOne(kind) {
+    try {
+      const local = await fetchJson(`./data/${kind}.json`, 3000);
+      state.source[kind] = "local";
+      return local;
+    } catch (_) {
+      try {
+        const remote = await fetchJson(REMOTE[kind], 9000);
+        state.source[kind] = "remote";
+        return remote;
+      } catch (err) {
+        state.source[kind] = "failed";
+        return null;
+      }
+    }
   }
 
   async function loadData() {
-    try {
-      const [weapons, attachments, ammo] = await Promise.all([
-        fetchJson("./data/weapons.json").catch(() => fetchJson(REMOTE.weapons)),
-        fetchJson("./data/attachments.json").catch(() => fetchJson(REMOTE.attachments)),
-        fetchJson("./data/ammo.json").catch(() => fetchJson(REMOTE.ammo))
-      ]);
-      const candidate = {weapons, attachments, ammo};
-      const audit = auditPointData(candidate);
-      if (!audit.ok) throw new Error("Pick-100 data audit failed: " + audit.errors.join("; "));
-      state.data = candidate;
-      state.pointAudit = audit;
-      $("sourceStatus").textContent = "LIVE DATA • POINT AUDIT PASS";
-      state.usingFallback = false;
-    } catch (err) {
-      state.data = window.BF6_FALLBACK;
-      state.pointAudit = auditPointData(state.data);
-      state.usingFallback = true;
-      $("sourceStatus").textContent = "OFFLINE SAMPLE • NOT META-VALIDATED";
+    // Deliberately independent. One bad source must never erase the catalog or the other data.
+    const [weapons, attachments, ammo] = await Promise.all([
+      loadOne("weapons"), loadOne("attachments"), loadOne("ammo")
+    ]);
+
+    state.rawWeapons = Array.isArray(weapons) ? weapons : [];
+    state.attachments = attachments && typeof attachments === "object" ? attachments : null;
+    state.ammo = ammo && typeof ammo === "object" ? ammo : null;
+
+    const matched = CURRENT.roster.filter(r => rawForRoster(r)).length;
+    if (state.rawWeapons.length) setChip("statsChip", `STATS ${matched}/${CURRENT.roster.length}`, matched >= 60 ? "ok" : "warn");
+    else setChip("statsChip", "STATS FEED DOWN", "bad");
+
+    if (state.attachments && state.ammo) setChip("buildChip", "BUILD DATA READY", "ok");
+    else if (state.attachments || state.ammo) setChip("buildChip", "BUILD DATA PARTIAL", "warn");
+    else setChip("buildChip", "BUILD DATA DOWN", "bad");
+  }
+
+  function distanceMix(d = state.distance) {
+    const x = Math.max(5, Number(d) || 25);
+    if (x <= 10) return { short: 1, medium: 0, long: 0 };
+    if (x < 50) {
+      const t = (x - 10) / 40;
+      return { short: 1 - t, medium: t, long: 0 };
     }
+    if (x < 120) {
+      const t = (x - 50) / 70;
+      return { short: 0, medium: 1 - t, long: t };
+    }
+    return { short: 0, medium: 0, long: 1 };
   }
 
-  function optionFromCatalog(slot, id) {
-    const arr = state.data.attachments[catalogKeys[slot]] || [];
-    return arr.find(x => x.id === id);
+  function blendRange(values, d = state.distance) {
+    if (!values) return 0;
+    const m = distanceMix(d);
+    return (Number(values.short) || 0) * m.short +
+      (Number(values.medium) || 0) * m.medium +
+      (Number(values.long) || 0) * m.long;
   }
 
-  function defaultNone(slot) {
-    return optionFromCatalog(slot,"none") || {id:"none",name:"None",pts:0};
+  function blendedWeights(d = state.distance) {
+    const m = distanceMix(d);
+    const out = {};
+    for (const key of Object.keys(BASE_WEIGHTS.short)) {
+      out[key] = BASE_WEIGHTS.short[key] * m.short + BASE_WEIGHTS.medium[key] * m.medium + BASE_WEIGHTS.long[key] * m.long;
+    }
+    return out;
   }
 
-  function buildOptions(weapon) {
-    const a = state.data.attachments;
-    const wa = a.WEAPON_ATTS?.[weapon.id] || {};
+  function budgetFor(rawOrRoster) {
+    return rawOrRoster?.cls === "Secondary" ? 60 : 100;
+  }
+
+  function pointCost(opt) {
+    const n = Number(opt?.pts);
+    return Number.isFinite(n) && Number.isInteger(n) && n >= 0 ? n : null;
+  }
+
+  function catalogItem(slot, id) {
+    const key = CATALOG_KEYS[slot];
+    const arr = state.attachments?.[key];
+    return Array.isArray(arr) ? arr.find(x => x.id === id) || null : null;
+  }
+
+  function noAttachment(slot) {
+    const actual = catalogItem(slot, "none");
+    return actual ? { ...actual, slot } : { id: "none", name: "None", pts: 0, slot, syntheticNone: true };
+  }
+
+  function patchBlocked(rawId, attachmentId) {
+    const beforeRelease = Date.now() < Date.parse("2026-09-02T00:00:00Z");
+    return beforeRelease && BLOCKED_UNTIL_PATCH.has(`${rawId}:${attachmentId}`);
+  }
+
+  function buildOptions(raw) {
+    if (!raw || !state.attachments || !state.ammo) throw new Error("Build source data unavailable");
+    const a = state.attachments;
+    const wa = a.WEAPON_ATTS?.[raw.id];
+    if (!wa) throw new Error("No weapon-specific attachment compatibility table");
+
     const options = {};
 
-    options.sight = (a.SIGHTS || []).map(x => ({...x, slot:"sight"}));
-    if (!options.sight.length) throw new Error(weapon.id + ": no validated optic point choices");
+    // Sidearms expose exact sight compatibility. Most primaries use the analyzer's global optic tiers.
+    const sightIds = Array.isArray(wa.sight) && wa.sight.length ? wa.sight : null;
+    const sightCatalog = Array.isArray(a.SIGHTS) ? a.SIGHTS : [];
+    options.sight = sightIds
+      ? sightIds.map(id => catalogItem("sight", id)).filter(Boolean).map(x => ({ ...x, slot: "sight" }))
+      : sightCatalog.map(x => ({ ...x, slot: "sight", genericOpticTier: true }));
+    if (!options.sight.length) throw new Error("No optic point data");
 
-    // Barrel is a mandatory paid Pick-100 category. Never inject a fake 0-point None barrel.
     const barrelIds = Array.isArray(wa.barrel) ? wa.barrel : [];
-    options.barrel = barrelIds.map(id => optionFromCatalog("barrel",id)).filter(Boolean).map(x => ({...x,slot:"barrel"}));
-    if (!options.barrel.length) throw new Error(weapon.id + ": no validated barrel point choices");
+    options.barrel = barrelIds.map(id => catalogItem("barrel", id)).filter(Boolean).map(x => ({ ...x, slot: "barrel" }));
+    if (!options.barrel.length) throw new Error("No weapon-specific barrel table");
 
-    // These categories are optional, so a true 0-point None choice is valid.
-    for (const slot of ["muzzle","grip","laser","light"]) {
+    for (const slot of ["muzzle", "grip"]) {
       const ids = Array.isArray(wa[slot]) ? wa[slot] : [];
-      const list = ids.map(id => optionFromCatalog(slot,id)).filter(Boolean).map(x => ({...x,slot}));
-      if (!list.some(x=>x.id==="none")) list.unshift({...defaultNone(slot),slot});
+      const list = ids
+        .filter(id => !patchBlocked(raw.id, id))
+        .map(id => catalogItem(slot, id)).filter(Boolean).map(x => ({ ...x, slot }));
+      if (!list.some(x => x.id === "none")) list.unshift(noAttachment(slot));
       options[slot] = list;
     }
 
-    // The current analyzer defines Range Finder but does not map its compatibility per weapon.
-    // Treat it as an inferred long-range accessory for Sniper/DMR only, and disclose that fact in UI.
-    if (["Sniper Rifle","DMR"].includes(weapon.cls)) {
-      const rf = optionFromCatalog("light","range_finder");
-      if (rf && !options.light.some(x=>x.id==="range_finder")) {
-        options.light.push({...rf,slot:"light",compatibilityInferred:true});
+    // On sidearms the light/laser rail is shared. Treat it as one choice, not two simultaneous attachments.
+    if (wa.laserLightCombined) {
+      const combined = [];
+      for (const slot of ["laser", "light"]) {
+        for (const id of (Array.isArray(wa[slot]) ? wa[slot] : [])) {
+          const item = catalogItem(slot, id);
+          if (item) combined.push({ ...item, slot: "accessory", sourceSlot: slot });
+        }
       }
-    }
-
-    const ergoIds = a.WEAPON_ERGO?.[weapon.id]?.avail || [];
-    options.ergo = [{...defaultNone("ergo"),slot:"ergo"}]
-      .concat(ergoIds.map(id => optionFromCatalog("ergo",id)).filter(Boolean).map(x=>({...x,slot:"ergo"})))
-      .filter((x,i,arr)=>arr.findIndex(y=>y.id===x.id)===i);
-
-    const magData = a.WEAPON_MAG?.[weapon.id];
-    if (!magData?.mags || !Object.keys(magData.mags).length) throw new Error(weapon.id + ": missing weapon-specific magazine point table");
-    options.mag = Object.entries(magData.mags).map(([id,x]) => ({id,...x,slot:"mag"}));
-
-    const ammoRoot = state.data.ammo || {};
-    const ammoCat = ammoRoot.AMMO || [];
-    const ammoData = ammoRoot.WEAPON_AMMO?.[weapon.id];
-    if (ammoData?.ammo) {
-      options.ammo = Object.entries(ammoData.ammo).map(([id,pts]) => {
-        const def = ammoCat.find(x=>x.id===id) || {id,name:id};
-        return {...def, id, pts, slot:"ammo"};
-      });
+      combined.unshift({ id: "none", name: "None", pts: 0, slot: "accessory" });
+      options.accessory = dedupeOptions(combined);
     } else {
-      throw new Error(weapon.id + ": missing weapon-specific ammunition point table");
+      for (const slot of ["laser", "light"]) {
+        const ids = Array.isArray(wa[slot]) ? wa[slot] : [];
+        const list = ids.map(id => catalogItem(slot, id)).filter(Boolean).map(x => ({ ...x, slot }));
+        if (!list.some(x => x.id === "none")) list.unshift(noAttachment(slot));
+        options[slot] = list;
+      }
     }
 
-    for (const [slot,list] of Object.entries(options)) {
-      for (const opt of list) {
-        const pts = pointCost(opt, !REQUIRED_SLOTS.has(slot));
-        if (pts === null) throw new Error(weapon.id + "/" + slot + "/" + opt.id + ": invalid or unknown point cost");
-      }
+    const ergoIds = a.WEAPON_ERGO?.[raw.id]?.avail || [];
+    const ergos = ergoIds
+      .filter(id => !patchBlocked(raw.id, id))
+      .map(id => catalogItem("ergo", id)).filter(Boolean).map(x => ({ ...x, slot: "ergo" }));
+    options.ergo = [{ id: "none", name: "None", pts: 0, slot: "ergo" }, ...ergos];
+
+    const magData = a.WEAPON_MAG?.[raw.id];
+    if (!magData?.mags || !Object.keys(magData.mags).length) throw new Error("Missing weapon-specific magazine points");
+    options.mag = Object.entries(magData.mags).map(([id, x]) => ({ id, ...x, slot: "mag" }));
+
+    const ammoData = state.ammo?.WEAPON_AMMO?.[raw.id];
+    const ammoCatalog = Array.isArray(state.ammo?.AMMO) ? state.ammo.AMMO : [];
+    if (!ammoData?.ammo || !Object.keys(ammoData.ammo).length) throw new Error("Missing weapon-specific ammunition points");
+    options.ammo = Object.entries(ammoData.ammo).map(([id, pts]) => ({
+      ...(ammoCatalog.find(x => x.id === id) || { id, name: prettifyId(id) }),
+      ...(ammoData.velocityTreatments?.[id] || {}),
+      id, pts, slot: "ammo"
+    }));
+
+    for (const [slot, list] of Object.entries(options)) {
+      options[slot] = list.filter(opt => pointCost(opt) !== null);
+      if (!options[slot].length) throw new Error(`${slot}: no valid point-cost choices`);
     }
     return options;
   }
 
-  function pref(id) { return !!$(id)?.checked; }
+  function dedupeOptions(list) {
+    const seen = new Set();
+    return list.filter(x => {
+      const k = `${x.id}:${x.slot}`;
+      if (seen.has(k)) return false;
+      seen.add(k); return true;
+    });
+  }
 
-  function numericScore(opt, profile, weapon) {
-    const w = weights[profile];
+  function preference(id) { return !!$(id)?.checked; }
+
+  function behaviorScore(opt, raw, d) {
     let s = 0;
-
-    s += (opt.adsTimeTierMod || 0) * w.ads;
-    s += (-(opt.adsTimeTierShift || 0)) * w.ads;
-    s += (opt.movingAdsSpreadTierMod || 0) * w.move;
-    s += (-(opt.adsMoveSpeedTierShift || 0)) * (pref("movingAds") ? w.move*1.7 : w.move*.55);
-    s += (opt.adsRecoilTierMod || 0) * w.recoil;
-    s += (opt.adsRecoilVariationTierMod || 0) * w.recoilVar;
-    s += ((opt.adsRecoilDecayMult || 1) - 1) * 15 * w.recoil;
-    s += (opt.velTierMod || 0) * w.velocity;
-    s += ((opt.velMult || 1) - 1) * 10 * w.velocity;
-    s += (-(opt.hipSpreadTierMod || 0)) * w.hip;
-    s += ((opt.reloadSpeedMult || 1) - 1) * 35 * w.reload;
-    s += (opt.reloadSpeedTier || 0) * w.reload;
-    s += (-(opt.sprintRecoveryTierShift || 0)) * w.sprint;
-    s += (-(opt.visualRecoil || 0)) * w.visual;
-
-    if (opt.mag) {
-      const base = weapon.mag || opt.mag;
-      const extra = opt.mag - base;
-      s += extra * (pref("bigMag") ? w.capacity*3.2 : w.capacity);
-      if (opt.mag < base && profile==="short") s -= (base-opt.mag) * .10;
+    if (opt.id === "range_finder") {
+      if (d < 35) s -= 2;
+      else if (d < 70) s += 4;
+      else if (d < 120) s += 11;
+      else s += 18;
     }
-
-    if (opt.suppressor && pref("stealth")) s += 13;
-    if (opt.laserVisible && pref("stealth")) s -= 8;
-
-    const b = behavior[opt.id];
-    if (b) {
-      s += b.scores?.[profile] || 0;
-      if (b.pref && pref(b.pref)) s += b.bonus || 0;
+    if (opt.id === "ads_bolt") {
+      s += d < 30 ? 2 : d < 70 ? 9 : d < 120 ? 15 : 19;
+      if (preference("stayAds")) s += 10;
+      if (raw.cls !== "Sniper Rifle") s -= 100;
     }
+    if (opt.id === "mag_flare") s += 5 + (preference("stayAds") ? 7 : 0);
+    if (opt.id === "mag_catch") s += d < 40 ? 8 : 4;
+    if (opt.id === "buffer") s += d < 30 ? 4 : d < 80 ? 8 : 11;
+    if (["bipod", "bipod_sr"].includes(opt.id)) s += d < 35 ? -3 : d < 70 ? 4 : d < 120 ? 10 : 14;
+    if (opt.suppressor || /supp/.test(opt.id)) s += preference("stealth") ? 13 : 1;
+    if (opt.laserVisible && preference("stealth")) s -= 8;
 
-    // Class-aware functional emphasis.
-    if (opt.id === "ads_bolt" && weapon.cls !== "Sniper Rifle") s -= 100;
-    if (opt.id === "range_finder" && profile !== "long") s -= 3;
-
+    // Ammo utility that is not fully represented by the generic numerical fields.
+    if (opt.slot === "ammo") {
+      if (opt.id === "long_range") s += d < 45 ? -3 : d < 80 ? 5 : d < 120 ? 12 : 16;
+      if (opt.id === "range_pen") s += d < 50 ? 0 : d < 100 ? 7 : 12;
+      if (["subsonic", "subsonic_hp", "subsonic_pen"].includes(opt.id)) {
+        s += preference("stealth") ? 15 : 1;
+        if (d > 70) s -= 7;
+      }
+      if (opt.id === "frangible") s += d < 35 ? 5 : d < 70 ? 3 : 0;
+      if (opt.id === "synthetic") s += d < 25 ? 1 : 4;
+      if (opt.id === "hollow_pt") s += d < 35 ? 4 : d < 70 ? 2 : 0;
+      if (opt.id === "buckshot") s += d <= 18 ? 18 : d <= 30 ? 6 : -18;
+      if (opt.id === "buckshot_00") s += d <= 22 ? 16 : d <= 38 ? 10 : -12;
+      if (opt.id === "flechette") s += d < 15 ? 4 : d <= 50 ? 16 : d <= 70 ? 5 : -8;
+      if (opt.id === "slugs") s += d < 20 ? -10 : d < 45 ? 7 : 20;
+    }
     return s;
   }
 
-  function applySightContext(opt, profile, weapon) {
+  function opticScore(opt, d) {
+    const id = opt.id;
+    if (id === "iron") return d <= 15 ? 9 : d <= 30 ? 2 : -7;
+    if (id === "std_optic") return d <= 15 ? 7 : d <= 50 ? 11 : d <= 80 ? 5 : -2;
+    if (id === "var_low") return d < 20 ? -3 : d <= 80 ? 11 : 7;
+    if (id === "var_high") return d < 50 ? -7 : d < 90 ? 7 : 15;
+    if (id === "thermal") return d < 20 ? 0 : d < 90 ? 7 : 8;
+    if (id === "therm_hyb") return d < 45 ? 1 : 10;
+    return 0;
+  }
+
+  function scoreOption(opt, raw, d) {
+    const w = blendedWeights(d);
     let s = 0;
-    if (opt.id==="iron") s += profile==="short" ? 7 : -4;
-    if (opt.id==="std_optic") s += profile==="short" ? 7 : profile==="medium" ? 9 : 4;
-    if (opt.id==="var_low") s += profile==="medium" ? 9 : profile==="long" ? 8 : 2;
-    if (opt.id==="var_high") s += profile==="long" ? 13 : -2;
-    if (opt.id==="thermal") s += profile==="medium" ? 5 : profile==="long" ? 7 : 1;
-    if (opt.id==="therm_hyb") s += profile==="long" ? 8 : 2;
-    if (weapon.cls==="Sniper Rifle" && profile==="long" && ["var_high","therm_hyb"].includes(opt.id)) s += 6;
+    s += (Number(opt.adsTimeTierMod) || 0) * w.ads;
+    s += (-(Number(opt.adsTimeTierShift) || 0)) * w.ads;
+    s += (Number(opt.movingAdsSpreadTierMod) || 0) * (preference("movingAds") ? w.move * 1.6 : w.move * .55);
+    s += (-(Number(opt.adsMoveSpeedTierShift) || 0)) * (preference("movingAds") ? w.move * 1.35 : w.move * .5);
+    s += (Number(opt.adsRecoilTierMod) || 0) * w.recoil;
+    s += (Number(opt.adsRecoilVariationTierMod) || 0) * w.recoilVar;
+    s += ((Number(opt.adsRecoilDecayMult) || 1) - 1) * 15 * w.recoil;
+    s += (Number(opt.velTierMod) || 0) * w.velocity;
+    s += ((Number(opt.velMult) || 1) - 1) * 10 * w.velocity;
+    s += (-(Number(opt.hipSpreadTierMod) || 0)) * w.hip;
+    s += ((Number(opt.reloadSpeedMult) || 1) - 1) * 35 * w.reload;
+    s += (Number(opt.reloadSpeedTier) || 0) * w.reload;
+    s += (-(Number(opt.sprintRecoveryTierShift) || 0)) * w.sprint;
+    s += (-(Number(opt.visualRecoil) || 0)) * w.visual;
+
+    if (Number.isFinite(Number(opt.mag))) {
+      const base = Number(raw.mag) || Number(opt.mag);
+      const extra = Number(opt.mag) - base;
+      s += extra * (preference("bigMag") ? w.capacity * 3.2 : w.capacity);
+    }
+
+    if (opt.slot === "sight") s += opticScore(opt, d);
+    s += behaviorScore(opt, raw, d);
     return s;
   }
 
-  function scoreOption(opt, profile, weapon) {
-    return numericScore(opt, profile, weapon) + (opt.slot==="sight" ? applySightContext(opt,profile,weapon) : 0);
-  }
-
-  // Multiple-choice knapsack: exactly one choice from each attachment slot, <= 100 points.
-  function optimize(weapon, profile) {
-    const options = buildOptions(weapon);
-    const slots = ["sight","muzzle","barrel","grip","laser","light","ergo","mag","ammo"];
-    let dp = Array(PICK_100_LIMIT + 1).fill(null);
-    dp[0] = {score:0, picks:[]};
+  function optimize(raw, d = state.distance) {
+    const budget = budgetFor(raw);
+    const options = buildOptions(raw);
+    const slots = Object.keys(options);
+    let dp = Array(budget + 1).fill(null);
+    dp[0] = { score: 0, picks: [] };
 
     for (const slot of slots) {
-      const next = Array(PICK_100_LIMIT + 1).fill(null);
-      for (let used=0; used<=PICK_100_LIMIT; used++) {
+      const next = Array(budget + 1).fill(null);
+      for (let used = 0; used <= budget; used++) {
         const cur = dp[used];
         if (!cur) continue;
-        for (const opt of (options[slot] || [{id:"none",name:"None",pts:0,slot}])) {
-          const pts = pointCost(opt, !REQUIRED_SLOTS.has(slot));
-          if (pts === null) continue;
+        for (const opt of options[slot]) {
+          const pts = pointCost(opt);
+          if (pts === null || used + pts > budget) continue;
+          const sc = scoreOption(opt, raw, d);
           const total = used + pts;
-          if (total > PICK_100_LIMIT) continue;
-          const sc = cur.score + scoreOption(opt,profile,weapon);
-          if (!next[total] || sc > next[total].score) {
-            next[total] = {score:sc,picks:cur.picks.concat([{...opt,slot,score:scoreOption(opt,profile,weapon)}])};
+          if (!next[total] || cur.score + sc > next[total].score) {
+            next[total] = { score: cur.score + sc, picks: [...cur.picks, { ...opt, score: sc }] };
           }
         }
       }
       dp = next;
     }
 
-    const viable = dp.map((x,points)=>x ? {...x,points} : null).filter(Boolean);
-    let best = viable.sort((a,b)=>b.score-a.score || b.points-a.points)[0];
-    if (!best) return {score:0,picks:[],points:0};
-
-    const pointAudit = auditBuildPoints(best.picks);
-    if (!pointAudit.ok) throw new Error(weapon.id + ": invalid optimized build: " + pointAudit.errors.join("; "));
-    best.points = pointAudit.total;
-    best.pointAudit = pointAudit;
+    const candidates = dp.map((x, points) => x ? { ...x, points } : null).filter(Boolean);
+    if (!candidates.length) throw new Error("No legal attachment combination fits the point budget");
+    candidates.sort((a, b) => b.score - a.score || a.points - b.points);
+    const best = candidates[0];
+    best.audit = auditBuild(best, budget);
+    if (!best.audit.ok) throw new Error(best.audit.errors.join("; "));
     return best;
   }
 
-
-  function sumProfileScore(obj, profile, context) {
-    if (!obj?.score) return 0;
-    return Number(obj.score[profile] || 0) + Number(obj.score[context] || 0);
+  function auditBuild(result, budget) {
+    const errors = [];
+    const recalculated = result.picks.reduce((sum, x) => {
+      const p = pointCost(x);
+      if (p === null) errors.push(`${x.id}: unknown point cost`);
+      return sum + (p || 0);
+    }, 0);
+    if (recalculated !== result.points) errors.push(`point total mismatch ${recalculated} vs ${result.points}`);
+    if (recalculated > budget) errors.push(`${recalculated}/${budget} exceeds budget`);
+    return { ok: !errors.length, total: recalculated, budget, errors };
   }
 
-  function chooseClass(weapon) {
-    const db = window.BF6_LOADOUT_DATA?.classes || {};
-    if (state.classChoice !== "auto" && db[state.classChoice]) {
-      return {id:state.classChoice, data:db[state.classChoice], score:null, manual:true};
-    }
-
-    let best = null;
-    for (const [id,c] of Object.entries(db)) {
-      let score = Number(c.rangeBias?.[state.range] || 0) + Number(c.contextBias?.[state.context] || 0);
-      if (weapon.cls === c.signatureCategory) score += 42;
-
-      // Open-weapons logic: non-signature pairings are allowed, but they do not earn the class proficiency.
-      if (id==="assault" && state.context==="objective") score += 5;
-      if (id==="engineer" && state.context==="vehicles") score += 10;
-      if (id==="support" && state.context==="objective") score += 5;
-      if (id==="recon" && state.range==="long") score += 6;
-      if (id==="recon" && pref("stealth")) score += 6;
-
-      if (!best || score > best.score) best = {id,data:c,score,manual:false};
-    }
-    return best;
+  function prettifyId(id) {
+    return String(id || "").replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
   }
 
-  function chooseTraining(classRec) {
-    return [...(classRec.data.paths || [])]
-      .map(x=>({...x,_score:sumProfileScore(x,state.range,state.context)}))
-      .sort((a,b)=>b._score-a._score)[0];
+  function attachmentNote(opt) {
+    const bits = [];
+    if (BEHAVIOR[opt.id]) bits.push(BEHAVIOR[opt.id].text);
+    if (opt.genericOpticTier) bits.push("Optic tier abstraction; exact sight model may differ in game.");
+    if (opt.adsRecoilTierMod) bits.push(`recoil ${signed(opt.adsRecoilTierMod)} tier`);
+    if (opt.adsRecoilVariationTierMod) bits.push(`recoil variation ${signed(opt.adsRecoilVariationTierMod)} tier`);
+    if (opt.movingAdsSpreadTierMod) bits.push(`moving ADS ${signed(opt.movingAdsSpreadTierMod)} tier`);
+    if (opt.velMult && Number(opt.velMult) !== 1) bits.push(`${signed(Math.round((Number(opt.velMult) - 1) * 100))}% velocity`);
+    if (opt.velTierMod) bits.push(`velocity ${signed(opt.velTierMod)} tier`);
+    if (opt.reloadSpeedTier) bits.push(`reload ${signed(opt.reloadSpeedTier)} tier`);
+    if (opt.mag) bits.push(`${opt.mag} rounds`);
+    if (opt.suppressor) bits.push("suppressed");
+    if (["subsonic","subsonic_hp","subsonic_pen"].includes(opt.id)) bits.push("subsonic / reduced signature");
+    if (opt.id === "long_range") bits.push("long-range ammo utility");
+    if (opt.id === "slugs") bits.push("single-projectile shotgun ammo for range");
+    if (!bits.length) bits.push(opt.id === "none" ? "No points spent in this slot" : "utility / neutral-stat selection");
+    return bits.join(" • ");
   }
 
-  function chooseGadgets(classRec) {
-    const list = [...(classRec.data.gadgets || [])]
-      .map(x=>({...x,_score:sumProfileScore(x,state.range,state.context)}))
-      .sort((a,b)=>b._score-a._score);
+  function signed(n) { return Number(n) > 0 ? `+${n}` : String(n); }
 
-    const out = [];
-    for (const g of list) {
-      if (out.length >= 2) break;
-      if (classRec.data.rules?.maxLauncherGadgets===1 && g.group==="launcher" && out.some(x=>x.group==="launcher")) continue;
-      out.push(g);
+  function damageAtDistance(raw, d) {
+    if (!Array.isArray(raw?.dmg) || !raw.dmg.length) return null;
+    const sorted = raw.dmg.map((x, i) => ({ ...x, i })).sort((a, b) => Number(a.r) - Number(b.r) || a.i - b.i);
+    let val = Number(sorted[0].d);
+    for (const p of sorted) if (Number(p.r) <= d && Number.isFinite(Number(p.d))) val = Number(p.d);
+    return Number.isFinite(val) ? val : null;
+  }
+
+  function combatAtDistance(raw, d) {
+    const damage = damageAtDistance(raw, d);
+    const rpm = Number(raw?.rpm);
+    const btk = damage && damage > 0 ? Math.ceil(100 / damage) : null;
+    const ttk = btk && rpm > 0 ? (btk - 1) * 60000 / rpm : null;
+    return { damage, btk, ttk, rpm: Number.isFinite(rpm) ? rpm : null, mag: Number(raw?.mag) || null };
+  }
+
+  function metricInputs(raw) {
+    return {
+      hip: Number(raw?.spread?.hipStand?.[0]),
+      precision: meanFinite([Number(raw?.recoilVar), Number(raw?.recoilIncAds) * 45, Number(raw?.spread?.adsMove?.[0]) * 45]),
+      control: meanFinite([Number(raw?.recoilV) * 40, Number(raw?.recoilVar) / 2]),
+      mobility: meanFinite([Number(raw?.adsTime), Number(raw?.tacRld) * 100])
+    };
+  }
+
+  function meanFinite(vals) {
+    const good = vals.filter(Number.isFinite);
+    return good.length ? good.reduce((a, b) => a + b, 0) / good.length : NaN;
+  }
+
+  function relativeBars(raw) {
+    const peers = state.rawWeapons.filter(w => w.cls === raw.cls);
+    const current = metricInputs(raw);
+    const out = {};
+    for (const key of ["hip", "precision", "control", "mobility"]) {
+      const vals = peers.map(w => metricInputs(w)[key]).filter(Number.isFinite);
+      const v = current[key];
+      if (!Number.isFinite(v) || vals.length < 2) { out[key] = null; continue; }
+      const min = Math.min(...vals), max = Math.max(...vals);
+      const frac = max === min ? .5 : (max - v) / (max - min); // lower underlying value = better
+      out[key] = Math.round(12 + Math.max(0, Math.min(1, frac)) * 83);
     }
     return out;
   }
 
-  function chooseThrowable(classRec) {
-    return [...(classRec.data.throwables || [])]
-      .map(x=>({...x,_score:sumProfileScore(x,state.range,state.context)}))
-      .sort((a,b)=>b._score-a._score)[0];
-  }
-
-  function sidearmCandidates() {
-    const live = (state.data.weapons || []).filter(w => /secondary|sidearm/i.test(String(w.cls||"")));
-    return live.length ? live : (window.BF6_LOADOUT_DATA?.fallbackSecondaries || []);
-  }
-
-  function baseDamageAtZero(w) {
-    const d = Array.isArray(w.dmg) ? w.dmg : [];
-    return d.length ? Number(d[0].d || 0) : 0;
-  }
-
-  function chooseSecondary(primary) {
-    const roles = window.BF6_LOADOUT_DATA?.secondaryRoles || {};
-    let best = null;
-
-    for (const w of sidearmCandidates()) {
-      const named = roles[w.name] || {};
-      let s = Number(named[state.range] || 0);
-      if (state.range==="long") s += Number(named.complementLong || 0);
-      if (state.range==="short") s += Number(named.complementShort || 0);
-
-      // Small numeric tie-breaker from available live data.
-      s += Math.min(7, Number(w.mag || 0) * .12);
-      s += Math.min(6, Number(w.rpm || 0) / 180);
-      s += Math.min(5, Number(w.bulletVel || 0) / 150);
-      s += Math.min(5, baseDamageAtZero(w) / 10);
-      s -= Math.max(0, (Number(w.adsTime || 180)-180)/50);
-      s -= Math.max(0, (Number(w.tacRld || 1.7)-1.7)*1.4);
-
-      if (!best || s > best.score) best = {weapon:w,score:s,role:named};
-    }
-    return best;
-  }
-
-  function secondaryProfileFor(primary) {
-    if (state.range==="long") return "short";
-    if (state.range==="short") return "medium";
-    return "short";
-  }
-
-  function renderCompleteLoadout(primary) {
-    const classRec = chooseClass(primary);
-    if (!classRec) return;
-    const path = chooseTraining(classRec);
-    const gadgets = chooseGadgets(classRec);
-    const throwable = chooseThrowable(classRec);
-    const secondaryRec = chooseSecondary(primary);
-    const c = classRec.data;
-
-    $("className").textContent = c.name;
-    $("classFit").textContent = classRec.manual ? "MANUAL CLASS" : "AUTO BEST FIT";
-    $("classTitle").textContent = `${c.name} complete loadout`;
-    $("classWhy").textContent = `${c.role} ${primary.cls===c.signatureCategory ? "Signature-weapon proficiency is active: "+c.weaponBenefit : "This primary does not receive this class's signature-weapon bonus."}`;
-    $("trainingPath").textContent = path?.name || "—";
-    $("trainingWhy").textContent = path?.why || "—";
-    $("signatureGadget").textContent = c.signatureGadget;
-    $("signatureTrait").textContent = c.signatureTrait;
-    $("gadget1").textContent = gadgets[0]?.name || "—";
-    $("gadget1Why").textContent = gadgets[0]?.why || "—";
-    $("gadget2").textContent = gadgets[1]?.name || "—";
-    $("gadget2Why").textContent = gadgets[1]?.why || "—";
-    $("throwable").textContent = throwable?.name || "—";
-    $("throwableWhy").textContent = throwable?.why || "—";
-
-    if (secondaryRec?.weapon) {
-      const sw = secondaryRec.weapon;
-      $("secondaryName").textContent = sw.name;
-      const complement = state.range==="long"
-        ? "Selected to cover the close-range hole left by a long-range primary."
-        : state.range==="short"
-          ? "Selected to add a more capable ranged backup to a close-range primary."
-          : "Selected as the strongest general-purpose backup for this profile.";
-      $("secondaryWhy").textContent = `${secondaryRec.role?.why || complement} ${complement}`;
-
-      const hasSecondaryPointData = !!(
-        state.data.attachments?.WEAPON_ATTS?.[sw.id] &&
-        state.data.attachments?.WEAPON_MAG?.[sw.id]?.mags &&
-        state.data.ammo?.WEAPON_AMMO?.[sw.id]?.ammo
-      );
-      $("secondaryBuildTitle").textContent = `${sw.name} — ${secondaryProfileFor(primary).toUpperCase()} backup build`;
-      if (hasSecondaryPointData) {
-        const secResult = optimize(sw, secondaryProfileFor(primary));
-        if ($("secondaryPoints")) $("secondaryPoints").textContent = secResult.pointAudit?.ok && !state.usingFallback ? `${secResult.points}/100 • POINTS VERIFIED` : "POINT DATA NOT PRODUCTION-VERIFIED";
-        $("secondaryAttachmentList").innerHTML = secResult.picks
-          .filter(x=>x.id!=="none")
-          .map(opt => `
-            <div class="att-row">
-              <div class="att-slot">${slotLabels[opt.slot] || opt.slot}</div>
-              <div><div class="att-name">${escapeHtml(opt.name || opt.id)}</div><div class="att-note">${escapeHtml(formatAttNote(opt))}</div></div>
-              <div class="att-pts">${Number(opt.pts)}p</div>
-            </div>`).join("") || `<div class="why"><strong>Base sidearm setup</strong><span>No paid attachment was selected.</span></div>`;
-      } else {
-        if ($("secondaryPoints")) $("secondaryPoints").textContent = "ATTACHMENT POINT DATA UNAVAILABLE";
-        $("secondaryAttachmentList").innerHTML = `<div class="why"><strong>No fabricated secondary build</strong><span>The sidearm is recommended for role coverage, but this source does not provide its exact weapon-specific Pick-100 attachment costs. The site will not guess them.</span></div>`;
-      }
-    }
-  }
-
-  function formatAttNote(opt) {
-    const parts = [];
-    const b = behavior[opt.id];
-    if (b) parts.push(b.description);
-    if (opt.compatibilityInferred) parts.push("Compatibility inferred from class; verify in game.");
-    if (opt.adsRecoilTierMod) parts.push(`recoil +${opt.adsRecoilTierMod} tier`);
-    if (opt.movingAdsSpreadTierMod) parts.push(`moving ADS ${opt.movingAdsSpreadTierMod>0?"+":""}${opt.movingAdsSpreadTierMod} tier`);
-    if (opt.velMult && opt.velMult !== 1) parts.push(`${Math.round((opt.velMult-1)*100)}% velocity`);
-    if (opt.mag) parts.push(`${opt.mag} rounds`);
-    if (opt.reloadSpeedTier) parts.push(`reload +${opt.reloadSpeedTier} tier`);
-    if (opt.suppressor) parts.push("suppressed");
-    if (!parts.length) parts.push("utility / neutral-stat selection");
-    return parts.join(" • ");
-  }
-
-  function render(weapon, result) {
-    $("weaponName").textContent = weapon.name;
-    $("buildProfile").textContent = `${state.range.toUpperCase()} RANGE`;
-    $("pointsUsed").textContent = result.points;
-    $("pointsMeter").style.width = `${Math.min(PICK_100_LIMIT,result.points)}%`;
-    if ($("pointAuditBadge")) {
-      $("pointAuditBadge").textContent = result.pointAudit?.ok && !state.usingFallback ? "POINTS VERIFIED • VALID PICK-100 BUILD" : "POINTS NOT PRODUCTION-VERIFIED";
-      $("pointAuditBadge").classList.toggle("bad", !(result.pointAudit?.ok && !state.usingFallback));
-    }
-
-    // Convert raw additive score to a readable fit number, not a fake probability.
-    const fit = Math.max(55, Math.min(99, Math.round(72 + result.score/8)));
-    $("buildScore").textContent = fit;
-
-    $("attachmentList").innerHTML = result.picks.map(opt => `
-      <div class="att-row">
-        <div class="att-slot">${slotLabels[opt.slot] || opt.slot}</div>
-        <div>
-          <div class="att-name">${escapeHtml(opt.name || opt.id)}</div>
-          <div class="att-note">${escapeHtml(formatAttNote(opt))}</div>
-        </div>
-        <div class="att-pts">${Number(opt.pts)}p</div>
-      </div>`).join("");
-
-    renderWhy(weapon,result);
-    renderStats(weapon);
-    renderUtilities(result);
-    renderCompleteLoadout(weapon);
-
-    const inferred = result.picks.some(x=>x.compatibilityInferred);
-    const sourceVersion = detectVersion(weapon.damageSource || "");
-    const warnings = [];
-    if (state.usingFallback) warnings.push("Live source data could not be reached. The bundled sample is UI-only and must not be treated as a current meta build.");
-    if (!result.pointAudit?.ok) warnings.push("This build failed the Pick-100 point audit and should not be used.");
-    if (inferred) warnings.push("Range Finder compatibility is not mapped per weapon by the current source dataset. This build uses a class-level inference and should be checked in game.");
-    if (sourceVersion) warnings.push(`Weapon damage provenance reports game-data version ${sourceVersion}. Treat recommendations as version-dependent.`);
-    if (warnings.length) {
-      $("warningCard").classList.remove("hidden");
-      $("warningCard").innerHTML = `<strong>DATA CHECK:</strong> ${warnings.map(escapeHtml).join(" ")}`;
-    } else {
-      $("warningCard").classList.add("hidden");
-    }
-  }
-
-  function renderWhy(weapon,result) {
-    const top = [...result.picks].sort((a,b)=>b.score-a.score).slice(0,5);
-    const profileText = {
-      short:"Fast handling, hipfire, sprint recovery and reload speed receive the most weight.",
-      medium:"Recoil control, moving accuracy and usable handling are balanced.",
-      long:"Velocity, recoil consistency, sight-picture utility and positional stability dominate."
-    }[state.range];
-    const items = [
-      {title:`${state.range[0].toUpperCase()+state.range.slice(1)}-range profile`,text:profileText},
-      ...top.filter(x=>x.score>1).map(x=>({title:x.name,text:formatAttNote(x)}))
-    ];
-    $("whyList").innerHTML = items.slice(0,6).map(x=>`<div class="why"><strong>${escapeHtml(x.title)}</strong><span>${escapeHtml(x.text)}</span></div>`).join("");
-  }
-
-  function renderStats(w) {
-    const stats = [
-      ["Class",w.cls || "—"],
-      ["RPM",w.rpm ? Math.round(w.rpm) : "—"],
-      ["Velocity",w.bulletVel ? `${Math.round(w.bulletVel)} m/s` : "—"],
-      ["ADS",w.adsTime ? `${Math.round(w.adsTime)} ms` : "—"],
-      ["Magazine",w.mag || "—"],
-      ["Tac reload",w.tacRld ? `${Number(w.tacRld).toFixed(2)} s` : "—"],
-      ["Vert recoil",w.recoilV ? Number(w.recoilV).toFixed(3) : "—"],
-      ["Recoil var.",w.recoilVar ?? "—"],
-      ["Fire mode",w.fireMode || "—"]
-    ];
-    $("weaponStats").innerHTML = stats.map(([k,v])=>`<div class="stat"><span>${escapeHtml(k)}</span><strong>${escapeHtml(String(v))}</strong></div>`).join("");
-  }
-
-  function renderUtilities(result) {
-    const hits = result.picks.filter(x=>behavior[x.id] || x.suppressor);
-    if (!hits.length) {
-      $("utilityList").innerHTML = `<div class="utility"><span class="dot"></span><div><strong>No special utility mechanic selected</strong><p>The optimizer spent the budget on numerical performance for this profile.</p></div></div>`;
-      return;
-    }
-    $("utilityList").innerHTML = hits.map(x=>{
-      const b = behavior[x.id] || {title:x.name,description:"Suppression / signature reduction behavior."};
-      return `<div class="utility"><span class="dot"></span><div><strong>${escapeHtml(b.title)}</strong><p>${escapeHtml(b.description)}${x.compatibilityInferred?" Compatibility is currently inferred.":""}</p></div></div>`;
-    }).join("");
-  }
-
-  function detectVersion(text) {
-    const m = String(text).match(/\b\d+\.\d+\.\d+\.\d+\b/);
+  function sourceVersion(raw) {
+    const m = String(raw?.damageSource || "").match(/\b\d+\.\d+\.\d+\.\d+\b/);
     return m ? m[0] : null;
   }
 
-  function escapeHtml(v) {
-    return String(v).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-  }
+  function renderWeaponIntel(roster, raw) {
+    $("dashboardWeapon").textContent = roster.name;
+    $("weaponDescription").textContent = roster.desc || "Current BF6 weapon catalog entry.";
+    const badge = $("weaponDataBadge");
 
-  function populateWeapons() {
-    const sel = $("weaponSelect");
-    const weapons = [...state.data.weapons].sort((a,b)=>(a.cls||"").localeCompare(b.cls||"") || a.name.localeCompare(b.name));
-    const groups = new Map();
-    weapons.forEach(w => {
-      const cls = w.cls || "Other";
-      if (!groups.has(cls)) groups.set(cls,[]);
-      groups.get(cls).push(w);
-    });
-    sel.innerHTML = "";
-    for (const [cls,list] of groups) {
-      const g = document.createElement("optgroup");
-      g.label = cls;
-      list.forEach(w => {
-        const o = document.createElement("option");
-        o.value = w.id;o.textContent=w.name;g.appendChild(o);
-      });
-      sel.appendChild(g);
+    if (!raw) {
+      badge.textContent = roster.id === "interdictor" ? "NEW WEAPON • STATS PENDING" : "STATS DATA PENDING";
+      badge.className = "source-badge warn";
+      $("combatNumbers").innerHTML = emptyStats("Exact raw stats are not available from the current analyzer feed yet.");
+      $("statBars").innerHTML = `<div class="why-item"><strong>Catalog available, stat feed missing</strong><span>The weapon remains selectable; the site does not replace it with sample data.</span></div>`;
+      $("rawStats").innerHTML = "";
+      return;
     }
-    state.weaponId = weapons[0]?.id || null;
-    sel.value = state.weaponId;
+
+    const ver = sourceVersion(raw);
+    badge.textContent = ver ? `RAW SOURCE ${ver}` : "RAW DATA LOADED";
+    badge.className = ver && ver !== CURRENT.liveVersion ? "source-badge warn" : "source-badge ok";
+
+    const c = combatAtDistance(raw, state.distance);
+    const combat = [
+      ["DAMAGE", c.damage == null ? "—" : c.damage.toFixed(c.damage % 1 ? 1 : 0), `@ ${state.distance}m`],
+      ["BTK", c.btk ?? "—", "100 HP body"],
+      ["TTK", c.ttk == null ? "—" : `${Math.round(c.ttk)} ms`, "ideal body"],
+      ["ROF", c.rpm == null ? "—" : Math.round(c.rpm), "RPM"],
+      ["MAG", c.mag ?? "—", "base rounds"]
+    ];
+    $("combatNumbers").innerHTML = combat.map(([k, v, s]) => `<div class="combat-stat"><span>${k}</span><strong>${v}</strong><small>${s}</small></div>`).join("");
+
+    const bars = relativeBars(raw);
+    $("statBars").innerHTML = [
+      ["HIPFIRE", bars.hip], ["PRECISION", bars.precision], ["CONTROL", bars.control], ["MOBILITY", bars.mobility]
+    ].map(([name, val]) => `<div class="statbar"><label>${name}</label><div class="bartrack"><i style="width:${val ?? 0}%"></i></div><output>${val ?? "—"}</output></div>`).join("");
+
+    const rawStats = [
+      ["Velocity", raw.bulletVel ? `${Math.round(raw.bulletVel)} m/s` : "—"],
+      ["ADS", raw.adsTime ? `${Math.round(raw.adsTime)} ms` : "—"],
+      ["Tac reload", raw.tacRld ? `${Number(raw.tacRld).toFixed(2)} s` : "—"],
+      ["Vert recoil", Number.isFinite(Number(raw.recoilV)) ? Number(raw.recoilV).toFixed(3) : "—"],
+      ["Recoil var.", Number.isFinite(Number(raw.recoilVar)) ? Number(raw.recoilVar).toFixed(1) : "—"],
+      ["Fire mode", raw.fireMode || "—"]
+    ];
+    $("rawStats").innerHTML = rawStats.map(([k, v]) => `<div class="raw"><span>${k}</span><strong>${v}</strong></div>`).join("");
   }
 
-  function currentWeapon() { return state.data.weapons.find(w=>w.id===state.weaponId) || state.data.weapons[0]; }
+  function emptyStats(message) {
+    return `<div class="combat-stat" style="grid-column:1/-1"><span>DATA STATUS</span><strong style="font-size:15px">PENDING</strong><small>${escapeHtml(message)}</small></div>`;
+  }
 
-  function run() {
-    const weapon = currentWeapon();
-    if (!weapon) return;
-    const result = optimize(weapon,state.range);
-    render(weapon,result);
+  function renderPrimaryBuild(roster, raw) {
+    $("buildTitle").textContent = `${roster.name} • ${state.distance}m`;
+    $("pointsLimit").textContent = "/100";
+    if (!raw || !state.attachments || !state.ammo) return renderBuildPending("primary", raw ? "Attachment/ammo feed unavailable." : "Weapon stats/compatibility are not in the current source yet.");
+
+    try {
+      const result = optimize(raw, state.distance);
+      $("pointsUsed").textContent = result.points;
+      $("pointsMeter").style.width = `${result.points}%`;
+      const audit = $("pointAuditBadge");
+      audit.textContent = `POINT MATH PASS • ${result.points}/100 • SOURCE COSTS`;
+      audit.className = "audit-line ok";
+      $("attachmentGrid").innerHTML = result.picks
+        .filter(x => x.id !== "none")
+        .map(opt => attachmentCard(opt)).join("");
+      renderWhy(raw, result);
+      return result;
+    } catch (err) {
+      renderBuildPending("primary", err.message);
+      return null;
+    }
+  }
+
+  function renderBuildPending(which, reason) {
+    if (which === "primary") {
+      $("pointsUsed").textContent = "—";
+      $("pointsMeter").style.width = "0%";
+      $("pointAuditBadge").textContent = "BUILD DATA PENDING • NO POINTS GUESSED";
+      $("pointAuditBadge").className = "audit-line bad";
+      $("attachmentGrid").innerHTML = `<div class="attachment-card" style="grid-column:1/-1"><span>DATA STATUS</span><strong>No fabricated build</strong><small>${escapeHtml(reason)}</small></div>`;
+      $("whyList").innerHTML = `<div class="why-item"><strong>Why no build?</strong><span>${escapeHtml(reason)} The 63-gun catalog remains intact while build data catches up.</span></div>`;
+    } else {
+      $("secondaryPointsUsed").textContent = "—";
+      $("secondaryPointsMeter").style.width = "0%";
+      $("secondaryAudit").textContent = "SIDEARM BUILD DATA PENDING • NO POINTS GUESSED";
+      $("secondaryAudit").className = "audit-line bad";
+      $("secondaryAttachmentGrid").innerHTML = `<div class="attachment-card" style="grid-column:1/-1"><span>DATA STATUS</span><strong>No fabricated sidearm build</strong><small>${escapeHtml(reason)}</small></div>`;
+    }
+  }
+
+  function attachmentCard(opt) {
+    return `<div class="attachment-card"><span>${escapeHtml(SLOT_LABELS[opt.slot] || opt.slot)}<b>${pointCost(opt)}p</b></span><strong>${escapeHtml(opt.name || prettifyId(opt.id))}</strong><small>${escapeHtml(attachmentNote(opt))}</small></div>`;
+  }
+
+  function renderWhy(raw, result) {
+    const top = [...result.picks].filter(x => x.id !== "none").sort((a, b) => b.score - a.score).slice(0, 5);
+    const items = [{
+      title: `${state.distance}m target distance`,
+      text: distanceExplanation(state.distance)
+    }, ...top.filter(x => x.score > 0).map(x => ({ title: x.name || prettifyId(x.id), text: attachmentNote(x) }))];
+    $("whyList").innerHTML = items.slice(0, 6).map(x => `<div class="why-item"><strong>${escapeHtml(x.title)}</strong><span>${escapeHtml(x.text)}</span></div>`).join("");
+  }
+
+  function distanceExplanation(d) {
+    if (d <= 15) return "Handling, hipfire and sprint recovery dominate because fights are extremely close.";
+    if (d <= 40) return "Handling still matters, but recoil and moving ADS accuracy begin to matter more.";
+    if (d <= 80) return "Control, precision and velocity carry more weight while excessive handling penalties are avoided.";
+    if (d <= 130) return "Recoil consistency, velocity, optics and sight-picture utility dominate.";
+    return "Extreme-range utility receives the strongest weight: velocity, stability, optic utility, range finding and sight-picture preservation.";
+  }
+
+  function scoreClass(classKey, roster) {
+    const c = LOADOUT.classes[classKey];
+    if (!c) return -Infinity;
+    let s = blendRange(c.rangeBias) + Number(c.contextBias?.[state.context] ?? c.contextBias?.mixed ?? 0);
+    if (c.signatureCategory === roster.cls) s += 24;
+    return s;
+  }
+
+  function selectedClass(roster) {
+    if (state.classChoice !== "auto") return state.classChoice;
+    return Object.keys(LOADOUT.classes).sort((a, b) => scoreClass(b, roster) - scoreClass(a, roster))[0];
+  }
+
+  function scoreLoadoutItem(item) {
+    const s = item?.score || {};
+    return blendRange(s) + Number(s[state.context] ?? s.mixed ?? 0);
+  }
+
+  function chooseTwoGadgets(c) {
+    const ranked = [...(c.gadgets || [])].sort((a, b) => scoreLoadoutItem(b) - scoreLoadoutItem(a));
+    if (!ranked.length) return [];
+    const first = ranked[0];
+    const second = ranked.find(x => x.id !== first.id && !(c.rules?.maxLauncherGadgets === 1 && first.group === "launcher" && x.group === "launcher"));
+    return [first, second].filter(Boolean);
+  }
+
+  function renderCompleteLoadout(roster) {
+    const key = selectedClass(roster);
+    const c = LOADOUT.classes[key];
+    if (!c) return;
+    const path = [...(c.paths || [])].sort((a, b) => scoreLoadoutItem(b) - scoreLoadoutItem(a))[0];
+    const gadgets = chooseTwoGadgets(c);
+    const throwable = [...(c.throwables || [])].sort((a, b) => scoreLoadoutItem(b) - scoreLoadoutItem(a))[0];
+
+    $("classTitle").textContent = `${c.name} complete loadout`;
+    $("classFit").textContent = state.classChoice === "auto" ? "AUTO BEST FIT" : "MANUAL CLASS";
+    const pills = [
+      ["CLASS", c.name], ["TRAINING", path?.name || "—"], ["SIGNATURE", c.signatureGadget],
+      ["GADGET 1", gadgets[0]?.name || "—"], ["GADGET 2", gadgets[1]?.name || "—"], ["THROWABLE", throwable?.name || "—"]
+    ];
+    $("loadoutLine").innerHTML = pills.map(([k, v]) => `<div class="loadout-pill"><span>${escapeHtml(k)}</span><strong>${escapeHtml(v)}</strong></div>`).join("");
+
+    const expl = [
+      ["Class advantage", c.signatureCategory === roster.cls ? `${c.weaponBenefit} This directly synergizes with ${roster.name}.` : `${c.weaponBenefit} ${c.role}`],
+      [path?.name || "Training", path?.why || "Selected from class training options."],
+      [gadgets[0]?.name || "Gadget 1", gadgets[0]?.why || "—"],
+      [gadgets[1]?.name || "Gadget 2", gadgets[1]?.why || "—"],
+      [throwable?.name || "Throwable", throwable?.why || "—"]
+    ];
+    $("loadoutExplanations").innerHTML = expl.map(([k, v]) => `<div class="explanation"><strong>${escapeHtml(k)}</strong><p>${escapeHtml(v)}</p></div>`).join("");
+  }
+
+  function secondaryTargetDistance() {
+    if (state.distance >= 70) return 10;
+    if (state.distance <= 25) return 45;
+    return 20;
+  }
+
+  function chooseSecondary() {
+    const rawSecondaries = state.rawWeapons.filter(w => w.cls === "Secondary");
+    const pool = (LOADOUT.fallbackSecondaries || []).map(f => {
+      const raw = rawSecondaries.find(w => aliasKey(w.id) === aliasKey(f.id)) || rawSecondaries.find(w => aliasKey(w.name) === aliasKey(f.name));
+      return raw || f;
+    });
+    const m = distanceMix(secondaryTargetDistance());
+    const primaryLong = state.distance >= 70;
+    const primaryShort = state.distance <= 25;
+
+    return pool.map(w => {
+      const role = LOADOUT.secondaryRoles?.[w.name] || LOADOUT.secondaryRoles?.[(rosterForRaw(w)?.name)] || {};
+      let score = (role.short || 0) * m.short + (role.medium || 0) * m.medium + (role.long || 0) * m.long;
+      if (primaryLong) score += Number(role.complementLong || 0);
+      if (primaryShort) score += Number(role.complementShort || 0);
+      return { weapon: w, role, score };
+    }).sort((a, b) => b.score - a.score)[0] || null;
+  }
+
+  function renderSecondary() {
+    const rec = chooseSecondary();
+    if (!rec) return renderBuildPending("secondary", "No secondary data available.");
+    const raw = state.rawWeapons.find(w => aliasKey(w.id) === aliasKey(rec.weapon.id)) || null;
+    $("secondaryTitle").textContent = rec.weapon.name;
+    const target = secondaryTargetDistance();
+    $("secondaryWhy").textContent = `${rec.role?.why || "Selected to cover the primary weapon's weak range."} Sidearm build is optimized around ~${target}m as a complement to your ${state.distance}m primary setup.`;
+
+    if (!raw || !state.attachments || !state.ammo) return renderBuildPending("secondary", raw ? "Attachment/ammo feed unavailable." : "Exact sidearm attachment data unavailable.");
+    try {
+      const result = optimize(raw, target);
+      $("secondaryPointsUsed").textContent = result.points;
+      $("secondaryPointsMeter").style.width = `${Math.min(100, result.points / 60 * 100)}%`;
+      $("secondaryAudit").textContent = `POINT MATH PASS • ${result.points}/60 • SIDEARM BUDGET`;
+      $("secondaryAudit").className = "audit-line ok";
+      $("secondaryAttachmentGrid").innerHTML = result.picks.filter(x => x.id !== "none").map(attachmentCard).join("");
+    } catch (err) {
+      renderBuildPending("secondary", err.message);
+    }
+  }
+
+  function renderWarnings(roster, raw) {
+    const warnings = [];
+    if (state.source.weapons === "failed") warnings.push("Weapon stat feed is unavailable. All 63 catalog weapons remain visible, but raw stat/TTK panels are pending.");
+    if (state.source.attachments === "failed" || state.source.ammo === "failed") warnings.push("Attachment or ammo feed is unavailable, so the optimizer will not fabricate a point build.");
+    const ver = sourceVersion(raw);
+    if (ver && ver !== CURRENT.liveVersion) warnings.push(`This weapon's damage provenance reports ${ver}; live BF6 is ${CURRENT.liveVersion}. Use the recommendation as version-sensitive, not guaranteed current meta.`);
+    if (roster.id === "interdictor" && !raw) warnings.push("Interdictor is in the current roster, but this analyzer feed has not published its raw weapon/attachment model yet.");
+    if (["ef88", "brod3"].includes(roster.id) && Date.now() < Date.parse("2026-09-02T00:00:00Z")) warnings.push("Match Trigger is excluded from this weapon through the Sep 1 rollout window because EA has a fix scheduled for its full-auto behavior.");
+    const card = $("warningCard");
+    if (!warnings.length) { card.classList.add("hidden"); card.innerHTML = ""; return; }
+    card.classList.remove("hidden");
+    card.innerHTML = `<strong>DATA CHECK:</strong> ${warnings.map(escapeHtml).join(" ")}`;
+  }
+
+  function renderRangeNote(roster) {
+    const note = roster.officialRange;
+    const el = $("officialRangeNote");
+    if (Array.isArray(note) && note.length === 2) {
+      const inRange = state.distance >= note[0] && state.distance <= note[1];
+      el.innerHTML = `<strong>EA RANGE NOTE:</strong> ${escapeHtml(roster.name)} is described as strongest around ${note[0]}–${note[1]}m. ${inRange ? "Your selected distance is inside that window." : "Your selected distance is outside that window."}`;
+    } else {
+      el.textContent = `Exact target: ${state.distance}m. Quick labels are shortcuts only; the optimizer scores the actual distance.`;
+    }
+  }
+
+  function renderHeader(roster) {
+    $("weaponClassLabel").textContent = roster.cls;
+    $("weaponHeaderName").textContent = roster.name;
+    $("weaponUnlock").textContent = roster.unlock || "";
+    $("distanceValue").textContent = state.distance;
+    renderRangeNote(roster);
+  }
+
+  function renderAll() {
+    const roster = rosterWeapon();
+    if (!roster) return;
+    const raw = rawForRoster(roster);
+    renderHeader(roster);
+    renderWeaponIntel(roster, raw);
+    renderPrimaryBuild(roster, raw);
+    renderCompleteLoadout(roster);
+    renderSecondary();
+    renderWarnings(roster, raw);
+  }
+
+  function categoryRoster() {
+    return CURRENT.roster.filter(w => w.cls === state.category);
+  }
+
+  function populateTabs() {
+    const tabs = $("weaponTabs");
+    tabs.innerHTML = CURRENT.primaryClasses.map(cls => `<button data-category="${escapeHtml(cls)}" class="${cls === state.category ? "active" : ""}">${escapeHtml(tabLabel(cls))}</button>`).join("");
+  }
+
+  function tabLabel(cls) {
+    const map = { "Assault Rifle": "Assault", Carbine: "Carbine", SMG: "SMG", LMG: "LMG", DMR: "DMR", "Sniper Rifle": "Sniper", Shotgun: "Shotgun" };
+    return map[cls] || cls;
+  }
+
+  function populateWeaponSelect(keepId = null) {
+    const list = categoryRoster();
+    $("weaponSelect").innerHTML = list.map(w => `<option value="${escapeHtml(w.id)}">${escapeHtml(w.name)}</option>`).join("");
+    const valid = keepId && list.some(w => w.id === keepId);
+    state.weaponId = valid ? keepId : list[0]?.id || null;
+    $("weaponSelect").value = state.weaponId || "";
+  }
+
+  function setDistance(d) {
+    state.distance = Math.max(5, Math.min(300, Math.round(Number(d) || 25)));
+    $("distanceSlider").value = state.distance;
+    $("distanceValue").textContent = state.distance;
+    document.querySelectorAll("#distancePresets button").forEach(b => b.classList.toggle("active", Number(b.dataset.distance) === state.distance));
+    renderAll();
   }
 
   function bind() {
-    $("weaponSelect").addEventListener("change",e=>{state.weaponId=e.target.value;run();});
-    $("classSelect").addEventListener("change",e=>{state.classChoice=e.target.value;run();});
-    $("contextSelect").addEventListener("change",e=>{state.context=e.target.value;run();});
-    $("rangePicker").addEventListener("click",e=>{
-      const b=e.target.closest("button[data-range]"); if(!b)return;
-      state.range=b.dataset.range;
-      [...$("rangePicker").querySelectorAll("button")].forEach(x=>x.classList.toggle("active",x===b));
-      // Useful defaults, still user-overridable.
-      $("movingAds").checked = state.range==="medium";
-      run();
+    $("weaponTabs").addEventListener("click", e => {
+      const btn = e.target.closest("button[data-category]");
+      if (!btn) return;
+      state.category = btn.dataset.category;
+      populateTabs();
+      populateWeaponSelect();
+      renderAll();
     });
-    ["stayAds","movingAds","stealth","bigMag"].forEach(id=>$(id).addEventListener("change",run));
-    $("optimizeBtn").addEventListener("click",run);
+    $("weaponSelect").addEventListener("change", e => { state.weaponId = e.target.value; renderAll(); });
+    $("distanceSlider").addEventListener("input", e => setDistance(e.target.value));
+    $("distancePresets").addEventListener("click", e => {
+      const btn = e.target.closest("button[data-distance]");
+      if (btn) setDistance(btn.dataset.distance);
+    });
+    $("classSelect").addEventListener("change", e => { state.classChoice = e.target.value; renderAll(); });
+    $("contextSelect").addEventListener("change", e => { state.context = e.target.value; renderAll(); });
+    ["stayAds", "movingAds", "stealth", "bigMag"].forEach(id => $(id).addEventListener("change", renderAll));
+    $("optimizeBtn").addEventListener("click", () => {
+      renderAll();
+      $("buildTitle")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  }
+
+  function escapeHtml(v) {
+    return String(v ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
   }
 
   async function init() {
-    await loadData();
-    populateWeapons();
+    state.category = "Assault Rifle";
+    populateTabs();
+    populateWeaponSelect("b36a4");
     bind();
-    // Prefer a recognizable default if present.
-    const preferred = state.data.weapons.find(w=>w.id==="b36a4") || state.data.weapons[0];
-    if (preferred) { state.weaponId=preferred.id; $("weaponSelect").value=preferred.id; }
-    $("movingAds").checked = true;
-    run();
-    if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(()=>{});
+    renderAll(); // catalog shell appears instantly
+    await loadData();
+    renderAll();
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(() => {});
   }
 
   init();
