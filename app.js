@@ -147,6 +147,7 @@
     const expectedRawRoster = CURRENT.roster.filter(r => rawForRoster(r)).length;
     if (expected !== expectedRawRoster) errors.push(`cache raw-roster ${expected}/${expectedRawRoster}`);
     if (cache?.source?.gameVersion !== CURRENT.liveVersion) errors.push(`cache version ${cache?.source?.gameVersion || "missing"}/${CURRENT.liveVersion}`);
+    if (cache?.source?.rankingModel !== "laserbeam-v1") errors.push(`ranking model ${cache?.source?.rankingModel || "missing"}/laserbeam-v1`);
     if (!Number.isInteger(modeled) || modeled !== expected) errors.push(`modeled ${modeled}/${expected}`);
     if (!Number.isInteger(incomplete) || incomplete !== 0) errors.push(`incomplete ${incomplete}`);
     if (cache?.audit?.errors?.length) errors.push(`audit errors ${cache.audit.errors.length}`);
@@ -163,6 +164,7 @@
         if (!Number.isFinite(Number(row.points)) || Number(row.points) > Number(w.budget)) { errors.push(`${w.id}@${d}: invalid points`); break; }
         if (!w.builds?.[row.buildId]) { errors.push(`${w.id}@${d}: missing winning build`); break; }
         if (!Number.isFinite(Number(row.ttk)) || Number(row.ttk) < 0 || !Number.isFinite(Number(row.triggerTtk)) || Number(row.triggerTtk) < Number(row.ttk) || !Number.isFinite(Number(row.flightMs)) || Number(row.flightMs) < 0 || !Number.isFinite(Number(row.btk)) || Number(row.btk) < 1) { errors.push(`${w.id}@${d}: invalid ballistic lethality`); break; }
+        if (!Number.isFinite(Number(row.beamIndex)) || Number(row.beamIndex) < 0 || !Number.isFinite(Number(row.effectiveAdsSpreadDeg)) || Number(row.effectiveAdsSpreadDeg) < 0) { errors.push(`${w.id}@${d}: invalid beam metrics`); break; }
       }
     }
     return { ok: errors.length === 0, errors };
@@ -877,7 +879,25 @@
   function cachedCombat(raw, d = state.distance) {
     const cw = cacheWeapon(raw);
     const row = cw?.best?.[String(Math.max(1, Math.min(300, Math.round(Number(d) || 25))))];
-    return row ? { damage:row.damage, btk:row.btk, ttk:row.ttk, mechTtk:row.ttk, triggerTtk:row.triggerTtk, flightMs:row.flightMs, ballisticsExact:row.ballisticsExact, lowBtk:row.lowBtk, lowTtk:row.lowTtk, source:"exhaustive-cache" } : null;
+    return row ? { damage:row.damage, btk:row.btk, ttk:row.ttk, mechTtk:row.ttk, triggerTtk:row.triggerTtk, flightMs:row.flightMs, ballisticsExact:row.ballisticsExact, lowBtk:row.lowBtk, lowTtk:row.lowTtk, beamIndex:row.beamIndex, recoil:row.recoil, recoilVariationDeg:row.recoilVariationDeg, unpredictableRecoil:row.unpredictableRecoil, effectiveAdsSpreadDeg:row.effectiveAdsSpreadDeg, movingAdsMinSpreadDeg:row.movingAdsMinSpreadDeg, source:"exhaustive-cache" } : null;
+  }
+
+
+  function fallbackBeamIndex(raw, d = state.distance) {
+    if (!raw) return null;
+    const recoil=Math.max(0,Number(raw.recoilV)||0);
+    const variation=Math.max(0,Number(raw.recoilVar)||0);
+    const unpredictable=recoil*Math.sin(Math.min(90,variation)*Math.PI/180);
+    const sips=Math.max(0,Number(raw.recoilIncAds)||0);
+    const moving=Math.max(0,Number(raw?._movingAdsMinSpreadDeg ?? raw?.spread?.adsMove?.[0])||0);
+    const baseSpread=Math.max(0,Number(raw?.spread?.adsStand?.[0])||0);
+    const rangeT=Math.min(1,Math.max(1,Number(d)||1)/120);
+    // Fallback only. The exhaustive cache uses the Analyzer's transformed recoil
+    // and effective-spread simulator for the winning attachment build.
+    return recoil*(1+0.35*rangeT)
+      + unpredictable*(1.25+0.75*rangeT)
+      + (baseSpread+sips)*(1.25+1.75*rangeT)
+      + moving*(0.35+0.65*rangeT);
   }
 
   function cachedWinningStats(raw, d = state.distance) {
@@ -1132,49 +1152,51 @@
         if (category !== "__all__" && w.cls !== category) return false;
         const classAudit = auditForClass(w.cls);
         if (!classAudit) return false;
-        // AUTO VERIFIED is fail-closed. Empirical-current weapons do not enter
-        // automatic ranking until their damage/cadence/ballistics are independently verified.
         if (auditedDefForRoster(w, rawForRoster(w))?.confidence === "empirical-current") return false;
         if (category === "__all__" && classAudit.crossClassEligible === false) return false;
         return true;
       })
       .map(roster => {
         const raw = rawForRoster(roster);
-        // Independent class audit is authoritative. This path deliberately
-        // works without raw Analyzer data so a newly audited weapon such as
-        // Interdictor can rank while its attachment model remains pending.
-        // META must rank the weapon WITH its best verified legal build whenever the
-        // exhaustive cache passes integrity. Class-audit values remain the fail-closed
-        // fallback when no valid cache exists.
         let combat = raw ? cachedCombat(raw, d) : null;
         if (!combat) combat = auditedRosterCombat(roster, raw, d);
         if (!state.combatCache && raw) combat = auditedClassOptimized(raw, d) || combat;
-        // AUTO is fail-closed: never fall back to raw cadence/damage when an audited
-        // model is missing. That exact bypass leaked Mini Scout's stale 51-RPM cadence.
         const def = auditedDefForRoster(roster, raw);
         const winStats = raw ? cachedWinningStats(raw, d) : null;
         const velocity = Number(winStats?.bulletVel ?? (roster.cls === "DMR" ? def?.equippedVelocity : null) ?? raw?.bulletVel ?? def?.bulletVel) || 0;
         if (combat && !Number.isFinite(Number(combat.triggerTtk))) combat = addTriggerKill(roster, raw, combat, d, "standard", velocity);
         const ads = Number(winStats?.adsTimeMs ?? (roster.cls === "DMR" ? def?.adsTime : null) ?? raw?.adsTime ?? def?.adsTime);
-        return { roster, raw, combat, velocity, ads:Number.isFinite(ads) ? ads : 9999 };
+        const beamIndex = Number(combat?.beamIndex ?? winStats?.beam?.beamIndex ?? fallbackBeamIndex(raw,d));
+        return { roster, raw, combat, velocity, ads:Number.isFinite(ads) ? ads : 9999, beamIndex:Number.isFinite(beamIndex)?beamIndex:null };
       })
       .filter(x => x.combat && Number.isFinite(x.combat.ttk) && Number.isFinite(x.combat.triggerTtk) && Number.isFinite(x.combat.damage))
-      // Cross-class VERIFIED must also have a verified projectile model. Within a
-      // selected class, provisional flight timing can still be shown explicitly.
       .filter(x => category !== "__all__" || x.combat.ballisticsExact === true);
 
-    // Meta ranking is independent and lethality-first. No outside tier list or
-    // popularity value enters here. Exact-distance trigger→lethal-impact TTK is
-    // the hard primary key; only true ties fall through to mechanical TTK, BTK,
-    // damage and delivery/handling.
+    if (!pool.length) return [];
+    const ttkVals=pool.map(x=>Number(x.combat.triggerTtk)).filter(Number.isFinite);
+    const beamVals=pool.map(x=>Number(x.beamIndex)).filter(Number.isFinite);
+    const fastest=Math.min(...ttkVals), slowest=Math.max(...ttkVals);
+    const bestBeam=beamVals.length?Math.min(...beamVals):null, worstBeam=beamVals.length?Math.max(...beamVals):null;
+    for (const x of pool) {
+      const t=Number(x.combat.triggerTtk);
+      const lethalScore=slowest===fastest?100:100*(slowest-t)/(slowest-fastest);
+      const b=Number(x.beamIndex);
+      const beamScore=!Number.isFinite(b)||bestBeam==null?50:(worstBeam===bestBeam?100:100*(worstBeam-b)/(worstBeam-bestBeam));
+      // Laserbeam META: lethality still has the larger share, but a tiny paper-TTK
+      // lead can no longer hide materially worse recoil/spread. A weapon >25%
+      // slower than the fastest gets a competitiveness penalty.
+      const offPace=t>fastest*1.25+10;
+      x.lethalScore=lethalScore; x.beamScore=beamScore;
+      x.metaScore=0.55*lethalScore+0.45*beamScore-(offPace?20:0);
+    }
     return pool.sort((a,b) =>
-      (a.combat.triggerTtk ?? Infinity) - (b.combat.triggerTtk ?? Infinity) ||
-      a.combat.ttk - b.combat.ttk ||
-      a.combat.btk - b.combat.btk ||
-      b.combat.damage - a.combat.damage ||
-      b.velocity - a.velocity ||
-      a.ads - b.ads
-    ).map((x,i) => ({...x, rankScore:Math.max(0,100-i)}));
+      b.metaScore-a.metaScore ||
+      b.beamScore-a.beamScore ||
+      (a.combat.triggerTtk??Infinity)-(b.combat.triggerTtk??Infinity) ||
+      a.combat.btk-b.combat.btk ||
+      b.combat.damage-a.combat.damage ||
+      b.velocity-a.velocity || a.ads-b.ads
+    ).map((x,i)=>({...x,rankScore:Math.max(0,100-i)}));
   }
 
   function resolveAutoWeapon() {
@@ -1541,9 +1563,9 @@
     }
     const leader=ranked[0];
     const scope = state.category === "__all__" ? "VERIFIED CLASSES ONLY" : state.category.toUpperCase();
-    const top = ranked.slice(0,3).map((x,i)=>`<div class="rank-chip ${i===0?'winner':''}"><span>#${i+1}</span><b>${escapeHtml(x.roster.name)}</b><small>${Number.isFinite(Number(x.combat.triggerTtk)) ? `${Math.round(x.combat.triggerTtk)}ms TTK incl flight` : "TTK pending"}${x.combat.btk === 1 ? " • 1 shot" : ""} • ${fmtDamage(x.combat.damage)} dmg</small></div>`).join("");
+    const top = ranked.slice(0,3).map((x,i)=>`<div class="rank-chip ${i===0?'winner':''}"><span>#${i+1}</span><b>${escapeHtml(x.roster.name)}</b><small>${Number.isFinite(Number(x.combat.triggerTtk)) ? `${Math.round(x.combat.triggerTtk)}ms TTK • Beam ${Math.round(x.beamScore ?? 0)}` : "TTK pending"}${x.combat.btk === 1 ? " • 1 shot" : ""} • ${fmtDamage(x.combat.damage)} dmg</small></div>`).join("");
     box.className = "auto-recommendation";
-    box.innerHTML = `<div class="auto-main"><span>AUTO BEST • ${escapeHtml(scope)} • ${state.distance}M</span><strong>${escapeHtml(leader.roster.name)}</strong><small>Independent meta: fastest trigger→lethal-impact chest TTK at the selected distance is the hard first key; mechanical TTK, BTK, damage and delivery break ties. Community tier lists/popularity are not inputs. ${state.combatCache ? "Exhaustive ballistic cache active." : "Audited ballistic fallback active."} ${ranked.length}/${state.category === "__all__" ? ranked.length : categoryRoster().length} weapons are currently in this ranking. Cross-class AUTO remains gated to audited classes.</small></div><div class="rank-row">${top}</div>`;
+    box.innerHTML = `<div class="auto-main"><span>AUTO BEST • ${escapeHtml(scope)} • ${state.distance}M</span><strong>${escapeHtml(leader.roster.name)}</strong><small>Laserbeam meta: 55% exact-distance lethality + 45% recoil/spread controllability. A gun more than 25% off the fastest kill pace is penalized. Community tier lists/popularity are not inputs. ${state.combatCache ? "Exhaustive ballistic cache active." : "Audited ballistic fallback active."} ${ranked.length}/${state.category === "__all__" ? ranked.length : categoryRoster().length} weapons are currently in this ranking. Cross-class AUTO remains gated to audited classes.</small></div><div class="rank-row">${top}</div>`;
   }
 
   function fmtDamage(v) {

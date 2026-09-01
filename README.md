@@ -1,3 +1,21 @@
+# BF6 Weapons Lab v1.9 — Laserbeam META
+
+v1.9 changes AUTO from paper-TTK-first ranking to a recoil-aware laserbeam META. The previous engine already stored recoil/spread mechanics, but they were only attachment tie-breaks; a 1 ms TTK advantage could therefore keep the same high-recoil gun at #1. This release promotes transformed recoil/spread into the actual weapon ranking while retaining a hard lethality competitiveness penalty.
+
+## v1.9 corrections
+
+- **Fixed a cache-builder syntax failure:** `dedupeDominated()` contained a duplicate `const sig` declaration. That could prevent the exhaustive combat cache from building at all and leave the UI on a simpler fallback ranking.
+- **AUTO is now Laserbeam META:** 55% exact-distance trigger→kill lethality + 45% recoil/spread controllability.
+- **Off-pace guns are penalized:** weapons more than 25% slower than the fastest trigger→kill at the selected distance receive an additional ranking penalty.
+- **Beam Index uses transformed mechanics:** recoil amount, directional recoil variation, effective sustained ADS spread, and moving-ADS minimum spread after the selected attachments are applied.
+- **Attachment winners are recoil-aware:** when two verified builds are within 12% trigger→kill, the lower Beam Index wins before tiny paper-TTK differences.
+- **Old caches fail closed:** `rankingModel` must equal `laserbeam-v1`, and every winning row must include finite Beam Index and effective ADS spread values.
+- **Permanent regression gate:** `scripts/audit-laserbeam-meta.mjs` syntax-checks the relevant engine, verifies recoil/spread primitives are wired in, verifies the cache-model gate, and uses a synthetic ranking test to ensure a slightly slower laserbeam can beat a tiny paper-TTK advantage while a grossly slow gun cannot.
+
+### Beam Index scope
+
+Beam Index is a **controllability index**, not a fabricated hit-probability percentage. Lower is better. It is built from the Analyzer's real recoil/spread model and becomes more sensitive to angular instability as distance increases. Actual player compensation, target movement, network conditions and aim skill are not claimed or guessed.
+
 # BF6 Weapons Lab v1.8 — Exact-Distance Ballistic TTK
 
 This release fixes the exact-distance TTK failure exposed by the Sniper Rifle screenshots. v1.7's class audits were mechanically correct but the primary displayed/ranking TTK still used first-hit→kill timing, which intentionally excludes projectile flight. v1.8 separates mechanical TTK from trigger→lethal-impact TTK and makes the distance-sensitive ballistic value authoritative for AUTO ranking.

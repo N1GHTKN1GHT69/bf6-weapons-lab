@@ -86,7 +86,7 @@ const {
   setAttachmentContext, applyAttachments,
 } = applyMod;
 const { damagePerShotAtRange } = damageMod;
-const { shotIntervalAfter, setSimContext } = coreMod;
+const { shotIntervalAfter, setSimContext, selectedRecoilAmountFor, selectedRecoilVariationFor, effectiveSpreadMax } = coreMod;
 const { flightTimeAtDistance } = ballisticsMod;
 const { computeAttPts } = loadoutMod;
 
@@ -333,9 +333,38 @@ function combatProfile(w, attSet) {
   return rows;
 }
 
+function beamMetrics(w, distance) {
+  // "Laserbeam" is intentionally derived from the Analyzer's transformed weapon
+  // mechanics, not UI stat bars or community rankings. Lower beamIndex is better.
+  // Recoil amount is deterministic kick. Directional variation converts part of
+  // that kick into unpredictable lateral movement. Effective spread is the
+  // simulator's sustained ADS spread after firing/recovery, and moving ADS is
+  // retained as a smaller penalty because most real fights involve some strafe.
+  const recoil = Math.max(0, Number(selectedRecoilAmountFor(w)) || 0);
+  const variationDeg = Math.max(0, Number(selectedRecoilVariationFor(w)) || 0);
+  const unpredictable = recoil * Math.sin(Math.min(90, variationDeg) * Math.PI / 180);
+  const effSpread = Math.max(0, Number(effectiveSpreadMax(w, 8)) || 0);
+  const moving = Math.max(0, Number(w._movingAdsMinSpreadDeg) || 0);
+  const rangeT = Math.min(1, Math.max(1, Number(distance) || 1) / 120);
+  // Range makes angular instability increasingly important. No fake hit-rate is
+  // claimed here: this is an angular controllability index used for ranking.
+  const beamIndex = (recoil * (1.00 + 0.35 * rangeT))
+    + (unpredictable * (1.25 + 0.75 * rangeT))
+    + (effSpread * (2.00 + 2.50 * rangeT))
+    + (moving * (0.35 + 0.65 * rangeT));
+  return {
+    beamIndex:+beamIndex.toFixed(6),
+    recoil:+recoil.toFixed(6),
+    recoilVariationDeg:+variationDeg.toFixed(6),
+    unpredictableRecoil:+unpredictable.toFixed(6),
+    effectiveAdsSpreadDeg:+effSpread.toFixed(6),
+    movingAdsMinSpreadDeg:+moving.toFixed(6),
+  };
+}
+
 function practicalScore(w, distance, attsSet) {
-  // This is only a tie-break AFTER TTK/BTK/damage. It is derived from transformed
-  // weapon mechanics, never from community popularity or third-party rankings.
+  // Secondary utility score. Beam controllability is stored separately and is
+  // promoted into weapon/build ranking by the Laserbeam Meta layer.
   const d = Math.max(1, distance);
   const rangeT = Math.min(1, d / 120);
   const closeT = 1 - Math.min(1, d / 45);
@@ -366,13 +395,23 @@ function practicalScore(w, distance, attsSet) {
 
 function betterAtDistance(a, b) {
   if (!b) return true;
-  // Exact-distance meta order: trigger pull -> lethal impact first. Mechanical
-  // first-hit TTK is retained only as a secondary tie-break.
-  if (a.triggerTtk !== b.triggerTtk) return (a.triggerTtk ?? Infinity) < (b.triggerTtk ?? Infinity);
+  // Laserbeam build policy: a materially faster lethal build still wins, but
+  // inside a 12% trigger->kill window we prefer the build with the lower
+  // transformed recoil/spread Beam Index. This prevents a 1-2 ms paper-TTK
+  // advantage from forcing a much less controllable build.
+  const at = Number(a.triggerTtk), bt = Number(b.triggerTtk);
+  if (Number.isFinite(at) && Number.isFinite(bt)) {
+    const fastest = Math.min(at, bt);
+    const slowest = Math.max(at, bt);
+    const near = fastest > 0 ? slowest / fastest <= 1.12 : at === bt;
+    if (near && a.beamIndex !== b.beamIndex) return (a.beamIndex ?? Infinity) < (b.beamIndex ?? Infinity);
+    if (at !== bt) return at < bt;
+  } else if (a.triggerTtk !== b.triggerTtk) return (a.triggerTtk ?? Infinity) < (b.triggerTtk ?? Infinity);
   if (a.ttk !== b.ttk) return (a.ttk ?? Infinity) < (b.ttk ?? Infinity);
   if (a.btk !== b.btk) return (a.btk ?? Infinity) < (b.btk ?? Infinity);
   if (a.damage !== b.damage) return (a.damage ?? -Infinity) > (b.damage ?? -Infinity);
   if (a.lowTtk !== b.lowTtk) return (a.lowTtk ?? Infinity) < (b.lowTtk ?? Infinity);
+  if (a.beamIndex !== b.beamIndex) return (a.beamIndex ?? Infinity) < (b.beamIndex ?? Infinity);
   if (a.practical !== b.practical) return a.practical > b.practical;
   if (a.points !== b.points) return a.points < b.points;
   return a.buildId < b.buildId;
@@ -391,6 +430,7 @@ const results = {
   source: {
     repository: 'raymdl/BF6-Weapon-Analyzer',
     gameVersion: GAME_VERSION,
+    rankingModel: 'laserbeam-v1',
     commit: (() => { try { return execFileSync('git',['-C',upstream,'rev-parse','HEAD'],{encoding:'utf8'}).trim(); } catch { return null; } })(),
     policy: 'Raw weapon/attachment facts and upstream simulator math only. No tier lists, popularity, usage, creator rankings, or community meta scores are inputs.'
   },
@@ -398,7 +438,7 @@ const results = {
     distances: [DIST_MIN,DIST_MAX],
     primaryBudget: PRIMARY_BUDGET,
     sidearmBudget: SIDEARM_BUDGET,
-    weaponRankOrder: ['trigger-to-lethal-impact chest TTK','mechanical chest TTK','BTK','damage/shot','low-body TTK','mechanical delivery tie-break'],
+    weaponRankOrder: ['laserbeam composite: 55% exact-distance lethality + 45% recoil/spread controllability','trigger-to-lethal-impact chest TTK','Beam Index','mechanical chest TTK','BTK','damage/shot'],
     attachmentPolicy: 'All legal user-visible combinations are counted. Speculative/assumed attachment mechanics are excluded from verified AUTO META; functionally identical or strictly more-expensive verified duplicates are safely collapsed before simulation.'
   },
   audit: { weaponsSource: weapons.length, modeled:0, incomplete:0, rawLegalCombinations:'0', canonicalCombinationsEvaluated:0, distancesPerWeapon:DIST_MAX-DIST_MIN+1, errors:[] },
@@ -453,6 +493,7 @@ for (const w of weapons) {
           flightMs:row.flightMs, triggerTtk:row.triggerTtk, ballisticsExact:row.ballisticsExact,
           lowBtk:row.lowBtk, lowTtk:row.lowTtk,
           practical: practicalScore(modified,row.d,attSet),
+          ...beamMetrics(modified,row.d),
         };
         if (betterAtDistance(candidate,best[row.d])) best[row.d] = candidate;
       }
@@ -463,7 +504,8 @@ for (const w of weapons) {
           picks:picks.map(p=>{ const d=optionData(p.slot,w,p.id) ?? {id:p.id,name:p.id}; return {slot:p.slot,id:p.id,name:d.name ?? p.id,pts:p.pts}; }),
           stats:{ rpm:modified.rpm, bulletVel:modified.bulletVel, recoilV:modified.recoilV, recoilVar:modified.recoilVar,
             recoilIncAds:modified.recoilIncAds, adsTimeMs:modified._adsTimeMs ?? modified.adsTime ?? null,
-            movingAdsMinSpreadDeg:modified._movingAdsMinSpreadDeg ?? null, mag:modified.mag, tacRld:modified.tacRld,
+            movingAdsMinSpreadDeg:modified._movingAdsMinSpreadDeg ?? null,
+            beam:beamMetrics(modified,50), mag:modified.mag, tacRld:modified.tacRld,
             fireMode:modified.fireMode, burstRounds:modified.burstRounds ?? null },
         };
       }

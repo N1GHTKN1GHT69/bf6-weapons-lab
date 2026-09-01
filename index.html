@@ -28,11 +28,11 @@
       <section class="hero">
         <div class="kicker">BATTLEFIELD 6 • MULTIPLAYER</div>
         <h1>Pick the gun. Set the distance. Get the loadout.</h1>
-        <p>Built around BF6's weapon language, but simplified: choose a category or let AUTO BEST pick any primary, set the exact distance, then get the independently calculated fastest-killing weapon and a valid full loadout. No community tier lists or popularity rankings drive the meta.</p>
+        <p>Built around BF6's weapon language, but simplified: choose a category or let AUTO BEST pick any primary, set the exact distance, then get an independently calculated laserbeam-meta weapon and valid full loadout. Ranking combines exact-distance lethality with transformed recoil/spread control; community tier lists and popularity are not inputs.</p>
       </section>
 
       <section class="builder card">
-        <div class="step-title"><span>01</span><div><b>PRIMARY WEAPON</b><small>Choose AUTO BEST or a category. Categories default to the fastest-killing weapon at your selected distance.</small></div></div>
+        <div class="step-title"><span>01</span><div><b>PRIMARY WEAPON</b><small>Choose AUTO BEST or a category. AUTO defaults to the strongest laserbeam build at your exact distance, balancing kill speed with recoil/spread control.</small></div></div>
         <nav class="weapon-tabs" id="weaponTabs" aria-label="Weapon categories"></nav>
         <div class="weapon-row">
           <div class="field grow">
@@ -171,7 +171,7 @@
           <div><span>PRIMARY BUDGET</span><strong>100 points</strong><small>Hard cap</small></div>
           <div><span>SECONDARY BUDGET</span><strong>60 points</strong><small>Different from primaries</small></div>
         </div>
-        <p class="method-note">AUTO weapon ranking is exact-distance lethality-first: trigger→lethal-impact chest TTK is the hard first key, so projectile flight time changes continuously with distance. Mechanical first-hit→kill TTK remains visible as a separate diagnostic. Attachment builds use verified direct lethality effects first, then optimize hit delivery. Missing audit/ballistic data fails closed rather than falling back to raw cadence.</p>
+        <p class="method-note">AUTO uses LASERBEAM META: 55% exact-distance trigger→kill lethality and 45% transformed recoil/spread controllability. Weapons more than 25% off the fastest kill pace receive an additional penalty. Mechanical TTK remains visible separately. Exhaustive builds use the Analyzer's attachment transforms, recoil amount, directional variation and effective ADS spread; missing audited data fails closed.</p>
       </section>
     </main>
 

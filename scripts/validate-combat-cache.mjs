@@ -4,6 +4,7 @@ const path = process.argv[2] || 'data/combat-cache.json';
 const c = JSON.parse(await readFile(path,'utf8'));
 const errors=[];
 if (typeof c?.source?.gameVersion !== 'string' || !c.source.gameVersion) errors.push('missing source.gameVersion');
+if (c?.source?.rankingModel !== 'laserbeam-v1') errors.push(`ranking model ${c?.source?.rankingModel || 'missing'}/laserbeam-v1`);
 const expected=Number(c?.audit?.weaponsSource);
 const modeled=Number(c?.audit?.modeled);
 const incomplete=Number(c?.audit?.incomplete);
@@ -28,6 +29,8 @@ for (const [id,w] of entries) {
     if (!Number.isFinite(Number(x.flightMs)) || x.flightMs < 0) { errors.push(`${id}@${d}: invalid flight time`); break; }
     if (!Number.isFinite(Number(x.triggerTtk)) || x.triggerTtk < x.ttk) { errors.push(`${id}@${d}: invalid trigger ttk`); break; }
     if (!Number.isFinite(Number(x.btk)) || x.btk < 1) { errors.push(`${id}@${d}: invalid btk`); break; }
+    if (!Number.isFinite(Number(x.beamIndex)) || x.beamIndex < 0) { errors.push(`${id}@${d}: invalid beam index`); break; }
+    if (!Number.isFinite(Number(x.effectiveAdsSpreadDeg)) || x.effectiveAdsSpreadDeg < 0) { errors.push(`${id}@${d}: invalid effective ADS spread`); break; }
   }
 }
 if (errors.length) {
