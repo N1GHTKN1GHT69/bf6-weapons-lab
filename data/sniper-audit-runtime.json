@@ -1,0 +1,191 @@
+{
+  "schema": 1,
+  "class": "Sniper Rifle",
+  "gameVersion": "1.4.2.5",
+  "generatedAt": "2026-09-01T16:56:06.399Z",
+  "definition": "Ideal chest TTK is measured from the first damaging chest hit to the lethal chest hit against 100 HP. A one-shot chest kill is represented as 0 ms / 1 SHOT. ADS time, reaction time, network latency and projectile flight time are excluded. Bolt-action follow-up timing uses independently verified effective shot-to-shot cadence rather than blindly trusting the upstream raw RPM field.",
+  "weaponCountExpected": 6,
+  "weaponCountChecked": 6,
+  "fullyVerifiedCount": 5,
+  "empiricalCurrentCount": 1,
+  "metersPerWeapon": 300,
+  "totalBaseMeterChecks": 1800,
+  "lowBodyChecks": 1800,
+  "upstreamCurveChecks": 1500,
+  "knownGoodChecks": 13,
+  "pass": true,
+  "errors": [],
+  "warnings": [
+    "Interdictor remains absent from upstream analyzer; empirical-current audited model remains active."
+  ],
+  "checked": {
+    "m2010esr": {
+      "name": "M2010 ESR",
+      "metersChecked": 300,
+      "shotIntervalMs": 1395.3488372093022,
+      "displayRpm": 43,
+      "first": {
+        "d": 1,
+        "damage": 80,
+        "btk": 2,
+        "ttk": 1395,
+        "lowDamage": 53.6,
+        "lowBtk": 2,
+        "lowTtk": 1395
+      },
+      "last": {
+        "d": 300,
+        "damage": 62,
+        "btk": 2,
+        "ttk": 1395,
+        "lowDamage": 41.54,
+        "lowBtk": 3,
+        "lowTtk": 2791
+      },
+      "upstreamPresent": true,
+      "confidence": "audited"
+    },
+    "sv98": {
+      "name": "SV-98",
+      "metersChecked": 300,
+      "shotIntervalMs": 1578.9473684210527,
+      "displayRpm": 38,
+      "first": {
+        "d": 1,
+        "damage": 80,
+        "btk": 2,
+        "ttk": 1579,
+        "lowDamage": 53.6,
+        "lowBtk": 2,
+        "lowTtk": 1579
+      },
+      "last": {
+        "d": 300,
+        "damage": 62,
+        "btk": 2,
+        "ttk": 1579,
+        "lowDamage": 41.54,
+        "lowBtk": 3,
+        "lowTtk": 3158
+      },
+      "upstreamPresent": true,
+      "confidence": "audited"
+    },
+    "psr": {
+      "name": "PSR",
+      "metersChecked": 300,
+      "shotIntervalMs": 1578.9473684210527,
+      "displayRpm": 38,
+      "first": {
+        "d": 1,
+        "damage": 80,
+        "btk": 2,
+        "ttk": 1579,
+        "lowDamage": 53.6,
+        "lowBtk": 2,
+        "lowTtk": 1579
+      },
+      "last": {
+        "d": 300,
+        "damage": 62,
+        "btk": 2,
+        "ttk": 1579,
+        "lowDamage": 41.54,
+        "lowBtk": 3,
+        "lowTtk": 3158
+      },
+      "upstreamPresent": true,
+      "confidence": "audited"
+    },
+    "miniscout": {
+      "name": "Mini Scout",
+      "metersChecked": 300,
+      "shotIntervalMs": 1276.4705882352941,
+      "displayRpm": 47,
+      "first": {
+        "d": 1,
+        "damage": 62,
+        "btk": 2,
+        "ttk": 1276,
+        "lowDamage": 41.54,
+        "lowBtk": 3,
+        "lowTtk": 2553
+      },
+      "last": {
+        "d": 300,
+        "damage": 58,
+        "btk": 2,
+        "ttk": 1276,
+        "lowDamage": 38.86,
+        "lowBtk": 3,
+        "lowTtk": 2553
+      },
+      "upstreamPresent": true,
+      "confidence": "audited"
+    },
+    "l115": {
+      "name": "L115",
+      "metersChecked": 300,
+      "shotIntervalMs": 1304.3478260869565,
+      "displayRpm": 46,
+      "first": {
+        "d": 1,
+        "damage": 80,
+        "btk": 2,
+        "ttk": 1304,
+        "lowDamage": 53.6,
+        "lowBtk": 2,
+        "lowTtk": 1304
+      },
+      "last": {
+        "d": 300,
+        "damage": 62,
+        "btk": 2,
+        "ttk": 1304,
+        "lowDamage": 41.54,
+        "lowBtk": 3,
+        "lowTtk": 2609
+      },
+      "upstreamPresent": true,
+      "confidence": "audited"
+    },
+    "interdictor": {
+      "name": "Interdictor",
+      "metersChecked": 300,
+      "shotIntervalMs": 1935.483870967742,
+      "displayRpm": 31,
+      "first": {
+        "d": 1,
+        "damage": 80,
+        "btk": 2,
+        "ttk": 1935,
+        "lowDamage": 53.6,
+        "lowBtk": 2,
+        "lowTtk": 1935
+      },
+      "last": {
+        "d": 300,
+        "damage": 80,
+        "btk": 2,
+        "ttk": 1935,
+        "lowDamage": 53.6,
+        "lowBtk": 2,
+        "lowTtk": 1935
+      },
+      "upstreamPresent": false,
+      "confidence": "empirical-current"
+    }
+  },
+  "verifiedRules": {
+    "allSixCurrentSnipers": true,
+    "oneToThreeHundredMeters": true,
+    "linearSweetSpotInterpolation": true,
+    "officialSweetSpotWindows": true,
+    "effectiveBoltCadence": true,
+    "miniScoutPlus100msMinimumInterval": true,
+    "lowBodyMultiplier067": true,
+    "interdictorEmpiricalCurrentModel": true,
+    "noGuessedReconRechamberBonus": true,
+    "verifiedDirectLethalityRequiresReaudit": true
+  }
+}

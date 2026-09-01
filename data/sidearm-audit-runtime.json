@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "class": "Sidearm",
+  "gameVersion": "1.4.2.5",
+  "generatedAt": "2026-09-01T16:56:06.459Z",
+  "definition": "Mechanical chest TTK is measured from the first damaging chest hit to the lethal chest hit against 100 HP and excludes projectile flight time. Semi-auto and full-auto sidearms use (BTK-1)*60000/RPM because none of the seven audited base sidearms uses a burst/pump pair cadence.",
+  "weaponCountExpected": 7,
+  "weaponCountChecked": 7,
+  "metersPerWeapon": 300,
+  "totalBaseMeterChecks": 2100,
+  "pass": true,
+  "errors": [],
+  "checked": {
+    "p18": {
+      "name": "P18",
+      "rpm": 399.999,
+      "fireMode": "semi",
+      "metersChecked": 300
+    },
+    "es57": {
+      "name": "ES 5.7",
+      "rpm": 449.999,
+      "fireMode": "semi",
+      "metersChecked": 300
+    },
+    "m45a1": {
+      "name": "M45A1",
+      "rpm": 327.272,
+      "fireMode": "semi",
+      "metersChecked": 300
+    },
+    "m44": {
+      "name": "M44",
+      "rpm": 163.636,
+      "fireMode": "semi",
+      "metersChecked": 300
+    },
+    "ggh22": {
+      "name": "GGH-22",
+      "rpm": 359.999,
+      "fireMode": "semi",
+      "metersChecked": 300
+    },
+    "m357trait": {
+      "name": "M357 Trait",
+      "rpm": 224.999,
+      "fireMode": "semi",
+      "metersChecked": 300
+    },
+    "vz61": {
+      "name": "VZ. 61",
+      "rpm": 818.181,
+      "fireMode": "auto",
+      "metersChecked": 300
+    }
+  },
+  "verifiedRules": {
+    "inclusiveSteppedEndpoints": true,
+    "currentSidearmClassLabel": true,
+    "baseMechanicalTtk": true
+  }
+}
