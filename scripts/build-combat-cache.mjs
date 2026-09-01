@@ -110,6 +110,10 @@ function dedupeDominated(slot, w, ids) {
     const data = optionData(slot, w, id);
     const pts = optionPts(slot, w, id);
     if (!data || !Number.isFinite(pts) || pts < 0) continue;
+    // Verified AUTO META must never depend on speculative/inferred attachment mechanics.
+    // Raw combinations are still counted separately, but assumed options are not simulated
+    // as candidates for a winning build until their behavior is validated.
+    if (data.assumed === true || (Array.isArray(data.assumedFields) && data.assumedFields.length)) continue;
     const sig = functionalSignature(slot, data);
     const prev = keep.get(sig);
     if (!prev || pts < prev.pts || (pts === prev.pts && String(id).localeCompare(String(prev.id)) < 0)) {
@@ -287,7 +291,7 @@ const results = {
     primaryBudget: PRIMARY_BUDGET,
     sidearmBudget: SIDEARM_BUDGET,
     weaponRankOrder: ['ideal chest TTK','BTK','damage/shot','low-body TTK','mechanical delivery tie-break'],
-    attachmentPolicy: 'All legal user-visible combinations are counted. Functionally identical or strictly more-expensive duplicates are safely collapsed before simulation; this does not change the optimum.'
+    attachmentPolicy: 'All legal user-visible combinations are counted. Speculative/assumed attachment mechanics are excluded from verified AUTO META; functionally identical or strictly more-expensive verified duplicates are safely collapsed before simulation.'
   },
   audit: { weaponsSource: weapons.length, modeled:0, incomplete:0, rawLegalCombinations:'0', canonicalCombinationsEvaluated:0, distancesPerWeapon:DIST_MAX-DIST_MIN+1, errors:[] },
   weapons: {}

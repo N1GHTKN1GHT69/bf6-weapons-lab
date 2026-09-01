@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - 'scripts/build-combat-cache.mjs'
+      - 'scripts/audit-assault.mjs'
+      - 'data/assault-audit.json'
       - 'scripts/validate-combat-cache.mjs'
       - '.github/workflows/combat-engine.yml'
       - 'roster-data.js'
@@ -33,6 +35,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Gate Assault Rifle math against audited values
+        run: node scripts/audit-assault.mjs .upstream/bf6-analyzer data data/assault-audit.json
       - name: Run exhaustive combat audit
         run: node scripts/build-combat-cache.mjs .upstream/bf6-analyzer data
       - name: Validate generated cache
@@ -41,7 +45,7 @@ jobs:
         run: |
           git config user.name "bf6-combat-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/combat-cache.json data/combat-audit.json
+          git add data/combat-cache.json data/combat-audit.json data/assault-audit-runtime.json
           git diff --cached --quiet && exit 0
           git commit -m "data: rebuild independent BF6 combat meta [skip ci]"
           git push

@@ -1,4 +1,16 @@
-# BF6 Weapons Lab v0.7 — Combat Engine
+# BF6 Weapons Lab v0.8 — Assault TTK Audited
+
+
+## Assault Rifle audit gate (v0.8)
+
+Assault Rifles are the first class to receive a class-by-class verification pass. All 11 ARs are checked at every integer meter from 1–300m against a fixed audited damage/RPM/TTK baseline before the combat cache may publish. See `ASSAULT-AUDIT.md`.
+
+Corrections in this pass:
+- fixed exact stepped-damage breakpoint handling in the browser fallback;
+- excluded speculative `assumed` attachment mechanics from verified AUTO META;
+- separated M16A4 base burst TTK from the verified 25-point A3 Receiver full-auto TTK;
+- updated live game marker to 1.4.2.5 and enforced the current EF88 Match Trigger behavior;
+- added a GitHub Action gate that fails if any Assault Rifle deviates from the audited 1–300m baseline.
 
 v0.7 moves the project from an on-demand heuristic optimizer toward a precomputed independent meta engine.
 

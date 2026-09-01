@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "class": "Assault Rifle",
+  "gameVersion": "1.4.2.5",
+  "verifiedAt": "2026-09-01",
+  "pass": true,
+  "weaponCount": 11,
+  "ttkDefinition": "Ideal chest TTK is measured from the first damaging chest hit to the lethal chest hit against 100 HP. ADS time, reaction time, network latency, and projectile flight time are excluded.",
+  "notes": [
+    "Stepped damage endpoints are inclusive: the higher tier remains valid through the listed endpoint (for example, M433 is 26.05 through exactly 21m and drops on the next integer meter).",
+    "Published sites that round RPM to whole numbers can differ from internal-rate math by about 1ms (for example SOR-556 MK2 and NVO-228E).",
+    "M16A4 base mode is 3-round burst. A verified 25-point A3 Receiver converts it to full auto at the listed 771.428 RPM; that optimized TTK is tracked separately.",
+    "No other verified Assault Rifle attachment in the current factual model changes chest damage or full-auto RPM. Match Trigger must not modify EF88 full-auto cadence in 1.4.2.5."
+  ],
+  "weapons": {
+    "m433": {"name":"M433","rpm":830.769,"mode":"auto","ranges":[{"min":1,"max":21,"damage":26.05,"btk":4,"ttk":217},{"min":22,"max":75,"damage":20.67,"btk":5,"ttk":289},{"min":76,"max":300,"damage":17.13,"btk":6,"ttk":361}]},
+    "b36a4": {"name":"B36A4","rpm":719.999,"mode":"auto","ranges":[{"min":1,"max":21,"damage":26.05,"btk":4,"ttk":250},{"min":22,"max":75,"damage":20.67,"btk":5,"ttk":333},{"min":76,"max":300,"damage":17.13,"btk":6,"ttk":417}]},
+    "sor556": {"name":"SOR-556 MK2","rpm":568.421,"mode":"auto","ranges":[{"min":1,"max":21,"damage":26.05,"btk":4,"ttk":317},{"min":22,"max":75,"damage":20.67,"btk":5,"ttk":422},{"min":76,"max":300,"damage":17.13,"btk":6,"ttk":528}]},
+    "ak4d": {"name":"AK4D","rpm":514.285,"mode":"auto","ranges":[{"min":1,"max":21,"damage":35.22,"btk":3,"ttk":233},{"min":22,"max":75,"damage":26.05,"btk":4,"ttk":350},{"min":76,"max":300,"damage":20.67,"btk":5,"ttk":467}]},
+    "tr7": {"name":"TR-7","rpm":719.999,"mode":"auto","ranges":[{"min":1,"max":21,"damage":35.22,"btk":3,"ttk":167},{"min":22,"max":75,"damage":26.05,"btk":4,"ttk":250},{"min":76,"max":300,"damage":20.67,"btk":5,"ttk":333}]},
+    "kord6p67": {"name":"KORD 6P67","rpm":899.999,"mode":"auto","ranges":[{"min":1,"max":21,"damage":20.67,"btk":5,"ttk":267},{"min":22,"max":75,"damage":17.13,"btk":6,"ttk":333},{"min":76,"max":300,"damage":14.62,"btk":7,"ttk":400}]},
+    "nvo228e": {"name":"NVO-228E","rpm":654.545,"mode":"auto","ranges":[{"min":1,"max":9,"damage":35.22,"btk":3,"ttk":183},{"min":10,"max":21,"damage":27.48,"btk":4,"ttk":275},{"min":22,"max":36,"damage":21.56,"btk":5,"ttk":367},{"min":37,"max":75,"damage":20.67,"btk":5,"ttk":367},{"min":76,"max":300,"damage":17.13,"btk":6,"ttk":458}]},
+    "l85a3": {"name":"L85A3","rpm":635.294,"mode":"auto","ranges":[{"min":1,"max":21,"damage":26.05,"btk":4,"ttk":283},{"min":22,"max":75,"damage":20.67,"btk":5,"ttk":378},{"min":76,"max":300,"damage":17.13,"btk":6,"ttk":472}]},
+    "vcr2": {"name":"VCR-2","rpm":899.999,"mode":"auto","ranges":[{"min":1,"max":21,"damage":26.05,"btk":4,"ttk":200},{"min":22,"max":75,"damage":20.67,"btk":5,"ttk":267},{"min":76,"max":300,"damage":17.13,"btk":6,"ttk":333}]},
+    "m16a4": {"name":"M16A4","rpm":771.428,"mode":"burst","burstRounds":3,"burstBurstsPerMinute":224.999,"ranges":[{"min":1,"max":21,"damage":26.05,"btk":4,"ttk":267},{"min":22,"max":75,"damage":20.67,"btk":5,"ttk":344},{"min":76,"max":300,"damage":17.13,"btk":6,"ttk":422}],"optimized":{"attachment":"A3 Receiver","attachmentId":"full_auto","points":25,"mode":"auto","ranges":[{"min":1,"max":21,"damage":26.05,"btk":4,"ttk":233},{"min":22,"max":75,"damage":20.67,"btk":5,"ttk":311},{"min":76,"max":300,"damage":17.13,"btk":6,"ttk":389}]}},
+    "ef88": {"name":"EF88","rpm":675,"mode":"auto","ranges":[{"min":1,"max":21,"damage":26.05,"btk":4,"ttk":267},{"min":22,"max":75,"damage":20.67,"btk":5,"ttk":356},{"min":76,"max":300,"damage":17.13,"btk":6,"ttk":444}]}
+  }
+}

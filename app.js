@@ -22,7 +22,8 @@
     attachments: null,
     ammo: null,
     combatCache: null,
-    source: { weapons: "loading", attachments: "loading", ammo: "loading", combat: "loading" }
+    assaultAudit: null,
+    source: { weapons: "loading", attachments: "loading", ammo: "loading", combat: "loading", assaultAudit: "loading" }
   };
 
   const CATALOG_KEYS = {
@@ -140,6 +141,35 @@
     }
   }
 
+  async function loadAssaultAudit() {
+    // Prefer the GitHub Action runtime gate when it exists. The checked-in
+    // assault-audit.json is the fixed independently verified baseline.
+    try {
+      const runtime = await fetchJson("./data/assault-audit-runtime.json", 2500);
+      if (runtime?.pass && runtime?.class === "Assault Rifle") {
+        const baseline = await fetchJson("./data/assault-audit.json", 2500);
+        if (baseline?.pass && baseline?.weapons) {
+          state.assaultAudit = { ...baseline, runtime };
+          state.source.assaultAudit = "runtime-pass";
+          return state.assaultAudit;
+        }
+      }
+    } catch (_) {}
+    try {
+      const audit = await fetchJson("./data/assault-audit.json", 5000);
+      if (audit?.pass && audit?.class === "Assault Rifle" && audit?.weapons) {
+        state.assaultAudit = audit;
+        state.source.assaultAudit = "baseline-pass";
+        return audit;
+      }
+      state.source.assaultAudit = "invalid";
+      return null;
+    } catch (_) {
+      state.source.assaultAudit = "failed";
+      return null;
+    }
+  }
+
   async function loadData() {
     // Deliberately independent. One bad source must never erase the catalog or the other data.
     const [weapons, attachments, ammo] = await Promise.all([
@@ -149,11 +179,12 @@
     state.rawWeapons = Array.isArray(weapons) ? weapons : [];
     state.attachments = attachments && typeof attachments === "object" ? attachments : null;
     state.ammo = ammo && typeof ammo === "object" ? ammo : null;
-    await loadCombatCache();
+    await Promise.all([loadCombatCache(), loadAssaultAudit()]);
 
     const matched = CURRENT.roster.filter(r => rawForRoster(r)).length;
     if (state.rawWeapons.length) setChip("statsChip", `STATS ${matched}/${CURRENT.roster.length}`, matched >= 60 ? "ok" : "warn");
     else setChip("statsChip", "STATS FEED DOWN", "bad");
+    if (state.assaultAudit?.pass) setChip("rosterChip", `ROSTER ${CURRENT.roster.length}/${CURRENT.rosterCount} • AR 11/11`, "ok");
 
     if (state.combatCache) {
       const a = state.combatCache.audit;
@@ -289,8 +320,8 @@
     }));
 
     for (const [slot, list] of Object.entries(options)) {
-      options[slot] = list.filter(opt => pointCost(opt) !== null);
-      if (!options[slot].length) throw new Error(`${slot}: no valid point-cost choices`);
+      options[slot] = list.filter(opt => pointCost(opt) !== null && opt?.assumed !== true && !(Array.isArray(opt?.assumedFields) && opt.assumedFields.length));
+      if (!options[slot].length) throw new Error(`${slot}: no verified point-cost choices`);
     }
     return options;
   }
@@ -392,6 +423,28 @@
     if (opt.slot === "sight") s += opticScore(opt, d);
     s += behaviorScore(opt, raw, d);
     return s;
+  }
+
+  function assaultAuditDef(raw) {
+    if (!raw || raw.cls !== "Assault Rifle" || !state.assaultAudit?.pass) return null;
+    return state.assaultAudit.weapons?.[raw.id] || null;
+  }
+
+  function auditedAssaultCombat(raw, d = state.distance) {
+    const def = assaultAuditDef(raw);
+    if (!def) return null;
+    const meter = Math.max(1, Math.min(300, Math.round(Number(d) || 25)));
+    const r = (def.ranges || []).find(x => meter >= x.min && meter <= x.max);
+    if (!r) return null;
+    return { damage:r.damage, btk:r.btk, ttk:r.ttk, rpm:def.rpm, mag:Number(raw.mag)||null, source:"assault-audit" };
+  }
+
+  function auditedAssaultOptimized(raw, d = state.distance) {
+    const def = assaultAuditDef(raw);
+    if (!def?.optimized) return null;
+    const meter = Math.max(1, Math.min(300, Math.round(Number(d) || 25)));
+    const r = (def.optimized.ranges || []).find(x => meter >= x.min && meter <= x.max);
+    return r ? { damage:r.damage,btk:r.btk,ttk:r.ttk,attachment:def.optimized.attachment,points:def.optimized.points,source:"assault-audit-optimized" } : null;
   }
 
   function cacheWeapon(raw) {
@@ -533,10 +586,19 @@
     }
 
     // Most automatic-weapon curves are stepped and encode a discontinuity by
-    // repeating the same range twice.
-    let val = pts[0].d;
-    for (const p of pts) if (p.r <= d) val = p.d;
-    return val;
+    // repeating the same range twice. The first point at a repeated endpoint is
+    // the outgoing/high tier, so exactly 21m stays in the 21m tier and the lower
+    // tier begins immediately after it. The old <= loop incorrectly selected the
+    // second duplicate and dropped damage one meter too early.
+    if (d <= pts[0].r) return pts[0].d;
+    let previous = pts[0];
+    for (let i = 1; i < pts.length; i++) {
+      const p = pts[i];
+      if (d < p.r) return previous.d;
+      if (d === p.r) return p.d; // first duplicate encountered = outgoing tier
+      previous = p;
+    }
+    return previous.d;
   }
 
   const SHOTGUN_CADENCE = {
@@ -626,10 +688,12 @@
 
   function rankWeapons(category = state.category, d = state.distance) {
     const pool = CURRENT.roster
-      .filter(w => w.cls !== "Secondary" && (category === "__all__" || w.cls === category))
+      .filter(w => w.cls !== "Secondary" && (category === "__all__" ? (w.cls === "Assault Rifle" && state.assaultAudit?.pass) : w.cls === category))
       .map(roster => {
         const raw = rawForRoster(roster);
-        const combat = raw ? (cachedCombat(raw, d) || combatAtDistance(raw, d)) : null;
+        let combat = raw ? cachedCombat(raw, d) : null;
+        if (!combat && raw?.cls === "Assault Rifle") combat = auditedAssaultOptimized(raw, d) || auditedAssaultCombat(raw, d);
+        if (!combat && raw) combat = combatAtDistance(raw, d);
         return { roster, raw, combat };
       })
       .filter(x => x.raw && x.combat && Number.isFinite(x.combat.ttk) && Number.isFinite(x.combat.damage));
@@ -705,21 +769,30 @@
     }
 
     const ver = sourceVersion(raw);
-    badge.textContent = ver ? `RAW SOURCE ${ver}` : "RAW DATA LOADED";
-    badge.className = ver && ver !== CURRENT.liveVersion ? "source-badge warn" : "source-badge ok";
+    if (raw.cls === "Assault Rifle" && state.assaultAudit?.pass) {
+      badge.textContent = `AR TTK AUDITED ${state.assaultAudit.gameVersion}`;
+      badge.className = "source-badge ok";
+    } else {
+      badge.textContent = ver ? `RAW SOURCE ${ver}` : "RAW DATA LOADED";
+      badge.className = ver && ver !== CURRENT.liveVersion ? "source-badge warn" : "source-badge ok";
+    }
 
-    const c = combatAtDistance(raw, state.distance);
+    const c = auditedAssaultCombat(raw, state.distance) || combatAtDistance(raw, state.distance);
+    const optimized = cachedCombat(raw, state.distance) || auditedAssaultOptimized(raw, state.distance);
     const damageLabel = c.pellets > 1 ? "MAX SHELL" : "CHEST DMG";
     const damageSub = c.pellets > 1 ? `${c.pelletDamage?.toFixed(1) ?? "—"} × ${c.pellets} pellets @ ${state.distance}m` : `@ ${state.distance}m`;
     const ttkText = c.ttk == null ? "—" : c.btk === 1 ? "1 SHOT" : `${Math.round(c.ttk)} ms`;
     const ttkSub = c.pellets > 1 ? "ideal full-pellet chest" : "ideal chest • first hit → kill";
     const combat = [
-      [damageLabel, c.damage == null ? "—" : c.damage.toFixed(c.damage % 1 ? 1 : 0), damageSub],
+      [damageLabel, c.damage == null ? "—" : Number(c.damage).toFixed(Number(c.damage) % 1 ? 1 : 0), damageSub],
       ["CHEST BTK", c.btk ?? "—", "100 HP • unarmored"],
-      ["CHEST TTK", ttkText, ttkSub],
-      ["ROF", c.rpm == null ? "—" : Math.round(c.rpm), raw.id === "db12" ? "150 sustained • 360 pair" : "RPM"],
+      ["BASE CHEST TTK", ttkText, raw.cls === "Assault Rifle" && state.assaultAudit?.pass ? "AR audited • first hit → kill" : ttkSub],
+      ["ROF", c.rpm == null ? "—" : (Math.abs(Number(c.rpm)-Math.round(Number(c.rpm))) > .05 ? Number(c.rpm).toFixed(1) : Math.round(c.rpm)), raw.id === "db12" ? "150 sustained • 360 pair" : "internal RPM"],
       ["MAG", c.mag ?? "—", "base rounds"]
     ];
+    if (optimized && Number.isFinite(Number(optimized.ttk)) && Number(optimized.ttk) !== Number(c.ttk)) {
+      combat.splice(3,0,["OPT BUILD TTK", `${Math.round(optimized.ttk)} ms`, optimized.attachment ? `${optimized.attachment} • verified transform` : "exhaustive winning build"]);
+    }
     $("combatNumbers").innerHTML = combat.map(([k, v, s]) => `<div class="combat-stat"><span>${k}</span><strong>${v}</strong><small>${s}</small></div>`).join("");
 
     const bars = relativeBars(raw);
@@ -911,10 +984,15 @@
     if (state.source.weapons === "failed") warnings.push("Weapon stat feed is unavailable. All 63 catalog weapons remain visible, but raw stat/TTK panels are pending.");
     if (state.source.attachments === "failed" || state.source.ammo === "failed") warnings.push("Attachment or ammo feed is unavailable, so the optimizer will not fabricate a point build.");
     if (!state.combatCache) warnings.push("The exhaustive 1–300m combat cache is not ready yet. Until the GitHub audit finishes, the site falls back to the live on-demand engine and does not label results as exhaustive meta.");
+    if (roster.cls === "Assault Rifle" && state.assaultAudit?.pass) warnings.push("ASSAULT AUDIT PASS: base chest damage/BTK/TTK were independently checked across 1–300m for all 11 Assault Rifles. M16A4 A3 full-auto is tracked separately from base burst TTK.");
+    if (roster.cls !== "Assault Rifle") warnings.push(`${roster.cls} TTK audit is still pending. Values remain visible for testing, but this class is not yet allowed into the cross-class verified meta.`);
     const ver = sourceVersion(raw);
-    if (ver && ver !== CURRENT.liveVersion) warnings.push(`This weapon's damage provenance reports ${ver}; live BF6 is ${CURRENT.liveVersion}. Use the recommendation as version-sensitive, not guaranteed current meta.`);
+    if (ver && ver !== CURRENT.liveVersion) {
+      if (roster.cls === "Assault Rifle" && state.assaultAudit?.pass) warnings.push(`Raw analyzer provenance reports ${ver}, but Assault Rifle chest damage/BTK/TTK has been independently audited for live ${CURRENT.liveVersion}. Non-lethality mechanics remain source-version sensitive.`);
+      else warnings.push(`This weapon's damage provenance reports ${ver}; live BF6 is ${CURRENT.liveVersion}. Use the recommendation as version-sensitive, not guaranteed current meta.`);
+    }
     if (roster.id === "interdictor" && !raw) warnings.push("Interdictor is in the current roster, but this analyzer feed has not published its raw weapon/attachment model yet.");
-    if (["ef88", "brod3"].includes(roster.id) && Date.now() < Date.parse("2026-09-02T00:00:00Z")) warnings.push("Match Trigger is excluded from this weapon through the Sep 1 rollout window because EA has a fix scheduled for its full-auto behavior.");
+    if (roster.id === "ef88") warnings.push("1.4.2.5 rule: Match Trigger must not alter EF88 full-auto fire rate; the verified optimizer excludes any source interpretation that does.");
     const card = $("warningCard");
     if (!warnings.length) { card.classList.add("hidden"); card.innerHTML = ""; return; }
     card.classList.remove("hidden");
@@ -947,10 +1025,10 @@
       return;
     }
     const leader=ranked[0];
-    const scope = state.category === "__all__" ? "ALL PRIMARY WEAPONS" : state.category.toUpperCase();
+    const scope = state.category === "__all__" ? "VERIFIED CLASSES ONLY" : state.category.toUpperCase();
     const top = ranked.slice(0,3).map((x,i)=>`<div class="rank-chip ${i===0?'winner':''}"><span>#${i+1}</span><b>${escapeHtml(x.roster.name)}</b><small>${Math.round(x.combat.ttk)}ms TTK • ${fmtDamage(x.combat.damage)} dmg</small></div>`).join("");
     box.className = "auto-recommendation";
-    box.innerHTML = `<div class="auto-main"><span>AUTO BEST • ${escapeHtml(scope)} • ${state.distance}M</span><strong>${escapeHtml(leader.roster.name)}</strong><small>Independent meta: fastest ideal chest TTK is the hard first key, then BTK, damage, low-body TTK and mechanical delivery tie-breaks. Community tier lists/popularity are not inputs. ${state.combatCache ? "Exhaustive cache active." : "Live fallback active."} ${ranked.length}/${categoryRoster().length} weapons currently have enough stat data to rank.</small></div><div class="rank-row">${top}</div>`;
+    box.innerHTML = `<div class="auto-main"><span>AUTO BEST • ${escapeHtml(scope)} • ${state.distance}M</span><strong>${escapeHtml(leader.roster.name)}</strong><small>Independent meta: fastest ideal chest TTK is the hard first key, then BTK, damage, low-body TTK and mechanical delivery tie-breaks. Community tier lists/popularity are not inputs. ${state.combatCache ? "Exhaustive cache active." : "Live fallback active."} ${ranked.length}/${state.category === "__all__" ? ranked.length : categoryRoster().length} weapons are currently in this ranking. Cross-class AUTO remains gated to audited classes.</small></div><div class="rank-row">${top}</div>`;
   }
 
   function fmtDamage(v) {
@@ -986,7 +1064,8 @@
 
   function populateTabs() {
     const tabs = $("weaponTabs");
-    const all = `<button data-category="__all__" class="${state.category === "__all__" ? "active" : ""}">AUTO BEST <em>56</em></button>`;
+    const verifiedCount = state.assaultAudit?.pass ? CURRENT.roster.filter(w => w.cls === "Assault Rifle").length : 0;
+    const all = `<button data-category="__all__" class="${state.category === "__all__" ? "active" : ""}">AUTO VERIFIED <em>${verifiedCount}</em></button>`;
     const cats = CURRENT.primaryClasses.map(cls => {
       const count=CURRENT.roster.filter(w=>w.cls===cls).length;
       return `<button data-category="${escapeHtml(cls)}" class="${cls === state.category ? "active" : ""}">${escapeHtml(tabLabel(cls))} <em>${count}</em></button>`;
@@ -1000,7 +1079,7 @@
   }
 
   function autoOptionLabel() {
-    const scope = state.category === "__all__" ? "ANY WEAPON" : tabLabel(state.category).toUpperCase();
+    const scope = state.category === "__all__" ? "VERIFIED WEAPON" : tabLabel(state.category).toUpperCase();
     const winner = rankWeapons(state.category, state.distance)[0]?.roster?.name;
     return winner ? `AUTO — BEST ${scope} @ ${state.distance}m → ${winner}` : `AUTO — BEST ${scope} @ ${state.distance}m`;
   }

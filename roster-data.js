@@ -1,8 +1,8 @@
 window.BF6_CURRENT = {
-  liveVersion: "1.4.2.0",
-  liveVersionDate: "2026-08-18",
-  nextVersion: "1.4.2.5",
-  nextVersionDate: "2026-09-01",
+  liveVersion: "1.4.2.5",
+  liveVersionDate: "2026-09-01",
+  nextVersion: null,
+  nextVersionDate: null,
   rosterCount: 63,
   sourceNote: "Season 4 roster cross-checked against EA's current loadout guide; RPKM is present in current live weapon databases and completes the 63-weapon catalog.",
   primaryClasses: ["Assault Rifle","Carbine","SMG","LMG","DMR","Sniper Rifle","Shotgun"],
