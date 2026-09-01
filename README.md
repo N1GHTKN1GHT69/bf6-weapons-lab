@@ -144,3 +144,6 @@ Phase A hardens the production path before trusting final META winners:
 - The legacy source-sync workflow is manual-only; production source sync is coupled to cache generation.
 
 A checked-in `combat-cache.json` may still say `pending` before the first successful production run. That is fail-closed behavior, not a valid META cache.
+
+## Phase A v2.4 cache pipeline
+The exhaustive combat cache is now generated as eight parallel weapon-class shards and merged under one locked upstream Analyzer revision. This replaces the older single-runner exhaustive step that could run for over an hour. See `PHASE-A-AUDIT.md`.

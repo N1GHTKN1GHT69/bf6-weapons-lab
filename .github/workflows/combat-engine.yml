@@ -22,11 +22,15 @@ permissions:
   contents: write
 concurrency:
   group: bf6-data-pipeline
-  cancel-in-progress: false
+  cancel-in-progress: true
+
 jobs:
-  audit:
+  prepare:
+    name: Preflight + weapon audits
     runs-on: ubuntu-latest
-    timeout-minutes: 110
+    timeout-minutes: 15
+    outputs:
+      upstream_sha: ${{ steps.upstream.outputs.sha }}
     steps:
       - name: Checkout Weapons Lab
         uses: actions/checkout@v4
@@ -42,13 +46,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Record upstream revision
+      - name: Lock upstream revision
+        id: upstream
+        shell: bash
         run: |
-          echo "Upstream commit: $(git -C .upstream/bf6-analyzer rev-parse HEAD)"
+          set -euo pipefail
+          SHA="$(git -C .upstream/bf6-analyzer rev-parse HEAD)"
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          echo "Upstream commit: $SHA"
           echo "Lab commit:      $(git rev-parse HEAD)"
       - name: Upstream compatibility preflight
         run: node scripts/preflight-upstream.mjs .upstream/bf6-analyzer
       - name: Syntax preflight
+        shell: bash
         run: |
           set -euo pipefail
           node --check app.js
@@ -56,21 +66,21 @@ jobs:
           node --check roster-data.js
           node --check sw.js
           for f in scripts/*.mjs; do node --check "$f"; done
-      - name: Gate Assault Rifle math against audited values
+      - name: Gate Assault Rifle math
         run: node scripts/audit-assault.mjs .upstream/bf6-analyzer data data/assault-audit.json
-      - name: Gate Carbine math against audited values
+      - name: Gate Carbine math
         run: node scripts/audit-carbine.mjs .upstream/bf6-analyzer data data/carbine-audit.json
-      - name: Gate SMG math against audited values
+      - name: Gate SMG math
         run: node scripts/audit-smg.mjs .upstream/bf6-analyzer data data/smg-audit.json
-      - name: Gate LMG math against audited values
+      - name: Gate LMG math
         run: node scripts/audit-lmg.mjs .upstream/bf6-analyzer data data/lmg-audit.json
-      - name: Gate DMR math against audited values
+      - name: Gate DMR math
         run: node scripts/audit-dmr.mjs .upstream/bf6-analyzer data data/dmr-audit.json
-      - name: Gate Sniper Rifle math against audited values
+      - name: Gate Sniper Rifle math
         run: node scripts/audit-sniper.mjs .upstream/bf6-analyzer data data/sniper-audit.json
-      - name: Gate Sidearm math against audited values
+      - name: Gate Sidearm math
         run: node scripts/audit-sidearm.mjs .upstream/bf6-analyzer data data/sidearm-audit.json
-      - name: Gate Shotgun math against audited values
+      - name: Gate Shotgun math
         run: node scripts/audit-shotgun.mjs .upstream/bf6-analyzer data data/shotgun-audit.json
       - name: Gate exact-distance ballistic TTK
         run: node scripts/audit-ballistic-ttk.mjs
@@ -78,19 +88,127 @@ jobs:
         run: node scripts/audit-global.mjs
       - name: Gate laserbeam recoil/spread META wiring
         run: node scripts/audit-laserbeam-meta.mjs
-      - name: Gate manual weapon / range-lethality builder
+      - name: Gate manual weapon builder
         run: node scripts/audit-manual-weapon.mjs
       - name: Gate range-aware optic selection
         run: node scripts/audit-range-optics.mjs
-      - name: Snapshot exact upstream data used by this run
+      - name: Preserve runtime audit diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: runtime-audits
+          if-no-files-found: ignore
+          retention-days: 7
+          path: data/*-audit-runtime.json
+
+  cache:
+    name: Cache ${{ matrix.class_name }}
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include:
+          - slug: assault
+            class_name: Assault Rifle
+          - slug: carbine
+            class_name: Carbine
+          - slug: smg
+            class_name: SMG
+          - slug: lmg
+            class_name: LMG
+          - slug: dmr
+            class_name: DMR
+          - slug: sniper
+            class_name: Sniper Rifle
+          - slug: sidearm
+            class_name: Sidearm
+          - slug: shotgun
+            class_name: Shotgun
+    steps:
+      - name: Checkout Weapons Lab
+        uses: actions/checkout@v4
+      - name: Checkout locked simulator source
+        uses: actions/checkout@v4
+        with:
+          repository: raymdl/BF6-Weapon-Analyzer
+          ref: ${{ needs.prepare.outputs.upstream_sha }}
+          path: .upstream/bf6-analyzer
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build ${{ matrix.class_name }} exhaustive cache shard
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p partial-cache partial-audit
+          node scripts/build-combat-cache.mjs .upstream/bf6-analyzer data \
+            --class "${{ matrix.class_name }}" \
+            --cache "partial-cache/${{ matrix.slug }}.json" \
+            --audit "partial-audit/${{ matrix.slug }}.json"
+      - name: Upload ${{ matrix.class_name }} cache shard
+        uses: actions/upload-artifact@v4
+        with:
+          name: combat-part-${{ matrix.slug }}
+          retention-days: 1
+          path: |
+            partial-cache/${{ matrix.slug }}.json
+            partial-audit/${{ matrix.slug }}.json
+
+  finalize:
+    name: Merge + validate + publish
+    needs: [prepare, cache]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout Weapons Lab
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Checkout locked simulator source
+        uses: actions/checkout@v4
+        with:
+          repository: raymdl/BF6-Weapon-Analyzer
+          ref: ${{ needs.prepare.outputs.upstream_sha }}
+          path: .upstream/bf6-analyzer
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Download cache shards
+        uses: actions/download-artifact@v4
+        with:
+          pattern: combat-part-*
+          path: partial-download
+          merge-multiple: true
+      - name: Collect shard cache files
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p partial-cache
+          # upload-artifact preserves partial-cache/ and partial-audit/ paths.
+          # Collect only the eight cache shard JSONs, never the similarly named audits.
+          find partial-download -type f -path '*/partial-cache/*.json' -print -exec cp {} partial-cache/ \;
+          test "$(find partial-cache -maxdepth 1 -name '*.json' | wc -l)" -eq 8
+      - name: Snapshot exact upstream data used by shards
         run: node scripts/sync-from-upstream.mjs .upstream/bf6-analyzer data
-      - name: Run exhaustive combat audit
-        run: node scripts/build-combat-cache.mjs .upstream/bf6-analyzer data
+      - name: Merge exhaustive cache shards
+        run: node scripts/merge-combat-cache.mjs .upstream/bf6-analyzer partial-cache data
       - name: Validate generated cache
         run: node scripts/validate-combat-cache.mjs data/combat-cache.json data/source-manifest.json
       - name: Gate global integration against generated cache
         run: node scripts/audit-global.mjs data/combat-cache.json
-      - name: Upload diagnostics
+      - name: Restore runtime audit diagnostics
+        if: always()
+        uses: actions/download-artifact@v4
+        with:
+          name: runtime-audits
+          path: data
+        continue-on-error: true
+      - name: Upload final diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -103,15 +221,16 @@ jobs:
             data/combat-cache.json
             data/source-manifest.json
       - name: Commit atomic source + cache update
+        shell: bash
         run: |
           set -euo pipefail
           git config user.name "bf6-combat-bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/weapons.json data/attachments.json data/ammo.json data/ballistics.json data/source-manifest.json \
-            data/combat-cache.json data/combat-audit.json data/*-audit-runtime.json
+            data/combat-cache.json data/combat-audit.json data/*-audit-runtime.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No source/cache changes to commit."
             exit 0
           fi
-          git commit -m "data: atomic BF6 source + combat cache rebuild [skip ci]"
+          git commit -m "data: atomic BF6 source + sharded combat cache rebuild [skip ci]"
           git push origin HEAD:main

@@ -12,8 +12,19 @@ const PRIMARY_BUDGET = 100;
 const SIDEARM_BUDGET = 60;
 const MAX_CANONICAL_COMBOS_PER_WEAPON = 5_000_000;
 
+// Phase A v2.4 supports exact class-sharded cache generation. GitHub runs the
+// eight weapon classes in parallel, then merge-combat-cache.mjs recombines
+// them into one cache. With no filter this script still builds the full cache.
+const argv = process.argv.slice(4);
+function argValue(name){ const i=argv.indexOf(name); return i>=0 ? argv[i+1] : null; }
+const CLASS_FILTER = argValue('--class') || process.env.BF6_CLASS_FILTER || null;
+const CACHE_OUT = resolve(argValue('--cache') || process.env.BF6_CACHE_OUT || join(outDir,'combat-cache.json'));
+const AUDIT_OUT = resolve(argValue('--audit') || process.env.BF6_AUDIT_OUT || join(outDir,'combat-audit.json'));
+
 const json = async p => JSON.parse(await readFile(p, 'utf8'));
 const weapons = await json(join(upstream, 'data/weapons.json'));
+const selectedWeapons = CLASS_FILTER ? weapons.filter(w => w.cls === CLASS_FILTER) : weapons;
+if (CLASS_FILTER && !selectedWeapons.length) throw new Error(`No upstream weapons matched class filter: ${CLASS_FILTER}`);
 const atts = await json(join(upstream, 'data/attachments.json'));
 const ammo = await json(join(upstream, 'data/ammo.json'));
 const balance = await json(join(upstream, 'data/balance_tables.json'));
@@ -505,6 +516,8 @@ const results = {
     opticModel: 'tier-range-fit-v1',
     manualBuildModel: 'range-lethality-v2',
     commit: (() => { try { return execFileSync('git',['-C',upstream,'rev-parse','HEAD'],{encoding:'utf8'}).trim(); } catch { return null; } })(),
+    totalWeapons: weapons.length,
+    classFilter: CLASS_FILTER,
     policy: 'Raw weapon/attachment facts and upstream simulator math only. No tier lists, popularity, usage, creator rankings, or community meta scores are inputs.'
   },
   rules: {
@@ -515,12 +528,12 @@ const results = {
     attachmentPolicy: 'All legal user-visible combinations are counted. Speculative/assumed attachment mechanics are excluded from verified AUTO META; functionally identical or strictly more-expensive verified duplicates are safely collapsed before simulation.',
     manualWeaponPolicy: 'BUILD MY GUN uses a separate range-aware bestLethal winner: a clearly unsuitable optic cannot beat a suitable optic merely on point cost; within range-eligible builds trigger-to-kill stays first, then mechanical TTK/BTK/damage, optic fit, Beam Index and cost.'
   },
-  audit: { weaponsSource: weapons.length, modeled:0, incomplete:0, rawLegalCombinations:'0', canonicalCombinationsEvaluated:0, distancesPerWeapon:DIST_MAX-DIST_MIN+1, errors:[] },
+  audit: { weaponsSource: selectedWeapons.length, totalWeaponsSource: weapons.length, modeled:0, incomplete:0, rawLegalCombinations:'0', canonicalCombinationsEvaluated:0, distancesPerWeapon:DIST_MAX-DIST_MIN+1, errors:[] },
   weapons: {}
 };
 let rawTotal = 0n;
 
-for (const w of weapons) {
+for (const w of selectedWeapons) {
   const budget = budgetFor(w);
   const rawCount = countAllLegalCombinations(w);
   rawTotal += rawCount;
@@ -625,7 +638,9 @@ for (const w of weapons) {
 results.audit.rawLegalCombinations = String(rawTotal);
 results.audit.pass = results.audit.errors.length === 0 && results.audit.incomplete === 0 && results.audit.modeled === results.audit.weaponsSource;
 await mkdir(outDir,{recursive:true});
-await writeFile(join(outDir,'combat-cache.json'), JSON.stringify(results));
-await writeFile(join(outDir,'combat-audit.json'), JSON.stringify({generatedAt:results.generatedAt,source:results.source,rules:results.rules,audit:results.audit},null,2));
+await mkdir(resolve(CACHE_OUT,'..'),{recursive:true});
+await mkdir(resolve(AUDIT_OUT,'..'),{recursive:true});
+await writeFile(CACHE_OUT, JSON.stringify(results));
+await writeFile(AUDIT_OUT, JSON.stringify({generatedAt:results.generatedAt,source:results.source,rules:results.rules,audit:results.audit},null,2));
 console.log('\nAUDIT', JSON.stringify(results.audit,null,2));
 if (!results.audit.pass) process.exitCode = 2;
