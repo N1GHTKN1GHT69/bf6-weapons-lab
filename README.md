@@ -43,9 +43,10 @@ invented to support a simpler label.
   breaking lethal ties.
 
 PRIORITY defaults to each mode's historical strategy (AUTO META balanced, BUILD
-MY GUN fastest kill), so default behaviour is unchanged. Player class, battle
-context and the ADS/stealth/capacity preferences moved under ADVANCED
-PRIORITIES, labelled with what they actually affect.
+MY GUN fastest kill), so default behaviour is unchanged. The only exposed
+strategies are the two the engine actually computes: BALANCED and FASTEST KILL.
+Player class and Loadout Focus live under MORE OPTIONS and affect class/training/
+gadget recommendations only; dead ADS/stealth/capacity toggles were removed.
 
 ## Results can never go stale
 
@@ -64,8 +65,9 @@ name and writes `data/attachment-name-audit.json` and `.csv`:
 
 | Status | Count | Meaning |
 | --- | --- | --- |
-| `VERIFIED_EXACT` | 124 | Carried verbatim from the pinned, SHA-256-verified upstream snapshot and not a category label or abbreviation. |
-| `UNVERIFIED` | 21 | Visibly abbreviated or inconsistently cased source strings (`#01 BUCK`, `Sub HP`, `30 Fast`). |
+| `GAME_VERIFIED_EXACT` | 0 | Confirmed against the actual current in-game display string. |
+| `SOURCE_CORROBORATED` | 94 | Supported by trusted source data, but not promoted to an in-game exact claim without direct evidence. |
+| `UNVERIFIED` | 51 | Plausible source string with insufficient evidence for an exact-name claim. |
 | `INTERNAL_PLACEHOLDER` | 23 | Generic category/tier labels, including every optic tier and the bare barrel tiers. |
 | `MISMATCH` | 0 | Sources disagree; both strings recorded, neither overwritten. |
 
@@ -87,10 +89,10 @@ labelled VERIFIED / PARTIALLY VERIFIED accordingly.
 
 ### Known naming limitation
 
-The repository contains no in-game string extraction, so `VERIFIED_EXACT` means
-"verbatim from the project's pinned authoritative BF6 source, and not a category
-label or abbreviation" rather than "confirmed against the live game UI". Optic
-names in particular remain coarse tiers; see the v2.1 note below.
+The repository contains no in-game string extraction, so no attachment is
+promoted to `GAME_VERIFIED_EXACT` without direct live-game evidence. Trusted
+source strings remain `SOURCE_CORROBORATED`; coarse optic/barrel labels remain
+placeholders until exact names are verified.
 
 ## Local development
 
@@ -213,9 +215,33 @@ See `SNIPER-AUDIT.md` for the sniper-specific values and corrections.
 
 External sources provide factual mechanics/data only. Community rankings, popularity, usage, tier lists and creator recommendations are never inputs to the meta calculation.
 
-## Deploy
+## Deploy / automatic freshness
 
-Download this ZIP and drag it onto `Deploy-BF6.bat`; GitHub and Cloudflare update automatically.
+Normal data freshness is automatic and fail-closed. `BF6 Freshness Watch` runs
+hourly and performs only cheap checks against EA's latest four-part game version
+and the current `raymdl/BF6-Weapon-Analyzer` revision. When the SHA is unchanged,
+it skips raw-data downloads entirely; when the SHA changes, it fingerprints the four
+combat data files so documentation-only upstream commits still do **not** launch the
+expensive cache build.
+
+If EA publishes a newer version, `data/freshness-status.json` is updated so the
+site can show **LIVE GAME** separately from **COMBAT VERIFIED**. Combat-relevant
+or ambiguous patch notes remain `verification-pending`; the public site keeps
+the last known-good calculations rather than publishing guessed math.
+
+If the analyzer's actual combat-data fingerprints change, the watcher records the
+pending SHA and dispatches `BF6 Combat Engine`. Duplicate hourly rebuilds for the same pending SHA are
+suppressed, with a cooldown retry after failures. The combat workflow locks one
+immutable analyzer revision, runs every audit, builds/merges the exhaustive
+per-weapon cache, validates it, and only then promotes the freshness state and
+commits the atomic source/cache/audit snapshot. Failed candidates stay in GitHub
+Actions artifacts and are never committed to `main`.
+
+The existing GitHub → Cloudflare Pages connection deploys successful `main`
+commits. Manual deployment remains available for code releases. Routine UI/code
+changes run `BF6 Lightweight Quality Gates` instead of spawning the 62-weapon
+exhaustive matrix; only cache-affecting engine/data changes trigger that expensive
+pipeline automatically.
 
 ## v1.4 DMR recheck
 
@@ -239,7 +265,7 @@ Shotguns now have a fail-closed mechanical audit for #01 Buckshot, Flechette and
 
 Phase A hardens the production path before trusting final META winners:
 
-- `BF6 Combat Engine` is now the single scheduled 6-hour source/cache pipeline.
+- `BF6 Combat Engine` is the expensive validation/build pipeline; hourly `BF6 Freshness Watch` dispatches it only when the analyzer source actually changed.
 - One Analyzer checkout supplies both simulator code and the source JSON committed with the cache.
 - `scripts/preflight-upstream.mjs` fails early on roster, compatibility-map, point-schema or simulator-export drift.
 - `scripts/sync-from-upstream.mjs` writes an atomic source snapshot and `data/source-manifest.json` with the exact upstream commit and SHA-256 hashes.

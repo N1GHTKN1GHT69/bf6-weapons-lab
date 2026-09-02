@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "detectedAt": "2026-09-02T00:00:00.000Z",
+  "official": {
+    "gameVersion": "1.4.2.5",
+    "publishedDate": "2026-08-31",
+    "url": "https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-1-4-2-5"
+  },
+  "verified": {
+    "gameVersion": "1.4.2.5",
+    "verifiedAt": "2026-09-02T00:00:00.000Z",
+    "upstreamCommit": "fb7a214778e1e4b5a5113f21ec0dd12136123845",
+    "basis": "BF6 Weapons Lab class audits, official patch overlays, REDSEC rules and exhaustive combat-cache validation"
+  },
+  "upstream": {
+    "verifiedCommit": "fb7a214778e1e4b5a5113f21ec0dd12136123845",
+    "declaredGameVersions": [
+      "1.3.3.0"
+    ]
+  },
+  "state": "verified",
+  "combatImpact": "verified-current",
+  "matchedTerms": [],
+  "pending": null
+}

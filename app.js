@@ -21,6 +21,7 @@
     gameMode: "multiplayer",
     targetArmor: "unarmored",
     redsecModel: null,
+    freshness: null,
     // One canonical fighting distance in meters. The slider, the preset
     // shortcuts and the custom numeric input all write this single value, and
     // the optimizer always reads exactly this value. There is deliberately no
@@ -48,7 +49,7 @@
     shotgunAudit: null,
     // Display-only attachment naming audit. Never read by the optimizer.
     nameAudit: null,
-    source: { redsec: "loading", weapons: "loading", attachments: "loading", ammo: "loading", ballistics: "loading", combat: "loading", assaultAudit: "loading", carbineAudit: "loading", smgAudit: "loading", lmgAudit: "loading", dmrAudit: "loading", sniperAudit: "loading", sidearmAudit: "loading", shotgunAudit: "loading", nameAudit: "loading" }
+    source: { freshness: "loading", redsec: "loading", weapons: "loading", attachments: "loading", ammo: "loading", ballistics: "loading", combat: "loading", assaultAudit: "loading", carbineAudit: "loading", smgAudit: "loading", lmgAudit: "loading", dmrAudit: "loading", sniperAudit: "loading", sidearmAudit: "loading", shotgunAudit: "loading", nameAudit: "loading" }
   };
 
   const CATALOG_KEYS = {
@@ -497,6 +498,35 @@
     }
   }
 
+
+  async function loadFreshnessStatus() {
+    try {
+      const f = await fetchJson("./data/freshness-status.json", 3000);
+      if (f?.schema === 1 && f?.official?.gameVersion && f?.verified?.gameVersion) {
+        state.freshness = f;
+        state.source.freshness = "loaded";
+        return f;
+      }
+      state.source.freshness = "invalid";
+      return null;
+    } catch (_) {
+      state.source.freshness = "failed";
+      return null;
+    }
+  }
+
+  function freshnessUi() {
+    const f = state.freshness;
+    const official = f?.official?.gameVersion || CURRENT.liveVersion || "—";
+    const verified = f?.verified?.gameVersion || CURRENT.liveVersion || "—";
+    const st = f?.state || "unknown";
+    if (st === "verified") return { cls: "ok", chip: `LIVE ${official} • VERIFIED`, official, verified, state: st, note: "Official BF6 version matches the verified combat model." };
+    if (st === "current-no-combat-change-detected") return { cls: "ok", chip: `LIVE ${official} • COMBAT CURRENT`, official, verified, state: st, note: `Official update ${official} detected; no combat-relevant change was found in its changelog. Combat math remains verified through ${verified}.` };
+    if (st === "source-update-pending") return { cls: "warn", chip: `SOURCE UPDATE • VERIFYING`, official, verified, state: st, note: "A newer analyzer snapshot is being validated. The site remains on the last known-good combat data until it passes." };
+    if (st === "verification-pending") return { cls: "warn", chip: `LIVE ${official} • VERIFIED ${verified}`, official, verified, state: st, note: `A newer BF6 update was detected. Combat-relevant changes are not promoted until the full verification pipeline passes.` };
+    return { cls: "warn", chip: `LIVE ${official} • STATUS CHECK`, official, verified, state: st, note: "Freshness status is unavailable or incomplete; verified calculations remain fail-closed." };
+  }
+
   function nameRecord(opt) {
     if (!opt || !state.nameAudit) return null;
     return state.nameAudit.byKey.get(`${opt.slot}:${opt.id}`)
@@ -582,7 +612,7 @@
     state.attachments = attachments && typeof attachments === "object" ? attachments : null;
     state.ammo = ammo && typeof ammo === "object" ? ammo : null;
     state.ballistics = ballistics && typeof ballistics === "object" ? ballistics : null;
-    await Promise.all([loadCombatCache(), loadAssaultAudit(), loadCarbineAudit(), loadSmgAudit(), loadLmgAudit(), loadDmrAudit(), loadSniperAudit(), loadSidearmAudit(), loadShotgunAudit(), loadAttachmentNameAudit(), loadRedsecModel()]);
+    await Promise.all([loadFreshnessStatus(), loadCombatCache(), loadAssaultAudit(), loadCarbineAudit(), loadSmgAudit(), loadLmgAudit(), loadDmrAudit(), loadSniperAudit(), loadSidearmAudit(), loadShotgunAudit(), loadAttachmentNameAudit(), loadRedsecModel()]);
 
     const matched = CURRENT.roster.filter(r => rawForRoster(r)).length;
     if (state.rawWeapons.length) setChip("statsChip", `STATS ${matched}/${CURRENT.roster.length}`, matched >= 60 ? "ok" : "warn");
@@ -607,6 +637,8 @@
     else if (state.attachments && state.ammo) setChip("buildChip", "LIVE BUILD FALLBACK", "warn");
     else if (state.attachments || state.ammo) setChip("buildChip", "BUILD DATA PARTIAL", "warn");
     else setChip("buildChip", "BUILD DATA DOWN", "bad");
+    const fresh = freshnessUi();
+    setChip("freshnessChip", fresh.chip, fresh.cls);
   }
 
   function distanceMix(d = state.distance) {
@@ -1385,7 +1417,29 @@
     return rec?.implementedPolicy === "proportional" ? "proportional" : "none";
   }
 
-  function armorDamageCurve(raw, closeRange = defaultCloseRange()) {
+  function armorChestMultiplier(raw) {
+    const groups = redsecModel()?.damageVsArmor?.chestMultipliers;
+    if (!groups || !raw?.cls) return 1;
+    for (const rec of Object.values(groups)) {
+      if (!Array.isArray(rec?.classes) || !rec.classes.includes(raw.cls)) continue;
+      const value = Number(rec.value);
+      if (Number.isFinite(value) && value > 0) return value;
+    }
+    return 1;
+  }
+
+  function alignedCarbineCloseRangeDamage(raw) {
+    const cfg = redsecModel()?.damageVsArmor?.carbineCloseRangeAlignment?.weaponOverrides?.[raw?.id];
+    if (!cfg?.referenceWeaponId) return null;
+    const ref = state.rawWeapons.find(w => w.id === cfg.referenceWeaponId);
+    if (!Array.isArray(ref?.dmg) || !ref.dmg.length) return null;
+    const first = Number(ref.dmg[0]?.d);
+    const changed = ref.dmg.find(p => Number.isFinite(Number(p?.d)) && Number(p.d) !== first);
+    const value = Number(changed?.d);
+    return Number.isFinite(value) && value > 0 ? value : null;
+  }
+
+  function armorDamageCurve(raw, closeRange = defaultCloseRange(), effectiveFireMode = raw?.fireMode) {
     const model = redsecModel()?.damageVsArmor;
     if (!model || !Array.isArray(raw?.dmg) || !raw.dmg.length) return null;
     const shift = Number(model.rangeShiftMeters?.value);
@@ -1400,10 +1454,22 @@
     // second step's damage applies from 0 m. Applied before the range shift so
     // the surviving boundaries are the ones that move.
     const dropModes = model.removeFirstCloseRangeStep?.appliesToFireModes ?? [];
-    if (closeRange === "remove" && dropModes.includes(raw?.fireMode)) {
+    if (closeRange === "remove" && dropModes.includes(effectiveFireMode)) {
       const first = pts[0].d;
       const changeAt = pts.findIndex(p => p.d !== first);
-      if (changeAt > 0) pts = pts.slice(changeAt);
+      if (changeAt > 0) {
+        pts = pts.slice(changeAt);
+        // EA explicitly documents one exception to simply flattening a
+        // Carbine to its own second tier: a Carbine caliber variant keeps its
+        // close-range armour damage aligned to the corresponding non-Carbine
+        // caliber. The model names the affected weapon/reference pair; the
+        // current numeric value is derived from the current weapon curves.
+        const aligned = alignedCarbineCloseRangeDamage(raw);
+        if (Number.isFinite(aligned) && pts.length) {
+          const ownFirst = pts[0].d;
+          pts = pts.map(p => p.d === ownFirst ? { ...p, d: aligned } : p);
+        }
+      }
     }
 
     // Rule A: shift every drop-off threshold outward. The curve must still start
@@ -1414,15 +1480,24 @@
   }
 
   /** Per-shot damage against armor at an exact distance. */
-  function armorDamageAtDistance(raw, d, closeRange = defaultCloseRange()) {
-    const curve = armorDamageCurve(raw, closeRange);
+  function armorDamageAtDistance(raw, d, closeRange = defaultCloseRange(), effectiveFireMode = raw?.fireMode) {
+    const curve = armorDamageCurve(raw, closeRange, effectiveFireMode);
     if (!curve) return null;
     // Reuse the weapon's own curve semantics (stepped vs linear vs pellet blend)
     // by evaluating through the same function the health path uses.
     const shim = { dmg: curve, damageSource: raw?.damageSource, pellets: raw?.pellets };
     const per = damageAtDistance(shim, d);
     if (per == null) return null;
-    return per * Math.max(1, Number(raw?.pellets) || 1);
+    return per * Math.max(1, Number(raw?.pellets) || 1) * armorChestMultiplier(raw);
+  }
+
+  function timeToNthShotForBuild(raw, shots, buildStats = null) {
+    const mode = buildStats?.fireMode ?? raw?.fireMode;
+    const rpm = Number(buildStats?.rpm);
+    if (Number.isFinite(rpm) && rpm > 0 && mode !== "burst" && raw?.id !== "db12" && !SHOTGUN_CADENCE[raw?.id]) {
+      return (shots - 1) * 60000 / rpm;
+    }
+    return timeToNthShot(raw, shots);
   }
 
   /**
@@ -1437,9 +1512,10 @@
   function redsecArmoredCombat(raw, d, opts = {}) {
     const closeRange = opts.closeRange ?? defaultCloseRange();
     const spillover = opts.spillover ?? defaultSpillover();
+    const effectiveFireMode = opts.effectiveFireMode ?? raw?.fireMode;
     const pool = opts.pool ?? armorPool(opts.armorState);
     const healthPerShot = opts.healthDamage ?? combatAtDistance(raw, d)?.damage;
-    const armorPerShot = armorDamageAtDistance(raw, d, closeRange);
+    const armorPerShot = armorDamageAtDistance(raw, d, closeRange, effectiveFireMode);
     if (!pool || !Number.isFinite(Number(healthPerShot)) || Number(healthPerShot) <= 0) return null;
     if (!Number.isFinite(Number(armorPerShot)) || Number(armorPerShot) <= 0) return null;
 
@@ -1482,6 +1558,8 @@
       hpPerPlate: pool.hpPerPlate,
       spilloverPolicy: spillover,
       closeRangePolicy: closeRange,
+      effectiveFireMode,
+      armorChestMultiplier: armorChestMultiplier(raw),
       carriedHealthDamage,
       log
     };
@@ -1499,15 +1577,13 @@
     if (!base) return null;
     if (armorState === "unarmored") return { ...base, gameMode: "redsec", targetArmor: "unarmored", armorModel: null };
 
-    const armored = redsecArmoredCombat(raw, d, { armorState, healthDamage: base.damage, ...interp });
+    const effectiveFireMode = buildStats?.fireMode ?? mpRow?.fireMode ?? raw?.fireMode;
+    const armored = redsecArmoredCombat(raw, d, { armorState, healthDamage: base.damage, effectiveFireMode, ...interp });
     if (!armored) return null;
 
     // Timing uses the winning build's transformed cadence when available, which
     // is the same cadence the Multiplayer row was timed with.
-    const rpm = Number(buildStats?.rpm);
-    const timed = Number.isFinite(rpm) && rpm > 0 && raw?.fireMode !== "burst" && raw?.id !== "db12" && !SHOTGUN_CADENCE[raw?.id]
-      ? (armored.btk - 1) * 60000 / rpm
-      : timeToNthShot(raw, armored.btk);
+    const timed = timeToNthShotForBuild(raw, armored.btk, buildStats);
     const mechTtk = Number.isFinite(Number(timed)) ? Number(timed) : null;
     const flightMs = Number(base.flightMs);
     const triggerTtk = Number.isFinite(mechTtk) && Number.isFinite(flightMs) ? mechTtk + flightMs : mechTtk;
@@ -1518,13 +1594,14 @@
     let lowBtk = null, lowTtk = null;
     if (Number.isFinite(lowHealth) && lowHealth > 0) {
       lowBtk = armored.shotsToBreakArmor + Math.ceil(100 / lowHealth);
-      lowTtk = timeToNthShot(raw, lowBtk);
+      lowTtk = timeToNthShotForBuild(raw, lowBtk, buildStats);
     }
 
     return {
       ...base,
       gameMode: "redsec",
       targetArmor: armorState,
+      effectiveFireMode,
       damage: base.damage,
       btk: armored.btk,
       ttk: mechTtk,
@@ -1627,10 +1704,7 @@
     const base = combatAtDistance(raw, d);
     if (!base || !Number.isFinite(Number(base.damage))) return null;
     const st = build.stats || {};
-    const rpm = Number(st.rpm);
-    const mech = Number.isFinite(rpm) && rpm > 0 && raw.fireMode !== "burst" && raw.id !== "db12" && !SHOTGUN_CADENCE[raw.id]
-      ? (base.btk - 1) * 60000 / rpm
-      : base.ttk;
+    const mech = timeToNthShotForBuild(raw, base.btk, st);
     const vel = Number(st.bulletVel ?? raw.bulletVel);
     const drag = ballisticDragPerMeter(raw.cls, "standard");
     const flightMs = Number.isFinite(vel) && vel > 0 && Number.isFinite(drag) ? flightTimeMs(d, vel, drag) : null;
@@ -1638,6 +1712,7 @@
     const fit = sight ? opticRangeFit(sight.id, d) : NaN;
     return {
       damage: base.damage, btk: base.btk, ttk: mech, mechTtk: mech,
+      fireMode: st.fireMode ?? raw.fireMode,
       flightMs, triggerTtk: Number.isFinite(mech) && Number.isFinite(flightMs) ? mech + flightMs : mech,
       ballisticsExact: ballisticVerified(raw), lowBtk: base.lowBtk, lowTtk: base.lowTtk,
       lowDamage: base.lowDamage,
@@ -1717,11 +1792,12 @@
    * results have the same BTK under either spillover reading. Confidence is
    * therefore computed from the mechanics the specific numbers really use.
    */
-  function redsecDependencies(raw, d, mpRow) {
-    if (state.gameMode !== "redsec" || state.targetArmor !== "plates2" || !raw || !mpRow) return null;
-    const health = Number(mpRow.damage);
+  function redsecDependencies(raw, d, combatRow) {
+    if (state.gameMode !== "redsec" || state.targetArmor !== "plates2" || !raw || !combatRow) return null;
+    const health = Number(combatRow.damage);
     if (!Number.isFinite(health) || health <= 0) return null;
-    const base = { armorState: state.targetArmor, healthDamage: health };
+    const effectiveFireMode = combatRow.effectiveFireMode ?? combatRow.fireMode ?? raw.fireMode;
+    const base = { armorState: state.targetArmor, healthDamage: health, effectiveFireMode };
     const run = (closeRange, spillover) => redsecArmoredCombat(raw, d, { ...base, closeRange, spillover });
 
     const cur = run(defaultCloseRange(), defaultSpillover());
@@ -1733,17 +1809,24 @@
     const spilloverMatters = !!altSpill && altSpill.btk !== cur.btk;
     // The close-range rule is only *invoked* when the weapon is automatic and
     // the shot actually lands inside the affected band.
-    const closeRangeInvoked = !!(redsecModel()?.damageVsArmor?.removeFirstCloseRangeStep?.appliesToFireModes ?? []).includes(raw.fireMode)
+    const closeRangeInvoked = !!(redsecModel()?.damageVsArmor?.removeFirstCloseRangeStep?.appliesToFireModes ?? []).includes(effectiveFireMode)
       && !!altClose && altClose.armorDamagePerShot !== cur.armorDamagePerShot;
+    const sniperSweetSpotUnverified = raw.cls === "Sniper Rifle" && /sweet-spot/i.test(String(raw.damageSource || ""));
+    const carbineAlignmentApplied = !!redsecModel()?.damageVsArmor?.carbineCloseRangeAlignment?.weaponOverrides?.[raw.id]
+      && closeRangeInvoked;
 
     return {
       btk: cur.btk,
+      effectiveFireMode,
       closeRangeInvoked,
       closeRangeMatters,
       spilloverMatters,
+      sniperSweetSpotUnverified,
+      carbineAlignmentApplied,
+      armorChestMultiplier: cur.armorChestMultiplier,
       btkIfCloseRangeKept: altClose?.btk ?? null,
       btkIfSpillover: altSpill?.btk ?? null,
-      robust: !closeRangeMatters && !spilloverMatters
+      robust: !closeRangeMatters && !spilloverMatters && !sniperSweetSpotUnverified
     };
   }
 
@@ -1757,6 +1840,7 @@
       ["Soldier health after armour", m.soldierHealth.confidence === "verified" ? "VERIFIED" : "ASSUMED", "EA state health damage and ranges are unchanged from the rest of Battlefield 6."]
     ];
     if (!deps) return rows;
+    rows.splice(2, 0, ["Chest-vs-armour multiplier", "VERIFIED CURRENT", `${Number(deps.armorChestMultiplier).toFixed(2)}x for this weapon class, from BF6 Update 1.3.3.0.`]);
     rows.push(["Close-range armour damage", deps.closeRangeInvoked ? (deps.closeRangeMatters ? "DERIVED — AFFECTS THIS RESULT" : "DERIVED — NOT MATERIAL HERE") : "NOT INVOKED",
       deps.closeRangeInvoked
         ? `EA describe the automatic close-range step as "reduced or removed" without publishing a table. Removed is implemented. Keeping the step instead would give ${deps.btkIfCloseRangeKept} BTK versus ${deps.btk}.`
@@ -1765,6 +1849,12 @@
       deps.spilloverMatters
         ? `No source states whether leftover damage carries into health. No spillover is modelled; proportional spillover would give ${deps.btkIfSpillover} BTK versus ${deps.btk}.`
         : `No source states whether leftover damage carries into health, but both readings give ${deps.btk} BTK here.`]);
+    if (deps.carbineAlignmentApplied) {
+      rows.push(["Carbine close-range alignment", "VERIFIED RULE", "EA explicitly says the 7.62x39mm Carbine variant aligns its close-range armour damage to the non-Carbine caliber instead of flattening to the Carbine's lower tier. Current values are derived from the synced weapon curves."]);
+    }
+    if (deps.sniperSweetSpotUnverified) {
+      rows.push(["Sniper sweet-spot armour range", "UNVERIFIED — CONFIDENCE LIMIT", "EA verifies +10 m for damage drop-off thresholds, but does not state whether the rising/onset control points of a non-monotonic sniper sweet-spot curve also shift. This armoured sniper result remains provisional until a REDSEC-specific curve or test resolves that geometry."]);
+    }
     return rows;
   }
 
@@ -1993,9 +2083,8 @@
     const cachedStats = raw ? cachedWinningStats(raw, state.distance, detailStrategy) : null;
     // Same scenario transform the ranking used, so the headline result and the
     // ranking can never disagree about which scenario they describe.
-    const mpRowForDeps = c;
     c = scenarioCombat(raw, state.distance, detailStrategy, c, cachedStats);
-    const deps = redsecDependencies(raw, state.distance, mpRowForDeps);
+    const deps = redsecDependencies(raw, state.distance, c);
     const displayVelocity = c ? Number(cachedStats?.bulletVel ?? (roster.cls === "DMR" ? auditDef?.equippedVelocity : null) ?? c.bulletVel ?? raw?.bulletVel ?? auditDef?.bulletVel) : NaN;
     if (c && !Number.isFinite(Number(c.triggerTtk))) c = addTriggerKill(roster, raw, c, state.distance, "standard", displayVelocity);
     return { classAudit, auditDef, audited, cached, cachedStats, optimized, displayVelocity, combat: c, strategy: detailStrategy, deps };
@@ -2659,6 +2748,9 @@
 
   function renderWarnings(roster, raw) {
     const warnings = [];
+    const fresh = freshnessUi();
+    if (fresh.state === "verification-pending") warnings.push(`BF6 ${fresh.official} is live, while combat data is verified through ${fresh.verified}. The site keeps the last known-good calculations until combat-relevant changes pass verification.`);
+    if (fresh.state === "source-update-pending") warnings.push("A newer analyzer source snapshot was detected and is being verified. The current site stays on the last known-good snapshot until the rebuild passes.");
     if (state.source.weapons === "failed") warnings.push("Weapon stat feed is unavailable. All 63 catalog weapons remain visible, but raw stat/TTK panels are pending.");
     if (state.source.attachments === "failed" || state.source.ammo === "failed") warnings.push("Attachment or ammo feed is unavailable, so the optimizer will not fabricate a point build.");
     if (!state.combatCache) warnings.push("The exhaustive 1–300m combat cache is not ready yet. Until the GitHub audit finishes, the site falls back to the live on-demand engine and does not label results as exhaustive meta.");
@@ -3102,7 +3194,9 @@
       const matched = CURRENT.roster.filter(r => rawForRoster(r)).length;
       const budgetSample = rawForRoster(rosterWeapon());
       const rows = [
-        ["LIVE GAME", cache?.source?.gameVersion || CURRENT.liveVersion || "—", CURRENT.liveVersionDate ? `Build gate ${CURRENT.liveVersionDate}` : "Current build gate"],
+        ["LIVE GAME", freshnessUi().official, state.freshness?.official?.publishedDate ? `EA update published ${state.freshness.official.publishedDate}` : "Latest detected official version"],
+        ["COMBAT VERIFIED", freshnessUi().verified, freshnessUi().note],
+        ["FRESHNESS", String(freshnessUi().state).replaceAll("-", " ").toUpperCase(), state.freshness?.detectedAt ? `last state change ${String(state.freshness.detectedAt).slice(0, 16).replace("T", " ")} UTC` : "freshness watcher status"],
         ["CATALOG", `${CURRENT.roster.length} / ${CURRENT.rosterCount} weapons`, `${primaries.length} primaries + ${secondaries} secondaries • always visible`],
         ["STAT COVERAGE", `${matched} / ${CURRENT.roster.length}`, "weapons matched to the analyzer stat feed"],
         ["META ENGINE", cache ? `${cache.audit?.modeled ?? "—"} / ${cache.audit?.weaponsSource ?? "—"} modeled` : "FALLBACK ACTIVE", cache ? `${cache.rules?.distances?.[0] ?? 1}–${cache.rules?.distances?.[1] ?? 300}m exhaustive cache` : "exhaustive cache not validated"],
@@ -3118,7 +3212,9 @@
       const cache = state.combatCache;
       const items = [
         ["ANALYZER SOURCE", cache?.source?.repository || "—"],
-        ["UPSTREAM COMMIT", cache?.source?.commit ? String(cache.source.commit).slice(0, 12) : "—"],
+        ["UPSTREAM VERIFIED", state.freshness?.verified?.upstreamCommit ? String(state.freshness.verified.upstreamCommit).slice(0, 12) : (cache?.source?.commit ? String(cache.source.commit).slice(0, 12) : "—")],
+        ["UPSTREAM OBSERVED", state.freshness?.upstream?.observedCommit ? String(state.freshness.upstream.observedCommit).slice(0, 12) : "—"],
+        ["UPSTREAM DECLARED BASELINE", (state.freshness?.upstream?.declaredGameVersions || []).join(", ") || "—"],
         ["RANKING MODEL", cache?.source?.rankingModel || "fallback"],
         ["OPTIC MODEL", cache?.source?.opticModel || "—"],
         ["MANUAL BUILD MODEL", cache?.source?.manualBuildModel || "—"],

@@ -8,6 +8,8 @@ import { auditPointData } from './point-audit.mjs';
 const upstream = resolve(process.argv[2] || process.env.BF6_ANALYZER_DIR || '.upstream/bf6-analyzer');
 const outDir = resolve(process.argv[3] || 'data');
 const files = ['weapons.json','attachments.json','ammo.json','ballistics.json'];
+let upstreamBaseline = null;
+try { upstreamBaseline = JSON.parse(await readFile(join(upstream,'data/provenance/live-baseline.json'),'utf8')); } catch {}
 const sha256 = text => createHash('sha256').update(text).digest('hex');
 const parsed = {};
 const raw = {};
@@ -34,6 +36,12 @@ const manifest = {
   repository:'raymdl/BF6-Weapon-Analyzer',
   commit,
   counts:{weapons:parsed['weapons.json'].length, ballisticsWeaponIds:b.weaponIds.length},
+  upstreamBaseline: upstreamBaseline ? {
+    status: upstreamBaseline.status ?? null,
+    adoptedAsBaseline: upstreamBaseline.adoptedAsBaseline ?? null,
+    weaponCount: upstreamBaseline.weaponCount ?? null,
+    sourceVersions: [...new Set((upstreamBaseline.sources ?? []).map(x => x?.sourceVersion).filter(Boolean))]
+  } : null,
   sha256:Object.fromEntries(files.map(name=>[name,sha256(raw[name])])),
   pointAudit:{ok:true,warnings:(points.warnings??[]).length,errors:0}
 };

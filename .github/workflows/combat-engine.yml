@@ -3,22 +3,20 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
+    # Only changes that can alter the exhaustive cache trigger the expensive
+    # 62-weapon matrix automatically. UI/audit-only edits use quality-gates.yml.
     paths:
-      - 'scripts/**'
+      - 'scripts/build-combat-cache.mjs'
+      - 'scripts/merge-combat-cache.mjs'
+      - 'scripts/auto-selection-policy.mjs'
+      - 'scripts/cache-state-signature.mjs'
+      - 'scripts/verified-source-sanitizer.mjs'
+      - 'scripts/list-cache-weapons.mjs'
       - 'data/*-audit.json'
-      - 'data/redsec-model.json'
       - 'data/weapons.json'
       - 'data/attachments.json'
       - 'data/ammo.json'
       - 'data/ballistics.json'
-      - 'data/combat-cache.json'
-      - 'data/source-manifest.json'
-      - 'roster-data.js'
-      - 'class-data.js'
-      - 'app.js'
-      - '.github/workflows/combat-engine.yml'
-  schedule:
-    - cron: '23 */6 * * *'
 permissions:
   contents: write
 concurrency:
@@ -85,6 +83,8 @@ jobs:
           node scripts/audit-cache-state-dedupe.mjs
           node scripts/audit-cache-state-scale.mjs
           node scripts/audit-partial-assumptions.mjs
+      - name: Gate freshness/update fail-closed behavior
+        run: node scripts/audit-freshness.mjs
       - name: Gate final cache integration policy
         run: node scripts/audit-final-gate-policy.mjs
       - name: Gate Assault Rifle math
@@ -235,20 +235,6 @@ jobs:
         run: node scripts/audit-attachment-names.mjs
       - name: Gate attachment display-name integrity
         run: node scripts/audit-attachment-names.mjs --check
-      - name: Publish exact global-gate failure diagnostics
-        if: failure()
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [ ! -s data/global-integration-diagnostics.json ]; then
-            echo '{"error":"global gate failed before diagnostics could be written"}' > data/global-integration-diagnostics.json
-          fi
-          git config user.name "bf6-combat-bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add data/global-integration-diagnostics.json
-          if git diff --cached --quiet; then exit 0; fi
-          git commit -m "diagnostics: exact BF6 global integration failure [skip ci]"
-          git push origin HEAD:main
       - name: Restore runtime audit diagnostics
         if: always()
         uses: actions/download-artifact@v4
@@ -269,6 +255,8 @@ jobs:
             data/combat-cache.json
             data/source-manifest.json
             data/global-integration-diagnostics.json
+      - name: Promote verified freshness state
+        run: node scripts/promote-freshness.mjs
       - name: Commit atomic source + cache update
         shell: bash
         run: |
@@ -279,7 +267,7 @@ jobs:
           git add -A data/global-integration-diagnostics.json 2>/dev/null || true
           git add data/weapons.json data/attachments.json data/ammo.json data/ballistics.json data/source-manifest.json \
             data/combat-cache.json data/combat-audit.json data/*-audit-runtime.json \
-            data/attachment-name-audit.json data/attachment-name-audit.csv 2>/dev/null || true
+            data/attachment-name-audit.json data/attachment-name-audit.csv data/freshness-status.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No source/cache changes to commit."
             exit 0
