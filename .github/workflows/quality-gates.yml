@@ -13,6 +13,8 @@ on:
       - 'styles.css'
       - 'scripts/**'
       - 'data/redsec-model.json'
+      - 'data/patch-delta-ledger.json'
+      - 'data/freshness-status.json'
       - '.github/workflows/**'
 permissions:
   contents: read
@@ -45,6 +47,7 @@ jobs:
           node scripts/audit-global.mjs
           node scripts/audit-priority-wiring.mjs
           node scripts/audit-redsec-armor.mjs
+          node scripts/audit-patch-reconciliation.mjs
           node scripts/audit-attachment-names.mjs --check
           node scripts/audit-ballistic-ttk.mjs
           node scripts/audit-manual-weapon.mjs

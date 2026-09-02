@@ -42,6 +42,11 @@ jobs:
           UPSTREAM_SHA: ${{ steps.upstream.outputs.sha }}
           BF6_REBUILD_RETRY_HOURS: '6'
         run: node scripts/check-freshness.mjs --write
+      # Patch-delta reconciliation is deliberately NOT part of the hourly no-change
+      # path: it only runs when EA published something new or the article changed.
+      - name: Reconcile patch deltas (only on an EA change)
+        if: steps.freshness.outputs.official_changed == 'true' || steps.freshness.outputs.article_revision_changed == 'true'
+        run: node scripts/reconcile-patches.mjs --write
       - name: Commit freshness status only when it changed
         if: steps.freshness.outputs.status_changed == 'true'
         shell: bash

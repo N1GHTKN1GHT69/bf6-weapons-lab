@@ -523,7 +523,17 @@
     if (st === "verified") return { cls: "ok", chip: `LIVE ${official} • VERIFIED`, official, verified, state: st, note: "Official BF6 version matches the verified combat model." };
     if (st === "current-no-combat-change-detected") return { cls: "ok", chip: `LIVE ${official} • COMBAT CURRENT`, official, verified, state: st, note: `Official update ${official} detected; no combat-relevant change was found in its changelog. Combat math remains verified through ${verified}.` };
     if (st === "source-update-pending") return { cls: "warn", chip: `SOURCE UPDATE • VERIFYING`, official, verified, state: st, note: "A newer analyzer snapshot is being validated. The site remains on the last known-good combat data until it passes." };
-    if (st === "verification-pending") return { cls: "warn", chip: `LIVE ${official} • VERIFIED ${verified}`, official, verified, state: st, note: `A newer BF6 update was detected. Combat-relevant changes are not promoted until the full verification pipeline passes.` };
+    if (st === "verification-pending") {
+      const blocked = f?.verified?.blockedAt;
+      return {
+        cls: "warn",
+        chip: `LIVE ${official} • COMBAT ${verified}`,
+        official, verified, state: st, blockedAt: blocked || null,
+        note: blocked
+          ? `Battlefield ${official} is live. Combat data is reconciled through ${verified}; ${blocked} introduced combat changes that are not represented in the current dataset, so the verified version deliberately stops before it.`
+          : `A newer BF6 update was detected. Combat-relevant changes are not promoted until the full verification pipeline passes.`
+      };
+    }
     return { cls: "warn", chip: `LIVE ${official} • STATUS CHECK`, official, verified, state: st, note: "Freshness status is unavailable or incomplete; verified calculations remain fail-closed." };
   }
 
@@ -2749,7 +2759,7 @@
   function renderWarnings(roster, raw) {
     const warnings = [];
     const fresh = freshnessUi();
-    if (fresh.state === "verification-pending") warnings.push(`BF6 ${fresh.official} is live, while combat data is verified through ${fresh.verified}. The site keeps the last known-good calculations until combat-relevant changes pass verification.`);
+    if (fresh.state === "verification-pending") warnings.push(`BF6 ${fresh.official} is live, while combat data is reconciled through ${fresh.verified}${fresh.blockedAt ? ` (${fresh.blockedAt} introduced combat changes that are not represented in the current dataset)` : ""}. The site keeps the last known-good calculations rather than relabelling them for the newer patch.`);
     if (fresh.state === "source-update-pending") warnings.push("A newer analyzer source snapshot was detected and is being verified. The current site stays on the last known-good snapshot until the rebuild passes.");
     if (state.source.weapons === "failed") warnings.push("Weapon stat feed is unavailable. All 63 catalog weapons remain visible, but raw stat/TTK panels are pending.");
     if (state.source.attachments === "failed" || state.source.ammo === "failed") warnings.push("Attachment or ammo feed is unavailable, so the optimizer will not fabricate a point build.");
@@ -3196,6 +3206,7 @@
       const rows = [
         ["LIVE GAME", freshnessUi().official, state.freshness?.official?.publishedDate ? `EA update published ${state.freshness.official.publishedDate}` : "Latest detected official version"],
         ["COMBAT VERIFIED", freshnessUi().verified, freshnessUi().note],
+        ["UPSTREAM DECLARED BASELINE", (state.freshness?.upstream?.declaredGameVersions || []).join(", ") || "—", "What the analyzer snapshot's own metadata claims. Post-baseline deltas are proven separately below rather than trusted from this label."],
         ["FRESHNESS", String(freshnessUi().state).replaceAll("-", " ").toUpperCase(), state.freshness?.detectedAt ? `last state change ${String(state.freshness.detectedAt).slice(0, 16).replace("T", " ")} UTC` : "freshness watcher status"],
         ["CATALOG", `${CURRENT.roster.length} / ${CURRENT.rosterCount} weapons`, `${primaries.length} primaries + ${secondaries} secondaries • always visible`],
         ["STAT COVERAGE", `${matched} / ${CURRENT.roster.length}`, "weapons matched to the analyzer stat feed"],
@@ -3223,6 +3234,20 @@
         ["FEED STATUS", Object.entries(state.source).filter(([, v]) => v === "failed" || v === "invalid").map(([k]) => k).join(", ") || "all sources loaded"]
       ];
       prov.innerHTML = items.map(([k, v]) => `<div class="prov"><span>${escapeHtml(k)}</span><strong>${escapeHtml(String(v))}</strong></div>`).join("");
+    }
+
+    const pl=$("patchLedger");
+    if (pl) {
+      const rec = state.freshness?.patchReconciliation;
+      if (!rec?.patches?.length) { pl.innerHTML = ""; pl.hidden = true; }
+      else {
+        pl.hidden = false;
+        const verdict = rec.blockedAt
+          ? `Combat reconciled through ${rec.verifiedCombatVersion}. ${rec.blockedAt} introduced combat changes that are not represented in the current dataset, so the verified version stops before it.`
+          : `Every official patch after the upstream baseline is reconciled through ${rec.verifiedCombatVersion}.`;
+        pl.innerHTML = `<div class="stat-bars-head"><b>PATCH RECONCILIATION</b><span>${escapeHtml(verdict)}</span></div>` +
+          `<div class="reason-list">${rec.patches.map(p => `<div class="reason-row"><strong>${escapeHtml(p.version)} — ${escapeHtml(p.status)}</strong><span>${p.unresolved?.length ? escapeHtml(p.unresolved.join(" • ")) : "No unresolved combat delta."}</span></div>`).join("")}</div>`;
+      }
     }
 
     const rp=$("redsecProvenance");

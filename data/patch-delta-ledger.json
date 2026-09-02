@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "purpose": "Every official Battlefield 6 game update after the upstream-declared dataset baseline, with the combat-relevant deltas each one introduced and a deterministic check for whether the current repository dataset represents it. This ledger is the evidence for verifiedCombatVersion; that value is earned here, never copied from the live game version.",
+  "reconciledAt": "2026-09-02",
+  "upstreamDeclaredBaseline": "1.3.3.0",
+  "upstreamSnapshotRetrieved": "2026-07-25",
+  "baselineNote": "The upstream source metadata declares a 1.3.3.0 baseline, but the snapshot was retrieved on 2026-07-25, after 1.4.1.0 shipped on 2026-07-16. The declared baseline is therefore stale metadata rather than a true content ceiling. Upstream provenance is left untouched; actual coverage is demonstrated per-delta below.",
+  "checkTypes": {
+    "weaponPresent": "A source weapon record with this id (or alias) must exist in data/weapons.json.",
+    "attachmentCompat": "The named weapon must list the named attachment id in the named compatibility slot.",
+    "attachmentPresent": "An attachment record with this id must exist in the named catalog.",
+    "overlayRule": "app.js must contain the named explicit verified overlay token.",
+    "notModelled": "The mechanic is outside this application's combat model by design; recorded for completeness and non-blocking.",
+    "valuesUnpublished": "EA changed a combat value but published no numbers, and the current snapshot predates the change. Cannot be verified deterministically; blocks promotion."
+  },
+
+  "patches": [
+    {
+      "version": "1.4.1.0",
+      "releaseDate": "2026-07-16",
+      "officialSource": "https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-1-4-1-0",
+      "combatRelevant": true,
+      "predatesSnapshot": true,
+      "changes": [
+        { "mechanic": "new weapon", "affectedWeapons": ["brod3"], "description": "BROD 3 Carbine added.", "check": { "type": "weaponPresent", "weaponId": "brod3" }, "blocking": true },
+        { "mechanic": "new weapon", "affectedWeapons": ["ef88"], "description": "EF88 bullpup Assault Rifle added.", "check": { "type": "weaponPresent", "weaponId": "ef88" }, "blocking": true },
+        { "mechanic": "new weapon", "affectedWeapons": ["vssm"], "description": "VSSM DMR added, integrated suppressor, subsonic ammunition, full-auto capability.", "check": { "type": "weaponPresent", "weaponId": "vssm" }, "blocking": true },
+        { "mechanic": "attachment compatibility", "affectedAttachments": ["extended"], "affectedWeapons": ["m87a1", "m1014", "ks18k", "db12"], "description": "Extended Barrel added for M87A1, M1014, 18.5KS-K and DB-12; increases projectile velocity at the cost of mobility and ADS speed.", "check": { "type": "attachmentCompat", "slot": "barrel", "attachmentId": "extended", "weaponIds": ["m87a1", "m1014", "ks18k", "db12"] }, "blocking": true },
+        { "mechanic": "attachment", "affectedAttachments": ["1p86"], "description": "1P86 LPVO sight with switchable 1.50x/4.50x magnification.", "check": { "type": "notModelled", "reason": "This project models optics as coarse range-fit tiers, not named scopes. That is a pre-existing documented modelling boundary (README v2.1), not dataset staleness: the upstream feed exposes no named-scope table at any version. A named LPVO maps onto the existing variable-magnification tier policy." }, "blocking": false },
+        { "mechanic": "projectile behaviour", "description": "Bullets lose damage travelling through water and may deal no damage after travelling far enough underwater.", "check": { "type": "notModelled", "reason": "The optimizer ranks land engagements at an exact horizontal distance and models no water medium. No ranked value can depend on this." }, "blocking": false },
+        { "mechanic": "gadget balance", "affectedWeapons": ["m320a1"], "description": "REDSEC Grenadier trait HE ammo 5 to 4; Cluster Munitions submunitions 6 to 3, blast damage 30 to 20, radius 2m to 1.5m.", "check": { "type": "notModelled", "reason": "Underbarrel launcher gadget balance. Not a primary/secondary firearm in the weapon optimizer and not part of any ranked value." }, "blocking": false }
+      ]
+    },
+    {
+      "version": "1.4.1.5",
+      "releaseDate": "2026-08-03",
+      "officialSource": "https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-1-4-1-5",
+      "combatRelevant": false,
+      "predatesSnapshot": false,
+      "changes": [
+        { "mechanic": "attachment compatibility", "affectedAttachments": ["1p86"], "description": "The 1P86 Variable Scope can no longer be used while operating an underbarrel launcher.", "check": { "type": "notModelled", "reason": "The model has no underbarrel-launcher equipped state, so this restriction cannot change any ranked value." }, "blocking": false },
+        { "mechanic": "visual", "affectedWeapons": ["m123k"], "description": "Underbarrel attachment models on the M123K now update correctly when changing the equipped underbarrel attachment.", "check": { "type": "notModelled", "reason": "Cosmetic model update; no combat value." }, "blocking": false }
+      ]
+    },
+    {
+      "version": "1.4.2.0",
+      "releaseDate": "2026-08-14",
+      "officialSource": "https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-1-4-2-0",
+      "combatRelevant": true,
+      "predatesSnapshot": false,
+      "changes": [
+        { "mechanic": "new weapon", "affectedWeapons": ["interdictor"], "description": "Interdictor Sniper Rifle added; longest-range sniper in Battlefield 6.", "check": { "type": "weaponPresent", "weaponId": "interdictor" }, "blocking": true },
+        { "mechanic": "ammunition damage", "affectedAttachments": ["long_range"], "affectedWeapons": ["m2010esr", "svk86"], "description": "Match Grade Ammo on the M2010 ESR and SVK-8.6 no longer applies unintended damage reductions; also now deals intended damage against swimming soldiers.", "check": { "type": "valuesUnpublished", "reason": "EA corrected a damage interaction but published no resulting values, and the current snapshot predates the patch. The ammo record exposes no damage-reduction field to compare against, so representation cannot be established deterministically." }, "blocking": true },
+        { "mechanic": "attachment modifier", "affectedWeapons": ["vssm"], "affectedAttachments": ["vssm_suppressed", "vssm_suppressed_asm"], "description": "An unintended recoil modifier has been removed from VSSM barrel attachments.", "check": { "type": "valuesUnpublished", "reason": "No before/after recoil values published, and the snapshot predates the patch." }, "blocking": true },
+        { "mechanic": "limb damage multipliers", "affectedWeapons": ["vssm"], "description": "VSSM limb damage multipliers have been adjusted.", "check": { "type": "valuesUnpublished", "reason": "No values published. Limb multipliers do not enter the chest-based ranking, but they do drive the displayed low-body figures, so the delta is still unrepresented." }, "blocking": true },
+        { "mechanic": "weapon statistics", "affectedWeapons": ["ef88", "brod3", "vssm"], "description": "Weapon statistics updates for EF88, BROD and VSSM.", "check": { "type": "valuesUnpublished", "reason": "EA states statistics changed without publishing them, and the snapshot predates the patch. Inferring that the current values already match would be exactly the guess this ledger exists to prevent." }, "blocking": true },
+        { "mechanic": "aim handling", "affectedWeapons": ["sv98", "m2010esr", "psr", "l115", "miniscout"], "description": "Sniper rifles on non-Recon classes transition into ADS more smoothly and apply the intended aim offset immediately, preserving the intended quickscoping penalty.", "check": { "type": "notModelled", "reason": "ADS transition smoothing and aim offset are not inputs to damage, BTK, TTK, recoil-index or optic-fit ranking." }, "blocking": false }
+      ]
+    },
+    {
+      "version": "1.4.2.5",
+      "releaseDate": "2026-08-31",
+      "officialSource": "https://www.ea.com/games/battlefield/redsec/news/battlefield-6-game-update-1-4-2-5",
+      "combatRelevant": true,
+      "predatesSnapshot": false,
+      "changes": [
+        { "mechanic": "attachment modifier", "affectedWeapons": ["ef88", "brod3"], "affectedAttachments": ["match_trigger"], "description": "The Match Trigger attachment no longer affects fully automatic fire on the BROD and EF88.", "check": { "type": "overlayRule", "token": "BLOCKED_UNTIL_PATCH = new Set([\"ef88:match_trigger\", \"brod3:match_trigger\"])" }, "blocking": true, "note": "Implemented as an explicit verified overlay rather than waiting for the upstream snapshot: the rule is a hard exclusion, not a numeric value, so it can be represented exactly." }
+      ]
+    }
+  ]
+}

@@ -119,6 +119,8 @@ jobs:
         run: node scripts/audit-priority-wiring.mjs
       - name: Gate REDSEC armour model
         run: node scripts/audit-redsec-armor.mjs
+      - name: Gate patch reconciliation
+        run: node scripts/audit-patch-reconciliation.mjs
       - name: Preserve runtime audit diagnostics
         if: always()
         uses: actions/upload-artifact@v4
@@ -257,6 +259,12 @@ jobs:
             data/global-integration-diagnostics.json
       - name: Promote verified freshness state
         run: node scripts/promote-freshness.mjs
+      # Promotion sets the verified version from the cache; reconciliation then
+      # caps it at the last patch whose combat deltas are actually represented.
+      - name: Reconcile patch deltas against the rebuilt dataset
+        run: node scripts/reconcile-patches.mjs --write
+      - name: Gate patch reconciliation
+        run: node scripts/audit-patch-reconciliation.mjs
       - name: Commit atomic source + cache update
         shell: bash
         run: |

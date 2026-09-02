@@ -7,10 +7,12 @@
     "url": "https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-1-4-2-5"
   },
   "verified": {
-    "gameVersion": "1.4.2.5",
+    "gameVersion": "1.4.1.5",
     "verifiedAt": "2026-09-02T00:00:00.000Z",
     "upstreamCommit": "fb7a214778e1e4b5a5113f21ec0dd12136123845",
-    "basis": "BF6 Weapons Lab class audits, official patch overlays, REDSEC rules and exhaustive combat-cache validation"
+    "basis": "BF6 Weapons Lab class audits, official patch overlays, REDSEC rules and exhaustive combat-cache validation",
+    "reconciledThrough": "1.4.1.5",
+    "blockedAt": "1.4.2.0"
   },
   "upstream": {
     "verifiedCommit": "fb7a214778e1e4b5a5113f21ec0dd12136123845",
@@ -18,8 +20,41 @@
       "1.3.3.0"
     ]
   },
-  "state": "verified",
-  "combatImpact": "verified-current",
+  "state": "verification-pending",
+  "combatImpact": "combat-relevant-or-unknown",
   "matchedTerms": [],
-  "pending": null
+  "pending": null,
+  "patchReconciliation": {
+    "verifiedCombatVersion": "1.4.1.5",
+    "blockedAt": "1.4.2.0",
+    "reconciledAt": "2026-09-02T18:47:46.614Z",
+    "patches": [
+      {
+        "version": "1.4.1.0",
+        "status": "VERIFIED PRESENT",
+        "unresolved": []
+      },
+      {
+        "version": "1.4.1.5",
+        "status": "NO COMBAT EFFECT",
+        "unresolved": []
+      },
+      {
+        "version": "1.4.2.0",
+        "status": "PENDING",
+        "unresolved": [
+          "Interdictor Sniper Rifle added; longest-range sniper in Battlefield 6.",
+          "Match Grade Ammo on the M2010 ESR and SVK-8.6 no longer applies unintended damage reductions; also now deals intended damage against swimming soldiers.",
+          "An unintended recoil modifier has been removed from VSSM barrel attachments.",
+          "VSSM limb damage multipliers have been adjusted.",
+          "Weapon statistics updates for EF88, BROD and VSSM."
+        ]
+      },
+      {
+        "version": "1.4.2.5",
+        "status": "VERIFIED PRESENT",
+        "unresolved": []
+      }
+    ]
+  }
 }
