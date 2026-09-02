@@ -169,3 +169,7 @@ Because the failed GitHub job log itself was not accessible, the real v2.6 GitHu
 The real v2.6 run proved M250 still failed. Current upstream compatibility data gives M250 only `heavy` and `heavy_ext` as legal required barrels. Both barrel records contain verified mechanics plus two fields explicitly marked `assumedFields`. The older verified-cache policy discarded the whole option whenever any partial assumption marker existed, leaving M250 with zero legal verified barrel candidates and forcing the shard to fail.
 
 v2.7 changes the policy from **discard partially-assumed attachment** to **strip only the named unverified fields, keep the verified fields, and continue to exclude options marked wholly `assumed: true`**. This keeps M250's verified barrel point cost, spread-increase multiplier and velocity behavior while refusing to use the provisional spread-recovery coefficients. The per-weapon Actions cache namespace is bumped to `v27`, so no v2.6 shard is reused.
+
+
+## Phase A v2.8 — final gate alignment
+The real v2.7 run completed every per-weapon cache shard and passed structural cache validation, exposing a final integration gate that still enforced the older TTK-only AUTO rule. v2.8 separates the two intended winners during validation: `bestLethal` must meet independently verified fastest-lethality baselines, while AUTO `best` may trade at most 12% trigger-to-kill for demonstrably better optic fit or Beam Index. The successful v27 per-weapon Action caches are intentionally reusable because the weapon builder itself is unchanged.

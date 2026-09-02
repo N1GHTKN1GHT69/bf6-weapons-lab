@@ -84,6 +84,8 @@ jobs:
           node scripts/audit-cache-state-dedupe.mjs
           node scripts/audit-cache-state-scale.mjs
           node scripts/audit-partial-assumptions.mjs
+      - name: Gate final cache integration policy
+        run: node scripts/audit-final-gate-policy.mjs
       - name: Gate Assault Rifle math
         run: node scripts/audit-assault.mjs .upstream/bf6-analyzer data data/assault-audit.json
       - name: Gate Carbine math

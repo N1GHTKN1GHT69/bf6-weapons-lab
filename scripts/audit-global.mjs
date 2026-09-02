@@ -175,6 +175,12 @@ if(cachePath){
     }
   }
 
+  // Two different winners exist by design:
+  // - bestLethal = BUILD MY GUN / strict fastest range-eligible lethal build.
+  // - best = AUTO Laserbeam META, which may accept a small trigger->kill tradeoff
+  //   for materially better optic fit / recoil-spread controllability.
+  // The old post-build gate incorrectly required AUTO best to always equal the
+  // fastest mechanical TTK baseline, contradicting the v1.9+ ranking policy.
   for(const [cls,a] of Object.entries(audits)) for(const [id,d] of Object.entries(a.weapons??{})) {
     const opt=d?.optimized; if(!opt?.ranges) continue;
     const roster=current.roster.find(w=>norm(w.id)===norm(id)||norm(w.name)===norm(d.name)||norm(w.id)===norm(d.upstreamId));
@@ -183,11 +189,34 @@ if(cachePath){
     if(!cw) continue;
     for(const r of opt.ranges){
       for(let meter=Number(r.min);meter<=Number(r.max);meter++){
-        const row=cw.best?.[String(meter)]; if(!row) continue;
-        if(Number(row.ttk)>Number(r.ttk)) { errors.push(`${roster.id}@${meter}: cache TTK ${row.ttk} slower than independently verified optimized ${r.ttk}`); break; }
-        if(Number(row.ttk)===Number(r.ttk) && r.attachmentId){
-          const b=cw.builds?.[row.buildId]; const ids=new Set([...(b?.picks??[]).map(x=>x.id),...Object.values(b?.atts??{})].filter(Boolean));
-          if(!ids.has(r.attachmentId)) errors.push(`${roster.id}@${meter}: optimized winner missing ${r.attachmentId}`);
+        const lethal=cw.bestLethal?.[String(meter)]; if(!lethal) continue;
+        if(Number(lethal.ttk)>Number(r.ttk)) {
+          errors.push(`${roster.id}@${meter}: max-lethality TTK ${lethal.ttk} slower than independently verified optimized ${r.ttk}`);
+          break;
+        }
+      }
+    }
+  }
+
+  // Enforce the actual AUTO policy against the strict lethal winner. AUTO may
+  // be slower only inside the explicit 12% trigger->kill window, and only when
+  // the selected build improves optic fit or Beam Index. This prevents a
+  // repeated #1 weapon from surviving on a scoring bug while still allowing
+  // the intentional laserbeam tradeoff.
+  for(const cw of cacheEntries){
+    for(let meter=1;meter<=300;meter++){
+      const auto=cw.best?.[String(meter)], lethal=cw.bestLethal?.[String(meter)];
+      if(!auto||!lethal) continue;
+      const at=Number(auto.triggerTtk), lt=Number(lethal.triggerTtk);
+      if(!Number.isFinite(at)||!Number.isFinite(lt)) continue;
+      if(at>lt+1e-6){
+        const near=lt>0 ? at/lt<=1.120001 : false;
+        if(!near){ errors.push(`${cw.id}@${meter}: AUTO trigger TTK ${at} exceeds 12% laserbeam window over max-lethality ${lt}`); break; }
+        const betterOptic=Number(auto.opticFit)>Number(lethal.opticFit)+1e-9;
+        const betterBeam=Number(auto.beamIndex)<Number(lethal.beamIndex)-1e-9;
+        if(!betterOptic&&!betterBeam){
+          errors.push(`${cw.id}@${meter}: AUTO sacrifices lethality without better optic fit or Beam Index`);
+          break;
         }
       }
     }
