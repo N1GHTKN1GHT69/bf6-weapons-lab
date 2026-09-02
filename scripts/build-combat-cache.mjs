@@ -5,6 +5,7 @@ import { pathToFileURL } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { scoringStateSignature } from './cache-state-signature.mjs';
 import { stripPartialAssumptions } from './verified-source-sanitizer.mjs';
+import { offerAutoBucketCandidate, selectAnchoredAuto } from './auto-selection-policy.mjs';
 
 const upstream = resolve(process.argv[2] || process.env.BF6_ANALYZER_DIR || '.upstream/bf6-analyzer');
 const outDir = resolve(process.argv[3] || 'data');
@@ -466,33 +467,6 @@ function practicalScore(w, distance, attsSet) {
   return score;
 }
 
-function betterAtDistance(a, b) {
-  if (!b) return true;
-  if (a.opticEligible !== b.opticEligible) return !!a.opticEligible;
-  // Laserbeam build policy: a materially faster lethal build still wins, but
-  // inside a 12% trigger->kill window we prefer the build with the lower
-  // transformed recoil/spread Beam Index. This prevents a 1-2 ms paper-TTK
-  // advantage from forcing a much less controllable build.
-  const at = Number(a.triggerTtk), bt = Number(b.triggerTtk);
-  if (Number.isFinite(at) && Number.isFinite(bt)) {
-    const fastest = Math.min(at, bt);
-    const slowest = Math.max(at, bt);
-    const near = fastest > 0 ? slowest / fastest <= 1.12 : at === bt;
-    if (near && a.opticFit !== b.opticFit) return (a.opticFit ?? -Infinity) > (b.opticFit ?? -Infinity);
-    if (near && a.beamIndex !== b.beamIndex) return (a.beamIndex ?? Infinity) < (b.beamIndex ?? Infinity);
-    if (at !== bt) return at < bt;
-  } else if (a.triggerTtk !== b.triggerTtk) return (a.triggerTtk ?? Infinity) < (b.triggerTtk ?? Infinity);
-  if (a.ttk !== b.ttk) return (a.ttk ?? Infinity) < (b.ttk ?? Infinity);
-  if (a.btk !== b.btk) return (a.btk ?? Infinity) < (b.btk ?? Infinity);
-  if (a.damage !== b.damage) return (a.damage ?? -Infinity) > (b.damage ?? -Infinity);
-  if (a.lowTtk !== b.lowTtk) return (a.lowTtk ?? Infinity) < (b.lowTtk ?? Infinity);
-  if (a.opticFit !== b.opticFit) return (a.opticFit ?? -Infinity) > (b.opticFit ?? -Infinity);
-  if (a.beamIndex !== b.beamIndex) return (a.beamIndex ?? Infinity) < (b.beamIndex ?? Infinity);
-  if (a.practical !== b.practical) return a.practical > b.practical;
-  if (a.points !== b.points) return a.points < b.points;
-  return a.buildId < b.buildId;
-}
-
 function betterLethalAtDistance(a, b) {
   if (!b) return true;
   if (a.opticEligible !== b.opticEligible) return !!a.opticEligible;
@@ -523,7 +497,7 @@ const results = {
   source: {
     repository: 'raymdl/BF6-Weapon-Analyzer',
     gameVersion: GAME_VERSION,
-    rankingModel: 'laserbeam-v2-range-optics',
+    rankingModel: 'laserbeam-v3-anchored-range-optics',
     opticModel: 'tier-range-fit-v1',
     manualBuildModel: 'range-lethality-v2',
     commit: (() => { try { return execFileSync('git',['-C',upstream,'rev-parse','HEAD'],{encoding:'utf8'}).trim(); } catch { return null; } })(),
@@ -536,7 +510,7 @@ const results = {
     distances: [DIST_MIN,DIST_MAX],
     primaryBudget: PRIMARY_BUDGET,
     sidearmBudget: SIDEARM_BUDGET,
-    weaponRankOrder: ['laserbeam composite: 55% exact-distance lethality + 45% recoil/spread controllability','trigger-to-lethal-impact chest TTK','Beam Index','mechanical chest TTK','BTK','damage/shot'],
+    weaponRankOrder: ['anchored laserbeam window: AUTO candidates must remain within 12% of strict range-eligible lethal floor','optic fit','Beam Index','trigger-to-lethal-impact chest TTK','mechanical chest TTK','BTK','damage/shot'],
     attachmentPolicy: 'All legal user-visible combinations are counted. Speculative/assumed attachment mechanics are excluded from verified AUTO META; functionally identical or strictly more-expensive verified duplicates are safely collapsed before simulation.',
     manualWeaponPolicy: 'BUILD MY GUN uses a separate range-aware bestLethal winner: a clearly unsuitable optic cannot beat a suitable optic merely on point cost; within range-eligible builds trigger-to-kill stays first, then mechanical TTK/BTK/damage, optic fit, Beam Index and cost.'
   },
@@ -561,6 +535,7 @@ for (const w of selectedWeapons) {
 
   const best = Array(DIST_MAX + 1).fill(null);
   const bestLethal = Array(DIST_MAX + 1).fill(null);
+  const autoBuckets = Array.from({length:DIST_MAX+1},()=>new Map());
   const buildDict = {};
   const profileCache = new Map();
   const beamPrimitiveCache = new Map();
@@ -613,6 +588,7 @@ for (const w of selectedWeapons) {
       });
       let beamBase = beamPrimitiveCache.get(beamKey);
       if (!beamBase) { beamBase = beamPrimitives(modified); beamPrimitiveCache.set(beamKey, beamBase); }
+      let potentialWinner=false;
       for (const row of profile) {
         const opticFit = opticRangeFit(attSet.sight, row.d);
         const candidate = {
@@ -624,11 +600,12 @@ for (const w of selectedWeapons) {
           practical: practicalScore(modified,row.d,attSet),
           ...beamMetricsFromPrimitives(beamBase,row.d),
         };
-        if (betterAtDistance(candidate,best[row.d])) best[row.d] = candidate;
-        if (betterLethalAtDistance(candidate,bestLethal[row.d])) bestLethal[row.d] = candidate;
+        if (betterLethalAtDistance(candidate,bestLethal[row.d])) { bestLethal[row.d] = candidate; potentialWinner=true; }
+        if(offerAutoBucketCandidate(autoBuckets[row.d],candidate)) potentialWinner=true;
       }
-      // Store full build only if it is currently a winner somewhere. Final cleanup later.
-      if (best.some(x=>x?.buildId===buildId) || bestLethal.some(x=>x?.buildId===buildId)) {
+      // Store full build if it remains a strict-lethal winner or an AUTO bucket
+      // candidate. Final cleanup retains only the actual 1-300m winners.
+      if (potentialWinner) {
         buildDict[buildId] = {
           id:buildId, points:exactPts, atts:attSet,
           picks:picks.map(p=>{ const d=optionData(p.slot,w,p.id) ?? {id:p.id,name:p.id}; return {slot:p.slot,id:p.id,name:d.name ?? p.id,pts:p.pts}; }),
@@ -652,6 +629,7 @@ for (const w of selectedWeapons) {
 
   try {
     visit(0,0);
+    for(let d=DIST_MIN;d<=DIST_MAX;d++) best[d]=selectAnchoredAuto(autoBuckets[d],bestLethal[d]);
     const winningIds = new Set([...best.filter(Boolean), ...bestLethal.filter(Boolean)].map(x=>x.buildId));
     for (const id of Object.keys(buildDict)) if (!winningIds.has(id)) delete buildDict[id];
     results.weapons[w.id] = {

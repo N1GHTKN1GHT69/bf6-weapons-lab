@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { readFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import vm from 'node:vm';
 
 const errors=[];
@@ -226,6 +226,19 @@ if(cachePath){
 if(errors.length){
   console.error('GLOBAL INTEGRITY AUDIT FAILED');
   for(const e of errors) console.error('-',e);
+  if(cachePath){
+    try{
+      const c=await json(cachePath);
+      await writeFile('data/global-integration-diagnostics.json',JSON.stringify({
+        generatedAt:new Date().toISOString(),
+        cachePath,
+        errors,
+        cacheSource:c?.source??null,
+        cacheAudit:c?.audit??null,
+      },null,2));
+      console.error('Exact diagnostics written to data/global-integration-diagnostics.json');
+    }catch(e){ console.error('Could not write global integration diagnostics:',e?.message||e); }
+  }
   process.exit(1);
 }
 console.log(`GLOBAL INTEGRITY PASS • roster ${current.roster.length}/${current.rosterCount} • primaries ${primary.length} • sidearms ${secondaries.length} • all audit mappings covered • cache-first + trigger-to-impact META wiring locked${cachePath?' • exhaustive cache complete':''}`);

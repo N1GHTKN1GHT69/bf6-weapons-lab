@@ -158,7 +158,7 @@
     const expectedRawRoster = CURRENT.roster.filter(r => rawForRoster(r)).length;
     if (expected !== expectedRawRoster) errors.push(`cache raw-roster ${expected}/${expectedRawRoster}`);
     if (cache?.source?.gameVersion !== CURRENT.liveVersion) errors.push(`cache version ${cache?.source?.gameVersion || "missing"}/${CURRENT.liveVersion}`);
-    if (cache?.source?.rankingModel !== "laserbeam-v2-range-optics") errors.push(`ranking model ${cache?.source?.rankingModel || "missing"}/laserbeam-v2-range-optics`);
+    if (cache?.source?.rankingModel !== "laserbeam-v3-anchored-range-optics") errors.push(`ranking model ${cache?.source?.rankingModel || "missing"}/laserbeam-v3-anchored-range-optics`);
     if (cache?.source?.manualBuildModel !== "range-lethality-v2") errors.push(`manual build model ${cache?.source?.manualBuildModel || "missing"}/range-lethality-v2`);
     if (cache?.source?.opticModel !== "tier-range-fit-v1") errors.push(`optic model ${cache?.source?.opticModel || "missing"}/tier-range-fit-v1`);
     if (!Number.isInteger(modeled) || modeled !== expected) errors.push(`modeled ${modeled}/${expected}`);

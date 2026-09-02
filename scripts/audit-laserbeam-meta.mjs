@@ -11,12 +11,12 @@ for (const file of ['app.js','scripts/build-combat-cache.mjs','scripts/validate-
   try { execFileSync(process.execPath,['--check',file],{stdio:'pipe'}); }
   catch (e) { errors.push(`${file}: syntax check failed`); }
 }
-if (!builder.includes("rankingModel: 'laserbeam-v2-range-optics'")) errors.push('builder missing laserbeam-v2-range-optics model tag');
+if (!builder.includes("rankingModel: 'laserbeam-v3-anchored-range-optics'")) errors.push('builder missing laserbeam-v3-anchored-range-optics model tag');
 if (!builder.includes('selectedRecoilAmountFor') || !builder.includes('selectedRecoilVariationFor') || !builder.includes('effectiveSpreadMax')) errors.push('builder is not using Analyzer recoil/spread primitives');
 if (!builder.includes('beamIndex')) errors.push('builder missing Beam Index');
 if (!app.includes('0.55*lethalScore+0.45*beamScore')) errors.push('AUTO ranking is not 55/45 lethality/beam');
-if (!app.includes('rankingModel !== "laserbeam-v2-range-optics"')) errors.push('browser does not reject old ranking-model caches');
-if (!validator.includes("rankingModel !== 'laserbeam-v2-range-optics'")) errors.push('CLI validator does not reject old ranking-model caches');
+if (!app.includes('rankingModel !== "laserbeam-v3-anchored-range-optics"')) errors.push('browser does not reject old ranking-model caches');
+if (!validator.includes("rankingModel !== 'laserbeam-v3-anchored-range-optics'")) errors.push('CLI validator does not reject old ranking-model caches');
 if (!validator.includes('invalid beam index')) errors.push('cache validator does not require beam metrics');
 
 // Synthetic regression: a small paper-TTK lead must not automatically beat a

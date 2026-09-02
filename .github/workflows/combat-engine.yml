@@ -152,7 +152,7 @@ jobs:
           path: |
             partial-cache/${{ matrix.slug }}.json
             partial-audit/${{ matrix.slug }}.json
-          key: ${{ runner.os }}-bf6-perweapon-v27-${{ needs.prepare.outputs.upstream_sha }}-${{ hashFiles('scripts/build-combat-cache.mjs', 'scripts/list-cache-weapons.mjs', 'data/*-audit.json') }}-${{ matrix.slug }}
+          key: ${{ runner.os }}-bf6-perweapon-v27-${{ needs.prepare.outputs.upstream_sha }}-${{ hashFiles('scripts/build-combat-cache.mjs', 'scripts/auto-selection-policy.mjs', 'scripts/cache-state-signature.mjs', 'scripts/verified-source-sanitizer.mjs', 'scripts/list-cache-weapons.mjs', 'data/*-audit.json') }}-${{ matrix.slug }}
       - name: Build ${{ matrix.weapon_name }} exhaustive cache shard
         if: steps.weapon-cache.outputs.cache-hit != 'true'
         shell: bash
@@ -224,6 +224,20 @@ jobs:
         run: node scripts/validate-combat-cache.mjs data/combat-cache.json data/source-manifest.json
       - name: Gate global integration against generated cache
         run: node scripts/audit-global.mjs data/combat-cache.json
+      - name: Publish exact global-gate failure diagnostics
+        if: failure()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -s data/global-integration-diagnostics.json ]; then
+            echo '{"error":"global gate failed before diagnostics could be written"}' > data/global-integration-diagnostics.json
+          fi
+          git config user.name "bf6-combat-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/global-integration-diagnostics.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "diagnostics: exact BF6 global integration failure [skip ci]"
+          git push origin HEAD:main
       - name: Restore runtime audit diagnostics
         if: always()
         uses: actions/download-artifact@v4
@@ -243,12 +257,15 @@ jobs:
             data/combat-audit.json
             data/combat-cache.json
             data/source-manifest.json
+            data/global-integration-diagnostics.json
       - name: Commit atomic source + cache update
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "bf6-combat-bot"
           git config user.email "actions@users.noreply.github.com"
+          rm -f data/global-integration-diagnostics.json
+          git add -A data/global-integration-diagnostics.json 2>/dev/null || true
           git add data/weapons.json data/attachments.json data/ammo.json data/ballistics.json data/source-manifest.json \
             data/combat-cache.json data/combat-audit.json data/*-audit-runtime.json 2>/dev/null || true
           if git diff --cached --quiet; then
