@@ -48,6 +48,7 @@ jobs:
           node scripts/audit-priority-wiring.mjs
           node scripts/audit-redsec-armor.mjs
           node scripts/audit-patch-reconciliation.mjs
+          node scripts/audit-roster-sets.mjs
           node scripts/audit-attachment-names.mjs --check
           node scripts/audit-ballistic-ttk.mjs
           node scripts/audit-manual-weapon.mjs

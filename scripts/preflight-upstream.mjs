@@ -41,10 +41,21 @@ try{
   if(unmapped.length) errors.push(`upstream weapons missing from app roster: ${unmapped.join(', ')}`);
   const matchedRoster=new Set();
   for(const w of weapons){ const r=rosterKeys.get(norm(w.id))??rosterKeys.get(norm(w.name)); if(r) matchedRoster.add(r.id); }
-  const expectedRawBacked=roster.filter(w=>w.id!=='interdictor');
-  const missing=expectedRawBacked.filter(w=>!matchedRoster.has(w.id));
-  if(missing.length) errors.push(`current raw-backed roster missing upstream records: ${missing.map(w=>w.id).join(', ')}`);
-  if(weapons.length!==expectedRawBacked.length) errors.push(`upstream weapon count ${weapons.length} != current raw-backed roster ${expectedRawBacked.length}`);
+  // A roster weapon may legitimately be absent upstream while the patch ledger
+  // still holds its patch pending. That is the fail-closed state, not an error.
+  // No weapon id is hardcoded here, so a new weapon arriving upstream needs no
+  // source edit: it simply stops being pending.
+  let ledgerPending=new Set();
+  try{
+    const ledger=JSON.parse(await readFile('data/patch-delta-ledger.json','utf8'));
+    for(const p of ledger?.patches??[]) for(const ch of p.changes??[]){
+      if(ch.check?.type==='weaponPresent'&&ch.check.weaponId) ledgerPending.add(norm(ch.check.weaponId));
+    }
+  }catch{ /* ledger optional */ }
+  const missing=roster.filter(w=>!matchedRoster.has(w.id)&&!ledgerPending.has(norm(w.id)));
+  if(missing.length) errors.push(`roster weapons missing upstream records with no patch-ledger delta: ${missing.map(w=>w.id).join(', ')}`);
+  const pendingStill=roster.filter(w=>!matchedRoster.has(w.id)&&ledgerPending.has(norm(w.id)));
+  if(pendingStill.length) console.warn(`note: awaiting upstream records for ${pendingStill.map(w=>w.id).join(', ')} (patch ledger holds these pending)`);
 } catch(err){ errors.push(`roster mapping preflight: ${err.message}`); }
 
 for(const w of weapons??[]){

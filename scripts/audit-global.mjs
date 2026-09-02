@@ -15,6 +15,7 @@ const json=async p=>JSON.parse(await readFile(p,'utf8'));
 
 const {window:rosterWin}=await loadWindowJs('roster-data.js');
 const {window:classWin}=await loadWindowJs('class-data.js');
+import { buildWeaponSets, evaluateWeaponSets, norm as setNorm } from './roster-sets.mjs';
 const app=await readFile('app.js','utf8');
 const builder=await readFile('scripts/build-combat-cache.mjs','utf8');
 const current=rosterWin.BF6_CURRENT;
@@ -29,8 +30,12 @@ if(new Set(names).size!==names.length) errors.push('duplicate normalized roster 
 
 const primary=(current?.roster??[]).filter(w=>w.cls!=='Secondary');
 const secondaries=(current?.roster??[]).filter(w=>w.cls==='Secondary');
-if(primary.length!==56) errors.push(`expected 56 primaries, found ${primary.length}`);
-if(secondaries.length!==7) errors.push(`expected 7 secondaries, found ${secondaries.length}`);
+// Counts are derived for reporting. Correctness is enforced by the identity-set
+// invariants below, which a substitution cannot slip past the way a count can.
+const recognised=new Set([...(current?.primaryClasses??[]),'Secondary']);
+for(const w of current?.roster??[]) if(!recognised.has(w.cls)) errors.push(`${w.id}: unrecognised roster class "${w.cls}"`);
+if(!primary.length) errors.push('no primary weapons in roster');
+if(!secondaries.length) errors.push('no secondary weapons in roster');
 
 if(ballistics?.baseline!=="current-live") errors.push(`ballistics baseline ${ballistics?.baseline||"missing"} is not current-live`);
 if(!Number.isFinite(Number(ballistics?.baseDragPerMeter)) || Number(ballistics.baseDragPerMeter)<=0) errors.push('invalid base projectile drag');
@@ -60,7 +65,6 @@ const cacheEligibleRoster=(current?.roster??[]).filter(w=>{
   const d=a ? findDef(a,w) : null;
   return d?.confidence !== 'empirical-current';
 });
-if(cacheEligibleRoster.length!==62) errors.push(`expected 62 cache-eligible verified/raw-backed weapons, found ${cacheEligibleRoster.length}`);
 function curveDamage(curve,meter){
   const pts=(curve??[]).map(x=>({r:Number(x.r),d:Number(x.d)})).filter(x=>Number.isFinite(x.r)&&Number.isFinite(x.d)).sort((a,b)=>a.r-b.r);
   if(!pts.length) return null;
@@ -105,7 +109,13 @@ for(const w of secondaries){
 }
 
 const fallback=loadout?.fallbackSecondaries??[];
-if(fallback.length!==7) errors.push(`fallback sidearms ${fallback.length}/7`);
+// Fallback sidearm list must cover exactly the roster's secondary identities.
+{
+  const want=new Set(secondaries.map(w=>norm(w.name)));
+  const have=new Set(fallback.map(f=>norm(f.name)));
+  for(const n of want) if(!have.has(n)) errors.push(`fallback sidearms missing roster secondary "${n}"`);
+  for(const n of have) if(!want.has(n)) errors.push(`fallback sidearms contain unknown secondary "${n}"`);
+}
 for(const f of fallback){
   const roster=secondaries.find(w=>norm(w.id)===norm(f.id)||norm(w.name)===norm(f.name));
   const d=roster?findDef(audits.Secondary,roster):null;
@@ -136,6 +146,22 @@ if(!builder.includes('const sniperInterval=Number(w?._sniperAuditDef?.shotInterv
 
 // Optional strict post-build cache gate.
 const cachePath=process.argv[2];
+// Identity-set reconciliation: official expected vs trusted source vs
+// combat-eligible vs cache. Replaces the old "must be exactly 62" constant.
+const ledgerDoc=await json('data/patch-delta-ledger.json').catch(()=>null);
+const sourceWeapons=await json('data/weapons.json');
+const auditsByCanonicalClass={...audits, Sidearm:audits.Secondary};
+const cacheIdsForSets=cachePath ? Object.keys((await json(cachePath))?.weapons??{}) : null;
+const weaponSets=buildWeaponSets({roster:current, weapons:sourceWeapons, ledger:ledgerDoc, audits:auditsByCanonicalClass, cacheIds:cacheIdsForSets});
+const ledgerPendingWeaponKeys=new Set();
+for(const p of ledgerDoc?.patches??[]) for(const ch of p.changes??[]){
+  if(ch.check?.type==='weaponPresent' && ch.check.weaponId && !sourceWeapons.some(w=>setNorm(w.id)===setNorm(ch.check.weaponId))){
+    ledgerPendingWeaponKeys.add(setNorm(ch.check.weaponId));
+  }
+}
+const setFindings=evaluateWeaponSets(weaponSets,{ledgerPendingWeaponKeys});
+for(const e of setFindings.errors) errors.push(e);
+for(const w of setFindings.warnings) console.warn('note:',w);
 if(cachePath){
   const c=await json(cachePath);
   const expected=Number(c?.audit?.weaponsSource), modeled=Number(c?.audit?.modeled), incomplete=Number(c?.audit?.incomplete);
@@ -247,4 +273,4 @@ if(errors.length){
   }
   process.exit(1);
 }
-console.log(`GLOBAL INTEGRITY PASS • roster ${current.roster.length}/${current.rosterCount} • primaries ${primary.length} • sidearms ${secondaries.length} • all audit mappings covered • cache-first + trigger-to-impact META wiring locked${cachePath?' • exhaustive cache complete':''}`);
+console.log(`GLOBAL INTEGRITY PASS • roster ${current.roster.length}/${current.rosterCount} • combat-eligible ${weaponSets.counts.combatEligible} (${weaponSets.counts.primaries} primaries + ${weaponSets.counts.sidearms} sidearms) • all audit mappings covered • cache-first + trigger-to-impact META wiring locked${cachePath?' • exhaustive cache complete':''}`);

@@ -121,6 +121,8 @@ jobs:
         run: node scripts/audit-redsec-armor.mjs
       - name: Gate patch reconciliation
         run: node scripts/audit-patch-reconciliation.mjs
+      - name: Gate roster identity sets
+        run: node scripts/audit-roster-sets.mjs
       - name: Preserve runtime audit diagnostics
         if: always()
         uses: actions/upload-artifact@v4
