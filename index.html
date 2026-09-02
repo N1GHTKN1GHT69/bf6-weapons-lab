@@ -73,20 +73,20 @@
         </div>
 
         <div class="control-block">
-          <div class="control-label"><span>Priority</span><em id="priorityNote"></em></div>
-          <div class="priority-switch" id="priorityGroup" role="group" aria-label="Optimizer priority">
-            <button type="button" data-priority="balanced" aria-pressed="false"><strong>BALANCED</strong><span>Kill speed + control</span></button>
-            <button type="button" data-priority="fastest" aria-pressed="false"><strong>FASTEST KILL</strong><span>Lowest time to kill</span></button>
+          <div class="control-label"><span>How should we optimize?</span><em id="priorityNote"></em></div>
+          <div class="priority-switch" id="priorityGroup" role="group" aria-label="How should we optimize">
+            <button type="button" data-priority="balanced" aria-pressed="false"><strong>BALANCED</strong><span>Best overall mix of kill speed and control</span></button>
+            <button type="button" data-priority="fastest" aria-pressed="false"><strong>FASTEST KILL</strong><span>Lowest kill time, even if it kicks harder</span></button>
           </div>
           <details class="advanced">
-            <summary>Advanced priorities</summary>
+            <summary>More options</summary>
             <div class="advanced-body">
-              <p class="advanced-note">These refine the complete loadout and the on-demand attachment build. They do not change the verified exhaustive winner or the weapon ranking.</p>
+              <p class="advanced-note">These change your class, training and gadget suggestions. They do not change the weapon or its attachments.</p>
               <div class="advanced-grid">
                 <div class="field">
-                  <label for="classSelect">Player class</label>
+                  <label for="classSelect">Which class do you play?</label>
                   <select id="classSelect">
-                    <option value="auto">AUTO — BEST FIT</option>
+                    <option value="auto">Pick the best fit for me</option>
                     <option value="assault">Assault</option>
                     <option value="engineer">Engineer</option>
                     <option value="support">Support</option>
@@ -94,20 +94,14 @@
                   </select>
                 </div>
                 <div class="field">
-                  <label for="contextSelect">Battle context</label>
+                  <label for="contextSelect">What are you mostly fighting?</label>
                   <select id="contextSelect">
-                    <option value="mixed">Mixed / General</option>
-                    <option value="infantry">Infantry-heavy</option>
-                    <option value="objective">Objective push / hold</option>
-                    <option value="vehicles">Vehicle-heavy</option>
+                    <option value="mixed">A bit of everything</option>
+                    <option value="infantry">Mostly infantry</option>
+                    <option value="objective">Pushing or holding objectives</option>
+                    <option value="vehicles">Lots of vehicles</option>
                   </select>
                 </div>
-              </div>
-              <div class="toggle-grid">
-                <label><input id="stayAds" type="checkbox" checked> Maintain ADS / sight picture</label>
-                <label><input id="movingAds" type="checkbox" checked> Moving ADS accuracy</label>
-                <label><input id="stealth" type="checkbox"> Stealth / suppression</label>
-                <label><input id="bigMag" type="checkbox"> Prefer capacity</label>
               </div>
             </div>
           </details>
@@ -133,6 +127,7 @@
 
         <div class="key-stats" id="keyStats"></div>
         <div id="officialRangeNote" class="range-note"></div>
+        <p id="priorityDelta" class="priority-delta"></p>
 
         <div class="build-block">
           <div class="panel-title">
@@ -141,6 +136,10 @@
           </div>
           <div class="budget-track"><i id="pointsMeter"></i></div>
           <div class="audit-line" id="pointAuditBadge">WAITING FOR DATA</div>
+          <div class="build-why">
+            <p id="buildWhy">—</p>
+            <div class="fx-row build-fx" id="buildEffects"></div>
+          </div>
           <div id="attachmentGrid" class="attachment-grid"></div>
           <p class="name-legend" id="nameLegend"></p>
         </div>
@@ -232,10 +231,8 @@
           <div class="class-fit" id="classFit">AUTO BEST FIT</div>
         </div>
         <div class="loadout-line" id="loadoutLine"></div>
-        <details class="disclosure">
-          <summary>Why these class / gadget choices?</summary>
-          <div id="loadoutExplanations" class="explanation-grid"></div>
-        </details>
+        <p class="loadout-why" id="loadoutWhy">—</p>
+        <div id="loadoutExplanations" class="reason-list"></div>
       </section>
 
       <!-- ============ LEVEL 3 — DATA &amp; AUDIT ============ -->

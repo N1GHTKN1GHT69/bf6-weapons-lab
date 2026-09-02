@@ -24,6 +24,8 @@
     // "auto" keeps each mode's historical strategy default. PRIORITY only ever
     // selects between the two strategies the engine already implements.
     priority: "auto",
+    // Historical defaults of the on-demand optimizer's handling preferences.
+    preferences: { stayAds: true, movingAds: true, stealth: false, bigMag: false },
     classChoice: "auto",
     context: "mixed",
     rawWeapons: [],
@@ -531,6 +533,15 @@
     return PRIORITY_STRATEGY[state.priority] ?? defaultStrategy();
   }
 
+  /**
+   * Strategy used for WEAPON RANKING. Ranking has always been the laserbeam
+   * meta, so the default "auto" priority keeps that in both modes; only an
+   * explicit choice re-ranks, and then only onto rows the engine already built.
+   */
+  function rankingStrategy() {
+    return PRIORITY_STRATEGY[state.priority] ?? "laserbeam";
+  }
+
   function activePriorityKey() {
     if (state.priority !== "auto") return state.priority;
     return defaultStrategy() === "lethal" ? "fastest" : "balanced";
@@ -733,7 +744,14 @@
     });
   }
 
-  function preference(id) { return !!$(id)?.checked; }
+  // Handling preferences for the on-demand (non-exhaustive) attachment
+  // optimizer. These defaults are the engine's historical values. They are held
+  // in state rather than read from the DOM so that the presence or absence of a
+  // UI control can never change optimizer behaviour.
+  function preference(id) {
+    if (Object.prototype.hasOwnProperty.call(state.preferences, id)) return !!state.preferences[id];
+    return !!$(id)?.checked;
+  }
 
   function behaviorScore(opt, raw, d) {
     let s = 0;
@@ -1309,12 +1327,17 @@
         return true;
       })
       .map(roster => {
+        // Rank the build the user is actually being shown. With the default
+        // priority this is the historical `best` row; FASTEST KILL ranks the
+        // engine's existing `bestLethal` rows instead. Same ranking formula,
+        // same cached engine outputs - only which existing row is read changes.
+        const strategy = rankingStrategy();
         const raw = rawForRoster(roster);
-        let combat = raw ? cachedCombat(raw, d) : null;
+        let combat = raw ? cachedCombat(raw, d, strategy) : null;
         if (!combat) combat = auditedRosterCombat(roster, raw, d);
         if (!state.combatCache && raw) combat = auditedClassOptimized(raw, d) || combat;
         const def = auditedDefForRoster(roster, raw);
-        const winStats = raw ? cachedWinningStats(raw, d) : null;
+        const winStats = raw ? cachedWinningStats(raw, d, strategy) : null;
         const velocity = Number(winStats?.bulletVel ?? (roster.cls === "DMR" ? def?.equippedVelocity : null) ?? raw?.bulletVel ?? def?.bulletVel) || 0;
         if (combat && !Number.isFinite(Number(combat.triggerTtk))) combat = addTriggerKill(roster, raw, combat, d, "standard", velocity);
         const ads = Number(winStats?.adsTimeMs ?? (roster.cls === "DMR" ? def?.adsTime : null) ?? raw?.adsTime ?? def?.adsTime);
@@ -1559,6 +1582,271 @@
     $("rawStats").innerHTML = rawStats.map(([k, v]) => `<div class="raw"><span>${k}</span><strong>${v}</strong></div>`).join("");
   }
 
+  // ===========================================================================
+  // ATTACHMENT EXPLANATION LAYER
+  //
+  // Everything here is OUTPUT derived from a decision the optimizer has already
+  // made. It is never an input: no function below is called by buildOptions(),
+  // scoreOption(), optimize(), cachedBuild(), rankWeapons() or any other engine
+  // path, and none of it can change a candidate, modifier, point cost or rank.
+  //
+  // Direction is normalised so that UP always means BETTER for the player, even
+  // where the underlying number is an inverse metric. The polarity of every
+  // field below is taken from the sign the engine's own scoreOption() applies
+  // to it, so "lower vertical recoil" is presented as "Recoil Control up",
+  // never as "Vertical Recoil down".
+  // ===========================================================================
+
+  const EFFECT_FIELDS = [
+    // field,                      characteristic,           better when,  percentage form
+    ["adsRecoilTierMod",           "Recoil Control",         "higher", null],
+    ["adsRecoilVariationTierMod",  "Recoil Predictability",  "higher", null],
+    ["adsRecoilDecayMult",         "Recoil Recovery",        "higher", v => (v - 1) * 100],
+    ["adsTimeTierMod",             "ADS Speed",              "higher", null],
+    ["adsTimeTierShift",           "ADS Speed",              "lower",  null],
+    ["movingAdsSpreadTierMod",     "Moving Accuracy",        "higher", null],
+    ["adsMoveSpeedTierShift",      "ADS Move Speed",         "lower",  null],
+    ["hipSpreadTierMod",           "Hipfire Accuracy",       "lower",  null],
+    ["hipSpreadDecayBoost",        "Hipfire Recovery",       "higher", null],
+    ["adsSpreadDecayBoost",        "ADS Spread Recovery",    "higher", null],
+    ["spreadIncMult",              "Spread Control",         "lower",  v => (1 - v) * 100],
+    ["velTierMod",                 "Bullet Velocity",        "higher", null],
+    ["velMult",                    "Bullet Velocity",        "higher", v => (v - 1) * 100],
+    ["reloadSpeedTier",            "Reload Speed",           "higher", null],
+    ["reloadSpeedMult",            "Reload Speed",           "higher", v => (v - 1) * 100],
+    ["sprintRecoveryTierShift",    "Sprint-to-Fire",         "lower",  null],
+    ["visualRecoil",               "Sight Picture",          "lower",  null],
+    ["healthRegenDelayS",          "Health Regen Delay",     "lower",  null],
+    ["worldSpot",                  "Concealment",            "lower",  null],
+    ["minimapSpot",                "Minimap Concealment",    "lower",  null]
+  ];
+
+  // Fields whose direction cannot be established from evidence in this
+  // repository are deliberately not shown rather than guessed at.
+  const UNRESOLVED_EFFECT_FIELDS = new Set(["sway", "spreadFiringDecCoefMult", "spreadFiringDecOffsetMult", "laserVisible"]);
+
+  /** Fields the source itself marks as assumed are never presented as effects. */
+  function assumedFieldSet(rec) {
+    const f = rec?.assumedFields;
+    if (Array.isArray(f)) return new Set(f.map(String));
+    if (f && typeof f === "object") return new Set(Object.keys(f));
+    return new Set();
+  }
+
+  /** This weapon's default ammo record, the only valid baseline for ammo deltas. */
+  function defaultAmmoRecord(raw) {
+    const def = state.ammo?.WEAPON_AMMO?.[raw?.id]?.def;
+    if (!def) return null;
+    return (state.ammo?.AMMO ?? []).find(x => x.id === def) ?? null;
+  }
+
+  /** Full catalog record for a pick. Display use only; identity stays the id. */
+  function attachmentRecord(raw, pick) {
+    if (!pick) return null;
+    if (pick.slot === "mag") return state.attachments?.WEAPON_MAG?.[raw?.id]?.mags?.[pick.id] ?? null;
+    if (pick.slot === "ammo") return (state.ammo?.AMMO ?? []).find(x => x.id === pick.id) ?? null;
+    return catalogItem(pick.slot, pick.id) ?? null;
+  }
+
+  function fmtPct(n) {
+    const v = Math.abs(Number(n));
+    if (!Number.isFinite(v) || v < 0.5) return null;
+    return `${v < 10 ? v.toFixed(1).replace(/\.0$/, "") : Math.round(v)}%`;
+  }
+
+  /**
+   * Normalised benefit/drawback list for one attachment.
+   * dir "up" = this characteristic improves, "down" = it gets worse.
+   */
+  function attachmentEffects(raw, pick) {
+    const rec = attachmentRecord(raw, pick);
+    if (!rec) return { effects: [], neutral: false, assumed: false, record: null };
+    const assumed = assumedFieldSet(rec);
+    const out = [];
+    const seen = new Map();
+
+    const push = (label, better, delta) => {
+      if (!better) return;
+      const prev = seen.get(label);
+      if (prev) { if (!prev.delta && delta) prev.delta = delta; return; }
+      const e = { label, dir: better, delta: delta || null };
+      seen.set(label, e);
+      out.push(e);
+    };
+
+    for (const [field, label, betterWhen, pct] of EFFECT_FIELDS) {
+      if (assumed.has(field)) continue;
+      const v = Number(rec[field]);
+      if (!Number.isFinite(v)) continue;
+      const neutralValue = (field === "velMult" || field === "spreadIncMult" || field === "reloadSpeedMult" || field === "adsRecoilDecayMult") ? 1 : 0;
+      if (v === neutralValue) continue;
+      // worldSpot/minimapSpot are absolute detection values, only meaningful
+      // against the no-attachment baseline for the same slot.
+      if (field === "worldSpot" || field === "minimapSpot") {
+        const base = Number(catalogItem(pick.slot, "none")?.[field]);
+        if (!Number.isFinite(base) || base === v) continue;
+        push(label, v < base ? "up" : "down", null);
+        continue;
+      }
+      const improves = betterWhen === "higher" ? v > neutralValue : v < neutralValue;
+      push(label, improves ? "up" : "down", pct ? fmtPct(pct(v)) : null);
+    }
+
+    // Magazine capacity is only meaningful against this weapon's base capacity.
+    if (pick.slot === "mag" && Number.isFinite(Number(rec.mag)) && Number.isFinite(Number(raw?.mag))) {
+      const diff = Number(rec.mag) - Number(raw.mag);
+      if (diff !== 0) push("Magazine", diff > 0 ? "up" : "down", `${diff > 0 ? "+" : ""}${diff} rounds`);
+    }
+    if (rec.suppressor === true) push("Concealment", "up", null);
+
+    // Ammo multipliers are absolute values, not deltas. The only honest
+    // baseline is this weapon's own default ammo, so standard ammo shows no
+    // change rather than a fabricated penalty against an imaginary 1.0.
+    const ammoBase = pick.slot === "ammo" ? defaultAmmoRecord(raw) : null;
+    const numeric = v => (v == null || typeof v === "boolean" || v === "" ? NaN : Number(v));
+    const compare = (label, key, pick3) => {
+      const v = numeric(pick3(rec));
+      if (!Number.isFinite(v)) return;
+      const baseRaw = ammoBase ? numeric(pick3(ammoBase)) : 1;
+      const base = Number.isFinite(baseRaw) ? baseRaw : 1;
+      if (base === 0 || v === base) return;
+      push(label, v > base ? "up" : "down", fmtPct((v - base) / Math.abs(base) * 100));
+    };
+    compare("Headshot Damage", "hsMult", r => r.hsMult);
+    compare("Penetration", "collateralMult", r => r.collateralMult?.[raw?.cls]);
+    if (Number.isFinite(Number(rec.tacRldOverrideMs)) && Number.isFinite(Number(raw?.tacRld))) {
+      const base = Number(raw.tacRld) * 1000;
+      const v = Number(rec.tacRldOverrideMs);
+      if (Math.round(v) !== Math.round(base)) push("Reload Speed", v < base ? "up" : "down", fmtPct((base - v) / base * 100));
+    }
+
+    const neutral = rec.noEffect === true || (!out.length && !rec.setsFireModeAuto && !rec.setsFireModeBurst);
+    return { effects: out, neutral, assumed: assumed.size > 0 || rec.assumed === true, record: rec };
+  }
+
+  /** True when nothing about this attachment can move damage, BTK or fire rate. */
+  function isLethalityNeutral(rec) {
+    if (!rec) return false;
+    const lethal = ["damageMult", "dmgMult", "damageMultiplier", "dmgMultiplier", "rpmMult", "rateOfFireMult", "rofMult", "damageAdd", "dmgAdd", "autoRpm", "setsFireModeAuto", "setsFireModeBurst", "hsMult"];
+    return !lethal.some(k => rec[k] != null && rec[k] !== 1 && rec[k] !== false);
+  }
+
+  function effectPhrase(list, max = 2) {
+    const names = list.slice(0, max).map(e => e.delta ? `${e.label.toLowerCase()} (${e.delta})` : e.label.toLowerCase());
+    if (!names.length) return "";
+    if (names.length === 1) return names[0];
+    return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+  }
+
+  /**
+   * Why the optimizer kept this attachment. Built from the attachment's real
+   * modifiers, its point cost against the real budget, the selected distance,
+   * the active strategy and the engine's own selection rules. It never claims a
+   * factor decided anything unless that factor is present in the data.
+   */
+  function attachmentReason(raw, pick, ctx) {
+    const { effects, neutral, record } = attachmentEffects(raw, pick);
+    const ups = effects.filter(e => e.dir === "up");
+    const downs = effects.filter(e => e.dir === "down");
+    const pts = pointCost(pick) ?? 0;
+    const d = ctx.distance ?? state.distance;
+    const strict = ctx.strategy === "lethal";
+    const bits = [];
+
+    if (ctx.requiredId && pick.id === ctx.requiredId) {
+      return `Required. ${raw?.name || "This weapon"}'s independently audited lethal transform depends on this exact attachment, so every legal build must include it.`;
+    }
+
+    if (pick.slot === "sight") {
+      const fit = Number(ctx.opticFit);
+      const fitText = Number.isFinite(fit) ? `It rates ${Math.round(fit)}/100 for ${d}m` : `It clears the range-suitability gate for ${d}m`;
+      const eff = record?.noEffect === true
+        ? "This sight tier changes no weapon mechanics"
+        : ups.length ? `It also improves ${effectPhrase(ups)}` : "This sight tier changes no weapon mechanics";
+      return `${fitText}, which is what the engine requires before a build can win at this range. ${eff}, so its ${pts} points buy sight suitability rather than performance.`;
+    }
+
+    if (neutral && !ups.length && !downs.length) {
+      return pts === 0
+        ? "Costs nothing and changes nothing mechanically, so it is kept as the free baseline for this slot."
+        : `Carries no mechanical change in the current source data, so its ${pts} points are spent on utility rather than measurable performance.`;
+    }
+
+    if (ups.length) bits.push(`Improves ${effectPhrase(ups)}`);
+    if (downs.length) bits.push(`${ups.length ? "at the cost of" : "Costs you"} ${effectPhrase(downs)}`);
+    let sentence = bits.join(" ") + `, for ${pts} of the build's ${ctx.budget} points.`;
+
+    const controlish = ups.some(e => /Recoil|Spread|Accuracy|Sight Picture/.test(e.label));
+    const speedish = ups.some(e => /ADS Speed|Sprint|Reload/.test(e.label));
+    if (strict) {
+      sentence += isLethalityNeutral(record)
+        ? ` Fastest kill was already locked in by other slots, so this slot went to the best remaining option that cannot slow the kill down.`
+        : ` It was kept because it does not lengthen the ${Math.round(ctx.triggerTtk)} ms kill at ${d}m.`;
+    } else if (controlish) {
+      sentence += ` Balanced mode trades a little kill speed for control, and at ${d}m this is control the ranking actually rewards.`;
+    } else if (speedish) {
+      sentence += ` Handling like this matters more the closer the fight, and ${d}m is close enough for it to count.`;
+    } else {
+      sentence += ` It fits the ${ctx.budget}-point cap without displacing anything the ranking values more at ${d}m.`;
+    }
+    return sentence;
+  }
+
+  /** Real, measured differences between the base weapon and the winning build. */
+  function buildDeltas(raw, resolved) {
+    const st = resolved?.cachedStats;
+    if (!raw || !st) return [];
+    const rows = [];
+    const add = (label, base, now, betterWhen, unit) => {
+      const b = Number(base), n = Number(now);
+      if (!Number.isFinite(b) || !Number.isFinite(n) || b === 0 || Math.abs(n - b) < 1e-9) return;
+      const improves = betterWhen === "higher" ? n > b : n < b;
+      const magnitude = unit === "rounds" ? `${n - b > 0 ? "+" : ""}${Math.round(n - b)} rounds`
+        : unit === "ms" ? `${Math.round(Math.abs(n - b))} ms ${improves ? "faster" : "slower"}`
+        : fmtPct(Math.abs(n - b) / Math.abs(b) * 100);
+      if (!magnitude) return;
+      rows.push({ label, dir: improves ? "up" : "down", delta: magnitude });
+    };
+    add("Recoil Control", raw.recoilV, st.recoilV, "lower");
+    add("Recoil Per Shot", raw.recoilIncAds, st.recoilIncAds, "lower");
+    add("ADS Speed", raw.adsTime, st.adsTimeMs, "lower", "ms");
+    add("Bullet Velocity", raw.bulletVel, st.bulletVel, "higher");
+    add("Moving Accuracy", raw?.spread?.adsMove?.[0], st.movingAdsMinSpreadDeg, "lower");
+    add("Reload Speed", raw.tacRld, st.tacRld, "lower");
+    add("Fire Rate", raw.rpm, st.rpm, "higher");
+    add("Magazine", raw.mag, st.mag, "higher", "rounds");
+    return rows;
+  }
+
+  /**
+   * One plain-language statement of what the whole attachment combination is
+   * trying to achieve, generated from the measured build-vs-base differences
+   * and the strategy that selected it.
+   */
+  function whyThisBuild(roster, raw, resolved, result) {
+    if (!result || !roster) return "No build is available yet, so no strategy is claimed.";
+    const c = result.combat || resolved?.combat;
+    const deltas = buildDeltas(raw, resolved);
+    const gains = deltas.filter(x => x.dir === "up");
+    const costs = deltas.filter(x => x.dir === "down");
+    const strict = activeStrategy() === "lethal";
+    const d = state.distance;
+    const bits = [];
+
+    const ttk = Number(c?.triggerTtk);
+    const kill = Number.isFinite(ttk) ? `${Math.round(ttk)} ms kill time at ${d}m` : `kill time at ${d}m`;
+    bits.push(strict
+      ? `This build takes the quickest kill ${roster.name} can reach at ${d}m and spends everything left over on whatever cannot slow it down.`
+      : `This build keeps ${roster.name}'s ${kill} and spends the rest of the points on making the gun easier to hold on target.`);
+
+    if (gains.length) bits.push(`Against the bare weapon it gains ${effectPhrase(gains, 3)}.`);
+    if (costs.length) bits.push(`It gives up ${effectPhrase(costs, 2)} to get there.`);
+    else if (gains.length) bits.push("Nothing measurable was given up to get there.");
+
+    if (!result.exhaustive) bits.push("The exhaustive attachment cache has not validated for this weapon, so this is an on-demand result rather than a verified winner.");
+    return bits.join(" ");
+  }
+
   function emptyStats(message) {
     return `<div class="combat-stat" style="grid-column:1/-1"><span>DATA STATUS</span><strong style="font-size:15px">PENDING</strong><small>${escapeHtml(message)}</small></div>`;
   }
@@ -1588,12 +1876,24 @@
         audit.textContent = `ON-DEMAND BUILD • ${result.points}/${budget} • EXHAUSTIVE LETHALITY CACHE PENDING`;
         audit.className = "audit-line";
       }
+      const ctx = {
+        strategy: activeStrategy(),
+        budget,
+        distance: state.distance,
+        opticFit: result.combat?.opticFit ?? null,
+        triggerTtk: result.combat?.triggerTtk ?? resolved?.combat?.triggerTtk ?? NaN,
+        requiredId: auditedClassOptimized(raw, state.distance)?.attachmentId || null
+      };
       $("attachmentGrid").innerHTML = result.picks
         .filter(x => x.id !== "none")
-        .map(opt => attachmentCard(opt)).join("");
+        .map(opt => attachmentCard(opt, raw, ctx)).join("");
       renderWhy(raw, result, roster, ranked);
       const summary = $("whySummary");
       if (summary) summary.textContent = whySummary(roster, resolved, result, ranked);
+      const buildWhy = $("buildWhy");
+      if (buildWhy) buildWhy.textContent = whyThisBuild(roster, raw, resolved, result);
+      const buildFx = $("buildEffects");
+      if (buildFx) buildFx.innerHTML = effectChips(buildDeltas(raw, resolved));
       return result;
     } catch (err) {
       renderBuildPending("primary", err.message);
@@ -1624,14 +1924,26 @@
    * unverified or internal label is shown exactly as the source provides it and
    * is visibly marked, never cleaned up, simplified or swapped for a guess.
    */
-  function attachmentCard(opt) {
+  /** Compact green-up / red-down chips. Up always means better for the player. */
+  function effectChips(effects) {
+    if (!effects.length) return `<i class="fx none">no measurable effect</i>`;
+    return effects.map(e =>
+      `<i class="fx ${e.dir}"><b>${e.dir === "up" ? "↑" : "↓"}</b>${escapeHtml(e.label)}${e.delta ? ` <s>${escapeHtml(e.delta)}</s>` : ""}</i>`
+    ).join("");
+  }
+
+  function attachmentCard(opt, raw = null, ctx = null) {
     const d = attachmentDisplay(opt);
     const flag = d.status === "VERIFIED_EXACT" ? "" :
       `<em class="name-flag ${d.ui.cls}" title="${escapeHtml(d.ui.note)}">${escapeHtml(d.ui.chip)}</em>`;
+    const { effects, assumed } = raw ? attachmentEffects(raw, opt) : { effects: [], assumed: false };
+    const reason = raw && ctx ? attachmentReason(raw, opt, ctx) : attachmentNote(opt);
     return `<div class="attachment-card${d.status === "VERIFIED_EXACT" ? "" : " unverified-name"}">` +
       `<span>${escapeHtml(SLOT_LABELS[opt.slot] || opt.slot)}<b>${pointCost(opt)}p</b></span>` +
       `<strong>${escapeHtml(d.name)}</strong>${flag}` +
-      `<small>${escapeHtml(attachmentNote(opt))}</small></div>`;
+      `<div class="fx-row">${effectChips(effects)}</div>` +
+      `<small><b>Why:</b> ${escapeHtml(reason)}${assumed ? " Some of this attachment's source values are marked unverified and are not shown as effects." : ""}</small>` +
+      `</div>`;
   }
 
   /**
@@ -1729,14 +2041,24 @@
     ];
     $("loadoutLine").innerHTML = pills.map(([k, v]) => `<div class="loadout-pill"><span>${escapeHtml(k)}</span><strong>${escapeHtml(v)}</strong></div>`).join("");
 
-    const expl = [
-      ["Class advantage", c.signatureCategory === roster.cls ? `${c.weaponBenefit} This directly synergizes with ${roster.name}.` : `${c.weaponBenefit} ${c.role}`],
-      [path?.name || "Training", path?.why || "Selected from class training options."],
-      [gadgets[0]?.name || "Gadget 1", gadgets[0]?.why || "—"],
-      [gadgets[1]?.name || "Gadget 2", gadgets[1]?.why || "—"],
-      [throwable?.name || "Throwable", throwable?.why || "—"]
-    ];
-    $("loadoutExplanations").innerHTML = expl.map(([k, v]) => `<div class="explanation"><strong>${escapeHtml(k)}</strong><p>${escapeHtml(v)}</p></div>`).join("");
+    // One headline sentence, then one dense row per item. The same information
+    // as before in roughly a third of the vertical space.
+    const headline = c.signatureCategory === roster.cls
+      ? `${c.name} + ${path?.name || "its default training"} — ${c.weaponBenefit} That lines up directly with ${roster.name}.`
+      : `${c.name} + ${path?.name || "its default training"} — ${c.weaponBenefit} ${c.role}`;
+    const lead = $("loadoutWhy");
+    if (lead) lead.textContent = headline;
+
+    const rows = [
+      [path?.name, path?.why],
+      [c.signatureGadget, c.signatureTrait],
+      [gadgets[0]?.name, gadgets[0]?.why],
+      [gadgets[1]?.name, gadgets[1]?.why],
+      [throwable?.name, throwable?.why]
+    ].filter(([n, w]) => n && w);
+    $("loadoutExplanations").innerHTML = rows.length
+      ? rows.map(([n, w]) => `<div class="reason-row"><strong>${escapeHtml(n)}</strong><span>${escapeHtml(w)}</span></div>`).join("")
+      : `<div class="reason-row"><strong>No per-item reasons</strong><span>The current loadout data does not record a reason for these items.</span></div>`;
   }
 
   function secondaryTargetDistance() {
@@ -1785,7 +2107,13 @@
       const names = buildNameConfidence(result.picks);
       $("secondaryAudit").textContent = `POINT MATH PASS • ${result.points}/${sidearmBudget} • SIDEARM BUDGET${sidearmGate}${names.total ? ` • NAMES ${names.verified}/${names.total} EXACT` : ""}`;
       $("secondaryAudit").className = "audit-line ok";
-      $("secondaryAttachmentGrid").innerHTML = result.picks.filter(x => x.id !== "none").map(attachmentCard).join("");
+      const secCtx = {
+        strategy: "laserbeam", budget: sidearmBudget, distance: target,
+        opticFit: result.combat?.opticFit ?? null,
+        triggerTtk: result.combat?.triggerTtk ?? NaN,
+        requiredId: auditedClassOptimized(raw, target)?.attachmentId || null
+      };
+      $("secondaryAttachmentGrid").innerHTML = result.picks.filter(x => x.id !== "none").map(o => attachmentCard(o, raw, secCtx)).join("");
       const limit = document.querySelector("#secondaryPointsUsed + span");
       if (limit) limit.textContent = `/${sidearmBudget}`;
     } catch (err) {
@@ -1933,6 +2261,64 @@
     box.innerHTML = rows.map(([k, v, sub, cls]) => `<div class="key-stat ${cls || ""}"><span>${escapeHtml(k)}</span><strong>${escapeHtml(String(v))}</strong><small>${escapeHtml(sub)}</small></div>`).join("");
   }
 
+  /**
+   * Makes the effect of the optimize-priority visible even when the winner does
+   * not move, so a correctly-wired control never looks like a dead one. Every
+   * number shown is read from the two rankings the engine actually produced.
+   */
+  function renderPriorityDelta(roster, ranked, buildResult) {
+    const el = $("priorityDelta");
+    if (!el) return;
+    if (state.selectionMode === "manual" || state.priority === "auto" || !ranked.length) { el.textContent = ""; el.className = "priority-delta"; return; }
+
+    const other = state.priority === "fastest" ? "balanced" : "fastest";
+    const keep = state.priority;
+    let otherRanked = [];
+    let otherBuild = null;
+    try {
+      state.priority = other;
+      otherRanked = rankWeapons(state.category, state.distance);
+      const raw = rawForRoster(roster);
+      if (raw && state.attachments && state.ammo) { try { otherBuild = optimize(raw, state.distance, activeStrategy()); } catch (_) { otherBuild = null; } }
+    } finally { state.priority = keep; }
+
+    const otherLabel = other === "fastest" ? "Fastest kill" : "Balanced";
+    const mine = ranked[0], theirs = otherRanked[0];
+    if (!theirs) { el.textContent = ""; return; }
+
+    const bits = [];
+    if (mine.roster.id !== theirs.roster.id) {
+      bits.push(`Different best weapon: ${mine.roster.name} instead of ${theirs.roster.name} under ${otherLabel}.`);
+      const a = Number(mine.combat?.triggerTtk), b = Number(theirs.combat?.triggerTtk);
+      if (Number.isFinite(a) && Number.isFinite(b)) bits.push(`${Math.round(a)} ms to kill versus ${Math.round(b)} ms.`);
+    } else {
+      bits.push(`Same best weapon — ${mine.roster.name} still leads.`);
+      const a = Number(mine.combat?.triggerTtk), b = Number(theirs.combat?.triggerTtk);
+      if (Number.isFinite(a) && Number.isFinite(b) && Math.round(a) !== Math.round(b)) {
+        bits.push(`Its kill time moved ${Math.round(b)} ms → ${Math.round(a)} ms.`);
+      }
+      const orderA = ranked.slice(0, 5).map(x => x.roster.id).join(",");
+      const orderB = otherRanked.slice(0, 5).map(x => x.roster.id).join(",");
+      if (orderA !== orderB) {
+        const gained = ranked.slice(1, 5).find(x => {
+          const was = otherRanked.findIndex(y => y.roster.id === x.roster.id);
+          const now = ranked.findIndex(y => y.roster.id === x.roster.id);
+          return was === -1 || now < was;
+        });
+        bits.push(gained ? `The order below it changed — ${gained.roster.name} moved up.` : "The order below it changed.");
+      } else if (buildResult && otherBuild) {
+        const pa = buildResult.picks.filter(x => x.id !== "none").map(x => x.id).sort().join("|");
+        const pb = otherBuild.picks.filter(x => x.id !== "none").map(x => x.id).sort().join("|");
+        if (pa !== pb) bits.push("Its attachment build changed.");
+        else bits.push("Nothing changed here — the same build already wins both ways at this distance.");
+      } else {
+        bits.push("Nothing changed here — the same build already wins both ways at this distance.");
+      }
+    }
+    el.textContent = bits.join(" ");
+    el.className = "priority-delta shown";
+  }
+
   /** Data-confidence chip for the whole recommendation. Never hides uncertainty. */
   function renderConfidence(resolved, buildResult) {
     const chip = $("confidenceChip");
@@ -2057,8 +2443,8 @@
     });
     const note=$("priorityNote");
     if (note) note.textContent = active === "fastest"
-      ? "Strict kill speed first; recoil and spread only break ties."
-      : "55% exact-distance kill speed, 45% recoil and spread control.";
+      ? "Picks the quickest kill at this distance; control only breaks ties."
+      : "Weighs kill speed and recoil/spread control together.";
   }
 
   /** Keeps every distance surface showing the one canonical value. */
@@ -2185,6 +2571,7 @@
     renderRangeNote(roster);
     const buildResult = renderPrimaryBuild(roster, raw, resolved, ranked);
     renderConfidence(resolved, buildResult);
+    renderPriorityDelta(roster, ranked, buildResult);
     renderAlternatives(ranked, roster);
     renderWeaponIntel(roster, raw, resolved);
     renderManualRangeProfiles();
@@ -2326,7 +2713,6 @@
     });
     $("classSelect").addEventListener("change", e => { state.classChoice = e.target.value; renderAll(); });
     $("contextSelect").addEventListener("change", e => { state.context = e.target.value; renderAll(); });
-    ["stayAds", "movingAds", "stealth", "bigMag"].forEach(id => $(id).addEventListener("change", renderAll));
     $("optimizeBtn").addEventListener("click", () => {
       renderAll();
       $("answerCard")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -2341,6 +2727,32 @@
   // harness and by visual QA. It reads the same engine functions the UI uses,
   // restores every field it touches, and is never an input to ranking,
   // attachment scoring, point budgets or any displayed value.
+  function loadoutSnapshot(roster) {
+    if (!roster) return null;
+    const key = selectedClass(roster);
+    const c = LOADOUT.classes[key];
+    if (!c) return null;
+    const path = [...(c.paths || [])].sort((a, b) => scoreLoadoutItem(b) - scoreLoadoutItem(a))[0];
+    const gadgets = chooseTwoGadgets(c);
+    const throwable = [...(c.throwables || [])].sort((a, b) => scoreLoadoutItem(b) - scoreLoadoutItem(a))[0];
+    return { classKey: key, className: c.name, training: path?.name ?? null, signature: c.signatureGadget ?? null, gadgets: gadgets.map(g => g?.name ?? null), throwable: throwable?.name ?? null };
+  }
+
+  function secondarySnapshot() {
+    const rec = chooseSecondary();
+    if (!rec) return null;
+    const raw = state.rawWeapons.find(w => aliasKey(w.id) === aliasKey(rec.weapon.id)) ||
+      state.rawWeapons.find(w => aliasKey(w.name) === aliasKey(rec.weapon.name)) || null;
+    let build = null;
+    if (raw && state.attachments && state.ammo) {
+      try {
+        const r = optimize(raw, secondaryTargetDistance(), "laserbeam");
+        build = { points: r.points, exhaustive: !!r.exhaustive, picks: r.picks.map(p => ({ slot: p.slot, id: p.id, pts: pointCost(p) })) };
+      } catch (err) { build = { error: String(err && err.message || err) }; }
+    }
+    return { name: rec.weapon?.name ?? null, build };
+  }
+
   window.BF6_LAB_DIAG = {
     version: 1,
     ready: () => state.source.weapons !== "loading",
@@ -2356,10 +2768,13 @@
       source: { ...state.source }
     }),
     snapshot(query = {}) {
-      const keep = { category: state.category, weaponId: state.weaponId, selectionMode: state.selectionMode, distance: state.distance };
+      const keep = { category: state.category, weaponId: state.weaponId, selectionMode: state.selectionMode, distance: state.distance, priority: state.priority, context: state.context, classChoice: state.classChoice };
       try {
         if (query.category != null) state.category = query.category;
         if (query.mode != null) state.selectionMode = query.mode;
+        if (query.priority != null) state.priority = query.priority;
+        if (query.context != null) state.context = query.context;
+        if (query.classChoice != null) state.classChoice = query.classChoice;
         if (query.distance != null) state.distance = Math.max(1, Math.min(300, Math.round(Number(query.distance))));
         if (query.mode === "auto") resolveAutoWeapon();
         else if (query.weaponId != null) state.weaponId = query.weaponId;
@@ -2392,11 +2807,14 @@
             beamIndex: x.beamIndex ?? null, laserScore: x.laserScore ?? null,
             metaCost: x.metaCost ?? null, velocity: x.velocity ?? null, offPace: !!x.offPace
           })),
-          build
+          build,
+          loadout: loadoutSnapshot(roster),
+          secondary: secondarySnapshot()
         };
       } finally {
         state.category = keep.category; state.weaponId = keep.weaponId;
         state.selectionMode = keep.selectionMode; state.distance = keep.distance;
+        state.priority = keep.priority; state.context = keep.context; state.classChoice = keep.classChoice;
       }
     }
   };

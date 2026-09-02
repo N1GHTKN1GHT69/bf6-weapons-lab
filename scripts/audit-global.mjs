@@ -118,9 +118,14 @@ if(!app.includes('function validateCombatCacheObject(cache)')) errors.push('app 
 if(!app.includes('cache requires atomic local source snapshot')) errors.push('app cache gate does not require the atomic local source snapshot');
 if(!app.includes('modeled !== expected')) errors.push('cache gate does not require complete modeled roster');
 if(!app.includes('rawOrRoster?.cls === "Secondary" || rawOrRoster?.cls === "Sidearm"')) errors.push('60-point Sidearm/Secondary budget invariant missing');
-const rankPos=app.indexOf('let combat = raw ? cachedCombat(raw, d) : null;');
+// Cache-first ordering: the exhaustive cache row must be consulted before the
+// class-audit fallback. The row is selected by the active ranking strategy, so
+// the call carries a strategy argument, but the ordering requirement is the
+// same one this gate has always enforced.
+const rankPos=app.indexOf('let combat = raw ? cachedCombat(raw, d, strategy) : null;');
 const auditPos=app.indexOf('if (!combat) combat = auditedRosterCombat(roster, raw, d);',rankPos);
 if(rankPos<0||auditPos<rankPos) errors.push('AUTO META is not cache-first');
+if(!app.includes('function rankingStrategy()')) errors.push('AUTO META ranking cannot follow the selected priority');
 if(!app.includes('function flightTimeMs(distanceM, velocityMps, dragPerMeter)')) errors.push('generic projectile flight model missing');
 if(!/a\.combat\.triggerTtk\s*\?\?\s*Infinity/.test(app) || !/b\.combat\.triggerTtk\s*\?\?\s*Infinity/.test(app)) errors.push('AUTO META is not trigger-to-impact TTK first');
 if(app.includes('if (!combat && raw) combat = combatAtDistance(raw, d);')) errors.push('AUTO META still permits raw cadence/damage bypass');
