@@ -4,6 +4,7 @@ import { resolve, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { scoringStateSignature } from './cache-state-signature.mjs';
+import { stripPartialAssumptions } from './verified-source-sanitizer.mjs';
 
 const upstream = resolve(process.argv[2] || process.env.BF6_ANALYZER_DIR || '.upstream/bf6-analyzer');
 const outDir = resolve(process.argv[3] || 'data');
@@ -13,7 +14,7 @@ const PRIMARY_BUDGET = 100;
 const SIDEARM_BUDGET = 60;
 const MAX_CANONICAL_COMBOS_PER_WEAPON = Number(process.env.BF6_MAX_CANONICAL_COMBOS || 25_000_000);
 
-// Phase A v2.6 supports exact per-weapon cache generation with mechanics-only state deduplication. GitHub runs one
+// Phase A v2.7 supports exact per-weapon cache generation with mechanics-only state deduplication and verified-field sanitization. GitHub runs one
 // isolated matrix job per upstream-backed weapon, then merge-combat-cache.mjs
 // recombines them into one cache. Successful weapon shards are reusable across
 // retries when the upstream revision and scoring code have not changed. With no
@@ -31,8 +32,12 @@ const weapons = await json(join(upstream, 'data/weapons.json'));
 const selectedWeapons = WEAPON_FILTER ? weapons.filter(w => w.id === WEAPON_FILTER) : (CLASS_FILTER ? weapons.filter(w => w.cls === CLASS_FILTER) : weapons);
 if (WEAPON_FILTER && !selectedWeapons.length) throw new Error(`No upstream weapon matched weapon filter: ${WEAPON_FILTER}`);
 if (CLASS_FILTER && !selectedWeapons.length) throw new Error(`No upstream weapons matched class filter: ${CLASS_FILTER}`);
-const atts = await json(join(upstream, 'data/attachments.json'));
-const ammo = await json(join(upstream, 'data/ammo.json'));
+const rawAtts = await json(join(upstream, 'data/attachments.json'));
+const rawAmmo = await json(join(upstream, 'data/ammo.json'));
+const sourceSanitizeStats = { strippedFields:0, touchedRecords:0 };
+const atts = stripPartialAssumptions(rawAtts, sourceSanitizeStats);
+const ammo = stripPartialAssumptions(rawAmmo, sourceSanitizeStats);
+console.log(`Verified-source sanitization: stripped ${sourceSanitizeStats.strippedFields} assumed fields from ${sourceSanitizeStats.touchedRecords} records; whole-option assumed candidates remain excluded.`);
 const balance = await json(join(upstream, 'data/balance_tables.json'));
 const recoilDecay = await json(join(upstream, 'data/recoil_decay.json'));
 const ballistics = await json(join(upstream, 'data/ballistics.json'));
@@ -194,11 +199,10 @@ function dedupeDominated(slot, w, ids) {
     // Verified AUTO META must never depend on speculative/inferred attachment mechanics.
     // Raw combinations are still counted separately, but assumed options are not simulated
     // as candidates for a winning build until their behavior is validated.
-    const assumedFields = data.assumedFields;
-    const hasAssumedFields = Array.isArray(assumedFields)
-      ? assumedFields.length > 0
-      : !!(assumedFields && typeof assumedFields === 'object' && Object.keys(assumedFields).length);
-    if (data.assumed === true || hasAssumedFields) continue;
+    // Entirely assumed options remain excluded. For partially-assumed records,
+    // stripPartialAssumptions() already removed only the unverified fields while
+    // preserving verified mechanics (critical for M250 Heavy/Heavy Extended).
+    if (data.assumed === true) continue;
     const sig = functionalSignature(slot, data);
     const prev = keep.get(sig);
     if (!prev || pts < prev.pts || (pts === prev.pts && String(id).localeCompare(String(prev.id)) < 0)) {
@@ -536,7 +540,7 @@ const results = {
     attachmentPolicy: 'All legal user-visible combinations are counted. Speculative/assumed attachment mechanics are excluded from verified AUTO META; functionally identical or strictly more-expensive verified duplicates are safely collapsed before simulation.',
     manualWeaponPolicy: 'BUILD MY GUN uses a separate range-aware bestLethal winner: a clearly unsuitable optic cannot beat a suitable optic merely on point cost; within range-eligible builds trigger-to-kill stays first, then mechanical TTK/BTK/damage, optic fit, Beam Index and cost.'
   },
-  audit: { weaponsSource: selectedWeapons.length, totalWeaponsSource: weapons.length, modeled:0, incomplete:0, rawLegalCombinations:'0', canonicalCombinationsEvaluated:0, distancesPerWeapon:DIST_MAX-DIST_MIN+1, errors:[] },
+  audit: { weaponsSource: selectedWeapons.length, totalWeaponsSource: weapons.length, modeled:0, incomplete:0, rawLegalCombinations:'0', canonicalCombinationsEvaluated:0, distancesPerWeapon:DIST_MAX-DIST_MIN+1, verifiedSourceFieldsStripped:sourceSanitizeStats.strippedFields, verifiedSourceRecordsSanitized:sourceSanitizeStats.touchedRecords, errors:[] },
   weapons: {}
 };
 let rawTotal = 0n;
