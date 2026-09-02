@@ -7,7 +7,7 @@ const manifest = manifestPath ? JSON.parse(await readFile(manifestPath,'utf8')) 
 const errors=[];
 if (typeof c?.source?.gameVersion !== 'string' || !c.source.gameVersion) errors.push('missing source.gameVersion');
 if (manifest && (!c?.source?.commit || !manifest?.commit || c.source.commit !== manifest.commit)) errors.push(`cache/source commit mismatch ${c?.source?.commit || 'missing'}/${manifest?.commit || 'missing'}`);
-if (c?.source?.rankingModel !== 'laserbeam-v3-anchored-range-optics') errors.push(`ranking model ${c?.source?.rankingModel || 'missing'}/laserbeam-v3-anchored-range-optics`);
+if (c?.source?.rankingModel !== 'laserbeam-v4-stable-utility-range-optics') errors.push(`ranking model ${c?.source?.rankingModel || 'missing'}/laserbeam-v4-stable-utility-range-optics`);
 if (c?.source?.manualBuildModel !== 'range-lethality-v2') errors.push(`manual build model ${c?.source?.manualBuildModel || 'missing'}/range-lethality-v2`);
 if (c?.source?.opticModel !== 'tier-range-fit-v1') errors.push(`optic model ${c?.source?.opticModel || 'missing'}/tier-range-fit-v1`);
 const expected=Number(c?.audit?.weaponsSource);

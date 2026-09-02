@@ -152,7 +152,7 @@ jobs:
           path: |
             partial-cache/${{ matrix.slug }}.json
             partial-audit/${{ matrix.slug }}.json
-          key: ${{ runner.os }}-bf6-perweapon-v27-${{ needs.prepare.outputs.upstream_sha }}-${{ hashFiles('scripts/build-combat-cache.mjs', 'scripts/auto-selection-policy.mjs', 'scripts/cache-state-signature.mjs', 'scripts/verified-source-sanitizer.mjs', 'scripts/list-cache-weapons.mjs', 'data/*-audit.json') }}-${{ matrix.slug }}
+          key: ${{ runner.os }}-bf6-perweapon-v30-${{ needs.prepare.outputs.upstream_sha }}-${{ hashFiles('scripts/build-combat-cache.mjs', 'scripts/auto-selection-policy.mjs', 'scripts/cache-state-signature.mjs', 'scripts/verified-source-sanitizer.mjs', 'scripts/list-cache-weapons.mjs', 'data/*-audit.json') }}-${{ matrix.slug }}
       - name: Build ${{ matrix.weapon_name }} exhaustive cache shard
         if: steps.weapon-cache.outputs.cache-hit != 'true'
         shell: bash

@@ -143,7 +143,7 @@
             <div><b>MECH TTK ↓</b><span>Lower is better. First damaging hit to lethal hit; excludes projectile flight. A one-shot kill is 0 ms.</span></div>
             <div><b>BTK ↓</b><span>Lower is better. Bullets or shells required to kill a 100 HP unarmored target.</span></div>
             <div><b>DAMAGE ↑</b><span>Higher is generally better, but breakpoints matter more than raw damage once BTK is unchanged.</span></div>
-            <div><b>LASER SCORE ↑</b><span>Higher is better, 0–100. AUTO-only relative controllability score versus the weapons currently being ranked.</span></div>
+            <div><b>LASER SCORE ↑</b><span>Higher is better, 0–100. Filter-stable Laserbeam efficiency score. Ranking uses a fixed 55/45 percentage tradeoff between Trigger→Kill and Beam Index; changing class filters does not change that tradeoff.</span></div>
             <div><b>BEAM INDEX ↓</b><span>Lower is better. Absolute mechanical instability index built from recoil, recoil unpredictability and ADS spread at this distance.</span></div>
             <div><b>ADS RECOIL ↓</b><span>Lower is better. Mechanical recoil magnitude after the winning attachments when exhaustive build data is active.</span></div>
             <div><b>RECOIL VARIATION ↓</b><span>Lower is better. Directional variation in recoil; more variation means a less repeatable pattern.</span></div>
@@ -209,7 +209,7 @@
           <div><span>PRIMARY BUDGET</span><strong>100 points</strong><small>Hard cap</small></div>
           <div><span>SECONDARY BUDGET</span><strong>60 points</strong><small>Different from primaries</small></div>
         </div>
-        <p class="method-note">AUTO uses LASERBEAM META: 55% exact-distance trigger→kill lethality and 45% transformed recoil/spread controllability. Optic tiers are also range-gated so a cheap close-range sight cannot win a long-range build simply by saving Pick points. Weapons more than 25% off the fastest kill pace receive an additional penalty. Mechanical TTK remains visible separately. Exhaustive builds use the Analyzer's attachment transforms, recoil amount, directional variation and effective ADS spread; missing audited data fails closed.</p>
+        <p class="method-note">AUTO uses LASERBEAM META: a pool-stable percentage utility of 55% exact-distance trigger→kill lethality and 45% transformed recoil/spread controllability. Optic tiers are also range-gated so a cheap close-range sight cannot win a long-range build simply by saving Pick points. Weapons more than 25% off the fastest kill pace receive an additional penalty. Mechanical TTK remains visible separately. Exhaustive builds use the Analyzer's attachment transforms, recoil amount, directional variation and effective ADS spread; missing audited data fails closed.</p>
       </section>
     </main>
 

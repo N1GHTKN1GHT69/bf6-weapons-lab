@@ -158,7 +158,7 @@
     const expectedRawRoster = CURRENT.roster.filter(r => rawForRoster(r)).length;
     if (expected !== expectedRawRoster) errors.push(`cache raw-roster ${expected}/${expectedRawRoster}`);
     if (cache?.source?.gameVersion !== CURRENT.liveVersion) errors.push(`cache version ${cache?.source?.gameVersion || "missing"}/${CURRENT.liveVersion}`);
-    if (cache?.source?.rankingModel !== "laserbeam-v3-anchored-range-optics") errors.push(`ranking model ${cache?.source?.rankingModel || "missing"}/laserbeam-v3-anchored-range-optics`);
+    if (cache?.source?.rankingModel !== "laserbeam-v4-stable-utility-range-optics") errors.push(`ranking model ${cache?.source?.rankingModel || "missing"}/laserbeam-v4-stable-utility-range-optics`);
     if (cache?.source?.manualBuildModel !== "range-lethality-v2") errors.push(`manual build model ${cache?.source?.manualBuildModel || "missing"}/range-lethality-v2`);
     if (cache?.source?.opticModel !== "tier-range-fit-v1") errors.push(`optic model ${cache?.source?.opticModel || "missing"}/tier-range-fit-v1`);
     if (!Number.isInteger(modeled) || modeled !== expected) errors.push(`modeled ${modeled}/${expected}`);
@@ -1190,8 +1190,15 @@
     });
   }
 
-  function rankWeapons(category = state.category, d = state.distance) {
-    const pool = CURRENT.roster
+  function laserbeamUtilityCost(triggerTtk, beamIndex) {
+    const t = Math.max(1e-6, Number(triggerTtk));
+    const b = Math.max(0.05, Number(beamIndex));
+    if (!Number.isFinite(t) || !Number.isFinite(b)) return Infinity;
+    return Math.pow(t, 0.55) * Math.pow(b, 0.45);
+  }
+
+  function buildRankPool(category = state.category, d = state.distance) {
+    return CURRENT.roster
       .filter(w => {
         if (w.cls === "Secondary") return false;
         if (category !== "__all__" && w.cls !== category) return false;
@@ -1216,28 +1223,39 @@
       })
       .filter(x => x.combat && Number.isFinite(x.combat.ttk) && Number.isFinite(x.combat.triggerTtk) && Number.isFinite(x.combat.damage))
       .filter(x => category !== "__all__" || x.combat.ballisticsExact === true);
+  }
 
+  function rankWeapons(category = state.category, d = state.distance) {
+    const pool = buildRankPool(category, d);
     if (!pool.length) return [];
-    const ttkVals=pool.map(x=>Number(x.combat.triggerTtk)).filter(Number.isFinite);
-    const beamVals=pool.map(x=>Number(x.beamIndex)).filter(Number.isFinite);
-    const fastest=Math.min(...ttkVals), slowest=Math.max(...ttkVals);
-    const bestBeam=beamVals.length?Math.min(...beamVals):null, worstBeam=beamVals.length?Math.max(...beamVals):null;
-    for (const x of pool) {
-      const t=Number(x.combat.triggerTtk);
-      const lethalScore=slowest===fastest?100:100*(slowest-t)/(slowest-fastest);
-      const b=Number(x.beamIndex);
-      const beamScore=!Number.isFinite(b)||bestBeam==null?50:(worstBeam===bestBeam?100:100*(worstBeam-b)/(worstBeam-bestBeam));
-      // Laserbeam META: lethality still has the larger share, but a tiny paper-TTK
-      // lead can no longer hide materially worse recoil/spread. A weapon >25%
-      // slower than the fastest gets a competitiveness penalty.
-      const offPace=t>fastest*1.25+10;
-      x.lethalScore=lethalScore; x.beamScore=beamScore;
-      x.metaScore=0.55*lethalScore+0.45*beamScore-(offPace?20:0);
+
+    // Cross-class-eligible class views use the exact same reference pace as AUTO
+    // ALL, so merely filtering the UI cannot change the 55/45 tradeoff or reorder
+    // two weapons. Non-cross-class groups (for example Shotguns) keep a local pace.
+    const classAudit = category === "__all__" ? null : auditForClass(category);
+    const useGlobalReference = category === "__all__" || classAudit?.crossClassEligible !== false;
+    const referencePool = useGlobalReference ? buildRankPool("__all__", d) : pool;
+    const referenceTtks = referencePool.map(x=>Number(x.combat.triggerTtk)).filter(Number.isFinite);
+    const globalFastest = referenceTtks.length ? Math.min(...referenceTtks) : Math.min(...pool.map(x=>Number(x.combat.triggerTtk)));
+
+    const scoreRows = x => {
+      const t = Number(x.combat.triggerTtk);
+      const baseCost = laserbeamUtilityCost(t, x.beamIndex);
+      const offPace = t > globalFastest * 1.25 + 10;
+      const metaCost = baseCost * (offPace ? 1.35 : 1);
+      return { ...x, metaCost, offPace };
+    };
+    const rankedPool = pool.map(scoreRows);
+    const referenceCosts = referencePool.map(scoreRows).map(x=>x.metaCost).filter(Number.isFinite);
+    const bestReferenceCost = referenceCosts.length ? Math.min(...referenceCosts) : Math.min(...rankedPool.map(x=>x.metaCost));
+    for (const x of rankedPool) {
+      x.laserScore = Number.isFinite(x.metaCost) && x.metaCost > 0 ? 100 * bestReferenceCost / x.metaCost : 0;
+      x.metaScore = x.laserScore; // legacy display field; ranking uses metaCost directly.
     }
-    return pool.sort((a,b) =>
-      b.metaScore-a.metaScore ||
-      b.beamScore-a.beamScore ||
+    return rankedPool.sort((a,b) =>
+      a.metaCost-b.metaCost ||
       (a.combat.triggerTtk??Infinity)-(b.combat.triggerTtk??Infinity) ||
+      (a.beamIndex??Infinity)-(b.beamIndex??Infinity) ||
       a.combat.btk-b.combat.btk ||
       b.combat.damage-a.combat.damage ||
       b.velocity-a.velocity || a.ads-b.ads
@@ -1673,9 +1691,9 @@
     }
     const leader=ranked[0];
     const scope = state.category === "__all__" ? "VERIFIED CLASSES ONLY" : state.category.toUpperCase();
-    const top = ranked.slice(0,3).map((x,i)=>`<div class="rank-chip ${i===0?'winner':''}"><span>#${i+1}</span><b>${escapeHtml(x.roster.name)}</b><small>${Number.isFinite(Number(x.combat.triggerTtk)) ? `${Math.round(x.combat.triggerTtk)}ms TTK • Laser ${Math.round(x.beamScore ?? 0)}/100` : "TTK pending"}${x.combat.btk === 1 ? " • 1 shot" : ""} • ${fmtDamage(x.combat.damage)} dmg</small></div>`).join("");
+    const top = ranked.slice(0,3).map((x,i)=>`<div class="rank-chip ${i===0?'winner':''}"><span>#${i+1}</span><b>${escapeHtml(x.roster.name)}</b><small>${Number.isFinite(Number(x.combat.triggerTtk)) ? `${Math.round(x.combat.triggerTtk)}ms TTK • Laser ${Math.round(x.laserScore ?? x.metaScore ?? 0)}/100` : "TTK pending"}${x.combat.btk === 1 ? " • 1 shot" : ""} • ${fmtDamage(x.combat.damage)} dmg</small></div>`).join("");
     box.className = "auto-recommendation";
-    box.innerHTML = `<div class="auto-main"><span>AUTO BEST • ${escapeHtml(scope)} • ${state.distance}M</span><strong>${escapeHtml(leader.roster.name)}</strong><small>Laserbeam meta: 55% exact-distance lethality + 45% recoil/spread controllability. Laser Score is higher-better; Beam Index is lower-better. A gun more than 25% off the fastest kill pace is penalized. Community tier lists/popularity are not inputs. ${state.combatCache ? "Exhaustive ballistic cache active." : "Audited ballistic fallback active."} ${ranked.length}/${state.category === "__all__" ? ranked.length : categoryRoster().length} weapons are currently in this ranking. Cross-class AUTO remains gated to audited classes.</small></div><div class="rank-row">${top}</div>`;
+    box.innerHTML = `<div class="auto-main"><span>AUTO BEST • ${escapeHtml(scope)} • ${state.distance}M</span><strong>${escapeHtml(leader.roster.name)}</strong><small>Laserbeam meta: pool-stable 55% exact-distance lethality + 45% recoil/spread controllability. Laser Score is higher-better; Beam Index is lower-better. A gun more than 25% off the fastest kill pace is penalized. Community tier lists/popularity are not inputs. ${state.combatCache ? "Exhaustive ballistic cache active." : "Audited ballistic fallback active."} ${ranked.length}/${state.category === "__all__" ? ranked.length : categoryRoster().length} weapons are currently in this ranking. Cross-class AUTO remains gated to audited classes.</small></div><div class="rank-row">${top}</div>`;
   }
 
   function fmtDamage(v) {

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { readFile, writeFile } from 'node:fs/promises';
 import vm from 'node:vm';
+import { laserbeamUtilityCost } from './auto-selection-policy.mjs';
 
 const errors=[];
 const norm=s=>String(s??'').toLowerCase().replace(/[^a-z0-9]/g,'');
@@ -212,10 +213,10 @@ if(cachePath){
       if(at>lt+1e-6){
         const near=lt>0 ? at/lt<=1.120001 : false;
         if(!near){ errors.push(`${cw.id}@${meter}: AUTO trigger TTK ${at} exceeds 12% laserbeam window over max-lethality ${lt}`); break; }
-        const betterOptic=Number(auto.opticFit)>Number(lethal.opticFit)+1e-9;
-        const betterBeam=Number(auto.beamIndex)<Number(lethal.beamIndex)-1e-9;
-        if(!betterOptic&&!betterBeam){
-          errors.push(`${cw.id}@${meter}: AUTO sacrifices lethality without better optic fit or Beam Index`);
+        const autoCost=laserbeamUtilityCost(at,Number(auto.beamIndex));
+        const lethalCost=laserbeamUtilityCost(lt,Number(lethal.beamIndex));
+        if(!(autoCost<=lethalCost+1e-9)){
+          errors.push(`${cw.id}@${meter}: AUTO sacrifices lethality without enough Beam improvement under stable 55/45 utility (${autoCost} > ${lethalCost})`);
           break;
         }
       }

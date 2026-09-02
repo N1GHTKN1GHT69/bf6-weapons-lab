@@ -10,7 +10,7 @@ v2.1 makes sight selection part of the exact-distance build model instead of tre
 - **AUTO META uses the same range-optic gate.** Weapon rankings therefore compare builds that are actually sighted for the selected engagement distance.
 - **The UI surfaces optic fit.** Verified builds and the 10/25/50/100/150 m BUILD MY GUN cards show the selected optic and its range-fit score.
 - **Sniper sweet spots are explicit.** Sniper range notes now label the one-shot sweet-spot window instead of only calling it an EA range note.
-- **Fail closed:** exhaustive caches must use `rankingModel=laserbeam-v3-anchored-range-optics`, `manualBuildModel=range-lethality-v2`, and `opticModel=tier-range-fit-v1`; every winning primary row must carry a range-eligible sight.
+- **Fail closed:** exhaustive caches must use `rankingModel=laserbeam-v4-stable-utility-range-optics`, `manualBuildModel=range-lethality-v2`, and `opticModel=tier-range-fit-v1`; every winning primary row must carry a range-eligible sight.
 
 ### Important limitation
 
@@ -173,3 +173,9 @@ v2.7 changes the policy from **discard partially-assumed attachment** to **strip
 
 ## Phase A v2.9 — final gate alignment
 The real v2.7 run completed every per-weapon cache shard and passed structural cache validation, exposing a final integration gate that still enforced the older TTK-only AUTO rule. v2.9 separates the two intended winners during validation: `bestLethal` must meet independently verified fastest-lethality baselines, while AUTO `best` may trade at most 12% trigger-to-kill for demonstrably better optic fit or Beam Index. The successful v27 per-weapon Action caches are intentionally reusable because the weapon builder itself is unchanged.
+
+## v3.0 Phase B ranking correction
+- AUTO attachment tradeoffs use pool-stable percentage utility: `triggerTtk^0.55 × BeamIndex^0.45` inside the existing 12% lethal ceiling.
+- Tiny recoil gains can no longer justify large TTK sacrifices.
+- Weapon ranking uses the same stable utility plus a fixed 35% cost penalty when a weapon is more than 25% (+10 ms slack) off the global fastest pace.
+- Class filters use the same global cross-class reference pace, so filtering the UI no longer changes the meaning of the 55/45 tradeoff.

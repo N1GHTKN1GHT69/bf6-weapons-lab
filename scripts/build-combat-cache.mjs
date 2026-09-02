@@ -497,7 +497,7 @@ const results = {
   source: {
     repository: 'raymdl/BF6-Weapon-Analyzer',
     gameVersion: GAME_VERSION,
-    rankingModel: 'laserbeam-v3-anchored-range-optics',
+    rankingModel: 'laserbeam-v4-stable-utility-range-optics',
     opticModel: 'tier-range-fit-v1',
     manualBuildModel: 'range-lethality-v2',
     commit: (() => { try { return execFileSync('git',['-C',upstream,'rev-parse','HEAD'],{encoding:'utf8'}).trim(); } catch { return null; } })(),
@@ -510,7 +510,7 @@ const results = {
     distances: [DIST_MIN,DIST_MAX],
     primaryBudget: PRIMARY_BUDGET,
     sidearmBudget: SIDEARM_BUDGET,
-    weaponRankOrder: ['anchored laserbeam window: AUTO candidates must remain within 12% of strict range-eligible lethal floor','optic fit','Beam Index','trigger-to-lethal-impact chest TTK','mechanical chest TTK','BTK','damage/shot'],
+    weaponRankOrder: ['anchored 12% lethal ceiling','pool-stable 55/45 percentage utility: triggerTtk^0.55 × BeamIndex^0.45','range-eligible optic fit tie-break','trigger-to-lethal-impact chest TTK','mechanical chest TTK','BTK','damage/shot'],
     attachmentPolicy: 'All legal user-visible combinations are counted. Speculative/assumed attachment mechanics are excluded from verified AUTO META; functionally identical or strictly more-expensive verified duplicates are safely collapsed before simulation.',
     manualWeaponPolicy: 'BUILD MY GUN uses a separate range-aware bestLethal winner: a clearly unsuitable optic cannot beat a suitable optic merely on point cost; within range-eligible builds trigger-to-kill stays first, then mechanical TTK/BTK/damage, optic fit, Beam Index and cost.'
   },
