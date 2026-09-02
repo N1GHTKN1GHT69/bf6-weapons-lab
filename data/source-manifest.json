@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "generatedAt": "2026-09-02T03:45:31.990Z",
+  "repository": "raymdl/BF6-Weapon-Analyzer",
+  "commit": "fb7a214778e1e4b5a5113f21ec0dd12136123845",
+  "counts": {
+    "weapons": 62,
+    "ballisticsWeaponIds": 59
+  },
+  "sha256": {
+    "weapons.json": "bd1c18533a081585edef2d05daf8446967da208e66d2305f535996dab7e00071",
+    "attachments.json": "5991a62d42f047cd1ac61f0023ed0a0e3ff21705ef14704578d42fd7eb0f94b6",
+    "ammo.json": "6464810803057237907c7edd56897073736638be4fc439ff55e20bf234ae72e0",
+    "ballistics.json": "7970ecb9b9ba7239afa2eab8c0f1141ea5db1acfc0be69086603783fbe997a8d"
+  },
+  "pointAudit": {
+    "ok": true,
+    "warnings": 0,
+    "errors": 0
+  }
+}
