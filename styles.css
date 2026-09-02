@@ -75,10 +75,10 @@ main{padding-top:22px;display:flex;flex-direction:column;gap:var(--gap)}
 .distance-scale{display:flex;justify-content:space-between;color:#5f7387;font-size:9px;letter-spacing:.1em}
 
 .advanced{border:1px solid #304052;background:#090e14;padding:12px 14px;border-radius:3px}
-.advanced summary{cursor:pointer;font-size:10px;font-weight:900;letter-spacing:.1em;color:#b8c8d8;text-transform:uppercase;list-style:none}
+.advanced summary{cursor:pointer;display:flex;align-items:center;min-height:34px;padding:6px 0;font-size:10px;font-weight:900;letter-spacing:.1em;color:#b8c8d8;text-transform:uppercase;list-style:none}
 .advanced summary::-webkit-details-marker{display:none}
-.advanced summary:after{content:'  +';color:var(--orange)}
-.advanced[open] summary:after{content:'  –'}
+.advanced summary:after{content:'+';color:var(--orange);margin-left:auto;font-weight:900}
+.advanced[open] summary:after{content:'–'}
 .advanced-body{margin-top:14px;display:flex;flex-direction:column;gap:14px}
 .advanced-note{margin:0;color:#7f93a7;font-size:10px;line-height:1.5}
 .advanced-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -151,10 +151,10 @@ main{padding-top:22px;display:flex;flex-direction:column;gap:var(--gap)}
 .why-item span{display:block;color:#8498ab;font-size:10px;line-height:1.5;margin-top:4px}
 
 .disclosure{border:1px solid #2b3a4a;background:#090e13;border-radius:3px;padding:12px 14px}
-.disclosure>summary{cursor:pointer;font-size:11px;font-weight:900;letter-spacing:.1em;color:#cfdce7;text-transform:uppercase;list-style:none}
+.disclosure>summary{cursor:pointer;display:flex;align-items:center;min-height:34px;padding:6px 0;font-size:11px;font-weight:900;letter-spacing:.1em;color:#cfdce7;text-transform:uppercase;list-style:none}
 .disclosure>summary::-webkit-details-marker{display:none}
-.disclosure>summary:after{content:'  +';color:var(--orange)}
-.disclosure[open]>summary:after{content:'  –'}
+.disclosure>summary:after{content:'+';color:var(--orange);margin-left:auto;font-weight:900}
+.disclosure[open]>summary:after{content:'–'}
 .disclosure-body{margin-top:16px;display:flex;flex-direction:column;gap:18px}
 .disclosure.nested{background:#070b10}
 
@@ -224,7 +224,7 @@ main{padding-top:22px;display:flex;flex-direction:column;gap:var(--gap)}
 /* ---------- LEVEL 3: data & audit ---------- */
 .data-audit-card{padding:0}
 .data-audit-card>details{padding:18px 22px}
-.data-audit-card>details>summary{cursor:pointer;list-style:none;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.data-audit-card>details>summary{cursor:pointer;list-style:none;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;min-height:34px;padding:6px 0}
 .data-audit-card>details>summary::-webkit-details-marker{display:none}
 .data-audit-card>details>summary b{font-size:13px;letter-spacing:-.01em}
 .data-audit-card>details>summary:after{content:'+';color:var(--orange);margin-left:auto;font-weight:900}
@@ -265,8 +265,8 @@ footer{margin-top:26px;padding-top:16px;border-top:1px solid var(--line);color:#
 @media(max-width:900px){
   .data-strip{gap:5px}
   .advanced-grid{grid-template-columns:1fr}
-  .alt-row{grid-template-columns:36px 1fr 1fr;row-gap:10px}
-  .alt-rank{grid-row:span 2}
+  .alt-row{grid-template-columns:36px minmax(0,1.4fr) repeat(2,minmax(0,1fr));row-gap:10px}
+  .alt-rank{grid-row:span 2;align-self:start}
 }
 @media(max-width:680px){
   .app-shell{padding:0 14px 34px}
@@ -281,10 +281,14 @@ footer{margin-top:26px;padding-top:16px;border-top:1px solid var(--line);color:#
   .answer-flags{align-items:flex-start;text-align:left}
   .answer-head{flex-direction:column}
   .statbar{grid-template-columns:74px 1fr 30px}
-  .alt-row{grid-template-columns:32px 1fr;row-gap:8px}
-  .alt-rank{grid-row:span 3}
+  .alt-row{grid-template-columns:30px 1fr 1fr;row-gap:10px;column-gap:12px}
+  .alt-name{grid-column:2/-1}
+  .alt-rank{grid-row:span 3;align-self:start}
 }
 @media(max-width:400px){
-  .key-stats{grid-template-columns:1fr}
   .attachment-grid,.why-list,.explanation-grid,.method-grid,.provenance-grid,.manual-range-grid,.legend-grid,.control-metrics,.combat-numbers,.raw-strip,.loadout-line{grid-template-columns:1fr}
+}
+/* Two key metrics per row stays readable down to ~340px; below that, stack. */
+@media(max-width:339px){
+  .key-stats{grid-template-columns:1fr}
 }

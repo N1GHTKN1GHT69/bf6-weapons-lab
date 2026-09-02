@@ -1840,7 +1840,9 @@
         el.innerHTML = `<strong>EA RANGE NOTE:</strong> ${escapeHtml(roster.name)} is described as strongest around ${note[0]}–${note[1]}m. ${inRange ? "Your selected distance is inside that window." : "Your selected distance is outside that window."}`;
       }
     } else {
-      el.textContent = `Exact target: ${state.distance}m. Quick labels are shortcuts only; ranking uses the actual distance, projectile flight time and verified BF6 drag when available.`;
+      // No range-specific finding exists for this weapon. The distance control
+      // already explains that presets are shortcuts, so nothing is repeated here.
+      el.textContent = "";
     }
   }
 

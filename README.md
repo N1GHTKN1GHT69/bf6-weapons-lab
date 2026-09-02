@@ -1,3 +1,109 @@
+# BF6 Weapons Lab v3.1 — UX restructure + attachment name integrity
+
+The engine may be complicated; the product should not be. v3.1 reorganises the
+interface into three levels and separates attachment *naming* from attachment
+*optimization*. No combat, ballistic, ranking or attachment-scoring code was
+changed: 135 recorded engine cases (8 class scopes x 9 distances, plus 7 weapons
+x 9 distances, including exact 37m/83m and the 1m/300m boundaries) produce
+byte-identical output before and after.
+
+## Three levels
+
+1. **Input** — MODE (AUTO META / BUILD MY GUN), weapon class, weapon, fighting
+   distance, PRIORITY, and one primary action.
+2. **Answer** — the weapon, six decision metrics, the recommended build with its
+   live point usage, a plain-language reason, and the runners-up.
+3. **Proof** — ADVANCED STATS and DATA & AUDIT hold the full telemetry, scoring
+   breakdown, provenance and warnings. Normal use never requires them.
+
+## One canonical fighting distance
+
+There is exactly one distance value, `state.distance`, written only by
+`setDistance()`. The preset buttons, the slider and the custom numeric input are
+three views of that single value, and the optimizer always receives it exactly.
+
+- Presets are quick-jump shortcuts, never calculation buckets. A preset shows as
+  active only on an exact match, so 37m or 83m never falsely appears to be a
+  preset.
+- Exact-distance evaluation across 1-300m is unchanged: damage falloff,
+  projectile flight, breakpoints and exact-range TTK all still use the exact
+  selected metre.
+- The BUILD MY GUN range cards are now an explicit preview inside DATA & AUDIT
+  that jumps the same control. They are not a second distance setting.
+
+## PRIORITY maps to existing engine behaviour only
+
+The engine implements two attachment/ranking strategies and PRIORITY exposes
+those and nothing else. No new weights, penalties or scoring components were
+invented to support a simpler label.
+
+- **BALANCED** -> `laserbeam`: the pool-stable 55% trigger-to-kill / 45% Beam
+  Index utility.
+- **FASTEST KILL** -> `lethal`: strict trigger-to-kill first, Beam Index only
+  breaking lethal ties.
+
+PRIORITY defaults to each mode's historical strategy (AUTO META balanced, BUILD
+MY GUN fastest kill), so default behaviour is unchanged. Player class, battle
+context and the ADS/stealth/capacity preferences moved under ADVANCED
+PRIORITIES, labelled with what they actually affect.
+
+## Results can never go stale
+
+Results recompute on every valid input change, and the result restates the
+inputs it was built from (mode, scope, distance, priority). A 25m result cannot
+survive on screen as though it were a 72m result.
+
+## Attachment display-name integrity
+
+Attachment identity is the `attachmentId`, never the display string. Several
+different ids legitimately share one in-game name (five `6H64 Vertical` grips,
+three `Factory Angled` grips), which is exactly why the name is not identity.
+
+`scripts/audit-attachment-names.mjs` classifies every displayable attachment
+name and writes `data/attachment-name-audit.json` and `.csv`:
+
+| Status | Count | Meaning |
+| --- | --- | --- |
+| `VERIFIED_EXACT` | 124 | Carried verbatim from the pinned, SHA-256-verified upstream snapshot and not a category label or abbreviation. |
+| `UNVERIFIED` | 21 | Visibly abbreviated or inconsistently cased source strings (`#01 BUCK`, `Sub HP`, `30 Fast`). |
+| `INTERNAL_PLACEHOLDER` | 23 | Generic category/tier labels, including every optic tier and the bare barrel tiers. |
+| `MISMATCH` | 0 | Sources disagree; both strings recorded, neither overwritten. |
+
+Three names are independently corroborated by a class audit as well as the
+upstream snapshot: `A3 Receiver`, `Folding Stock` and `Slugs`.
+
+**Naming never changes the math.** Name confidence is display-only and is
+verified as such two ways:
+
+- Empirically: deleting the entire naming audit produces zero differences across
+  all 135 engine cases.
+- Permanently: `scripts/audit-attachment-names.mjs --check` fails if any of 24
+  optimizer/ranking functions references the naming layer, and the browser
+  refuses any naming audit that does not declare `affectsOptimizer: false`.
+
+An attachment whose exact name is unverified keeps its exact modifiers, point
+cost, eligibility and ranking position; only its label is marked. Builds are
+labelled VERIFIED / PARTIALLY VERIFIED accordingly.
+
+### Known naming limitation
+
+The repository contains no in-game string extraction, so `VERIFIED_EXACT` means
+"verbatim from the project's pinned authoritative BF6 source, and not a category
+label or abbreviation" rather than "confirmed against the live game UI". Optic
+names in particular remain coarse tiers; see the v2.1 note below.
+
+## Local development
+
+```
+node scripts/dev-server.mjs      # http://localhost:8181
+node scripts/audit-attachment-names.mjs --check
+```
+
+`window.BF6_LAB_DIAG` is a read-only diagnostics surface over the existing
+ranking and optimizer functions, used for baseline regression capture. It
+restores every state field it touches and is never an input to any displayed
+value.
+
 # BF6 Weapons Lab v2.1 — Range-Aware Optics
 
 v2.1 makes sight selection part of the exact-distance build model instead of treating optics as mechanically-neutral point spend.

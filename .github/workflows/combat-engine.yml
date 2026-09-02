@@ -112,6 +112,8 @@ jobs:
         run: node scripts/audit-manual-weapon.mjs
       - name: Gate range-aware optic selection
         run: node scripts/audit-range-optics.mjs
+      - name: Gate attachment display-name integrity
+        run: node scripts/audit-attachment-names.mjs --check
       - name: Preserve runtime audit diagnostics
         if: always()
         uses: actions/upload-artifact@v4
@@ -224,6 +226,10 @@ jobs:
         run: node scripts/validate-combat-cache.mjs data/combat-cache.json data/source-manifest.json
       - name: Gate global integration against generated cache
         run: node scripts/audit-global.mjs data/combat-cache.json
+      - name: Regenerate attachment display-name audit from the new snapshot
+        run: node scripts/audit-attachment-names.mjs
+      - name: Gate attachment display-name integrity
+        run: node scripts/audit-attachment-names.mjs --check
       - name: Publish exact global-gate failure diagnostics
         if: failure()
         shell: bash
@@ -267,7 +273,8 @@ jobs:
           rm -f data/global-integration-diagnostics.json
           git add -A data/global-integration-diagnostics.json 2>/dev/null || true
           git add data/weapons.json data/attachments.json data/ammo.json data/ballistics.json data/source-manifest.json \
-            data/combat-cache.json data/combat-audit.json data/*-audit-runtime.json 2>/dev/null || true
+            data/combat-cache.json data/combat-audit.json data/*-audit-runtime.json \
+            data/attachment-name-audit.json data/attachment-name-audit.csv 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No source/cache changes to commit."
             exit 0
