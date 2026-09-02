@@ -3191,6 +3191,17 @@
     if (label) label.textContent = "Fighting distance";
   }
 
+  /** Explains, only where it applies, why shotguns are absent from ALL VERIFIED. */
+  function renderScopeNote() {
+    const el = $("scopeNote");
+    if (!el) return;
+    const crossClass = state.selectionMode === "auto" && state.category === "__all__";
+    el.textContent = crossClass
+      ? "Shotguns currently rank within their own class until pellet spread/hit probability is modelled."
+      : "";
+    el.classList.toggle("shown", crossClass);
+  }
+
   // ===========================================================================
   // LEVEL 3 — DATA & AUDIT
   // ===========================================================================
@@ -3319,6 +3330,7 @@
     renderModeSwitch();
     renderPriority();
     renderDistance();
+    renderScopeNote();
     renderInputStamp();
 
     const roster = rosterWeapon();
@@ -3359,7 +3371,9 @@
       if (w.cls === "Secondary" || !auditForClass(w.cls)) return false;
       return auditedDefForRoster(w, rawForRoster(w))?.confidence !== "empirical-current";
     }).length;
-    const allLabel = state.selectionMode === "manual" ? "ALL" : "ALL";
+    // BUILD MY GUN opens the whole catalogue; AUTO META's cross-class scope is
+    // restricted to classes eligible for verified cross-class ranking.
+    const allLabel = state.selectionMode === "manual" ? "ALL" : "ALL VERIFIED";
     const all = `<button type="button" data-category="__all__" class="${state.category === "__all__" ? "active" : ""}" aria-pressed="${state.category === "__all__"}">${allLabel} <em>${state.selectionMode === "manual" ? CURRENT.roster.filter(w=>w.cls!=="Secondary").length : verifiedCount}</em></button>`;
     const cats = CURRENT.primaryClasses.map(cls => {
       const count=CURRENT.roster.filter(w=>w.cls===cls).length;

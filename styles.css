@@ -51,6 +51,8 @@ main{padding-top:22px;display:flex;flex-direction:column;gap:var(--gap)}
 .weapon-tabs button{flex:0 0 auto;border:1px solid #2c3947;background:#090e14;color:#8fa2b6;padding:9px 13px;border-radius:3px;font-size:10px;font-weight:900;letter-spacing:.09em;text-transform:uppercase;cursor:pointer;min-height:38px}
 .weapon-tabs button:hover{border-color:#465a6d}
 .weapon-tabs button.active{color:#0a0d11;background:var(--orange);border-color:var(--orange)}
+.scope-note{margin:0;color:#71869b;font-size:10px;line-height:1.45}
+.scope-note:not(.shown){display:none}
 .weapon-tabs button em{font-style:normal;font-size:9px;color:#62768b;margin-left:4px}
 .weapon-tabs button.active em{color:rgba(10,13,17,.65)}
 
