@@ -17,9 +17,13 @@ if (!index.includes('id="autoModeBtn"') || !index.includes('id="manualModeBtn"')
 if (!index.includes('id="manualRangeProfiles"')) errors.push('missing manual range profile surface');
 if (!app.includes('state.selectionMode="manual"')) errors.push('manual mode is not wired');
 if (!app.includes('state.category="__all__"; // BUILD MY GUN opens the entire primary catalog.')) errors.push('BUILD MY GUN does not open full primary catalog');
-if (!app.includes('state.selectionMode === "manual" ? "lethal" : "laserbeam"')) errors.push('manual primary does not request strict lethal attachment strategy');
+// PRIORITY may explicitly pick a strategy, but it may only pick one the engine
+// already implements, and BUILD MY GUN must still DEFAULT to strict lethality.
+if (!app.includes('function defaultStrategy()') || !app.includes('return state.selectionMode === "manual" ? "lethal" : "laserbeam";')) errors.push('manual primary does not default to the strict lethal attachment strategy');
+if (!app.includes('const PRIORITY_STRATEGY = { balanced: "laserbeam", fastest: "lethal" };')) errors.push('PRIORITY exposes strategies the engine does not implement');
+if (!app.includes('PRIORITY_STRATEGY[state.priority] ?? defaultStrategy()')) errors.push('PRIORITY does not fall back to the historical per-mode strategy');
 if (!app.includes('cachedBuild(raw,d,req,"lethal")')) errors.push('manual range cards do not use strict lethal cache winners');
-if (!app.includes('const detailStrategy = state.selectionMode === "manual" ? "lethal" : "laserbeam";')) errors.push('manual weapon dashboard can disagree with recommended lethal build');
+if (!app.includes('const detailStrategy = activeStrategy();')) errors.push('manual weapon dashboard can disagree with recommended lethal build');
 if (!app.includes('cachedWinningStats(raw, state.distance, detailStrategy)')) errors.push('manual weapon dashboard uses the wrong winning-build transformed stats');
 if (!app.includes('if (state.selectionMode === "auto") resolveAutoWeapon();')) errors.push('distance changes can replace a manually locked weapon');
 if (!builder.includes("manualBuildModel: 'range-lethality-v2'")) errors.push('cache missing range-lethality-v2 model tag');

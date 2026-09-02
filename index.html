@@ -15,183 +15,208 @@
     <header class="topbar">
       <a class="brand" href="#top" aria-label="BF6 Weapons Lab home">
         <span class="brand-mark">B6</span>
-        <span><b>WEAPONS LAB</b><small>Build for the fight</small></span>
+        <span><b>BF6 WEAPONS LAB</b><small>Pick the gun. Set the distance. Get the loadout.</small></span>
       </a>
       <div class="data-strip" id="dataStrip">
-        <span class="data-chip ok">ROSTER 63/63</span>
+        <span class="data-chip" id="rosterChip">ROSTER LOADING</span>
         <span class="data-chip" id="statsChip">STATS LOADING</span>
         <span class="data-chip" id="buildChip">BUILD DATA LOADING</span>
       </div>
     </header>
 
     <main id="top">
-      <section class="hero">
-        <div class="kicker">BATTLEFIELD 6 • MULTIPLAYER</div>
-        <h1>Pick the gun. Set the distance. Get the loadout.</h1>
-        <p>Use AUTO META to find the strongest weapon/build at an exact distance, or BUILD MY GUN to lock any primary and optimize only its attachments. The engine balances exact-distance lethality with transformed recoil/spread control; community tier lists and popularity are not inputs.</p>
-      </section>
 
-      <section class="builder card">
-        <div class="step-title"><span>01</span><div><b>WEAPON MODE</b><small>Let the engine choose the gun, or lock any primary and make that exact weapon as lethal and controllable as possible at your selected distance.</small></div></div>
-        <div class="mode-switch" id="modeSwitch" role="group" aria-label="Weapon selection mode">
-          <button id="autoModeBtn" type="button" class="active"><strong>AUTO META</strong><span>Best weapon + build</span></button>
-          <button id="manualModeBtn" type="button"><strong>BUILD MY GUN</strong><span>Lock weapon, optimize attachments</span></button>
-        </div>
-        <nav class="weapon-tabs" id="weaponTabs" aria-label="Weapon categories"></nav>
-        <div class="weapon-row">
-          <div class="field grow">
-            <label for="weaponSelect">Weapon</label>
-            <select id="weaponSelect"></select>
-          </div>
-          <div class="weapon-readout">
-            <span id="weaponClassLabel">—</span>
-            <strong id="weaponHeaderName">—</strong>
-            <small id="weaponUnlock">—</small>
+      <!-- ============ LEVEL 1 — INPUT ============ -->
+      <section class="builder card" aria-labelledby="inputHeading">
+        <h1 id="inputHeading" class="section-heading">What fight are you building for?</h1>
+
+        <div class="control-block">
+          <div class="control-label"><span>Mode</span></div>
+          <div class="mode-switch" id="modeSwitch" role="group" aria-label="Weapon selection mode">
+            <button id="autoModeBtn" type="button" class="active" aria-pressed="true"><strong>AUTO META</strong><span>The engine picks the weapon</span></button>
+            <button id="manualModeBtn" type="button" aria-pressed="false"><strong>BUILD MY GUN</strong><span>You pick, the engine builds it</span></button>
           </div>
         </div>
-        <div id="autoRecommendation" class="auto-recommendation"></div>
-        <div id="manualRangeProfiles" class="manual-range-profiles hidden"></div>
 
-        <div class="divider"></div>
-        <div class="step-title"><span>02</span><div><b>TARGET DISTANCE</b><small>Exact distance drives lethality, recoil/spread weighting and the recommended optic tier</small></div></div>
-        <div class="distance-panel">
-          <div class="distance-number"><strong id="distanceValue">25</strong><span>m</span></div>
-          <input id="distanceSlider" type="range" min="1" max="300" step="1" value="25" aria-label="Target distance in meters">
-          <div class="distance-presets" id="distancePresets">
-            <button data-distance="10">10m <span>CQB</span></button>
-            <button class="active" data-distance="25">25m <span>CLOSE</span></button>
-            <button data-distance="50">50m <span>MID</span></button>
-            <button data-distance="100">100m <span>LONG</span></button>
-            <button data-distance="150">150m <span>EXTREME</span></button>
-          </div>
-          <div class="range-note" id="officialRangeNote"></div>
+        <div class="control-block">
+          <div class="control-label"><span>Weapon class</span></div>
+          <nav class="weapon-tabs" id="weaponTabs" aria-label="Weapon class"></nav>
         </div>
 
-        <div class="builder-lower">
-          <div class="field">
-            <label for="classSelect">Class</label>
-            <select id="classSelect">
-              <option value="auto">AUTO — BEST FIT</option>
-              <option value="assault">Assault</option>
-              <option value="engineer">Engineer</option>
-              <option value="support">Support</option>
-              <option value="recon">Recon</option>
-            </select>
+        <div class="control-block" id="weaponPickerBlock" hidden>
+          <div class="control-label"><label for="weaponSelect">Weapon</label><em id="weaponLockNote"></em></div>
+          <select id="weaponSelect" aria-describedby="weaponLockNote"></select>
+        </div>
+
+        <div class="control-block">
+          <div class="control-label">
+            <span id="distanceLabel">Fighting distance</span>
+            <em>One distance drives everything. Presets are shortcuts to the same value.</em>
           </div>
-          <div class="field">
-            <label for="contextSelect">Battle context</label>
-            <select id="contextSelect">
-              <option value="mixed">Mixed / General</option>
-              <option value="infantry">Infantry-heavy</option>
-              <option value="objective">Objective push / hold</option>
-              <option value="vehicles">Vehicle-heavy</option>
-            </select>
+          <div class="distance-panel">
+            <div class="distance-presets" id="distancePresets" role="group" aria-label="Distance shortcuts">
+              <button type="button" data-distance="10" aria-pressed="false">10m</button>
+              <button type="button" data-distance="25" aria-pressed="true" class="active">25m</button>
+              <button type="button" data-distance="50" aria-pressed="false">50m</button>
+              <button type="button" data-distance="100" aria-pressed="false">100m</button>
+              <button type="button" data-distance="150" aria-pressed="false">150m</button>
+              <div class="distance-custom">
+                <label for="distanceCustom">Custom</label>
+                <input id="distanceCustom" type="number" min="1" max="300" step="1" value="25" inputmode="numeric" aria-label="Custom distance in meters">
+                <span>m</span>
+              </div>
+            </div>
+            <div class="distance-readout"><strong id="distanceValue">25</strong><span>m</span></div>
+            <input id="distanceSlider" type="range" min="1" max="300" step="1" value="25" aria-label="Fighting distance in meters">
+            <div class="distance-scale" aria-hidden="true"><span>1m</span><span>150m</span><span>300m</span></div>
+          </div>
+        </div>
+
+        <div class="control-block">
+          <div class="control-label"><span>Priority</span><em id="priorityNote"></em></div>
+          <div class="priority-switch" id="priorityGroup" role="group" aria-label="Optimizer priority">
+            <button type="button" data-priority="balanced" aria-pressed="false"><strong>BALANCED</strong><span>Kill speed + control</span></button>
+            <button type="button" data-priority="fastest" aria-pressed="false"><strong>FASTEST KILL</strong><span>Lowest time to kill</span></button>
           </div>
           <details class="advanced">
             <summary>Advanced priorities</summary>
-            <div class="toggle-grid">
-              <label><input id="stayAds" type="checkbox" checked> Maintain ADS / sight picture</label>
-              <label><input id="movingAds" type="checkbox" checked> Moving ADS accuracy</label>
-              <label><input id="stealth" type="checkbox"> Stealth / suppression</label>
-              <label><input id="bigMag" type="checkbox"> Prefer capacity</label>
+            <div class="advanced-body">
+              <p class="advanced-note">These refine the complete loadout and the on-demand attachment build. They do not change the verified exhaustive winner or the weapon ranking.</p>
+              <div class="advanced-grid">
+                <div class="field">
+                  <label for="classSelect">Player class</label>
+                  <select id="classSelect">
+                    <option value="auto">AUTO — BEST FIT</option>
+                    <option value="assault">Assault</option>
+                    <option value="engineer">Engineer</option>
+                    <option value="support">Support</option>
+                    <option value="recon">Recon</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="contextSelect">Battle context</label>
+                  <select id="contextSelect">
+                    <option value="mixed">Mixed / General</option>
+                    <option value="infantry">Infantry-heavy</option>
+                    <option value="objective">Objective push / hold</option>
+                    <option value="vehicles">Vehicle-heavy</option>
+                  </select>
+                </div>
+              </div>
+              <div class="toggle-grid">
+                <label><input id="stayAds" type="checkbox" checked> Maintain ADS / sight picture</label>
+                <label><input id="movingAds" type="checkbox" checked> Moving ADS accuracy</label>
+                <label><input id="stealth" type="checkbox"> Stealth / suppression</label>
+                <label><input id="bigMag" type="checkbox"> Prefer capacity</label>
+              </div>
             </div>
           </details>
         </div>
 
-        <button id="optimizeBtn" class="primary-action">03&nbsp;&nbsp; BUILD MY LOADOUT</button>
+        <button id="optimizeBtn" class="primary-action" type="button">FIND BEST LOADOUT</button>
+        <p class="live-note" id="liveNote">Results update as you change these settings.</p>
       </section>
 
-      <section id="warningCard" class="warning card hidden"></section>
-
-      <section class="weapon-dashboard card">
-        <div class="dashboard-head">
-          <div>
-            <div class="kicker" id="statsSourceLabel">WEAPON INTELLIGENCE</div>
-            <h2 id="dashboardWeapon">—</h2>
-            <p id="weaponDescription">—</p>
+      <!-- ============ LEVEL 2 — ANSWER ============ -->
+      <section class="answer card" id="answerCard" aria-labelledby="resultWeapon" aria-live="polite">
+        <div class="answer-head">
+          <div class="answer-id">
+            <span class="kicker" id="resultScope">RESULT</span>
+            <h2 id="resultWeapon">—</h2>
+            <p id="resultSubline">—</p>
           </div>
-          <div class="source-badge" id="weaponDataBadge">CHECKING DATA</div>
+          <div class="answer-flags">
+            <span class="confidence-chip" id="confidenceChip">CHECKING DATA</span>
+            <span class="input-stamp" id="inputStamp">—</span>
+          </div>
         </div>
 
-        <div class="combat-numbers" id="combatNumbers"></div>
+        <div class="key-stats" id="keyStats"></div>
+        <div id="officialRangeNote" class="range-note"></div>
 
-        <div class="stat-bars-wrap">
-          <div class="stat-bars-head">
-            <b>WEAPON CHARACTER</b>
-            <span>Relative within weapon class • higher bar = stronger in that characteristic</span>
-          </div>
-          <div id="statBars" class="stat-bars"></div>
-        </div>
-
-        <div class="control-metrics-wrap">
-          <div class="stat-bars-head">
-            <b>LASERBEAM CONTROL / RECOIL</b>
-            <span id="controlSourceNote">Lower mechanical instability is better</span>
-          </div>
-          <div id="controlMetrics" class="control-metrics"></div>
-        </div>
-
-        <div class="raw-strip" id="rawStats"></div>
-      </section>
-
-      <section class="card metric-legend-card">
-        <details open>
-          <summary>HOW TO READ THE NUMBERS / LEGEND</summary>
-          <p class="legend-intro">Arrows show which direction is better. <strong>Laser Score</strong> and <strong>Beam Index</strong> are different measurements and should not be read as the same scale.</p>
-          <div class="legend-grid">
-            <div><b>TRIGGER→KILL ↓</b><span>Lower is better. Trigger pull to lethal bullet impact at the selected distance; includes projectile flight.</span></div>
-            <div><b>MECH TTK ↓</b><span>Lower is better. First damaging hit to lethal hit; excludes projectile flight. A one-shot kill is 0 ms.</span></div>
-            <div><b>BTK ↓</b><span>Lower is better. Bullets or shells required to kill a 100 HP unarmored target.</span></div>
-            <div><b>DAMAGE ↑</b><span>Higher is generally better, but breakpoints matter more than raw damage once BTK is unchanged.</span></div>
-            <div><b>LASER SCORE ↑</b><span>Higher is better, 0–100. Filter-stable Laserbeam efficiency score. Ranking uses a fixed 55/45 percentage tradeoff between Trigger→Kill and Beam Index; changing class filters does not change that tradeoff.</span></div>
-            <div><b>BEAM INDEX ↓</b><span>Lower is better. Absolute mechanical instability index built from recoil, recoil unpredictability and ADS spread at this distance.</span></div>
-            <div><b>ADS RECOIL ↓</b><span>Lower is better. Mechanical recoil magnitude after the winning attachments when exhaustive build data is active.</span></div>
-            <div><b>RECOIL VARIATION ↓</b><span>Lower is better. Directional variation in recoil; more variation means a less repeatable pattern.</span></div>
-            <div><b>UNPREDICTABLE RECOIL ↓</b><span>Lower is better. Portion of recoil converted into unpredictable lateral movement by directional variation.</span></div>
-            <div><b>SUSTAINED ADS SPREAD ↓</b><span>Lower is better. Effective spread while continuing to fire ADS after spread growth and recovery.</span></div>
-            <div><b>MOVING ADS SPREAD ↓</b><span>Lower is better. Minimum ADS spread while moving/strafe-firing.</span></div>
-            <div><b>OPTIC FIT ↑</b><span>Higher is better, 0–100. Range suitability of the selected optic tier; this is an optimizer policy, not claimed magnification data.</span></div>
-            <div><b>VELOCITY ↑</b><span>Higher is generally better. Faster bullets reduce flight time and make moving targets easier to lead.</span></div>
-            <div><b>ADS TIME ↓</b><span>Lower is better. Time to aim down sights.</span></div>
-            <div><b>ROF</b><span>Contextual. Higher fire rate can reduce TTK, but only together with damage, BTK, recoil and spread.</span></div>
-            <div><b>WEAPON CHARACTER BARS ↑</b><span>Higher bar is better relative to other weapons in the same class; these are descriptive bars, not the META score.</span></div>
-          </div>
-        </details>
-      </section>
-
-      <section class="result-grid">
-        <article class="card build-card">
+        <div class="build-block">
           <div class="panel-title">
-            <div><span class="kicker">OPTIMIZED PRIMARY</span><h2 id="buildTitle">—</h2></div>
-            <div class="budget-box"><strong id="pointsUsed">—</strong><span id="pointsLimit">/100</span><small>ATTACHMENT POINTS</small></div>
+            <div><span class="kicker">RECOMMENDED BUILD</span><h3 id="buildTitle">—</h3></div>
+            <div class="budget-box"><strong id="pointsUsed">—</strong><span id="pointsLimit">/100</span><small>POINTS USED</small></div>
           </div>
           <div class="budget-track"><i id="pointsMeter"></i></div>
           <div class="audit-line" id="pointAuditBadge">WAITING FOR DATA</div>
           <div id="attachmentGrid" class="attachment-grid"></div>
-        </article>
-
-        <article class="card why-card">
-          <span class="kicker">WHY THIS BUILD</span>
-          <h2>What changed the decision</h2>
-          <div id="whyList" class="why-list"></div>
-        </article>
-      </section>
-
-      <section class="card full-loadout-card">
-        <div class="panel-title compact-title">
-          <div><span class="kicker">COMPLETE LOADOUT</span><h2 id="classTitle">—</h2></div>
-          <div class="class-fit" id="classFit">AUTO BEST FIT</div>
+          <p class="name-legend" id="nameLegend"></p>
         </div>
-        <div class="loadout-line" id="loadoutLine"></div>
-        <details class="loadout-details">
-          <summary>Why these class / gadget choices?</summary>
-          <div id="loadoutExplanations" class="explanation-grid"></div>
+
+        <div class="why-block">
+          <span class="kicker">WHY THIS WON</span>
+          <p id="whySummary">—</p>
+          <details class="disclosure" id="scoringDetails">
+            <summary>Show full scoring breakdown</summary>
+            <div id="whyList" class="why-list"></div>
+          </details>
+        </div>
+
+        <details class="disclosure" id="advancedStats">
+          <summary>Advanced stats</summary>
+          <div class="disclosure-body">
+            <div class="dashboard-head">
+              <div>
+                <span class="kicker" id="statsSourceLabel">WEAPON INTELLIGENCE</span>
+                <h3 id="dashboardWeapon">—</h3>
+                <p id="weaponDescription">—</p>
+              </div>
+              <div class="source-badge" id="weaponDataBadge">CHECKING DATA</div>
+            </div>
+
+            <div class="combat-numbers" id="combatNumbers"></div>
+
+            <div class="stat-bars-wrap">
+              <div class="stat-bars-head"><b>WEAPON CHARACTER</b><span>Relative within weapon class • higher bar = stronger in that characteristic</span></div>
+              <div id="statBars" class="stat-bars"></div>
+            </div>
+
+            <div class="control-metrics-wrap">
+              <div class="stat-bars-head"><b>LASERBEAM CONTROL / RECOIL</b><span id="controlSourceNote">Lower mechanical instability is better</span></div>
+              <div id="controlMetrics" class="control-metrics"></div>
+            </div>
+
+            <div class="raw-strip" id="rawStats"></div>
+
+            <details class="disclosure nested">
+              <summary>How to read the numbers</summary>
+              <div class="legend-grid">
+                <div><b>TRIGGER→KILL ↓</b><span>Lower is better. Trigger pull to lethal bullet impact at the selected distance; includes projectile flight.</span></div>
+                <div><b>MECH TTK ↓</b><span>Lower is better. First damaging hit to lethal hit; excludes projectile flight. A one-shot kill is 0 ms.</span></div>
+                <div><b>BTK ↓</b><span>Lower is better. Bullets or shells required to kill a 100 HP unarmored target.</span></div>
+                <div><b>DAMAGE ↑</b><span>Higher is generally better, but breakpoints matter more than raw damage once BTK is unchanged.</span></div>
+                <div><b>LASER SCORE ↑</b><span>Higher is better, 0–100. Filter-stable Laserbeam efficiency score. Ranking uses a fixed 55/45 percentage tradeoff between Trigger→Kill and Beam Index; changing class filters does not change that tradeoff.</span></div>
+                <div><b>BEAM INDEX ↓</b><span>Lower is better. Absolute mechanical instability index built from recoil, recoil unpredictability and ADS spread at this distance.</span></div>
+                <div><b>ADS RECOIL ↓</b><span>Lower is better. Mechanical recoil magnitude after the winning attachments when exhaustive build data is active.</span></div>
+                <div><b>RECOIL VARIATION ↓</b><span>Lower is better. Directional variation in recoil; more variation means a less repeatable pattern.</span></div>
+                <div><b>UNPREDICTABLE RECOIL ↓</b><span>Lower is better. Portion of recoil converted into unpredictable lateral movement by directional variation.</span></div>
+                <div><b>SUSTAINED ADS SPREAD ↓</b><span>Lower is better. Effective spread while continuing to fire ADS after spread growth and recovery.</span></div>
+                <div><b>MOVING ADS SPREAD ↓</b><span>Lower is better. Minimum ADS spread while moving/strafe-firing.</span></div>
+                <div><b>OPTIC FIT ↑</b><span>Higher is better, 0–100. Range suitability of the selected optic tier; this is an optimizer policy, not claimed magnification data.</span></div>
+                <div><b>VELOCITY ↑</b><span>Higher is generally better. Faster bullets reduce flight time and make moving targets easier to lead.</span></div>
+                <div><b>ADS TIME ↓</b><span>Lower is better. Time to aim down sights.</span></div>
+                <div><b>ROF</b><span>Contextual. Higher fire rate can reduce TTK, but only together with damage, BTK, recoil and spread.</span></div>
+                <div><b>WEAPON CHARACTER BARS ↑</b><span>Higher bar is better relative to other weapons in the same class; these are descriptive bars, not the META score.</span></div>
+              </div>
+            </details>
+          </div>
         </details>
       </section>
 
+      <!-- ============ ALTERNATIVES ============ -->
+      <section class="card alternatives-card" id="alternativesCard">
+        <div class="panel-title compact-title">
+          <div><span class="kicker">ALTERNATIVES</span><h3 id="alternativesTitle">Runners-up at this distance</h3></div>
+        </div>
+        <div id="alternativesList" class="alternatives-list"></div>
+      </section>
+
+      <!-- ============ SECONDARY ============ -->
       <section class="card secondary-card">
         <div class="panel-title">
-          <div><span class="kicker">SECONDARY</span><h2 id="secondaryTitle">—</h2></div>
+          <div><span class="kicker">SECONDARY</span><h3 id="secondaryTitle">—</h3></div>
           <div class="budget-box secondary-budget"><strong id="secondaryPointsUsed">—</strong><span>/60</span><small>SIDEARM POINTS</small></div>
         </div>
         <p id="secondaryWhy" class="secondary-why">—</p>
@@ -200,20 +225,37 @@
         <div id="secondaryAttachmentGrid" class="attachment-grid compact"></div>
       </section>
 
-      <section class="card data-method">
-        <span class="kicker">DATA STATUS</span>
-        <h2>Show uncertainty instead of hiding it.</h2>
-        <div class="method-grid">
-          <div><span>LIVE GAME</span><strong>1.4.2.5</strong><small>Current Sep 1 build gate</small></div>
-          <div><span>CATALOG</span><strong>63 / 63 weapons</strong><small>56 primaries + 7 secondaries; always visible</small></div>
-          <div><span>PRIMARY BUDGET</span><strong>100 points</strong><small>Hard cap</small></div>
-          <div><span>SECONDARY BUDGET</span><strong>60 points</strong><small>Different from primaries</small></div>
+      <!-- ============ COMPLETE LOADOUT ============ -->
+      <section class="card full-loadout-card">
+        <div class="panel-title compact-title">
+          <div><span class="kicker">COMPLETE LOADOUT</span><h3 id="classTitle">—</h3></div>
+          <div class="class-fit" id="classFit">AUTO BEST FIT</div>
         </div>
-        <p class="method-note">AUTO uses LASERBEAM META: a pool-stable percentage utility of 55% exact-distance trigger→kill lethality and 45% transformed recoil/spread controllability. Optic tiers are also range-gated so a cheap close-range sight cannot win a long-range build simply by saving Pick points. Weapons more than 25% off the fastest kill pace receive an additional penalty. Mechanical TTK remains visible separately. Exhaustive builds use the Analyzer's attachment transforms, recoil amount, directional variation and effective ADS spread; missing audited data fails closed.</p>
+        <div class="loadout-line" id="loadoutLine"></div>
+        <details class="disclosure">
+          <summary>Why these class / gadget choices?</summary>
+          <div id="loadoutExplanations" class="explanation-grid"></div>
+        </details>
       </section>
+
+      <!-- ============ LEVEL 3 — DATA &amp; AUDIT ============ -->
+      <section class="card data-audit-card">
+        <details id="dataAudit">
+          <summary><span class="kicker">DATA &amp; AUDIT</span><b id="dataAuditHeadline">Data status</b></summary>
+          <div class="disclosure-body">
+            <div class="method-grid" id="methodGrid"></div>
+            <div id="provenanceGrid" class="provenance-grid"></div>
+            <div id="warningCard" class="warning hidden"></div>
+            <div id="manualRangeProfiles" class="manual-range-profiles hidden"></div>
+            <p class="method-note">AUTO uses LASERBEAM META: a pool-stable percentage utility of 55% exact-distance trigger→kill lethality and 45% transformed recoil/spread controllability. Optic tiers are range-gated so a cheap close-range sight cannot win a long-range build simply by saving Pick points. Weapons more than 25% off the fastest kill pace receive an additional penalty. Mechanical TTK remains visible separately. Exhaustive builds use the Analyzer's attachment transforms, recoil amount, directional variation and effective ADS spread; missing audited data fails closed. Community tier lists, popularity and creator recommendations are never inputs.</p>
+            <p class="method-note">Attachment display-name verification is a separate concern from optimization. Name confidence never changes attachment candidates, modifiers, point costs, budgets or ranking.</p>
+          </div>
+        </details>
+      </section>
+
     </main>
 
-    <footer>Unofficial fan tool • Not affiliated with EA or Battlefield Studios • Multiplayer is the current optimization target</footer>
+    <footer>BF6 Weapons Lab • Unofficial fan tool • Not affiliated with EA or Battlefield Studios • Multiplayer is the current optimization target</footer>
   </div>
 
   <script src="./roster-data.js"></script>

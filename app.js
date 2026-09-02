@@ -16,7 +16,14 @@
     category: "__all__",
     weaponId: null,
     selectionMode: "auto",
+    // One canonical fighting distance in meters. The slider, the preset
+    // shortcuts and the custom numeric input all write this single value, and
+    // the optimizer always reads exactly this value. There is deliberately no
+    // parallel preset/slider/optimizer distance that could drift apart.
     distance: 25,
+    // "auto" keeps each mode's historical strategy default. PRIORITY only ever
+    // selects between the two strategies the engine already implements.
+    priority: "auto",
     classChoice: "auto",
     context: "mixed",
     rawWeapons: [],
@@ -32,7 +39,9 @@
     sniperAudit: null,
     sidearmAudit: null,
     shotgunAudit: null,
-    source: { weapons: "loading", attachments: "loading", ammo: "loading", ballistics: "loading", combat: "loading", assaultAudit: "loading", carbineAudit: "loading", smgAudit: "loading", lmgAudit: "loading", dmrAudit: "loading", sniperAudit: "loading", sidearmAudit: "loading", shotgunAudit: "loading" }
+    // Display-only attachment naming audit. Never read by the optimizer.
+    nameAudit: null,
+    source: { weapons: "loading", attachments: "loading", ammo: "loading", ballistics: "loading", combat: "loading", assaultAudit: "loading", carbineAudit: "loading", smgAudit: "loading", lmgAudit: "loading", dmrAudit: "loading", sniperAudit: "loading", sidearmAudit: "loading", shotgunAudit: "loading", nameAudit: "loading" }
   };
 
   const CATALOG_KEYS = {
@@ -438,6 +447,95 @@
     }
   }
 
+  // ---------------------------------------------------------------------------
+  // Attachment display-name verification.
+  //
+  // Loaded and applied strictly as presentation metadata. It is never consulted
+  // by buildOptions(), scoreOption(), optimize(), cachedBuild() or any ranking
+  // function, so an unverified name can never remove an attachment from
+  // candidate evaluation, change its point cost or modifiers, or reorder a
+  // build. Identity stays the attachmentId; the display string is separate.
+  // ---------------------------------------------------------------------------
+  async function loadAttachmentNameAudit() {
+    try {
+      const audit = await fetchJson("./data/attachment-name-audit.json", 4000);
+      if (audit?.attachments && audit.affectsOptimizer === false) {
+        const byKey = new Map();
+        for (const rec of audit.attachments) byKey.set(`${rec.internalType}:${rec.attachmentId}`, rec);
+        state.nameAudit = { ...audit, byKey };
+        state.source.nameAudit = "loaded";
+        return state.nameAudit;
+      }
+      state.source.nameAudit = "invalid";
+      return null;
+    } catch (_) {
+      state.source.nameAudit = "failed";
+      return null;
+    }
+  }
+
+  function nameRecord(opt) {
+    if (!opt || !state.nameAudit) return null;
+    return state.nameAudit.byKey.get(`${opt.slot}:${opt.id}`)
+      ?? state.nameAudit.attachments.find(r => r.attachmentId === opt.id)
+      ?? null;
+  }
+
+  const NAME_STATUS_UI = {
+    VERIFIED_EXACT: { chip: "EXACT BF6 NAME", cls: "ok", note: "Exact Battlefield 6 attachment name, carried verbatim from the pinned verified source." },
+    UNVERIFIED: { chip: "NAME UNVERIFIED", cls: "warn", note: "Exact attachment name pending verification. The mechanics, point cost and ranking of this attachment are unaffected." },
+    INTERNAL_PLACEHOLDER: { chip: "CATEGORY LABEL", cls: "warn", note: "Internal category/tier label, not a verified Battlefield 6 attachment name." },
+    MISMATCH: { chip: "NAME CONFLICT", cls: "bad", note: "Sources disagree about this attachment's exact name. The conflict is left visible rather than guessed." },
+    PENDING: { chip: "NAME AUDIT PENDING", cls: "", note: "The attachment naming audit has not loaded, so name confidence is unknown." }
+  };
+
+  /**
+   * Resolve what to show for an attachment. The verified exact BF6 name wins
+   * when one exists; otherwise the current source string is shown as-is and
+   * visibly marked unverified. Nothing here is ever tidied up or simplified.
+   */
+  function attachmentDisplay(opt) {
+    const rec = nameRecord(opt);
+    const fallback = opt?.name || prettifyId(opt?.id);
+    if (!rec) return { name: fallback, status: "PENDING", ui: NAME_STATUS_UI.PENDING, record: null };
+    const name = rec.verificationStatus === "VERIFIED_EXACT" && rec.verifiedExactName ? rec.verifiedExactName : rec.currentDisplayName || fallback;
+    return { name, status: rec.verificationStatus, ui: NAME_STATUS_UI[rec.verificationStatus] ?? NAME_STATUS_UI.PENDING, record: rec };
+  }
+
+  /** Build-level naming confidence. Display only; the build itself is unchanged. */
+  function buildNameConfidence(picks) {
+    const real = (picks || []).filter(p => p.id !== "none");
+    if (!state.nameAudit) return { level: "PENDING", label: "NAME AUDIT PENDING", cls: "", verified: 0, total: real.length };
+    const statuses = real.map(p => attachmentDisplay(p).status);
+    const verified = statuses.filter(s => s === "VERIFIED_EXACT").length;
+    if (statuses.includes("MISMATCH")) return { level: "UNVERIFIED", label: "NAME CONFLICT", cls: "bad", verified, total: real.length };
+    if (!real.length || verified === real.length) return { level: "VERIFIED", label: "NAMES VERIFIED", cls: "ok", verified, total: real.length };
+    if (verified === 0) return { level: "UNVERIFIED", label: "NAMES UNVERIFIED", cls: "warn", verified, total: real.length };
+    return { level: "PARTIALLY_VERIFIED", label: "PARTIALLY VERIFIED", cls: "warn", verified, total: real.length };
+  }
+
+  // ---------------------------------------------------------------------------
+  // PRIORITY. The engine implements exactly two attachment/ranking strategies
+  // and this control exposes those and nothing else. No new weights, penalties
+  // or scoring components are introduced to support a simpler label.
+  //   BALANCED     -> "laserbeam": pool-stable 55% trigger->kill / 45% Beam Index
+  //   FASTEST KILL -> "lethal":    strict trigger->kill first, Beam breaks ties
+  // ---------------------------------------------------------------------------
+  const PRIORITY_STRATEGY = { balanced: "laserbeam", fastest: "lethal" };
+
+  function defaultStrategy() {
+    return state.selectionMode === "manual" ? "lethal" : "laserbeam";
+  }
+
+  function activeStrategy() {
+    return PRIORITY_STRATEGY[state.priority] ?? defaultStrategy();
+  }
+
+  function activePriorityKey() {
+    if (state.priority !== "auto") return state.priority;
+    return defaultStrategy() === "lethal" ? "fastest" : "balanced";
+  }
+
   async function loadData() {
     // Deliberately independent. One bad source must never erase the catalog or the other data.
     const [weapons, attachments, ammo, ballistics] = await Promise.all([
@@ -448,7 +546,7 @@
     state.attachments = attachments && typeof attachments === "object" ? attachments : null;
     state.ammo = ammo && typeof ammo === "object" ? ammo : null;
     state.ballistics = ballistics && typeof ballistics === "object" ? ballistics : null;
-    await Promise.all([loadCombatCache(), loadAssaultAudit(), loadCarbineAudit(), loadSmgAudit(), loadLmgAudit(), loadDmrAudit(), loadSniperAudit(), loadSidearmAudit(), loadShotgunAudit()]);
+    await Promise.all([loadCombatCache(), loadAssaultAudit(), loadCarbineAudit(), loadSmgAudit(), loadLmgAudit(), loadDmrAudit(), loadSniperAudit(), loadSidearmAudit(), loadShotgunAudit(), loadAttachmentNameAudit()]);
 
     const matched = CURRENT.roster.filter(r => rawForRoster(r)).length;
     if (state.rawWeapons.length) setChip("statsChip", `STATS ${matched}/${CURRENT.roster.length}`, matched >= 60 ? "ok" : "warn");
@@ -461,7 +559,9 @@
         return !!def && audit?.crossClassEligible !== false && def.confidence !== "empirical-current";
       }).length;
       const empirical = primaries.filter(w => auditedDefForRoster(w,rawForRoster(w))?.confidence === "empirical-current").length;
-      setChip("rosterChip", `ROSTER ${CURRENT.roster.length}/${CURRENT.rosterCount} • VERIFIED ${fullyVerified}/56${empirical ? ` • EMPIRICAL ${empirical}` : ""}`, "ok");
+      setChip("rosterChip", `ROSTER ${CURRENT.roster.length}/${CURRENT.rosterCount} • VERIFIED ${fullyVerified}/${primaries.length}${empirical ? ` • EMPIRICAL ${empirical}` : ""}`, "ok");
+    } else {
+      setChip("rosterChip", `ROSTER ${CURRENT.roster.length}/${CURRENT.rosterCount}`, CURRENT.roster.length === CURRENT.rosterCount ? "ok" : "warn");
     }
 
     if (state.combatCache) {
@@ -1351,15 +1451,36 @@
     box.innerHTML = rows.map(([k,v,sub]) => `<div class="control-metric"><span>${k}</span><strong>${v}</strong><small>${sub}</small></div>`).join("");
   }
 
-  function renderWeaponIntel(roster, raw) {
-    $("dashboardWeapon").textContent = roster.name;
-    $("weaponDescription").textContent = roster.desc || "Current BF6 weapon catalog entry.";
-    const badge = $("weaponDataBadge");
+  /**
+   * Single resolution of the combat row the UI displays, shared by the headline
+   * key stats and the Advanced Stats panel so the two can never disagree. This
+   * only selects between values the engine already produced; it performs no new
+   * combat math of its own.
+   */
+  function resolveDisplayCombat(roster, raw) {
     const classAudit = auditForClass(roster.cls);
     const auditDef = auditedDefForRoster(roster, raw);
     const audited = auditedRosterCombat(roster, raw, state.distance);
-    const detailStrategy = state.selectionMode === "manual" ? "lethal" : "laserbeam";
+    // PRIORITY resolves to one of the two strategies the engine already has;
+    // with the default "auto" priority this is exactly the historical per-mode
+    // strategy, so the detail panel keeps agreeing with the recommendation.
+    const detailStrategy = activeStrategy();
     const cached = raw ? cachedCombat(raw, state.distance, detailStrategy) : null;
+    // A validated exhaustive winner is authoritative, then the independent class
+    // audit, then raw data only when no audited path exists.
+    let c = cached || audited || (raw && !classAudit ? combatAtDistance(raw, state.distance) : null);
+    const optimized = c && raw && !cached ? auditedClassOptimized(raw, state.distance) : null;
+    const cachedStats = raw ? cachedWinningStats(raw, state.distance, detailStrategy) : null;
+    const displayVelocity = c ? Number(cachedStats?.bulletVel ?? (roster.cls === "DMR" ? auditDef?.equippedVelocity : null) ?? c.bulletVel ?? raw?.bulletVel ?? auditDef?.bulletVel) : NaN;
+    if (c && !Number.isFinite(Number(c.triggerTtk))) c = addTriggerKill(roster, raw, c, state.distance, "standard", displayVelocity);
+    return { classAudit, auditDef, audited, cached, cachedStats, optimized, displayVelocity, combat: c, strategy: detailStrategy };
+  }
+
+  function renderWeaponIntel(roster, raw, resolved = resolveDisplayCombat(roster, raw)) {
+    $("dashboardWeapon").textContent = roster.name;
+    $("weaponDescription").textContent = roster.desc || "Current BF6 weapon catalog entry.";
+    const badge = $("weaponDataBadge");
+    const { classAudit, auditDef, audited, cached, optimized } = resolved;
 
     if (!raw && !audited) {
       badge.textContent = "STATS DATA PENDING";
@@ -1382,10 +1503,7 @@
       badge.className = ver && ver !== CURRENT.liveVersion ? "source-badge warn" : "source-badge ok";
     }
 
-    // Keep the detail panel consistent with AUTO: a validated exhaustive winner
-    // is authoritative, then the independent class audit, then raw data only for
-    // manual inspection when no audited path exists.
-    let c = cached || audited || (raw && !classAudit ? combatAtDistance(raw, state.distance) : null);
+    const c = resolved.combat;
     if (!c) {
       $("combatNumbers").innerHTML = emptyStats("The audited combat model is not available for this exact weapon yet.");
       $("statBars").innerHTML = "";
@@ -1393,10 +1511,6 @@
       renderControlMetrics(roster, raw, null);
       return;
     }
-    const optimized = raw && !cached ? auditedClassOptimized(raw, state.distance) : null;
-    const cachedStats = raw ? cachedWinningStats(raw, state.distance, detailStrategy) : null;
-    const displayVelocity = Number(cachedStats?.bulletVel ?? (roster.cls === "DMR" ? auditDef?.equippedVelocity : null) ?? c.bulletVel ?? raw?.bulletVel ?? auditDef?.bulletVel);
-    if (!Number.isFinite(Number(c.triggerTtk))) c = addTriggerKill(roster, raw, c, state.distance, "standard", displayVelocity);
     const damageLabel = c.pellets > 1 ? "MAX SHELL" : "CHEST DMG";
     const damageSub = c.pellets > 1 ? `${c.pelletDamage?.toFixed(1) ?? "—"} × ${c.pellets} pellets @ ${state.distance}m` : `@ ${state.distance}m`;
     const mechText = c.ttk == null ? "—" : c.btk === 1 ? "0 ms" : `${Math.round(c.ttk)} ms`;
@@ -1449,32 +1563,41 @@
     return `<div class="combat-stat" style="grid-column:1/-1"><span>DATA STATUS</span><strong style="font-size:15px">PENDING</strong><small>${escapeHtml(message)}</small></div>`;
   }
 
-  function renderPrimaryBuild(roster, raw) {
+  function renderPrimaryBuild(roster, raw, resolved = null, ranked = []) {
+    // Budget comes from the engine, never from a hardcoded number.
+    const budget = raw ? budgetFor(raw) : budgetFor(roster);
     $("buildTitle").textContent = `${roster.name} • ${state.distance}m`;
-    $("pointsLimit").textContent = "/100";
-    if (!raw || !state.attachments || !state.ammo) return renderBuildPending("primary", raw ? "Attachment/ammo feed unavailable." : "Weapon stats/compatibility are not in the current source yet.");
+    $("pointsLimit").textContent = `/${budget}`;
+    if (!raw || !state.attachments || !state.ammo) {
+      renderBuildPending("primary", raw ? "Attachment/ammo feed unavailable." : "Weapon stats/compatibility are not in the current source yet.");
+      $("whySummary").textContent = "No build is available for this weapon yet, so no reason is claimed.";
+      return null;
+    }
 
     try {
-      const result = optimize(raw, state.distance, state.selectionMode === "manual" ? "lethal" : "laserbeam");
+      const result = optimize(raw, state.distance, activeStrategy());
       $("pointsUsed").textContent = result.points;
-      $("pointsMeter").style.width = `${result.points}%`;
+      $("pointsMeter").style.width = `${Math.min(100, result.points / budget * 100)}%`;
       const audit = $("pointAuditBadge");
       if (result.exhaustive) {
         const sight=result.picks.find(x=>x.slot==="sight");
         const fit=Number(result.combat?.opticFit ?? (sight ? opticRangeFit(sight.id,state.distance) : NaN));
-        audit.textContent = `VERIFIED RANGE BUILD • ${result.points}/100 • ${sight?.name || prettifyId(sight?.id) || "OPTIC"}${Number.isFinite(fit)?` • OPTIC FIT ${Math.round(fit)}/100`:""} • ${state.distance}m`;
+        audit.textContent = `VERIFIED RANGE BUILD • ${result.points}/${budget} • ${sight ? attachmentDisplay(sight).name : "OPTIC"}${Number.isFinite(fit)?` • OPTIC FIT ${Math.round(fit)}/100`:""} • ${state.distance}m`;
         audit.className = "audit-line ok";
       } else {
-        audit.textContent = `ON-DEMAND BUILD • ${result.points}/100 • EXHAUSTIVE LETHALITY CACHE PENDING`;
+        audit.textContent = `ON-DEMAND BUILD • ${result.points}/${budget} • EXHAUSTIVE LETHALITY CACHE PENDING`;
         audit.className = "audit-line";
       }
       $("attachmentGrid").innerHTML = result.picks
         .filter(x => x.id !== "none")
         .map(opt => attachmentCard(opt)).join("");
-      renderWhy(raw, result);
+      renderWhy(raw, result, roster, ranked);
+      const summary = $("whySummary");
+      if (summary) summary.textContent = whySummary(roster, resolved, result, ranked);
       return result;
     } catch (err) {
       renderBuildPending("primary", err.message);
+      $("whySummary").textContent = "No build could be produced, so no reason is claimed.";
       return null;
     }
   }
@@ -1486,7 +1609,7 @@
       $("pointAuditBadge").textContent = "BUILD DATA PENDING • NO POINTS GUESSED";
       $("pointAuditBadge").className = "audit-line bad";
       $("attachmentGrid").innerHTML = `<div class="attachment-card" style="grid-column:1/-1"><span>DATA STATUS</span><strong>No fabricated build</strong><small>${escapeHtml(reason)}</small></div>`;
-      $("whyList").innerHTML = `<div class="why-item"><strong>Why no build?</strong><span>${escapeHtml(reason)} The 63-gun catalog remains intact while build data catches up.</span></div>`;
+      $("whyList").innerHTML = `<div class="why-item"><strong>Why no build?</strong><span>${escapeHtml(reason)} The ${CURRENT.roster.length}-weapon catalog remains intact while build data catches up.</span></div>`;
     } else {
       $("secondaryPointsUsed").textContent = "—";
       $("secondaryPointsMeter").style.width = "0%";
@@ -1496,11 +1619,49 @@
     }
   }
 
+  /**
+   * Attachment card. The exact BF6 name is shown verbatim when verified; an
+   * unverified or internal label is shown exactly as the source provides it and
+   * is visibly marked, never cleaned up, simplified or swapped for a guess.
+   */
   function attachmentCard(opt) {
-    return `<div class="attachment-card"><span>${escapeHtml(SLOT_LABELS[opt.slot] || opt.slot)}<b>${pointCost(opt)}p</b></span><strong>${escapeHtml(opt.name || prettifyId(opt.id))}</strong><small>${escapeHtml(attachmentNote(opt))}</small></div>`;
+    const d = attachmentDisplay(opt);
+    const flag = d.status === "VERIFIED_EXACT" ? "" :
+      `<em class="name-flag ${d.ui.cls}" title="${escapeHtml(d.ui.note)}">${escapeHtml(d.ui.chip)}</em>`;
+    return `<div class="attachment-card${d.status === "VERIFIED_EXACT" ? "" : " unverified-name"}">` +
+      `<span>${escapeHtml(SLOT_LABELS[opt.slot] || opt.slot)}<b>${pointCost(opt)}p</b></span>` +
+      `<strong>${escapeHtml(d.name)}</strong>${flag}` +
+      `<small>${escapeHtml(attachmentNote(opt))}</small></div>`;
   }
 
-  function renderWhy(raw, result) {
+  /**
+   * Full scoring breakdown. Every row is a value the ranking or the winning
+   * build actually produced; nothing is asserted to have "changed the decision"
+   * unless the underlying number exists.
+   */
+  function scoringFactors(roster, result, ranked) {
+    const rows = [];
+    const me = ranked.find(x => x.roster.id === roster?.id);
+    const c = result?.combat || me?.combat;
+    if (me) {
+      if (Number.isFinite(Number(me.laserScore))) rows.push({ title: "Laser Score (higher is better)", text: `${Math.round(me.laserScore)}/100. Pool-stable efficiency score: 55% exact-distance trigger→kill and 45% Beam Index, measured against the same global reference pool for every class filter.` });
+      if (Number.isFinite(Number(me.metaCost))) rows.push({ title: "Ranking cost (lower is better)", text: `${Number(me.metaCost).toFixed(3)} = triggerTtk^0.55 × BeamIndex^0.45${me.offPace ? " × 1.35 off-pace penalty" : ""}.` });
+      rows.push({ title: "Kill-pace penalty", text: me.offPace
+        ? "Applied. This weapon is more than 25% (+10 ms) slower than the fastest trigger→kill in the reference pool, so its ranking cost carries a fixed 35% penalty."
+        : "Not applied. This weapon is within 25% (+10 ms) of the fastest trigger→kill in the reference pool." });
+      if (Number.isFinite(Number(me.beamIndex))) rows.push({ title: "Beam Index (lower is better)", text: `${Number(me.beamIndex).toFixed(3)}. Absolute mechanical instability from recoil magnitude, directional variation and effective ADS spread at ${state.distance}m.` });
+    }
+    if (c) {
+      if (Number.isFinite(Number(c.triggerTtk))) rows.push({ title: "Trigger→Kill", text: `${Math.round(c.triggerTtk)} ms at ${state.distance}m${Number.isFinite(Number(c.flightMs)) ? `, of which ${Math.round(c.flightMs)} ms is projectile flight (${c.ballisticsExact ? "verified" : "provisional"} BF6 drag)` : ""}.` });
+      if (Number.isFinite(Number(c.ttk))) rows.push({ title: "Mechanical TTK", text: `${c.btk === 1 ? "0 ms — one shot" : `${Math.round(c.ttk)} ms`}. First damaging chest hit to lethal chest hit; projectile flight excluded.` });
+      if (Number.isFinite(Number(c.opticFit))) rows.push({ title: "Optic fit", text: `${Math.round(c.opticFit)}/100 for ${state.distance}m${c.opticEligible === false ? " — below the range-eligibility gate" : ""}. This is an optimizer policy over the source's optic tiers, not claimed magnification data.` });
+      if (Number.isFinite(Number(c.effectiveAdsSpreadDeg))) rows.push({ title: "Sustained ADS spread", text: `${Number(c.effectiveAdsSpreadDeg).toFixed(3)}° after spread growth and recovery, with ${Number(c.recoil ?? NaN).toFixed(3)} recoil and ${Number(c.recoilVariationDeg ?? NaN).toFixed(1)}° directional variation on the winning build.` });
+    }
+    if (result) rows.push({ title: "Point budget", text: `${result.points} of ${result.audit?.budget ?? "—"} points spent across ${result.picks.filter(p => p.id !== "none").length} attachments. The budget is a hard cap and the build is re-checked against it after selection.` });
+    return rows;
+  }
+
+  function renderWhy(raw, result, roster = rosterWeapon(), ranked = []) {
     const top = [...result.picks].filter(x => x.id !== "none").sort((a, b) => b.score - a.score).slice(0, 5);
     const items = [{
       title: state.selectionMode === "manual" ? "Weapon locked — attachments only" : "Lethality first",
@@ -1512,8 +1673,10 @@
     }, {
       title: `${state.distance}m target distance`,
       text: distanceExplanation(state.distance)
-    }, ...top.filter(x => x.score > 0).map(x => ({ title: x.name || prettifyId(x.id), text: attachmentNote(x) }))];
-    $("whyList").innerHTML = items.slice(0, 6).map(x => `<div class="why-item"><strong>${escapeHtml(x.title)}</strong><span>${escapeHtml(x.text)}</span></div>`).join("");
+    },
+    ...scoringFactors(roster, result, ranked),
+    ...top.filter(x => x.score > 0).map(x => ({ title: attachmentDisplay(x).name, text: attachmentNote(x) }))];
+    $("whyList").innerHTML = items.map(x => `<div class="why-item"><strong>${escapeHtml(x.title)}</strong><span>${escapeHtml(x.text)}</span></div>`).join("");
   }
 
   function distanceExplanation(d) {
@@ -1612,13 +1775,19 @@
 
     if (!raw || !state.attachments || !state.ammo) return renderBuildPending("secondary", raw ? "Attachment/ammo feed unavailable." : "Exact sidearm attachment data unavailable.");
     try {
+      // The sidearm budget is independent of the primary budget and comes from
+      // the same engine rule, not a hardcoded number.
+      const sidearmBudget = budgetFor(raw);
       const result = optimize(raw, target, "laserbeam");
       $("secondaryPointsUsed").textContent = result.points;
-      $("secondaryPointsMeter").style.width = `${Math.min(100, result.points / 60 * 100)}%`;
+      $("secondaryPointsMeter").style.width = `${Math.min(100, result.points / sidearmBudget * 100)}%`;
       const sidearmGate = state.sidearmAudit?.pass ? ` • TTK AUDITED ${state.sidearmAudit.gameVersion}` : " • TTK AUDIT PENDING";
-      $("secondaryAudit").textContent = `POINT MATH PASS • ${result.points}/60 • SIDEARM BUDGET${sidearmGate}`;
+      const names = buildNameConfidence(result.picks);
+      $("secondaryAudit").textContent = `POINT MATH PASS • ${result.points}/${sidearmBudget} • SIDEARM BUDGET${sidearmGate}${names.total ? ` • NAMES ${names.verified}/${names.total} EXACT` : ""}`;
       $("secondaryAudit").className = "audit-line ok";
       $("secondaryAttachmentGrid").innerHTML = result.picks.filter(x => x.id !== "none").map(attachmentCard).join("");
+      const limit = document.querySelector("#secondaryPointsUsed + span");
+      if (limit) limit.textContent = `/${sidearmBudget}`;
     } catch (err) {
       renderBuildPending("secondary", err.message);
     }
@@ -1675,26 +1844,11 @@
     }
   }
 
-  function renderAutoRecommendation() {
-    const box = $("autoRecommendation");
-    if (!box) return;
-    const ranked = rankWeapons(state.category, state.distance);
-    if (state.selectionMode !== "auto") {
-      box.className = "auto-recommendation manual";
-      box.innerHTML = `<div><span>BUILD MY GUN • WEAPON LOCKED</span><strong>${escapeHtml(rosterWeapon()?.name || "—")}</strong><small>The gun cannot be replaced by AUTO. Change distance freely and the engine re-optimizes only this weapon's legal attachments for kill speed + laserbeam control. Use AUTO META above when you want the engine to choose the weapon too.</small></div>`;
-      return;
-    }
-    if (!ranked.length) {
-      box.className = "auto-recommendation warn";
-      box.innerHTML = `<div><span>AUTO RANKING WAITING</span><strong>Weapon stats are not available yet</strong><small>The complete catalog remains selectable manually.</small></div>`;
-      return;
-    }
-    const leader=ranked[0];
-    const scope = state.category === "__all__" ? "VERIFIED CLASSES ONLY" : state.category.toUpperCase();
-    const top = ranked.slice(0,3).map((x,i)=>`<div class="rank-chip ${i===0?'winner':''}"><span>#${i+1}</span><b>${escapeHtml(x.roster.name)}</b><small>${Number.isFinite(Number(x.combat.triggerTtk)) ? `${Math.round(x.combat.triggerTtk)}ms TTK • Laser ${Math.round(x.laserScore ?? x.metaScore ?? 0)}/100` : "TTK pending"}${x.combat.btk === 1 ? " • 1 shot" : ""} • ${fmtDamage(x.combat.damage)} dmg</small></div>`).join("");
-    box.className = "auto-recommendation";
-    box.innerHTML = `<div class="auto-main"><span>AUTO BEST • ${escapeHtml(scope)} • ${state.distance}M</span><strong>${escapeHtml(leader.roster.name)}</strong><small>Laserbeam meta: pool-stable 55% exact-distance lethality + 45% recoil/spread controllability. Laser Score is higher-better; Beam Index is lower-better. A gun more than 25% off the fastest kill pace is penalized. Community tier lists/popularity are not inputs. ${state.combatCache ? "Exhaustive ballistic cache active." : "Audited ballistic fallback active."} ${ranked.length}/${state.category === "__all__" ? ranked.length : categoryRoster().length} weapons are currently in this ranking. Cross-class AUTO remains gated to audited classes.</small></div><div class="rank-row">${top}</div>`;
-  }
+  // ===========================================================================
+  // LEVEL 2 — THE ANSWER
+  // The result section states what to use before any diagnostics. Every value
+  // here comes from live application state; nothing is hardcoded.
+  // ===========================================================================
 
   function fmtDamage(v) {
     if (!Number.isFinite(Number(v))) return "—";
@@ -1702,16 +1856,279 @@
     return n.toFixed(n%1?1:0);
   }
 
-  function renderModeSwitch() {
-    const autoBtn=$("autoModeBtn"), manualBtn=$("manualModeBtn");
-    if (autoBtn) autoBtn.classList.toggle("active", state.selectionMode === "auto");
-    if (manualBtn) manualBtn.classList.toggle("active", state.selectionMode === "manual");
-    const action=$("optimizeBtn");
-    if (action) action.innerHTML = state.selectionMode === "manual"
-      ? `03&nbsp;&nbsp; OPTIMIZE ${escapeHtml(rosterWeapon()?.name || "MY GUN").toUpperCase()} @ ${state.distance}M`
-      : `03&nbsp;&nbsp; BUILD META LOADOUT @ ${state.distance}M`;
+  function fmtMs(v) {
+    return Number.isFinite(Number(v)) ? `${Math.round(Number(v))} ms` : "—";
   }
 
+  function scopeLabel() {
+    return state.category === "__all__"
+      ? (state.selectionMode === "manual" ? "ALL PRIMARIES" : "ALL VERIFIED CLASSES")
+      : tabLabel(state.category).toUpperCase();
+  }
+
+  function priorityLabel() {
+    return activePriorityKey() === "fastest" ? "FASTEST KILL" : "BALANCED";
+  }
+
+  /** Compact restatement of the inputs this result was produced from. */
+  function renderInputStamp() {
+    const el = $("inputStamp");
+    if (!el) return;
+    el.textContent = `${state.selectionMode === "manual" ? "BUILD MY GUN" : "AUTO META"} • ${scopeLabel()} • ${state.distance}m • ${priorityLabel()}`;
+  }
+
+  function renderAnswerHeadline(roster, ranked) {
+    const scopeEl = $("resultScope"), nameEl = $("resultWeapon"), subEl = $("resultSubline");
+    if (!scopeEl || !nameEl || !subEl) return;
+    if (!roster) {
+      scopeEl.textContent = "RESULT";
+      nameEl.textContent = "—";
+      subEl.textContent = "Weapon data is not available yet.";
+      return;
+    }
+    nameEl.textContent = roster.name;
+    if (state.selectionMode === "manual") {
+      scopeEl.textContent = "YOUR WEAPON";
+      subEl.textContent = `${roster.cls} • optimized for ${state.distance}m • this weapon stays locked`;
+      return;
+    }
+    scopeEl.textContent = "BEST WEAPON";
+    const rank = ranked.findIndex(x => x.roster.id === roster.id);
+    const scope = state.category === "__all__" ? "weapon" : `${tabLabel(state.category).toLowerCase()}`;
+    subEl.textContent = ranked.length && rank === 0
+      ? `Best ${scope} at ${state.distance}m out of ${ranked.length} ranked`
+      : `${roster.cls} at ${state.distance}m`;
+  }
+
+  /**
+   * The six metrics a player actually decides on. Deeper telemetry stays
+   * available under Advanced Stats rather than crowding the answer.
+   */
+  function renderKeyStats(roster, raw, resolved) {
+    const box = $("keyStats");
+    if (!box) return;
+    const c = resolved?.combat;
+    if (!c) {
+      box.innerHTML = `<div class="key-stat wide"><span>DATA STATUS</span><strong>PENDING</strong><small>No combat values are fabricated when the audited model is unavailable.</small></div>`;
+      return;
+    }
+    const velocity = Number(resolved.displayVelocity);
+    // Prefer the winning build's transformed stats when the exhaustive cache is
+    // active, then the combat row, then base weapon data. All already computed.
+    const stats = resolved.cachedStats;
+    const rpmRaw = stats?.rpm ?? c.rpm ?? raw?.rpm ?? resolved.auditDef?.rpm;
+    const rpm = Number.isFinite(Number(rpmRaw)) ? Number(rpmRaw) : null;
+    const mag = stats?.mag ?? c.mag ?? raw?.mag ?? resolved.auditDef?.mag ?? null;
+    const damageLabel = c.pellets > 1 ? "MAX SHELL" : "DAMAGE";
+    const rows = [
+      ["TRIGGER→KILL", fmtMs(c.triggerTtk), `trigger pull → lethal impact at ${state.distance}m`, "lead"],
+      ["BTK", c.btk ?? "—", "bullets to kill • 100 HP unarmored"],
+      [damageLabel, fmtDamage(c.damage), c.pellets > 1 ? `${fmtDamage(c.pelletDamage)} × ${c.pellets} pellets` : `per shot at ${state.distance}m`],
+      ["VELOCITY", Number.isFinite(velocity) ? `${Math.round(velocity)} m/s` : "—", Number.isFinite(Number(c.flightMs)) ? `${Math.round(c.flightMs)} ms flight` : "projectile timing pending"],
+      ["RPM", rpm == null ? "—" : (Math.abs(rpm - Math.round(rpm)) > .05 ? rpm.toFixed(1) : String(Math.round(rpm))), roster.cls === "Sniper Rifle" ? "effective follow-up cadence" : "rounds per minute"],
+      ["MAGAZINE", mag ?? "—", "rounds"]
+    ];
+    box.innerHTML = rows.map(([k, v, sub, cls]) => `<div class="key-stat ${cls || ""}"><span>${escapeHtml(k)}</span><strong>${escapeHtml(String(v))}</strong><small>${escapeHtml(sub)}</small></div>`).join("");
+  }
+
+  /** Data-confidence chip for the whole recommendation. Never hides uncertainty. */
+  function renderConfidence(resolved, buildResult) {
+    const chip = $("confidenceChip");
+    if (!chip) return;
+    const names = buildNameConfidence(buildResult?.picks || []);
+    const exhaustive = buildResult?.exhaustive === true;
+    const audited = resolved?.classAudit?.pass === true;
+    const empirical = resolved?.auditDef?.confidence === "empirical-current";
+    let level, text;
+    if (!resolved?.combat) { level = "bad"; text = "UNVERIFIED — NO AUDITED MODEL"; }
+    else if (!exhaustive) { level = "warn"; text = "FALLBACK — EXHAUSTIVE BUILD CACHE PENDING"; }
+    else if (!audited || empirical) { level = "warn"; text = "PARTIALLY VERIFIED — CLASS AUDIT INCOMPLETE"; }
+    else if (names.level === "VERIFIED") { level = "ok"; text = "VERIFIED"; }
+    else if (names.level === "UNVERIFIED" && names.cls === "bad") { level = "bad"; text = "PARTIALLY VERIFIED — NAME CONFLICT"; }
+    else { level = "warn"; text = `PARTIALLY VERIFIED — ${names.verified}/${names.total} NAMES EXACT`; }
+    chip.textContent = text;
+    chip.className = `confidence-chip ${level}`;
+    chip.title = names.total ? `${names.verified}/${names.total} attachment names verified as exact BF6 labels.` : "";
+
+    const legend = $("nameLegend");
+    if (legend) {
+      legend.innerHTML = names.total
+        ? `Attachment names: <b>${names.verified}/${names.total}</b> verified as exact Battlefield 6 labels. Names marked otherwise are shown exactly as the source provides them and are never cleaned up or guessed. <b>Name confidence does not change the build:</b> candidates, modifiers, point costs and ranking are identical either way.`
+        : "";
+    }
+  }
+
+  /** Runners-up only. Rank #1 is the answer above and is not repeated here. */
+  function renderAlternatives(ranked, roster) {
+    const box = $("alternativesList");
+    const card = $("alternativesCard");
+    const title = $("alternativesTitle");
+    if (!box || !card) return;
+    if (state.selectionMode === "manual") {
+      card.classList.add("hidden");
+      box.innerHTML = "";
+      return;
+    }
+    card.classList.remove("hidden");
+    const others = ranked.filter(x => x.roster.id !== roster?.id).slice(0, 4);
+    if (title) title.textContent = `Next best at ${state.distance}m`;
+    if (!others.length) {
+      box.innerHTML = `<div class="alt-row empty"><strong>No alternatives available</strong><span>Only one weapon currently qualifies for this ranking scope.</span></div>`;
+      return;
+    }
+    box.innerHTML = others.map((x, i) => {
+      const t = Number(x.combat?.triggerTtk);
+      return `<button type="button" class="alt-row" data-alt-weapon="${escapeHtml(x.roster.id)}">
+        <span class="alt-rank">#${i + 2}</span>
+        <span class="alt-name"><strong>${escapeHtml(x.roster.name)}</strong><small>${escapeHtml(x.roster.cls)}</small></span>
+        <span class="alt-metric"><strong>${fmtMs(t)}</strong><small>trigger→kill ↓</small></span>
+        <span class="alt-metric"><strong>${x.combat?.btk ?? "—"}</strong><small>BTK ↓</small></span>
+        <span class="alt-metric"><strong>${Number.isFinite(Number(x.beamIndex)) ? Number(x.beamIndex).toFixed(2) : "—"}</strong><small>beam index ↓</small></span>
+        <span class="alt-metric"><strong>${Number.isFinite(Number(x.laserScore)) ? Math.round(x.laserScore) : "—"}</strong><small>laser score ↑</small></span>
+      </button>`;
+    }).join("");
+  }
+
+  /** Plain-language reason built only from factors the result actually shows. */
+  function whySummary(roster, resolved, buildResult, ranked) {
+    const c = resolved?.combat;
+    if (!roster || !c) return "No recommendation is available yet, so no explanation is claimed.";
+    const bits = [];
+    const t = Number(c.triggerTtk);
+    if (state.selectionMode === "manual") {
+      bits.push(`You locked ${roster.name}, so the engine optimized only its legal attachments for ${state.distance}m.`);
+    } else {
+      const rank = ranked.findIndex(x => x.roster.id === roster.id);
+      if (rank === 0 && ranked.length > 1) {
+        const runnerUp = Number(ranked[1]?.combat?.triggerTtk);
+        const beat = Number.isFinite(t) && Number.isFinite(runnerUp) && runnerUp > t
+          ? `reaching a lethal hit ${Math.round(runnerUp - t)} ms sooner than ${ranked[1].roster.name}`
+          : `winning on the combined kill-speed and control score against ${ranked[1].roster.name}`;
+        bits.push(`At ${state.distance}m, ${roster.name} wins by ${beat}.`);
+      } else {
+        bits.push(`${roster.name} is the current selection at ${state.distance}m.`);
+      }
+    }
+    if (Number.isFinite(t)) bits.push(`It needs ${c.btk} hit${c.btk === 1 ? "" : "s"} and ${Math.round(t)} ms from trigger pull to lethal impact${Number.isFinite(Number(c.flightMs)) ? `, including ${Math.round(c.flightMs)} ms of projectile flight` : ""}.`);
+    const beam = Number(resolved.cached?.beamIndex ?? c.beamIndex);
+    if (Number.isFinite(beam)) {
+      const pool = ranked.map(x => Number(x.beamIndex)).filter(Number.isFinite);
+      const better = pool.filter(v => v > beam).length;
+      if (pool.length > 1) bits.push(`Its recoil and spread behaviour is steadier than ${better} of the other ${pool.length - 1} ranked weapons at this distance (beam index ${beam.toFixed(2)}, lower is better).`);
+    }
+    if (buildResult?.exhaustive) {
+      const fit = Number(c.opticFit);
+      bits.push(`The ${buildResult.points}-point build shown is the verified exhaustive winner for this exact distance${Number.isFinite(fit) ? `, using a sight rated ${Math.round(fit)}/100 for ${state.distance}m` : ""}.`);
+    } else if (buildResult) {
+      bits.push(`The ${buildResult.points}-point build is an on-demand result; the exhaustive attachment cache has not validated, so it is not called a verified winner.`);
+    }
+    return bits.join(" ");
+  }
+
+  // ===========================================================================
+  // INPUT CONTROLS
+  // ===========================================================================
+
+  function renderModeSwitch() {
+    const autoBtn=$("autoModeBtn"), manualBtn=$("manualModeBtn");
+    const isManual = state.selectionMode === "manual";
+    if (autoBtn) { autoBtn.classList.toggle("active", !isManual); autoBtn.setAttribute("aria-pressed", String(!isManual)); }
+    if (manualBtn) { manualBtn.classList.toggle("active", isManual); manualBtn.setAttribute("aria-pressed", String(isManual)); }
+
+    const picker=$("weaponPickerBlock");
+    if (picker) picker.hidden = !isManual;
+    const lockNote=$("weaponLockNote");
+    if (lockNote) lockNote.textContent = isManual ? "Locked — AUTO cannot replace it" : "";
+
+    const action=$("optimizeBtn");
+    if (action) action.textContent = isManual
+      ? `OPTIMIZE ${(rosterWeapon()?.name || "MY GUN").toUpperCase()}`
+      : "FIND BEST LOADOUT";
+  }
+
+  function renderPriority() {
+    const active = activePriorityKey();
+    document.querySelectorAll("#priorityGroup button[data-priority]").forEach(b => {
+      const on = b.dataset.priority === active;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-pressed", String(on));
+    });
+    const note=$("priorityNote");
+    if (note) note.textContent = active === "fastest"
+      ? "Strict kill speed first; recoil and spread only break ties."
+      : "55% exact-distance kill speed, 45% recoil and spread control.";
+  }
+
+  /** Keeps every distance surface showing the one canonical value. */
+  function renderDistance() {
+    const slider=$("distanceSlider"), custom=$("distanceCustom"), readout=$("distanceValue");
+    if (slider && Number(slider.value) !== state.distance) slider.value = state.distance;
+    if (custom && document.activeElement !== custom && Number(custom.value) !== state.distance) custom.value = state.distance;
+    if (readout) readout.textContent = state.distance;
+    document.querySelectorAll("#distancePresets button[data-distance]").forEach(b => {
+      // A preset is only "active" when the canonical distance is exactly that
+      // value, so a custom distance never falsely appears to be a preset.
+      const on = Number(b.dataset.distance) === state.distance;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-pressed", String(on));
+    });
+    const label=$("distanceLabel");
+    if (label) label.textContent = "Fighting distance";
+  }
+
+  // ===========================================================================
+  // LEVEL 3 — DATA & AUDIT
+  // ===========================================================================
+
+  function renderDataAudit() {
+    const grid=$("methodGrid");
+    if (grid) {
+      const cache = state.combatCache;
+      const primaries = CURRENT.roster.filter(w => w.cls !== "Secondary");
+      const secondaries = CURRENT.roster.length - primaries.length;
+      const matched = CURRENT.roster.filter(r => rawForRoster(r)).length;
+      const budgetSample = rawForRoster(rosterWeapon());
+      const rows = [
+        ["LIVE GAME", cache?.source?.gameVersion || CURRENT.liveVersion || "—", CURRENT.liveVersionDate ? `Build gate ${CURRENT.liveVersionDate}` : "Current build gate"],
+        ["CATALOG", `${CURRENT.roster.length} / ${CURRENT.rosterCount} weapons`, `${primaries.length} primaries + ${secondaries} secondaries • always visible`],
+        ["STAT COVERAGE", `${matched} / ${CURRENT.roster.length}`, "weapons matched to the analyzer stat feed"],
+        ["META ENGINE", cache ? `${cache.audit?.modeled ?? "—"} / ${cache.audit?.weaponsSource ?? "—"} modeled` : "FALLBACK ACTIVE", cache ? `${cache.rules?.distances?.[0] ?? 1}–${cache.rules?.distances?.[1] ?? 300}m exhaustive cache` : "exhaustive cache not validated"],
+        ["PRIMARY BUDGET", `${budgetSample ? budgetFor(budgetSample) : (cache?.rules?.primaryBudget ?? 100)} points`, "hard cap enforced per build"],
+        ["SECONDARY BUDGET", `${cache?.rules?.sidearmBudget ?? 60} points`, "different from primaries"],
+        ["ATTACHMENT NAMES", state.nameAudit ? `${state.nameAudit.counts.VERIFIED_EXACT} / ${state.nameAudit.total} exact` : "AUDIT PENDING", state.nameAudit ? `${state.nameAudit.counts.UNVERIFIED} unverified • ${state.nameAudit.counts.INTERNAL_PLACEHOLDER} category labels • ${state.nameAudit.counts.MISMATCH} conflicts` : "naming audit not loaded"]
+      ];
+      grid.innerHTML = rows.map(([k, v, sub]) => `<div><span>${escapeHtml(k)}</span><strong>${escapeHtml(String(v))}</strong><small>${escapeHtml(sub)}</small></div>`).join("");
+    }
+
+    const prov=$("provenanceGrid");
+    if (prov) {
+      const cache = state.combatCache;
+      const items = [
+        ["ANALYZER SOURCE", cache?.source?.repository || "—"],
+        ["UPSTREAM COMMIT", cache?.source?.commit ? String(cache.source.commit).slice(0, 12) : "—"],
+        ["RANKING MODEL", cache?.source?.rankingModel || "fallback"],
+        ["OPTIC MODEL", cache?.source?.opticModel || "—"],
+        ["MANUAL BUILD MODEL", cache?.source?.manualBuildModel || "—"],
+        ["CACHE GENERATED", cache?.generatedAt ? String(cache.generatedAt).slice(0, 10) : "—"],
+        ["NAME AUDIT POLICY", state.nameAudit?.policyVersion || "pending"],
+        ["FEED STATUS", Object.entries(state.source).filter(([, v]) => v === "failed" || v === "invalid").map(([k]) => k).join(", ") || "all sources loaded"]
+      ];
+      prov.innerHTML = items.map(([k, v]) => `<div class="prov"><span>${escapeHtml(k)}</span><strong>${escapeHtml(String(v))}</strong></div>`).join("");
+    }
+
+    const headline=$("dataAuditHeadline");
+    if (headline) {
+      const failed = Object.values(state.source).filter(v => v === "failed" || v === "invalid").length;
+      headline.textContent = state.combatCache
+        ? `Exhaustive engine active${failed ? ` • ${failed} feed issue${failed === 1 ? "" : "s"}` : ""}`
+        : "Fallback engine active — exhaustive cache pending";
+    }
+  }
+
+  /**
+   * Preview of this weapon at the standard reference ranges. These are shortcuts
+   * into the same canonical fighting distance, not a second distance setting.
+   */
   function renderManualRangeProfiles() {
     const box=$("manualRangeProfiles");
     if (!box) return;
@@ -1719,7 +2136,7 @@
     const roster=rosterWeapon(), raw=rawForRoster(roster);
     box.classList.remove("hidden");
     if (!roster || !raw) {
-      box.innerHTML=`<div class="manual-range-head"><div><span>MY WEAPON RANGE BUILDS</span><strong>Build data pending</strong></div><small>${escapeHtml(roster?.name || "Weapon")} is locked, but exact attachment data is unavailable.</small></div>`;
+      box.innerHTML=`<div class="manual-range-head"><div><span>THIS WEAPON AT OTHER DISTANCES</span><strong>Build data pending</strong></div><small>${escapeHtml(roster?.name || "Weapon")} is locked, but exact attachment data is unavailable.</small></div>`;
       return;
     }
     const auditedOptAt = d => auditedClassOptimized(raw,d);
@@ -1727,41 +2144,52 @@
       const req=auditedOptAt(d)?.attachmentId || null;
       const result=cachedBuild(raw,d,req,"lethal");
       if (!result?.combat) {
-        return `<button type="button" class="range-build pending ${state.distance===d?"active":""}" data-profile-distance="${d}"><span>${label}</span><strong>${d}m</strong><b>BUILD CACHE PENDING</b><small>Tap to optimize this exact distance</small></button>`;
+        return `<button type="button" class="range-build pending ${state.distance===d?"active":""}" data-profile-distance="${d}"><span>${label}</span><strong>${d}m</strong><b>BUILD CACHE PENDING</b><small>Jump the fighting distance here</small></button>`;
       }
       const c=result.combat;
-      const names=result.picks.filter(x=>x.id!=="none").slice(0,3).map(x=>x.name || prettifyId(x.id)).join(" • ") || "No-point baseline";
+      const names=result.picks.filter(x=>x.id!=="none").slice(0,3).map(x=>attachmentDisplay(x).name).join(" • ") || "No-point baseline";
       const kill=Number.isFinite(Number(c.triggerTtk)) ? `${Math.round(c.triggerTtk)}ms kill` : `${Math.round(c.ttk||0)}ms mech`;
       const beam=Number.isFinite(Number(c.beamIndex)) ? ` • BeamIdx ${Number(c.beamIndex).toFixed(2)}↓` : "";
       const sight=result.picks.find(x=>x.slot==="sight");
       const fit=Number(c.opticFit ?? (sight ? opticRangeFit(sight.id,d) : NaN));
-      const optic=sight?.name || prettifyId(sight?.id) || "Optic pending";
+      const optic=sight ? attachmentDisplay(sight).name : "Optic pending";
       return `<button type="button" class="range-build ${state.distance===d?"active":""}" data-profile-distance="${d}"><span>${label}</span><strong>${d}m</strong><b>${kill}${beam}${Number.isFinite(fit)?` • Optic ${Math.round(fit)}/100`:""}</b><small>${escapeHtml(optic)} • ${escapeHtml(names)}</small></button>`;
     }).join("");
-    box.innerHTML=`<div class="manual-range-head"><div><span>MY WEAPON RANGE BUILDS</span><strong>${escapeHtml(roster.name)} stays locked</strong></div><small>${state.combatCache ? "Each card is the verified range-aware lethal winner: unsuitable optics are gated out first, then kill speed leads and recoil/spread break lethal ties." : "Range cards unlock verified winners when the exhaustive combat cache passes; your selected-distance on-demand build still works below."}</small></div><div class="manual-range-grid">${cards}</div>`;
+    box.innerHTML=`<div class="manual-range-head"><div><span>THIS WEAPON AT OTHER DISTANCES</span><strong>${escapeHtml(roster.name)} stays locked</strong></div><small>${state.combatCache ? "Preview of the verified range-aware lethal winner at each reference range. Selecting one moves the same fighting distance control above — it is not a separate setting." : "Range previews unlock verified winners when the exhaustive combat cache passes; your selected-distance build still works above."}</small></div><div class="manual-range-grid">${cards}</div>`;
   }
 
-  function renderHeader(roster) {
-    $("weaponClassLabel").textContent = roster.cls;
-    $("weaponHeaderName").textContent = roster.name;
-    $("weaponUnlock").textContent = roster.unlock || "";
-    $("distanceValue").textContent = state.distance;
-    renderRangeNote(roster);
-  }
+  // ===========================================================================
+  // COMPOSITION
+  // ===========================================================================
 
   function renderAll() {
-    const roster = rosterWeapon();
-    if (!roster) return;
-    const raw = rawForRoster(roster);
     renderModeSwitch();
-    renderHeader(roster);
-    renderAutoRecommendation();
+    renderPriority();
+    renderDistance();
+    renderInputStamp();
+
+    const roster = rosterWeapon();
+    if (!roster) {
+      renderAnswerHeadline(null, []);
+      renderDataAudit();
+      return;
+    }
+    const raw = rawForRoster(roster);
+    const ranked = rankWeapons(state.category, state.distance);
+    const resolved = resolveDisplayCombat(roster, raw);
+
+    renderAnswerHeadline(roster, ranked);
+    renderKeyStats(roster, raw, resolved);
+    renderRangeNote(roster);
+    const buildResult = renderPrimaryBuild(roster, raw, resolved, ranked);
+    renderConfidence(resolved, buildResult);
+    renderAlternatives(ranked, roster);
+    renderWeaponIntel(roster, raw, resolved);
     renderManualRangeProfiles();
-    renderWeaponIntel(roster, raw);
-    renderPrimaryBuild(roster, raw);
     renderCompleteLoadout(roster);
     renderSecondary();
     renderWarnings(roster, raw);
+    renderDataAudit();
   }
 
   function categoryRoster() {
@@ -1774,11 +2202,12 @@
       if (w.cls === "Secondary" || !auditForClass(w.cls)) return false;
       return auditedDefForRoster(w, rawForRoster(w))?.confidence !== "empirical-current";
     }).length;
-    const allLabel = state.selectionMode === "manual" ? "ALL PRIMARIES" : "AUTO VERIFIED";
-    const all = `<button data-category="__all__" class="${state.category === "__all__" ? "active" : ""}">${allLabel} <em>${verifiedCount}</em></button>`;
+    const allLabel = state.selectionMode === "manual" ? "ALL" : "ALL";
+    const all = `<button type="button" data-category="__all__" class="${state.category === "__all__" ? "active" : ""}" aria-pressed="${state.category === "__all__"}">${allLabel} <em>${state.selectionMode === "manual" ? CURRENT.roster.filter(w=>w.cls!=="Secondary").length : verifiedCount}</em></button>`;
     const cats = CURRENT.primaryClasses.map(cls => {
       const count=CURRENT.roster.filter(w=>w.cls===cls).length;
-      return `<button data-category="${escapeHtml(cls)}" class="${cls === state.category ? "active" : ""}">${escapeHtml(tabLabel(cls))} <em>${count}</em></button>`;
+      const on = cls === state.category;
+      return `<button type="button" data-category="${escapeHtml(cls)}" class="${on ? "active" : ""}" aria-pressed="${on}">${escapeHtml(tabLabel(cls))} <em>${count}</em></button>`;
     }).join("");
     tabs.innerHTML = all + cats;
   }
@@ -1788,12 +2217,6 @@
     return map[cls] || cls;
   }
 
-  function autoOptionLabel() {
-    const scope = state.category === "__all__" ? "VERIFIED WEAPON" : tabLabel(state.category).toUpperCase();
-    const winner = rankWeapons(state.category, state.distance)[0]?.roster?.name;
-    return winner ? `AUTO — BEST ${scope} @ ${state.distance}m → ${winner}` : `AUTO — BEST ${scope} @ ${state.distance}m`;
-  }
-
   function populateWeaponSelect(keepId = null) {
     const list = categoryRoster();
     if (state.selectionMode === "manual" && keepId && !list.some(w=>w.id===keepId)) state.selectionMode="auto";
@@ -1801,21 +2224,24 @@
     else if (keepId && list.some(w=>w.id===keepId)) state.weaponId=keepId;
     else if (!list.some(w=>w.id===state.weaponId)) state.weaponId=list[0]?.id || null;
 
-    $("weaponSelect").innerHTML = `<option value="__auto__">${escapeHtml(autoOptionLabel())}</option>` +
-      list.map(w => {
+    $("weaponSelect").innerHTML = list.map(w => {
         const raw=rawForRoster(w);
         const audited=auditedDefForRoster(w,raw);
         const suffix=raw ? "" : audited ? " • build data pending" : " • data pending";
         return `<option value="${escapeHtml(w.id)}">${escapeHtml(w.name)}${suffix}</option>`;
       }).join("");
-    $("weaponSelect").value = state.selectionMode === "auto" ? "__auto__" : (state.weaponId || "");
+    $("weaponSelect").value = state.weaponId || "";
   }
 
+  /**
+   * The one and only writer of the canonical fighting distance. The slider, the
+   * preset shortcuts, the custom numeric input and the range previews all route
+   * through here, so no second distance value can exist to drift out of sync.
+   */
   function setDistance(d) {
-    state.distance = Math.max(1, Math.min(300, Math.round(Number(d) || 25)));
-    $("distanceSlider").value = state.distance;
-    $("distanceValue").textContent = state.distance;
-    document.querySelectorAll("#distancePresets button").forEach(b => b.classList.toggle("active", Number(b.dataset.distance) === state.distance));
+    const next = Math.max(1, Math.min(300, Math.round(Number(d))));
+    if (!Number.isFinite(next)) return;
+    state.distance = next;
     if (state.selectionMode === "auto") resolveAutoWeapon();
     populateWeaponSelect(state.weaponId);
     renderAll();
@@ -1858,28 +2284,50 @@
       const btn=e.target.closest("button[data-profile-distance]");
       if (btn) setDistance(btn.dataset.profileDistance);
     });
+    $("alternativesList")?.addEventListener("click", e => {
+      const btn=e.target.closest("button[data-alt-weapon]");
+      if (!btn) return;
+      // Inspecting a runner-up is an explicit weapon choice, so it locks the gun
+      // exactly like picking it in BUILD MY GUN would.
+      state.selectionMode="manual";
+      state.category="__all__";
+      state.weaponId=btn.dataset.altWeapon;
+      populateTabs();
+      populateWeaponSelect(state.weaponId);
+      renderAll();
+      $("answerCard")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
     $("weaponSelect").addEventListener("change", e => {
-      if (e.target.value === "__auto__") {
-        state.selectionMode="auto";
-        resolveAutoWeapon();
-      } else {
-        state.selectionMode="manual";
-        state.weaponId=e.target.value;
-      }
+      state.selectionMode="manual";
+      state.weaponId=e.target.value;
       populateWeaponSelect(state.weaponId);
       renderAll();
     });
     $("distanceSlider").addEventListener("input", e => setDistance(e.target.value));
+    $("distanceCustom")?.addEventListener("input", e => {
+      const v = Number(e.target.value);
+      if (!Number.isFinite(v) || v < 1 || v > 300) return; // wait for a usable value
+      setDistance(v);
+    });
+    $("distanceCustom")?.addEventListener("blur", e => { e.target.value = state.distance; });
     $("distancePresets").addEventListener("click", e => {
       const btn = e.target.closest("button[data-distance]");
       if (btn) setDistance(btn.dataset.distance);
+    });
+    $("priorityGroup")?.addEventListener("click", e => {
+      const btn = e.target.closest("button[data-priority]");
+      if (!btn) return;
+      state.priority = btn.dataset.priority;
+      if (state.selectionMode === "auto") resolveAutoWeapon();
+      populateWeaponSelect(state.weaponId);
+      renderAll();
     });
     $("classSelect").addEventListener("change", e => { state.classChoice = e.target.value; renderAll(); });
     $("contextSelect").addEventListener("change", e => { state.context = e.target.value; renderAll(); });
     ["stayAds", "movingAds", "stealth", "bigMag"].forEach(id => $(id).addEventListener("change", renderAll));
     $("optimizeBtn").addEventListener("click", () => {
       renderAll();
-      $("buildTitle")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      $("answerCard")?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   }
 
@@ -1917,7 +2365,7 @@
         const ranked = rankWeapons(state.category, state.distance);
         const roster = rosterWeapon();
         const raw = rawForRoster(roster);
-        const strategy = state.selectionMode === "manual" ? "lethal" : "laserbeam";
+        const strategy = activeStrategy();
         let build = null;
         try {
           const r = raw && state.attachments && state.ammo ? optimize(raw, state.distance, strategy) : null;
@@ -1961,6 +2409,7 @@
     renderAll(); // catalog shell appears instantly
     await loadData();
     resolveAutoWeapon();
+    populateTabs();
     populateWeaponSelect();
     renderAll();
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(() => {});

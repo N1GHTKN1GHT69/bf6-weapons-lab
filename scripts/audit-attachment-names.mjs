@@ -296,8 +296,50 @@ const doc = await build();
 const json = JSON.stringify(doc, null, 2) + '\n';
 const csv = toCsv(doc);
 
-if (process.argv.includes('--check')) {
+/**
+ * Extract a top-level function body from app.js by brace matching so the gate
+ * below can prove the optimizer never touches the display-name layer.
+ */
+function functionBody(src, name) {
+  const at = src.indexOf(`function ${name}(`);
+  if (at < 0) return null;
+  const open = src.indexOf('{', at);
+  if (open < 0) return null;
+  let depth = 0;
+  for (let i = open; i < src.length; i++) {
+    if (src[i] === '{') depth++;
+    else if (src[i] === '}') { depth--; if (!depth) return src.slice(open, i + 1); }
+  }
+  return null;
+}
+
+// Functions that decide candidates, modifiers, costs, budgets or ranking.
+// None of them may read the naming audit in any form.
+const OPTIMIZER_FUNCTIONS = [
+  'buildOptions', 'dedupeOptions', 'isAssumedOption', 'scoreOption', 'behaviorScore',
+  'opticScore', 'opticRangeFit', 'minimumOpticFit', 'pointCost', 'budgetFor',
+  'optimize', 'auditBuild', 'cachedBuild', 'cachedCombat', 'cachedWinningStats',
+  'buildRankPool', 'rankWeapons', 'laserbeamUtilityCost', 'resolveAutoWeapon',
+  'combatAtDistance', 'damageAtDistance', 'timeToNthShot', 'flightTimeMs', 'addTriggerKill'
+];
+const NAME_LAYER_TOKENS = ['state.nameAudit', 'attachmentDisplay(', 'nameRecord(', 'buildNameConfidence(', 'NAME_STATUS_UI'];
+
+async function gateSeparation() {
   const errors = [];
+  const app = await readFile('app.js', 'utf8');
+  for (const fn of OPTIMIZER_FUNCTIONS) {
+    const body = functionBody(app, fn);
+    if (body === null) { errors.push(`optimizer function ${fn}() not found in app.js`); continue; }
+    for (const token of NAME_LAYER_TOKENS) {
+      if (body.includes(token)) errors.push(`${fn}() reads the display-name layer (${token}); name verification must never affect optimization`);
+    }
+  }
+  if (!app.includes('audit.affectsOptimizer === false')) errors.push('app.js does not refuse a naming audit that claims to affect the optimizer');
+  return errors;
+}
+
+if (process.argv.includes('--check')) {
+  const errors = await gateSeparation();
   let committed = null;
   try { committed = await readFile('data/attachment-name-audit.json', 'utf8'); }
   catch { errors.push('data/attachment-name-audit.json is missing'); }
@@ -318,7 +360,7 @@ if (process.argv.includes('--check')) {
     errors.forEach(e => console.error('-', e));
     process.exit(1);
   }
-  console.log(`ATTACHMENT NAME AUDIT PASS • ${doc.total} attachments • VERIFIED_EXACT ${doc.counts.VERIFIED_EXACT} • UNVERIFIED ${doc.counts.UNVERIFIED} • INTERNAL_PLACEHOLDER ${doc.counts.INTERNAL_PLACEHOLDER} • MISMATCH ${doc.counts.MISMATCH} • display-only`);
+  console.log(`ATTACHMENT NAME AUDIT PASS • ${doc.total} attachments • VERIFIED_EXACT ${doc.counts.VERIFIED_EXACT} • UNVERIFIED ${doc.counts.UNVERIFIED} • INTERNAL_PLACEHOLDER ${doc.counts.INTERNAL_PLACEHOLDER} • MISMATCH ${doc.counts.MISMATCH} • optimizer separation gated over ${OPTIMIZER_FUNCTIONS.length} engine functions`);
 } else {
   await writeFile('data/attachment-name-audit.json', json);
   await writeFile('data/attachment-name-audit.csv', csv);
