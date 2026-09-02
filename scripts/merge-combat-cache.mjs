@@ -17,7 +17,11 @@ const first = parts[0];
 const requiredSourceFields=['commit','gameVersion','rankingModel','opticModel','manualBuildModel'];
 for(const [i,p] of parts.entries()){
   if(p?.audit?.pass!==true) throw new Error(`${files[i]} partial audit is not passing`);
-  if(!p?.source?.classFilter) throw new Error(`${files[i]} is not a class-filtered partial cache`);
+  if(!p?.source?.classFilter && !p?.source?.weaponFilter) throw new Error(`${files[i]} is not a filtered partial cache`);
+  if(p?.source?.weaponFilter){
+    const ids=Object.keys(p.weapons||{});
+    if(ids.length!==1 || ids[0]!==p.source.weaponFilter) throw new Error(`${files[i]} weapon-filter partial does not contain exactly ${p.source.weaponFilter}`);
+  }
   for(const k of requiredSourceFields){
     if(p?.source?.[k]!==first?.source?.[k]) throw new Error(`${files[i]} source mismatch for ${k}: ${p?.source?.[k]} != ${first?.source?.[k]}`);
   }
@@ -44,7 +48,7 @@ const extra=[...actualIds].filter(id=>!expectedIds.has(id));
 if(missing.length) errors.push(`Missing merged weapons: ${missing.join(', ')}`);
 if(extra.length) errors.push(`Unexpected merged weapons: ${extra.join(', ')}`);
 
-const source={...first.source,classFilter:null,totalWeapons:expectedWeapons.length};
+const source={...first.source,classFilter:null,weaponFilter:null,totalWeapons:expectedWeapons.length};
 const generatedAt=new Date().toISOString();
 const audit={
   weaponsSource:expectedWeapons.length,
@@ -60,5 +64,5 @@ const merged={schema:first.schema,generatedAt,source,rules:first.rules,audit,wea
 await mkdir(outDir,{recursive:true});
 await writeFile(join(outDir,'combat-cache.json'),JSON.stringify(merged));
 await writeFile(join(outDir,'combat-audit.json'),JSON.stringify({generatedAt,source,rules:first.rules,audit},null,2));
-console.log(JSON.stringify({partials:files.length,classes:parts.map(p=>p.source.classFilter),audit},null,2));
+console.log(JSON.stringify({partials:files.length,filters:parts.map(p=>p.source.weaponFilter||p.source.classFilter),audit},null,2));
 if(!audit.pass) process.exitCode=2;

@@ -147,3 +147,18 @@ A checked-in `combat-cache.json` may still say `pending` before the first succes
 
 ## Phase A v2.4 cache pipeline
 The exhaustive combat cache is now generated as eight parallel weapon-class shards and merged under one locked upstream Analyzer revision. This replaces the older single-runner exhaustive step that could run for over an hour. See `PHASE-A-AUDIT.md`.
+
+
+## Phase A v2.5 — isolated per-weapon cache pipeline
+
+v2.4 proved that class-level parallelism works but a single pathological LMG could still fail an entire LMG shard. v2.5 narrows the blast radius to one weapon:
+
+- `prepare` locks one upstream Analyzer revision, runs all static audits, and emits a dynamic matrix from the exact upstream weapon list.
+- GitHub launches one exhaustive cache job per upstream-backed weapon, up to 12 concurrently.
+- Each job uses `--weapon <id>` and has its own timeout/error surface.
+- Successful weapon shards are cached by upstream SHA + scoring-code hash + weapon ID, so a retry can reuse finished work instead of recomputing everything.
+- The builder performs exact transformed-state deduplication before the expensive 300 m recoil/spread/lethality scoring pass.
+- `finalize` requires exactly the dynamic upstream weapon count, merges all per-weapon shards, snapshots the same upstream data, validates the combined cache, then commits source + cache atomically.
+- Any failed weapon prevents publication; the site continues to fail closed on the previous verified cache/pending state.
+
+This does not assume the v2.4 LMG failure cause. The new pipeline is designed to identify the exact weapon and preserve its error/log independently.

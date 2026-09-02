@@ -10,20 +10,25 @@ const DIST_MIN = 1;
 const DIST_MAX = 300;
 const PRIMARY_BUDGET = 100;
 const SIDEARM_BUDGET = 60;
-const MAX_CANONICAL_COMBOS_PER_WEAPON = 5_000_000;
+const MAX_CANONICAL_COMBOS_PER_WEAPON = Number(process.env.BF6_MAX_CANONICAL_COMBOS || 25_000_000);
 
-// Phase A v2.4 supports exact class-sharded cache generation. GitHub runs the
-// eight weapon classes in parallel, then merge-combat-cache.mjs recombines
-// them into one cache. With no filter this script still builds the full cache.
+// Phase A v2.5 supports exact per-weapon cache generation. GitHub runs one
+// isolated matrix job per upstream-backed weapon, then merge-combat-cache.mjs
+// recombines them into one cache. Successful weapon shards are reusable across
+// retries when the upstream revision and scoring code have not changed. With no
+// filter this script still builds the full cache.
 const argv = process.argv.slice(4);
 function argValue(name){ const i=argv.indexOf(name); return i>=0 ? argv[i+1] : null; }
 const CLASS_FILTER = argValue('--class') || process.env.BF6_CLASS_FILTER || null;
+const WEAPON_FILTER = argValue('--weapon') || process.env.BF6_WEAPON_FILTER || null;
+if (CLASS_FILTER && WEAPON_FILTER) throw new Error('Use either --class or --weapon, not both');
 const CACHE_OUT = resolve(argValue('--cache') || process.env.BF6_CACHE_OUT || join(outDir,'combat-cache.json'));
 const AUDIT_OUT = resolve(argValue('--audit') || process.env.BF6_AUDIT_OUT || join(outDir,'combat-audit.json'));
 
 const json = async p => JSON.parse(await readFile(p, 'utf8'));
 const weapons = await json(join(upstream, 'data/weapons.json'));
-const selectedWeapons = CLASS_FILTER ? weapons.filter(w => w.cls === CLASS_FILTER) : weapons;
+const selectedWeapons = WEAPON_FILTER ? weapons.filter(w => w.id === WEAPON_FILTER) : (CLASS_FILTER ? weapons.filter(w => w.cls === CLASS_FILTER) : weapons);
+if (WEAPON_FILTER && !selectedWeapons.length) throw new Error(`No upstream weapon matched weapon filter: ${WEAPON_FILTER}`);
 if (CLASS_FILTER && !selectedWeapons.length) throw new Error(`No upstream weapons matched class filter: ${CLASS_FILTER}`);
 const atts = await json(join(upstream, 'data/attachments.json'));
 const ammo = await json(join(upstream, 'data/ammo.json'));
@@ -199,7 +204,7 @@ function dedupeDominated(slot, w, ids) {
       keep.set(sig, { id, pts, data });
     }
   }
-  return [...keep.values()];
+  return [...keep.values()].sort((a,b)=>a.pts-b.pts || String(a.id).localeCompare(String(b.id)));
 }
 
 function slotIdsForWeapon(w) {
@@ -271,6 +276,31 @@ function countAllLegalCombinations(w) {
     dp = next;
   }
   return dp.reduce((a,b)=>a+b,0n);
+}
+
+
+function scoringStateSignature(w, attSet) {
+  // Exact dedupe for the fields this optimizer actually consumes. If two legal
+  // builds produce the same transformed lethality, recoil/spread, handling and
+  // range-utility inputs, only the cheaper one can ever win at any distance.
+  // Keep nested recoil/spread state plus all derived underscore fields so this
+  // remains fail-safe when the upstream simulator adds derived mechanics.
+  const derived = {};
+  for (const [k,v] of Object.entries(w ?? {})) if (String(k).startsWith('_')) derived[k]=v;
+  return JSON.stringify({
+    dmg:w?.dmg, pellets:w?.pellets ?? 1, rpm:w?.rpm, fireMode:w?.fireMode,
+    burstRounds:w?.burstRounds, burstBurstsPerMinute:w?.burstBurstsPerMinute, burstRpm:w?.burstRpm,
+    bulletVel:w?.bulletVel, mag:w?.mag, tacRld:w?.tacRld, emptyRld:w?.emptyRld, reloadSpeed:w?.reloadSpeed,
+    adsTime:w?.adsTime, recoilV:w?.recoilV, recoilDir:w?.recoilDir, recoilVar:w?.recoilVar, recoilIncAds:w?.recoilIncAds,
+    spreadMax:w?.spreadMax, spreadDyn:w?.spreadDyn, recoil:w?.recoil, spread:w?.spread, derived,
+    sight:attSet?.sight, ammo:attSet?.ammo,
+    utility:{
+      rangeFinder:attSet?.light==='range_finder',
+      bipod:['bipod','bipod_sr'].includes(attSet?.grip),
+      adsBolt:attSet?.ergo==='ads_bolt',
+      magFlare:attSet?.ergo==='mag_flare'
+    }
+  });
 }
 
 function toAttSet(picks, w) {
@@ -518,6 +548,7 @@ const results = {
     commit: (() => { try { return execFileSync('git',['-C',upstream,'rev-parse','HEAD'],{encoding:'utf8'}).trim(); } catch { return null; } })(),
     totalWeapons: weapons.length,
     classFilter: CLASS_FILTER,
+    weaponFilter: WEAPON_FILTER,
     policy: 'Raw weapon/attachment facts and upstream simulator math only. No tier lists, popularity, usage, creator rankings, or community meta scores are inputs.'
   },
   rules: {
@@ -551,6 +582,9 @@ for (const w of selectedWeapons) {
   const bestLethal = Array(DIST_MAX + 1).fill(null);
   const buildDict = {};
   const profileCache = new Map();
+  const scoringStateBestPoints = new Map();
+  let scoringStatesEvaluated = 0;
+  let scoringStatesSkipped = 0;
   let canonicalCount = 0;
   const picks = [];
 
@@ -558,6 +592,7 @@ for (const w of selectedWeapons) {
     if (used + minRemaining[i] > budget) return;
     if (i === slots.length) {
       canonicalCount++;
+      if (canonicalCount % 250000 === 0) console.log(`${w.id}: canonical progress ${canonicalCount.toLocaleString()} (unique scoring states ${scoringStatesEvaluated.toLocaleString()}, deduped ${scoringStatesSkipped.toLocaleString()})`);
       if (canonicalCount > MAX_CANONICAL_COMBOS_PER_WEAPON) throw new Error(`${w.id}: canonical combination guard exceeded ${MAX_CANONICAL_COMBOS_PER_WEAPON}`);
       const attSet = toAttSet(picks, w);
       const exactPts = computeAttPts(attSet, w, { ...atts, ...ammo });
@@ -565,6 +600,11 @@ for (const w of selectedWeapons) {
       let modified = applyAttachments(w, attSet);
       if (w.cls === 'Shotgun') modified = applyVerifiedShotgunLethality(modified, attSet.ammo);
       if (w.cls === 'Sniper Rifle') modified = applyVerifiedSniperLethality(modified);
+      const stateSig = scoringStateSignature(modified, attSet);
+      const prevStatePts = scoringStateBestPoints.get(stateSig);
+      if (prevStatePts != null && prevStatePts <= exactPts) { scoringStatesSkipped++; return; }
+      scoringStateBestPoints.set(stateSig, exactPts);
+      scoringStatesEvaluated++;
       const buildId = buildIdFor(attSet);
       const lethalityKey = JSON.stringify({
         dmg:modified.dmg, pellets:modified.pellets ?? 1, rpm:modified.rpm, fireMode:modified.fireMode,
@@ -620,14 +660,14 @@ for (const w of selectedWeapons) {
     results.weapons[w.id] = {
       id:w.id,name:w.name,cls:w.cls,budget,status:'modeled',
       rawLegalCombinations:String(rawCount), canonicalCombinationsEvaluated:canonicalCount,
-      uniqueLethalityProfiles:profileCache.size,
+      uniqueLethalityProfiles:profileCache.size, uniqueScoringStates:scoringStatesEvaluated, scoringStatesDeduped:scoringStatesSkipped,
       builds:buildDict,
       best:Object.fromEntries(best.slice(DIST_MIN).map((x,idx)=>[String(idx+DIST_MIN),x])),
       bestLethal:Object.fromEntries(bestLethal.slice(DIST_MIN).map((x,idx)=>[String(idx+DIST_MIN),x])),
     };
     results.audit.modeled++;
     results.audit.canonicalCombinationsEvaluated += canonicalCount;
-    console.log(`${w.id.padEnd(14)} raw=${String(rawCount).padStart(10)} canonical=${String(canonicalCount).padStart(8)} profiles=${String(profileCache.size).padStart(5)} winners=${String(winningIds.size).padStart(4)}`);
+    console.log(`${w.id.padEnd(14)} raw=${String(rawCount).padStart(10)} canonical=${String(canonicalCount).padStart(8)} states=${String(scoringStatesEvaluated).padStart(8)} deduped=${String(scoringStatesSkipped).padStart(8)} profiles=${String(profileCache.size).padStart(5)} winners=${String(winningIds.size).padStart(4)}`);
   } catch (err) {
     results.audit.incomplete++;
     results.audit.errors.push(String(err.message || err));

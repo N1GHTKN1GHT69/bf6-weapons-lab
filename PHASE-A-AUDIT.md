@@ -1,35 +1,34 @@
-# BF6 Weapons Lab v2.4 — Phase A Parallel Cache Audit
+# BF6 Weapons Lab v2.5 — Phase A Per-Weapon Cache Audit
 
-## Why v2.4 exists
-The first real exhaustive cache run remained in the single `Run exhaustive combat audit` step for more than 70 minutes. The monitor timed out while GitHub was still running. Extending the timeout would hide the architectural problem rather than fix it.
+## Why v2.5 exists
+The v2.4 eight-class matrix successfully isolated the previously monolithic exhaustive build, but the real GitHub run still failed at the LMG class shard after other classes completed. The screenshot identifies the failed class, not the underlying builder exception, so v2.5 does **not** guess the root cause. It reduces the failure domain from one whole class to one exact weapon and improves retry behavior.
 
-## v2.4 pipeline
-The Combat Engine is now three stages:
+## v2.5 pipeline
+1. Lock one `raymdl/BF6-Weapon-Analyzer` commit.
+2. Run upstream compatibility + every class/static audit.
+3. Dynamically enumerate the exact upstream-backed weapon list.
+4. Run one cache job per weapon, max 12 concurrently.
+5. Reuse successful per-weapon shards on retry when upstream/scoring inputs are unchanged.
+6. Build each missing weapon with `--weapon`, exact Pick budget, legal attachment combinations, transformed-state dedupe, 1–300 m lethality/ballistics/recoil/spread/optic scoring.
+7. Upload one independently diagnosable shard per weapon.
+8. Require the exact dynamic weapon count, merge with duplicate/missing-weapon checks.
+9. Snapshot data from the same locked upstream revision.
+10. Validate cache/source revision/model/version gates and global integration.
+11. Commit source + verified cache atomically only after every weapon passes.
 
-1. **Prepare** — upstream lock, syntax/preflight, all weapon-class audits and static regressions.
-2. **Parallel cache matrix** — Assault Rifle, Carbine, SMG, LMG, DMR, Sniper Rifle, Sidearm and Shotgun are built simultaneously on eight GitHub runners.
-3. **Finalize** — the eight exact cache shards are merged, validated against the locked upstream weapon roster, globally audited, and committed atomically with the matching source snapshot.
+## Local self-audits
+- Workflow YAML parse: PASS.
+- All JavaScript syntax: PASS.
+- Ballistic TTK regression: PASS.
+- Global roster/integration regression: PASS (63/63 roster wiring).
+- Laserbeam META regression: PASS.
+- BUILD MY GUN regression: PASS.
+- Range-aware optics regression: PASS.
+- Synthetic dynamic per-weapon matrix + merge: PASS; 3/3 fixture weapons, zero missing/duplicates.
+- Per-weapon builder filter and transformed-state dedupe wiring: syntax/static inspection PASS.
 
-The upstream Analyzer SHA is locked once in Prepare and every shard/finalize job checks out that exact revision.
-
-## Safety
-- `concurrency.cancel-in-progress: true`: a newer deploy cancels an obsolete long cache run.
-- Each class shard has a 35-minute hard timeout.
-- Prepare/finalize each have 15-minute hard timeouts.
-- Merge rejects missing or duplicate weapons.
-- Merge rejects source/ranking/rules mismatch between shards.
-- Final validator still requires a complete, same-source, passing cache.
-
-## Self-audits performed
-- Sharded builder: synthetic one-weapon-per-class fixture, 8/8 modeled, merge PASS.
-- Artifact layout: eight cache JSONs separated from eight audit JSONs, PASS.
-- Workflow YAML parse and 8-class matrix structure, PASS.
-- JavaScript syntax across app + all scripts, PASS.
-- Ballistic TTK audit, PASS.
-- Global integrity audit (63/63 roster), PASS.
-- Laserbeam META audit, PASS.
-- BUILD MY GUN audit, PASS.
-- Range-aware optic audit, PASS.
+## Failure behavior
+A failed weapon job blocks `finalize`; no partial cache is published as verified META. Successful weapon jobs can be restored on a retry if the upstream revision and scoring implementation are unchanged. The one-click monitor should identify the exact failed weapon/job and surface its failed log tail.
 
 ## Phase A completion condition
-Phase A is complete only after the real GitHub matrix build produces a cache with `audit.pass=true`, zero incomplete weapons, source/cache revision match, and the live Cloudflare site serves that same verified cache.
+Phase A is complete only after a real GitHub run produces the full per-weapon cache with `audit.pass=true`, zero incomplete weapons, exact source/cache revision match, and the live Cloudflare site serves that verified cache.

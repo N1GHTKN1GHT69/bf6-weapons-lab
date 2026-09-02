@@ -31,6 +31,8 @@ jobs:
     timeout-minutes: 15
     outputs:
       upstream_sha: ${{ steps.upstream.outputs.sha }}
+      weapon_matrix: ${{ steps.matrix.outputs.matrix }}
+      weapon_count: ${{ steps.matrix.outputs.count }}
     steps:
       - name: Checkout Weapons Lab
         uses: actions/checkout@v4
@@ -57,6 +59,17 @@ jobs:
           echo "Lab commit:      $(git rev-parse HEAD)"
       - name: Upstream compatibility preflight
         run: node scripts/preflight-upstream.mjs .upstream/bf6-analyzer
+      - name: Build per-weapon cache matrix
+        id: matrix
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/list-cache-weapons.mjs .upstream/bf6-analyzer > /tmp/weapon-matrix.json
+          MATRIX="$(cat /tmp/weapon-matrix.json)"
+          COUNT="$(node -e "const fs=require('fs'); const x=JSON.parse(fs.readFileSync('/tmp/weapon-matrix.json','utf8')); console.log(x.include.length)")"
+          echo "matrix=$MATRIX" >> "$GITHUB_OUTPUT"
+          echo "count=$COUNT" >> "$GITHUB_OUTPUT"
+          echo "Per-weapon cache jobs: $COUNT"
       - name: Syntax preflight
         shell: bash
         run: |
@@ -102,31 +115,14 @@ jobs:
           path: data/*-audit-runtime.json
 
   cache:
-    name: Cache ${{ matrix.class_name }}
+    name: Cache ${{ matrix.weapon_name }}
     needs: prepare
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 30
     strategy:
       fail-fast: false
-      max-parallel: 8
-      matrix:
-        include:
-          - slug: assault
-            class_name: Assault Rifle
-          - slug: carbine
-            class_name: Carbine
-          - slug: smg
-            class_name: SMG
-          - slug: lmg
-            class_name: LMG
-          - slug: dmr
-            class_name: DMR
-          - slug: sniper
-            class_name: Sniper Rifle
-          - slug: sidearm
-            class_name: Sidearm
-          - slug: shotgun
-            class_name: Shotgun
+      max-parallel: 12
+      matrix: ${{ fromJSON(needs.prepare.outputs.weapon_matrix) }}
     steps:
       - name: Checkout Weapons Lab
         uses: actions/checkout@v4
@@ -140,19 +136,36 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Build ${{ matrix.class_name }} exhaustive cache shard
+      - name: Restore successful ${{ matrix.weapon_name }} shard
+        id: weapon-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            partial-cache/${{ matrix.slug }}.json
+            partial-audit/${{ matrix.slug }}.json
+          key: ${{ runner.os }}-bf6-perweapon-v25-${{ needs.prepare.outputs.upstream_sha }}-${{ hashFiles('scripts/build-combat-cache.mjs', 'scripts/list-cache-weapons.mjs', 'data/*-audit.json') }}-${{ matrix.slug }}
+      - name: Build ${{ matrix.weapon_name }} exhaustive cache shard
+        if: steps.weapon-cache.outputs.cache-hit != 'true'
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p partial-cache partial-audit
           node scripts/build-combat-cache.mjs .upstream/bf6-analyzer data \
-            --class "${{ matrix.class_name }}" \
+            --weapon "${{ matrix.weapon_id }}" \
             --cache "partial-cache/${{ matrix.slug }}.json" \
             --audit "partial-audit/${{ matrix.slug }}.json"
-      - name: Upload ${{ matrix.class_name }} cache shard
+      - name: Verify ${{ matrix.weapon_name }} shard exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s "partial-cache/${{ matrix.slug }}.json"
+          test -s "partial-audit/${{ matrix.slug }}.json"
+      - name: Upload ${{ matrix.weapon_name }} cache shard
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: combat-part-${{ matrix.slug }}
+          if-no-files-found: warn
           retention-days: 1
           path: |
             partial-cache/${{ matrix.slug }}.json
@@ -178,21 +191,22 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Download cache shards
+      - name: Download per-weapon cache shards
         uses: actions/download-artifact@v4
         with:
           pattern: combat-part-*
           path: partial-download
           merge-multiple: true
-      - name: Collect shard cache files
+      - name: Collect per-weapon cache files
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p partial-cache
-          # upload-artifact preserves partial-cache/ and partial-audit/ paths.
-          # Collect only the eight cache shard JSONs, never the similarly named audits.
           find partial-download -type f -path '*/partial-cache/*.json' -print -exec cp {} partial-cache/ \;
-          test "$(find partial-cache -maxdepth 1 -name '*.json' | wc -l)" -eq 8
+          FOUND="$(find partial-cache -maxdepth 1 -name '*.json' | wc -l)"
+          EXPECTED="${{ needs.prepare.outputs.weapon_count }}"
+          echo "Collected $FOUND / $EXPECTED per-weapon cache shards"
+          test "$FOUND" -eq "$EXPECTED"
       - name: Snapshot exact upstream data used by shards
         run: node scripts/sync-from-upstream.mjs .upstream/bf6-analyzer data
       - name: Merge exhaustive cache shards
@@ -232,5 +246,5 @@ jobs:
             echo "No source/cache changes to commit."
             exit 0
           fi
-          git commit -m "data: atomic BF6 source + sharded combat cache rebuild [skip ci]"
+          git commit -m "data: atomic BF6 source + per-weapon combat cache rebuild [skip ci]"
           git push origin HEAD:main
