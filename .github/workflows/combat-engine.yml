@@ -79,6 +79,10 @@ jobs:
           node --check roster-data.js
           node --check sw.js
           for f in scripts/*.mjs; do node --check "$f"; done
+      - name: Gate cache-state dedupe semantics
+        run: |
+          node scripts/audit-cache-state-dedupe.mjs
+          node scripts/audit-cache-state-scale.mjs
       - name: Gate Assault Rifle math
         run: node scripts/audit-assault.mjs .upstream/bf6-analyzer data data/assault-audit.json
       - name: Gate Carbine math
@@ -119,6 +123,8 @@ jobs:
     needs: prepare
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      NODE_OPTIONS: --max-old-space-size=6144
     strategy:
       fail-fast: false
       max-parallel: 12
@@ -143,7 +149,7 @@ jobs:
           path: |
             partial-cache/${{ matrix.slug }}.json
             partial-audit/${{ matrix.slug }}.json
-          key: ${{ runner.os }}-bf6-perweapon-v25-${{ needs.prepare.outputs.upstream_sha }}-${{ hashFiles('scripts/build-combat-cache.mjs', 'scripts/list-cache-weapons.mjs', 'data/*-audit.json') }}-${{ matrix.slug }}
+          key: ${{ runner.os }}-bf6-perweapon-v26-${{ needs.prepare.outputs.upstream_sha }}-${{ hashFiles('scripts/build-combat-cache.mjs', 'scripts/list-cache-weapons.mjs', 'data/*-audit.json') }}-${{ matrix.slug }}
       - name: Build ${{ matrix.weapon_name }} exhaustive cache shard
         if: steps.weapon-cache.outputs.cache-hit != 'true'
         shell: bash

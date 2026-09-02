@@ -3,6 +3,7 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { execFileSync } from 'node:child_process';
+import { scoringStateSignature } from './cache-state-signature.mjs';
 
 const upstream = resolve(process.argv[2] || process.env.BF6_ANALYZER_DIR || '.upstream/bf6-analyzer');
 const outDir = resolve(process.argv[3] || 'data');
@@ -12,7 +13,7 @@ const PRIMARY_BUDGET = 100;
 const SIDEARM_BUDGET = 60;
 const MAX_CANONICAL_COMBOS_PER_WEAPON = Number(process.env.BF6_MAX_CANONICAL_COMBOS || 25_000_000);
 
-// Phase A v2.5 supports exact per-weapon cache generation. GitHub runs one
+// Phase A v2.6 supports exact per-weapon cache generation with mechanics-only state deduplication. GitHub runs one
 // isolated matrix job per upstream-backed weapon, then merge-combat-cache.mjs
 // recombines them into one cache. Successful weapon shards are reusable across
 // retries when the upstream revision and scoring code have not changed. With no
@@ -278,30 +279,6 @@ function countAllLegalCombinations(w) {
   return dp.reduce((a,b)=>a+b,0n);
 }
 
-
-function scoringStateSignature(w, attSet) {
-  // Exact dedupe for the fields this optimizer actually consumes. If two legal
-  // builds produce the same transformed lethality, recoil/spread, handling and
-  // range-utility inputs, only the cheaper one can ever win at any distance.
-  // Keep nested recoil/spread state plus all derived underscore fields so this
-  // remains fail-safe when the upstream simulator adds derived mechanics.
-  const derived = {};
-  for (const [k,v] of Object.entries(w ?? {})) if (String(k).startsWith('_')) derived[k]=v;
-  return JSON.stringify({
-    dmg:w?.dmg, pellets:w?.pellets ?? 1, rpm:w?.rpm, fireMode:w?.fireMode,
-    burstRounds:w?.burstRounds, burstBurstsPerMinute:w?.burstBurstsPerMinute, burstRpm:w?.burstRpm,
-    bulletVel:w?.bulletVel, mag:w?.mag, tacRld:w?.tacRld, emptyRld:w?.emptyRld, reloadSpeed:w?.reloadSpeed,
-    adsTime:w?.adsTime, recoilV:w?.recoilV, recoilDir:w?.recoilDir, recoilVar:w?.recoilVar, recoilIncAds:w?.recoilIncAds,
-    spreadMax:w?.spreadMax, spreadDyn:w?.spreadDyn, recoil:w?.recoil, spread:w?.spread, derived,
-    sight:attSet?.sight, ammo:attSet?.ammo,
-    utility:{
-      rangeFinder:attSet?.light==='range_finder',
-      bipod:['bipod','bipod_sr'].includes(attSet?.grip),
-      adsBolt:attSet?.ergo==='ads_bolt',
-      magFlare:attSet?.ergo==='mag_flare'
-    }
-  });
-}
 
 function toAttSet(picks, w) {
   const wm = atts.WEAPON_MAG?.[w.id];
@@ -582,6 +559,7 @@ for (const w of selectedWeapons) {
   const bestLethal = Array(DIST_MAX + 1).fill(null);
   const buildDict = {};
   const profileCache = new Map();
+  const beamPrimitiveCache = new Map();
   const scoringStateBestPoints = new Map();
   let scoringStatesEvaluated = 0;
   let scoringStatesSkipped = 0;
@@ -592,7 +570,10 @@ for (const w of selectedWeapons) {
     if (used + minRemaining[i] > budget) return;
     if (i === slots.length) {
       canonicalCount++;
-      if (canonicalCount % 250000 === 0) console.log(`${w.id}: canonical progress ${canonicalCount.toLocaleString()} (unique scoring states ${scoringStatesEvaluated.toLocaleString()}, deduped ${scoringStatesSkipped.toLocaleString()})`);
+      if (canonicalCount % 250000 === 0) {
+        const mem = process.memoryUsage();
+        console.log(`${w.id}: canonical progress ${canonicalCount.toLocaleString()} (states ${scoringStatesEvaluated.toLocaleString()}, deduped ${scoringStatesSkipped.toLocaleString()}, heap ${(mem.heapUsed/1048576).toFixed(0)}MB)`);
+      }
       if (canonicalCount > MAX_CANONICAL_COMBOS_PER_WEAPON) throw new Error(`${w.id}: canonical combination guard exceeded ${MAX_CANONICAL_COMBOS_PER_WEAPON}`);
       const attSet = toAttSet(picks, w);
       const exactPts = computeAttPts(attSet, w, { ...atts, ...ammo });
@@ -615,7 +596,19 @@ for (const w of selectedWeapons) {
       });
       let profile = profileCache.get(lethalityKey);
       if (!profile) { profile = combatProfile(modified,attSet); profileCache.set(lethalityKey, profile); }
-      const beamBase = beamPrimitives(modified);
+      const beamKey = JSON.stringify({
+        rpm:modified.rpm, fireMode:modified.fireMode, burstRounds:modified.burstRounds,
+        burstBurstsPerMinute:modified.burstBurstsPerMinute, burstRpm:modified.burstRpm,
+        recoilV:modified.recoilV, recoilVar:modified.recoilVar, recoilIncAds:modified.recoilIncAds,
+        adsSpread:modified.spread?.adsStand ?? null, adsDyn:modified.spreadDyn?.ads ?? null,
+        adsRecoilDecayMult:modified._adsRecoilDecayMult ?? 1,
+        adsSpreadDecayBoost:modified._adsSpreadDecayBoost ?? 0,
+        spreadFiringDecCoefMult:modified._spreadFiringDecCoefMult ?? 1,
+        spreadFiringDecOffsetMult:modified._spreadFiringDecOffsetMult ?? 1,
+        movingAdsMinSpreadDeg:modified._movingAdsMinSpreadDeg ?? null,
+      });
+      let beamBase = beamPrimitiveCache.get(beamKey);
+      if (!beamBase) { beamBase = beamPrimitives(modified); beamPrimitiveCache.set(beamKey, beamBase); }
       for (const row of profile) {
         const opticFit = opticRangeFit(attSet.sight, row.d);
         const candidate = {
@@ -660,14 +653,14 @@ for (const w of selectedWeapons) {
     results.weapons[w.id] = {
       id:w.id,name:w.name,cls:w.cls,budget,status:'modeled',
       rawLegalCombinations:String(rawCount), canonicalCombinationsEvaluated:canonicalCount,
-      uniqueLethalityProfiles:profileCache.size, uniqueScoringStates:scoringStatesEvaluated, scoringStatesDeduped:scoringStatesSkipped,
+      uniqueLethalityProfiles:profileCache.size, uniqueBeamProfiles:beamPrimitiveCache.size, uniqueScoringStates:scoringStatesEvaluated, scoringStatesDeduped:scoringStatesSkipped,
       builds:buildDict,
       best:Object.fromEntries(best.slice(DIST_MIN).map((x,idx)=>[String(idx+DIST_MIN),x])),
       bestLethal:Object.fromEntries(bestLethal.slice(DIST_MIN).map((x,idx)=>[String(idx+DIST_MIN),x])),
     };
     results.audit.modeled++;
     results.audit.canonicalCombinationsEvaluated += canonicalCount;
-    console.log(`${w.id.padEnd(14)} raw=${String(rawCount).padStart(10)} canonical=${String(canonicalCount).padStart(8)} states=${String(scoringStatesEvaluated).padStart(8)} deduped=${String(scoringStatesSkipped).padStart(8)} profiles=${String(profileCache.size).padStart(5)} winners=${String(winningIds.size).padStart(4)}`);
+    console.log(`${w.id.padEnd(14)} raw=${String(rawCount).padStart(10)} canonical=${String(canonicalCount).padStart(8)} states=${String(scoringStatesEvaluated).padStart(8)} deduped=${String(scoringStatesSkipped).padStart(8)} lethal=${String(profileCache.size).padStart(5)} beam=${String(beamPrimitiveCache.size).padStart(5)} winners=${String(winningIds.size).padStart(4)}`);
   } catch (err) {
     results.audit.incomplete++;
     results.audit.errors.push(String(err.message || err));

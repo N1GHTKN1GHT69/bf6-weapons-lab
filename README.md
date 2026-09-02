@@ -149,16 +149,17 @@ A checked-in `combat-cache.json` may still say `pending` before the first succes
 The exhaustive combat cache is now generated as eight parallel weapon-class shards and merged under one locked upstream Analyzer revision. This replaces the older single-runner exhaustive step that could run for over an hour. See `PHASE-A-AUDIT.md`.
 
 
-## Phase A v2.5 — isolated per-weapon cache pipeline
+## Phase A v2.6 — M250 state-dedupe hardening
 
-v2.4 proved that class-level parallelism works but a single pathological LMG could still fail an entire LMG shard. v2.5 narrows the blast radius to one weapon:
+The real v2.5 per-weapon run isolated the first failing shard to M250. GitHub denied unauthenticated job-log download (403), so the exact runner exception was not visible from the one-click monitor. A structural bug was nevertheless found in the exhaustive builder: its transformed-state dedupe key included every underscore-prefixed field from `applyAttachments()`, including `_label`, which embeds attachment names. That meant mechanically identical attachment combinations with different names could never collapse, defeating the intended dedupe and allowing high-option weapons to retain enormous Maps of duplicate states.
 
-- `prepare` locks one upstream Analyzer revision, runs all static audits, and emits a dynamic matrix from the exact upstream weapon list.
-- GitHub launches one exhaustive cache job per upstream-backed weapon, up to 12 concurrently.
-- Each job uses `--weapon <id>` and has its own timeout/error surface.
-- Successful weapon shards are cached by upstream SHA + scoring-code hash + weapon ID, so a retry can reuse finished work instead of recomputing everything.
-- The builder performs exact transformed-state deduplication before the expensive 300 m recoil/spread/lethality scoring pass.
-- `finalize` requires exactly the dynamic upstream weapon count, merges all per-weapon shards, snapshots the same upstream data, validates the combined cache, then commits source + cache atomically.
-- Any failed weapon prevents publication; the site continues to fail closed on the previous verified cache/pending state.
+v2.6 fixes that at the source:
+- `cache-state-signature.mjs` contains only mechanics actually consumed by lethal, Beam, optic, handling and explicit utility ranking.
+- Display metadata such as `_label`, spotting text/ranges and health-regen metadata no longer create fake scoring states.
+- A 100,000-variant regression proves display-only M250 variants collapse to one state while real mechanical differences remain distinct.
+- Beam primitive simulation is cached by transformed recoil/spread mechanics.
+- Cache jobs run Node with a 6 GB heap ceiling on GitHub runners.
+- The Actions cache namespace is bumped to `v26`, so no v2.5 shard can be reused accidentally.
+- Progress logging now reports heap usage every 250,000 canonical combinations.
 
-This does not assume the v2.4 LMG failure cause. The new pipeline is designed to identify the exact weapon and preserve its error/log independently.
+Because the failed GitHub job log itself was not accessible, the real v2.6 GitHub run remains the final proof that this removes the M250 failure. Phase A still fails closed until every weapon shard and the merged cache validate successfully.
