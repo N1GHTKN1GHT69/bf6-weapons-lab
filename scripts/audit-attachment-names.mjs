@@ -50,7 +50,7 @@
  */
 import { readFile, writeFile } from 'node:fs/promises';
 
-const POLICY_VERSION = 'attachment-name-audit-v1';
+const POLICY_VERSION = 'attachment-name-audit-v2';
 
 // Closed, documented lexicon of generic tier/category labels. Exact string
 // match, case-insensitive. These are internal category descriptors used by the
@@ -66,8 +66,22 @@ const GENERIC_TIER_LABELS = new Set([
 const SHORTHAND_IDS = new Set(['subsonic_hp', 'subsonic_pen', 'range_pen']);
 const SHORTHAND_NAME_PATTERNS = [
   /^#\d+\s+[A-Z]+$/,        // "#01 BUCK" — all-caps, unlike every other label
-  /^\d+\s+Fast$/            // "30 Fast" — capacity + bare adjective shorthand
+  /^\d+\s+Fast$/,           // "30 Fast" — capacity + bare adjective shorthand
+  /^\d+\s+Rnd$/             // "30 Rnd"  — see MAGAZINE_NAME_CONFLICT below
 ];
+
+/**
+ * Independent descriptions of the same attachment that do not match the string
+ * this project displays. These are secondary sources, so they are NOT strong
+ * enough to assert a replacement name - doing that would be exactly the guess
+ * this audit exists to prevent. They ARE strong enough to withdraw the claim
+ * that the current string is the exact in-game label, so the entry is demoted
+ * to UNVERIFIED and the conflict is recorded for a future extraction pass.
+ */
+const CONFLICT_SIGNALS = {
+  lightweight: 'Independent Battlefield 6 attachment guides describe the lightweight / ADS-move-speed ammunition as "Polymer Case" rather than "Lightweight". The mechanic matches this record (adsMoveSpeedTierShift favouring ADS movement), so the identity is not in doubt - only the display string. No replacement name is asserted here because the conflicting source is secondary.'
+};
+const MAGAZINE_NAME_CONFLICT = 'Independent Battlefield 6 guides refer to magazines in the form "30-Rnd Magazine". The source string omits the "Magazine" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source.';
 
 const SLOT_OF_CATALOG = {
   SIGHTS: 'sight', MUZZLES: 'muzzle', BARRELS: 'barrel', GRIPS: 'grip',
@@ -133,18 +147,36 @@ function classify({ id, slot, name, auditClaims }) {
     };
   }
 
-  if (SHORTHAND_IDS.has(id) || SHORTHAND_NAME_PATTERNS.some(re => re.test(name))) {
+  if (CONFLICT_SIGNALS[id]) {
     return {
       status: 'UNVERIFIED',
       verifiedName: null,
-      rule: 'abbreviated-source-string',
-      notes: ['The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.']
+      rule: 'independent-source-conflict',
+      notes: [CONFLICT_SIGNALS[id]]
     };
   }
 
+  if (SHORTHAND_IDS.has(id) || SHORTHAND_NAME_PATTERNS.some(re => re.test(name))) {
+    const notes = ['The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.'];
+    if (/^\d+\s+Rnd$/.test(name)) notes.push(MAGAZINE_NAME_CONFLICT);
+    return { status: 'UNVERIFIED', verifiedName: null, rule: 'abbreviated-source-string', notes };
+  }
+
+  // v2 evidence standard. The old VERIFIED_EXACT meant only "verbatim from the
+  // pinned upstream source", which overstated confidence: no in-game string
+  // extraction exists in this repository, so nothing here can currently claim
+  // to be confirmed against the live game UI.
+  //
+  //   GAME_VERIFIED_EXACT  requires direct current in-game/extracted evidence.
+  //                        Nothing meets this bar yet, so it is never assigned
+  //                        automatically. It is reserved for entries added by a
+  //                        future in-game string extraction pass.
+  //   SOURCE_CORROBORATED  trusted source data supports this exact string.
+  //
   if (claims.length) notes.push(`Independently corroborated by ${claims.map(c => c.source).join(', ')}.`);
+  notes.push('No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT.');
   return {
-    status: 'VERIFIED_EXACT',
+    status: 'SOURCE_CORROBORATED',
     verifiedName: name,
     rule: claims.length ? 'corroborated-verbatim-source' : 'verbatim-pinned-source',
     notes
@@ -253,7 +285,7 @@ async function build() {
     if (byName.get(e.currentDisplayName.toLowerCase()).length > 1) e.sharedDisplayName = true;
   }
 
-  const counts = { VERIFIED_EXACT: 0, UNVERIFIED: 0, INTERNAL_PLACEHOLDER: 0, MISMATCH: 0 };
+  const counts = { GAME_VERIFIED_EXACT: 0, SOURCE_CORROBORATED: 0, UNVERIFIED: 0, INTERNAL_PLACEHOLDER: 0, MISMATCH: 0 };
   for (const e of entries) counts[e.verificationStatus]++;
 
   return {
@@ -268,7 +300,8 @@ async function build() {
       ...audits.map(([f, a]) => ({ id: `class-audit:${f}`, file: `data/${f}.json`, gameVersion: a.gameVersion ?? null, verifiedAt: a.verifiedAt ?? null, pass: a.pass === true }))
     ],
     statusDefinitions: {
-      VERIFIED_EXACT: 'Carried verbatim from the pinned, hash-verified upstream BF6 source snapshot and not a category label or abbreviation. "corroborated" evidence means an independent class audit names it identically.',
+      GAME_VERIFIED_EXACT: 'Strong evidence establishes this is the actual current Battlefield 6 in-game display string. Requires direct current in-game or extracted-string evidence. No entry currently qualifies: this repository holds no in-game string extraction.',
+      SOURCE_CORROBORATED: 'Trusted source data supports this exact string - it is carried verbatim from the pinned, hash-verified upstream snapshot and is not a category label or an abbreviation - but direct current in-game confirmation is not available.',
       UNVERIFIED: 'A plausible name exists but the available evidence is insufficient to certify it as the exact in-game label.',
       INTERNAL_PLACEHOLDER: 'A generic/internal/category label rather than a verified Battlefield 6 game label.',
       MISMATCH: 'Two in-repository sources disagree about this attachment id. Both strings are recorded and neither is overwritten.'
@@ -351,6 +384,7 @@ if (process.argv.includes('--check')) {
       if (prev.counts?.[k] !== doc.counts[k]) errors.push(`${k} count drift: ${prev.counts?.[k]} != ${doc.counts[k]}`);
     }
     if (prev.affectsOptimizer !== false) errors.push('audit artifact must declare affectsOptimizer:false');
+    if (Object.prototype.hasOwnProperty.call(prev.counts ?? {}, 'VERIFIED_EXACT')) errors.push('artifact still uses the retired VERIFIED_EXACT status');
   }
   if (doc.counts.MISMATCH > 0) {
     console.warn(`ATTACHMENT NAME AUDIT: ${doc.counts.MISMATCH} unresolved MISMATCH record(s) left visible.`);
@@ -360,7 +394,7 @@ if (process.argv.includes('--check')) {
     errors.forEach(e => console.error('-', e));
     process.exit(1);
   }
-  console.log(`ATTACHMENT NAME AUDIT PASS • ${doc.total} attachments • VERIFIED_EXACT ${doc.counts.VERIFIED_EXACT} • UNVERIFIED ${doc.counts.UNVERIFIED} • INTERNAL_PLACEHOLDER ${doc.counts.INTERNAL_PLACEHOLDER} • MISMATCH ${doc.counts.MISMATCH} • optimizer separation gated over ${OPTIMIZER_FUNCTIONS.length} engine functions`);
+  console.log(`ATTACHMENT NAME AUDIT PASS • ${doc.total} attachments • GAME_VERIFIED_EXACT ${doc.counts.GAME_VERIFIED_EXACT} • SOURCE_CORROBORATED ${doc.counts.SOURCE_CORROBORATED} • UNVERIFIED ${doc.counts.UNVERIFIED} • INTERNAL_PLACEHOLDER ${doc.counts.INTERNAL_PLACEHOLDER} • MISMATCH ${doc.counts.MISMATCH} • optimizer separation gated over ${OPTIMIZER_FUNCTIONS.length} engine functions`);
 } else {
   await writeFile('data/attachment-name-audit.json', json);
   await writeFile('data/attachment-name-audit.csv', csv);

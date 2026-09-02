@@ -198,6 +198,27 @@ main{padding-top:22px;display:flex;flex-direction:column;gap:var(--gap)}
 .legend-grid b{display:block;font-size:9px;letter-spacing:.07em;color:#e8f1f8}
 .legend-grid span{display:block;font-size:9px;line-height:1.45;color:#8498ab;margin-top:4px}
 
+/* ---------- game mode + REDSEC armour ---------- */
+.mode-switch.game-mode button.active,.mode-switch.armor-switch button.active{border-color:var(--orange);background:linear-gradient(180deg,rgba(255,179,22,.14),rgba(9,14,20,.9))}
+#gameModeGroup button[data-gamemode="redsec"].active{border-color:var(--red);background:linear-gradient(180deg,rgba(255,109,112,.14),rgba(9,14,20,.9))}
+#gameModeGroup button[data-gamemode="redsec"].active strong{color:#ff9294}
+.scenario-chip{border:1px solid #3d4d5e;background:#0b1118;color:#a9bccd;font-size:9px;font-weight:900;letter-spacing:.1em;padding:6px 10px;border-radius:3px;white-space:nowrap}
+.scenario-chip.redsec{border-color:rgba(255,109,112,.55);color:#ff9294;background:rgba(255,109,112,.07)}
+.scenario-chip.mp{border-color:rgba(142,198,255,.45);color:var(--blue);background:rgba(142,198,255,.06)}
+.armor-summary{display:none}
+.armor-summary.shown{display:flex;flex-wrap:wrap;align-items:center;gap:18px;border:1px solid rgba(255,109,112,.35);background:rgba(255,109,112,.05);border-radius:3px;padding:11px 13px}
+.armor-title{color:#ff9294;font-size:10px;font-weight:900;letter-spacing:.14em}
+.armor-fact{display:flex;flex-direction:column;min-width:0}
+.armor-fact b{font-size:17px;line-height:1.1}
+.armor-fact small{color:#8a9db0;font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;margin-top:2px}
+.armor-compare-wrap[hidden]{display:none}
+.armor-compare{display:grid;gap:1px;background:var(--line2);border:1px solid var(--line2);border-radius:3px;overflow:hidden}
+.armor-compare-row{display:grid;grid-template-columns:1fr auto auto;gap:16px;background:#090e13;padding:9px 11px;align-items:baseline}
+.armor-compare-row.active{background:#0d141b;box-shadow:inset 2px 0 0 var(--orange)}
+.armor-compare-row span{color:#9db4cb;font-size:10px;letter-spacing:.12em;font-weight:850;text-transform:uppercase}
+.armor-compare-row strong{font-size:13px;text-align:right;min-width:74px}
+.armor-shot-log p{margin:10px 0 0;color:#8498ab;font-size:10px;line-height:1.6}
+
 /* ---------- semantic effect chips: up = better, down = worse ---------- */
 .fx-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
 .fx{display:inline-flex;align-items:center;gap:4px;font-style:normal;font-size:9.5px;font-weight:800;letter-spacing:.02em;padding:3px 7px;border-radius:2px;border:1px solid;line-height:1.3}
@@ -291,6 +312,9 @@ footer{margin-top:26px;padding-top:16px;border-top:1px solid var(--line);color:#
   .alt-rank{grid-row:span 2;align-self:start}
 }
 @media(max-width:680px){
+  .armor-summary.shown{gap:12px}
+  .armor-compare-row{grid-template-columns:1fr;gap:2px}
+  .armor-compare-row strong{text-align:left}
   .reason-row{grid-template-columns:1fr;gap:3px}
   .app-shell{padding:0 14px 34px}
   main{padding-top:16px;gap:14px}

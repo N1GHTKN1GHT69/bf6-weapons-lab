@@ -31,7 +31,23 @@
         <h1 id="inputHeading" class="section-heading">What fight are you building for?</h1>
 
         <div class="control-block">
-          <div class="control-label"><span>Mode</span></div>
+          <div class="control-label"><span>Game mode</span><em id="gameModeNote"></em></div>
+          <div class="mode-switch game-mode" id="gameModeGroup" role="group" aria-label="Game mode">
+            <button type="button" data-gamemode="multiplayer" aria-pressed="true" class="active"><strong>MULTIPLAYER</strong><span>Standard 100 HP soldier</span></button>
+            <button type="button" data-gamemode="redsec" aria-pressed="false"><strong>REDSEC</strong><span>Battle royale, armour plates</span></button>
+          </div>
+        </div>
+
+        <div class="control-block" id="armorBlock" hidden>
+          <div class="control-label"><span>Target armour</span><em id="armorNote"></em></div>
+          <div class="mode-switch armor-switch" id="armorGroup" role="group" aria-label="Target armour state">
+            <button type="button" data-armor="unarmored" aria-pressed="true" class="active"><strong>UNARMORED</strong><span>Plates already stripped</span></button>
+            <button type="button" data-armor="plates2" aria-pressed="false"><strong>2 PLATES</strong><span>Fully armoured target</span></button>
+          </div>
+        </div>
+
+        <div class="control-block">
+          <div class="control-label"><span>Weapon mode</span></div>
           <div class="mode-switch" id="modeSwitch" role="group" aria-label="Weapon selection mode">
             <button id="autoModeBtn" type="button" class="active" aria-pressed="true"><strong>AUTO META</strong><span>The engine picks the weapon</span></button>
             <button id="manualModeBtn" type="button" aria-pressed="false"><strong>BUILD MY GUN</strong><span>You pick, the engine builds it</span></button>
@@ -81,10 +97,10 @@
           <details class="advanced">
             <summary>More options</summary>
             <div class="advanced-body">
-              <p class="advanced-note">These change your class, training and gadget suggestions. They do not change the weapon or its attachments.</p>
+              <p class="advanced-note">Changes class/gadget recommendations only. Does not change weapon damage or TTK.</p>
               <div class="advanced-grid">
                 <div class="field">
-                  <label for="classSelect">Which class do you play?</label>
+                  <label for="classSelect">Player class</label>
                   <select id="classSelect">
                     <option value="auto">Pick the best fit for me</option>
                     <option value="assault">Assault</option>
@@ -94,7 +110,7 @@
                   </select>
                 </div>
                 <div class="field">
-                  <label for="contextSelect">What are you mostly fighting?</label>
+                  <label for="contextSelect">Loadout focus</label>
                   <select id="contextSelect">
                     <option value="mixed">A bit of everything</option>
                     <option value="infantry">Mostly infantry</option>
@@ -120,12 +136,14 @@
             <p id="resultSubline">—</p>
           </div>
           <div class="answer-flags">
+            <span class="scenario-chip" id="scenarioChip">—</span>
             <span class="confidence-chip" id="confidenceChip">CHECKING DATA</span>
             <span class="input-stamp" id="inputStamp">—</span>
           </div>
         </div>
 
         <div class="key-stats" id="keyStats"></div>
+        <div id="armorSummary" class="armor-summary"></div>
         <div id="officialRangeNote" class="range-note"></div>
         <p id="priorityDelta" class="priority-delta"></p>
 
@@ -166,6 +184,12 @@
             </div>
 
             <div class="combat-numbers" id="combatNumbers"></div>
+
+            <div class="armor-compare-wrap" id="armorCompareWrap">
+              <div class="stat-bars-head"><b>ARMOUR COMPARISON</b><span>Same weapon, build and distance — live calculated</span></div>
+              <div id="armorCompare" class="armor-compare"></div>
+              <div id="armorShotLog" class="armor-shot-log"></div>
+            </div>
 
             <div class="stat-bars-wrap">
               <div class="stat-bars-head"><b>WEAPON CHARACTER</b><span>Relative within weapon class • higher bar = stronger in that characteristic</span></div>

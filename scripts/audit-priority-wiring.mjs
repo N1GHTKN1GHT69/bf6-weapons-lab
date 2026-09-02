@@ -42,6 +42,8 @@ function functionBody(src, name) {
  * left on screen.
  */
 const CONTROL_MANIFEST = [
+  { control: 'gameModeGroup',   state: 'state.gameMode',      consumer: 'scenarioCombat',    affects: 'combat model: Multiplayer vs REDSEC' },
+  { control: 'armorGroup',      state: 'state.targetArmor',   consumer: 'redsecArmoredCombat', affects: 'REDSEC target armour state' },
   { control: 'autoModeBtn',     state: 'state.selectionMode', consumer: 'defaultStrategy',   affects: 'weapon selection mode' },
   { control: 'manualModeBtn',   state: 'state.selectionMode', consumer: 'defaultStrategy',   affects: 'weapon lock' },
   { control: 'weaponTabs',      state: 'state.category',      consumer: 'buildRankPool',     affects: 'weapon eligibility + ranking scope' },
@@ -98,6 +100,19 @@ const rankStrat = functionBody(app, 'rankingStrategy');
 if (!rankStrat || !rankStrat.includes('PRIORITY_STRATEGY[state.priority] ?? "laserbeam"')) {
   errors.push('rankingStrategy() must default to the historical laserbeam ranking when no explicit priority is chosen');
 }
+// Scenario changes must recalculate, and must invalidate any memoised result.
+for (const [token, msg] of [
+  ['state.gameMode = btn.dataset.gamemode;', 'game mode control is not wired'],
+  ['state.targetArmor = btn.dataset.armor;', 'target armour control is not wired'],
+  ['if (state.gameMode !== "redsec") state.targetArmor = "unarmored";', 'leaving REDSEC can strand an inapplicable armour state']
+]) if (!app.includes(token)) errors.push(msg);
+// Every scenario write must clear the memo or a stale row could be reused.
+for (const fn of ['setDistance']) {
+  const body = functionBody(app, fn);
+  if (body && !body.includes('clearScenarioMemo()')) errors.push(`${fn}() does not invalidate the scenario memo`);
+}
+if ((app.match(/clearScenarioMemo\(\)/g) || []).length < 5) errors.push('scenario memo is not invalidated on every scenario change');
+
 // A changed priority must never leave a stale result on screen.
 if (!app.includes('function renderPriorityDelta')) errors.push('no feedback exists to show what a priority change did');
 if (!app.includes('state.priority = btn.dataset.priority;') || !app.includes('renderAll();')) {

@@ -16,6 +16,11 @@
     category: "__all__",
     weaponId: null,
     selectionMode: "auto",
+    // Top-level combat scenario. Both fields are first-class optimizer inputs:
+    // they reach ranking, attachment selection and every displayed value.
+    gameMode: "multiplayer",
+    targetArmor: "unarmored",
+    redsecModel: null,
     // One canonical fighting distance in meters. The slider, the preset
     // shortcuts and the custom numeric input all write this single value, and
     // the optimizer always reads exactly this value. There is deliberately no
@@ -43,7 +48,7 @@
     shotgunAudit: null,
     // Display-only attachment naming audit. Never read by the optimizer.
     nameAudit: null,
-    source: { weapons: "loading", attachments: "loading", ammo: "loading", ballistics: "loading", combat: "loading", assaultAudit: "loading", carbineAudit: "loading", smgAudit: "loading", lmgAudit: "loading", dmrAudit: "loading", sniperAudit: "loading", sidearmAudit: "loading", shotgunAudit: "loading", nameAudit: "loading" }
+    source: { redsec: "loading", weapons: "loading", attachments: "loading", ammo: "loading", ballistics: "loading", combat: "loading", assaultAudit: "loading", carbineAudit: "loading", smgAudit: "loading", lmgAudit: "loading", dmrAudit: "loading", sniperAudit: "loading", sidearmAudit: "loading", shotgunAudit: "loading", nameAudit: "loading" }
   };
 
   const CATALOG_KEYS = {
@@ -476,6 +481,22 @@
     }
   }
 
+  async function loadRedsecModel() {
+    try {
+      const m = await fetchJson("./data/redsec-model.json", 4000);
+      if (m?.armor?.battleRoyale?.totalHp && m?.damageVsArmor?.rangeShiftMeters?.value != null) {
+        state.redsecModel = m;
+        state.source.redsec = "loaded";
+        return m;
+      }
+      state.source.redsec = "invalid";
+      return null;
+    } catch (_) {
+      state.source.redsec = "failed";
+      return null;
+    }
+  }
+
   function nameRecord(opt) {
     if (!opt || !state.nameAudit) return null;
     return state.nameAudit.byKey.get(`${opt.slot}:${opt.id}`)
@@ -484,7 +505,8 @@
   }
 
   const NAME_STATUS_UI = {
-    VERIFIED_EXACT: { chip: "EXACT BF6 NAME", cls: "ok", note: "Exact Battlefield 6 attachment name, carried verbatim from the pinned verified source." },
+    GAME_VERIFIED_EXACT: { chip: "EXACT BF6 NAME", cls: "ok", note: "Confirmed against the current Battlefield 6 in-game display string." },
+    SOURCE_CORROBORATED: { chip: "SOURCE NAME", cls: "", note: "Carried verbatim from the pinned, hash-verified BF6 source data. Not yet confirmed against the live in-game string." },
     UNVERIFIED: { chip: "NAME UNVERIFIED", cls: "warn", note: "Exact attachment name pending verification. The mechanics, point cost and ranking of this attachment are unaffected." },
     INTERNAL_PLACEHOLDER: { chip: "CATEGORY LABEL", cls: "warn", note: "Internal category/tier label, not a verified Battlefield 6 attachment name." },
     MISMATCH: { chip: "NAME CONFLICT", cls: "bad", note: "Sources disagree about this attachment's exact name. The conflict is left visible rather than guessed." },
@@ -500,7 +522,8 @@
     const rec = nameRecord(opt);
     const fallback = opt?.name || prettifyId(opt?.id);
     if (!rec) return { name: fallback, status: "PENDING", ui: NAME_STATUS_UI.PENDING, record: null };
-    const name = rec.verificationStatus === "VERIFIED_EXACT" && rec.verifiedExactName ? rec.verifiedExactName : rec.currentDisplayName || fallback;
+    const trusted = rec.verificationStatus === "GAME_VERIFIED_EXACT" || rec.verificationStatus === "SOURCE_CORROBORATED";
+    const name = trusted && rec.verifiedExactName ? rec.verifiedExactName : rec.currentDisplayName || fallback;
     return { name, status: rec.verificationStatus, ui: NAME_STATUS_UI[rec.verificationStatus] ?? NAME_STATUS_UI.PENDING, record: rec };
   }
 
@@ -509,9 +532,11 @@
     const real = (picks || []).filter(p => p.id !== "none");
     if (!state.nameAudit) return { level: "PENDING", label: "NAME AUDIT PENDING", cls: "", verified: 0, total: real.length };
     const statuses = real.map(p => attachmentDisplay(p).status);
-    const verified = statuses.filter(s => s === "VERIFIED_EXACT").length;
+    // Source-corroborated counts as a named attachment for build-level rollup;
+    // the per-card chip still distinguishes it from in-game confirmation.
+    const verified = statuses.filter(s => s === "GAME_VERIFIED_EXACT" || s === "SOURCE_CORROBORATED").length;
     if (statuses.includes("MISMATCH")) return { level: "UNVERIFIED", label: "NAME CONFLICT", cls: "bad", verified, total: real.length };
-    if (!real.length || verified === real.length) return { level: "VERIFIED", label: "NAMES VERIFIED", cls: "ok", verified, total: real.length };
+    if (!real.length || verified === real.length) return { level: "VERIFIED", label: "NAMES SOURCED", cls: "ok", verified, total: real.length };
     if (verified === 0) return { level: "UNVERIFIED", label: "NAMES UNVERIFIED", cls: "warn", verified, total: real.length };
     return { level: "PARTIALLY_VERIFIED", label: "PARTIALLY VERIFIED", cls: "warn", verified, total: real.length };
   }
@@ -557,7 +582,7 @@
     state.attachments = attachments && typeof attachments === "object" ? attachments : null;
     state.ammo = ammo && typeof ammo === "object" ? ammo : null;
     state.ballistics = ballistics && typeof ballistics === "object" ? ballistics : null;
-    await Promise.all([loadCombatCache(), loadAssaultAudit(), loadCarbineAudit(), loadSmgAudit(), loadLmgAudit(), loadDmrAudit(), loadSniperAudit(), loadSidearmAudit(), loadShotgunAudit(), loadAttachmentNameAudit()]);
+    await Promise.all([loadCombatCache(), loadAssaultAudit(), loadCarbineAudit(), loadSmgAudit(), loadLmgAudit(), loadDmrAudit(), loadSniperAudit(), loadSidearmAudit(), loadShotgunAudit(), loadAttachmentNameAudit(), loadRedsecModel()]);
 
     const matched = CURRENT.roster.filter(r => rawForRoster(r)).length;
     if (state.rawWeapons.length) setChip("statsChip", `STATS ${matched}/${CURRENT.roster.length}`, matched >= 60 ? "ok" : "warn");
@@ -1292,6 +1317,368 @@
     };
   }
 
+  // ===========================================================================
+  // REDSEC COMBAT PROFILE
+  //
+  // Multiplayer and REDSEC share one weapon base profile. Only damage against
+  // ARMOR differs, exactly as EA's REDSEC armor update describes:
+  //
+  //   * armor is a separate 80 HP layer (2 plates x 40 HP) in Battle Royale
+  //   * damage-vs-armor uses the same step damages at ranges shifted +10 m
+  //   * for automatic weapons the leading close-range max-damage step is dropped
+  //   * once armor is gone, soldier-health damage and ranges are identical to
+  //     the rest of Battlefield 6, so REDSEC unarmored reuses the Multiplayer
+  //     health path unchanged rather than duplicating it
+  //
+  // Every mechanic is read from data/redsec-model.json. Nothing here invents an
+  // armor multiplier, a spillover rule, or a generic extra-health value.
+  // ===========================================================================
+
+  const GAME_MODES = { multiplayer: "MULTIPLAYER", redsec: "REDSEC" };
+  const ARMOR_STATES = { unarmored: "UNARMORED", plates2: "2 PLATES" };
+
+  function redsecModel() { return state.redsecModel; }
+
+  /** Armor pool for the selected target state, or null when unarmored. */
+  function armorPool(armorState = state.targetArmor) {
+    if (state.gameMode !== "redsec" || armorState === "unarmored") return null;
+    const br = redsecModel()?.armor?.battleRoyale;
+    if (!br || !Number.isFinite(Number(br.totalHp))) return null;
+    return {
+      plates: Number(br.plates),
+      hpPerPlate: Number(br.hpPerPlate),
+      totalHp: Number(br.totalHp)
+    };
+  }
+
+  /**
+   * Damage-vs-armor curve, derived from the weapon's soldier-health curve by
+   * the two transforms EA documents. Returns a dmg-shaped array so the existing
+   * damageAtDistance() step logic can evaluate it unchanged.
+   */
+  function armorDamageCurve(raw) {
+    const model = redsecModel()?.damageVsArmor;
+    if (!model || !Array.isArray(raw?.dmg) || !raw.dmg.length) return null;
+    const shift = Number(model.rangeShiftMeters?.value);
+    if (!Number.isFinite(shift)) return null;
+
+    let pts = raw.dmg
+      .map(p => ({ r: Number(p.r), d: Number(p.d) }))
+      .filter(p => Number.isFinite(p.r) && Number.isFinite(p.d));
+    if (!pts.length) return null;
+
+    // Rule B: for automatic weapons drop the leading maximum-damage step so the
+    // second step's damage applies from 0 m. Applied before the range shift so
+    // the surviving boundaries are the ones that move.
+    const dropModes = model.removeFirstCloseRangeStep?.appliesToFireModes ?? [];
+    if (model.removeFirstCloseRangeStep?.policy === "remove" && dropModes.includes(raw?.fireMode)) {
+      const first = pts[0].d;
+      const changeAt = pts.findIndex(p => p.d !== first);
+      if (changeAt > 0) pts = pts.slice(changeAt);
+    }
+
+    // Rule A: shift every drop-off threshold outward. The curve must still start
+    // at 0 m, so the leading tier simply extends inward.
+    const shifted = pts.map(p => ({ r: Math.max(0, p.r + shift), d: p.d }));
+    if (shifted[0].r > 0) shifted.unshift({ r: 0, d: shifted[0].d });
+    return shifted;
+  }
+
+  /** Per-shot damage against armor at an exact distance. */
+  function armorDamageAtDistance(raw, d) {
+    const curve = armorDamageCurve(raw);
+    if (!curve) return null;
+    // Reuse the weapon's own curve semantics (stepped vs linear vs pellet blend)
+    // by evaluating through the same function the health path uses.
+    const shim = { dmg: curve, damageSource: raw?.damageSource, pellets: raw?.pellets };
+    const per = damageAtDistance(shim, d);
+    if (per == null) return null;
+    return per * Math.max(1, Number(raw?.pellets) || 1);
+  }
+
+  /**
+   * Shot-by-shot REDSEC combat against an armored target.
+   *
+   * Armor and health are separate layers with different damage curves, so this
+   * walks the actual shot sequence rather than dividing a combined health pool.
+   * Leftover damage from the shot that destroys armor is NOT carried into
+   * health: converting between the two damage scales would require a rule the
+   * source does not publish. That policy is recorded in data/redsec-model.json.
+   */
+  function redsecArmoredCombat(raw, d, opts = {}) {
+    const pool = opts.pool ?? armorPool(opts.armorState);
+    const healthPerShot = opts.healthDamage ?? combatAtDistance(raw, d)?.damage;
+    const armorPerShot = armorDamageAtDistance(raw, d);
+    if (!pool || !Number.isFinite(Number(healthPerShot)) || Number(healthPerShot) <= 0) return null;
+    if (!Number.isFinite(Number(armorPerShot)) || Number(armorPerShot) <= 0) return null;
+
+    // Plates are consumed in order so per-plate behaviour can be added later
+    // without changing callers; with no spillover this equals one 80 HP pool.
+    let remainingArmor = pool.totalHp;
+    let shotsIntoArmor = 0;
+    const armorHitLog = [];
+    while (remainingArmor > 0) {
+      remainingArmor -= Number(armorPerShot);
+      shotsIntoArmor++;
+      armorHitLog.push({ shot: shotsIntoArmor, layer: "armor", damage: Number(armorPerShot), remaining: Math.max(0, remainingArmor) });
+      if (shotsIntoArmor > 200) break; // defensive: never loop forever on bad data
+    }
+
+    const healthBtk = Math.ceil(100 / Number(healthPerShot));
+    const totalBtk = shotsIntoArmor + healthBtk;
+    return {
+      shotsToBreakArmor: shotsIntoArmor,
+      armorDamagePerShot: Number(armorPerShot),
+      healthDamagePerShot: Number(healthPerShot),
+      healthBtk,
+      btk: totalBtk,
+      armorTotalHp: pool.totalHp,
+      plates: pool.plates,
+      hpPerPlate: pool.hpPerPlate,
+      spilloverPolicy: "no-spillover",
+      log: armorHitLog
+    };
+  }
+
+  /**
+   * Full REDSEC combat row for one weapon at an exact distance, shaped like the
+   * Multiplayer combat rows so every downstream consumer works unchanged.
+   *
+   * REDSEC UNARMORED returns the Multiplayer row itself: EA state that soldier
+   * health damage and ranges are unchanged, so this is reuse, not duplication.
+   */
+  function redsecCombat(raw, d, armorState = state.targetArmor, mpRow = null, buildStats = null) {
+    const base = mpRow;
+    if (!base) return null;
+    if (armorState === "unarmored") return { ...base, gameMode: "redsec", targetArmor: "unarmored", armorModel: null };
+
+    const armored = redsecArmoredCombat(raw, d, { armorState, healthDamage: base.damage });
+    if (!armored) return null;
+
+    // Timing uses the winning build's transformed cadence when available, which
+    // is the same cadence the Multiplayer row was timed with.
+    const rpm = Number(buildStats?.rpm);
+    const timed = Number.isFinite(rpm) && rpm > 0 && raw?.fireMode !== "burst" && raw?.id !== "db12" && !SHOTGUN_CADENCE[raw?.id]
+      ? (armored.btk - 1) * 60000 / rpm
+      : timeToNthShot(raw, armored.btk);
+    const mechTtk = Number.isFinite(Number(timed)) ? Number(timed) : null;
+    const flightMs = Number(base.flightMs);
+    const triggerTtk = Number.isFinite(mechTtk) && Number.isFinite(flightMs) ? mechTtk + flightMs : mechTtk;
+
+    // Low-body figures follow the same armor sequence with the low-body health
+    // damage the Multiplayer model already computes.
+    const lowHealth = Number(base.lowDamage);
+    let lowBtk = null, lowTtk = null;
+    if (Number.isFinite(lowHealth) && lowHealth > 0) {
+      lowBtk = armored.shotsToBreakArmor + Math.ceil(100 / lowHealth);
+      lowTtk = timeToNthShot(raw, lowBtk);
+    }
+
+    return {
+      ...base,
+      gameMode: "redsec",
+      targetArmor: armorState,
+      damage: base.damage,
+      btk: armored.btk,
+      ttk: mechTtk,
+      mechTtk,
+      triggerTtk,
+      lowBtk: lowBtk ?? base.lowBtk,
+      lowTtk: lowTtk ?? base.lowTtk,
+      armorModel: armored
+    };
+  }
+
+  /**
+   * Re-rank the engine's own validated build set for this weapon using REDSEC
+   * lethality. The candidate set, modifiers, point costs, budgets and optic
+   * eligibility are exactly the ones the exhaustive Multiplayer cache already
+   * validated; only the combat values fed to the existing comparators change.
+   * No new scoring weight is introduced.
+   */
+  function redsecBuildRows(raw, d, strategy) {
+    const cw = cacheWeapon(raw);
+    if (!cw?.builds) return null;
+    const key = String(Math.max(1, Math.min(300, Math.round(Number(d) || 25))));
+    const mpBest = cw.best?.[key], mpLethal = cw.bestLethal?.[key];
+    if (!mpBest && !mpLethal) return null;
+
+    const rows = [];
+    for (const [buildId, b] of Object.entries(cw.builds)) {
+      // Each cached build already carries the Multiplayer row it produced at
+      // this distance only for the winners, so recompute the shared fields from
+      // the build's own transformed stats plus the weapon's damage curves.
+      const mpRow = buildMpRowForBuild(cw, b, d, buildId);
+      if (!mpRow) continue;
+      const rc = state.targetArmor === "unarmored"
+        ? { ...mpRow, gameMode: "redsec", targetArmor: "unarmored", armorModel: null }
+        : redsecCombat(raw, d, state.targetArmor, mpRow, b.stats);
+      if (!rc || !Number.isFinite(Number(rc.triggerTtk))) continue;
+      rows.push({ ...rc, buildId, points: b.points, opticFit: mpRow.opticFit, opticEligible: mpRow.opticEligible, beamIndex: mpRow.beamIndex, practical: mpRow.practical });
+    }
+    if (!rows.length) return null;
+
+    if (strategy === "lethal") {
+      return rows.slice().sort((a, b) => betterRedsecLethal(a, b) ? -1 : 1)[0];
+    }
+    // Balanced mirrors the engine's anchored policy: the strict lethal winner
+    // sets the floor, and only builds within the same 12% ceiling may compete on
+    // the 55/45 utility.
+    const lethal = rows.slice().sort((a, b) => betterRedsecLethal(a, b) ? -1 : 1)[0];
+    const floor = Number(lethal?.triggerTtk);
+    if (!Number.isFinite(floor)) return lethal ?? null;
+    const ceiling = floor <= 0 ? floor : floor * REDSEC_AUTO_MAX_TTK_RATIO + 1e-9;
+    let winner = null;
+    for (const c of rows) {
+      if (!Number.isFinite(Number(c.triggerTtk)) || Number(c.triggerTtk) > ceiling) continue;
+      if (betterRedsecAuto(c, winner)) winner = c;
+    }
+    return winner ?? lethal ?? null;
+  }
+
+  // Mirrors scripts/auto-selection-policy.mjs, which the exhaustive builder uses.
+  const REDSEC_AUTO_MAX_TTK_RATIO = 1.12;
+
+  function betterRedsecLethal(a, b) {
+    if (!b) return true;
+    if (a.opticEligible !== b.opticEligible) return !!a.opticEligible;
+    if (a.triggerTtk !== b.triggerTtk) return (a.triggerTtk ?? Infinity) < (b.triggerTtk ?? Infinity);
+    if (a.ttk !== b.ttk) return (a.ttk ?? Infinity) < (b.ttk ?? Infinity);
+    if (a.btk !== b.btk) return (a.btk ?? Infinity) < (b.btk ?? Infinity);
+    if (a.damage !== b.damage) return (a.damage ?? -Infinity) > (b.damage ?? -Infinity);
+    if (a.lowTtk !== b.lowTtk) return (a.lowTtk ?? Infinity) < (b.lowTtk ?? Infinity);
+    if (a.beamIndex !== b.beamIndex) return (a.beamIndex ?? Infinity) < (b.beamIndex ?? Infinity);
+    return (a.points ?? Infinity) < (b.points ?? Infinity);
+  }
+
+  function betterRedsecAuto(a, b) {
+    if (!b) return true;
+    if (a.opticEligible !== b.opticEligible) return !!a.opticEligible;
+    const ac = laserbeamUtilityCost(a.triggerTtk, a.beamIndex);
+    const bc = laserbeamUtilityCost(b.triggerTtk, b.beamIndex);
+    if (Math.abs(ac - bc) > 1e-12) return ac < bc;
+    if (a.opticFit !== b.opticFit) return (a.opticFit ?? -Infinity) > (b.opticFit ?? -Infinity);
+    if (a.triggerTtk !== b.triggerTtk) return (a.triggerTtk ?? Infinity) < (b.triggerTtk ?? Infinity);
+    if (a.beamIndex !== b.beamIndex) return (a.beamIndex ?? Infinity) < (b.beamIndex ?? Infinity);
+    if (a.btk !== b.btk) return (a.btk ?? Infinity) < (b.btk ?? Infinity);
+    return (a.points ?? Infinity) < (b.points ?? Infinity);
+  }
+
+  /**
+   * Reconstruct the Multiplayer combat row for an arbitrary cached build at an
+   * exact distance. The cache stores per-distance rows only for its winners, so
+   * non-winning builds are evaluated with the same primitives the cache used:
+   * the weapon's damage curve plus that build's transformed stats.
+   */
+  function buildMpRowForBuild(cw, build, d, buildId) {
+    const key = String(Math.max(1, Math.min(300, Math.round(Number(d) || 25))));
+    for (const row of [cw.best?.[key], cw.bestLethal?.[key]]) {
+      if (row && row.buildId === buildId) return { ...row };
+    }
+    const raw = state.rawWeapons.find(w => w.id === cw.id);
+    if (!raw) return null;
+    const base = combatAtDistance(raw, d);
+    if (!base || !Number.isFinite(Number(base.damage))) return null;
+    const st = build.stats || {};
+    const rpm = Number(st.rpm);
+    const mech = Number.isFinite(rpm) && rpm > 0 && raw.fireMode !== "burst" && raw.id !== "db12" && !SHOTGUN_CADENCE[raw.id]
+      ? (base.btk - 1) * 60000 / rpm
+      : base.ttk;
+    const vel = Number(st.bulletVel ?? raw.bulletVel);
+    const drag = ballisticDragPerMeter(raw.cls, "standard");
+    const flightMs = Number.isFinite(vel) && vel > 0 && Number.isFinite(drag) ? flightTimeMs(d, vel, drag) : null;
+    const sight = Array.isArray(build.picks) ? build.picks.find(p => p.slot === "sight") : null;
+    const fit = sight ? opticRangeFit(sight.id, d) : NaN;
+    return {
+      damage: base.damage, btk: base.btk, ttk: mech, mechTtk: mech,
+      flightMs, triggerTtk: Number.isFinite(mech) && Number.isFinite(flightMs) ? mech + flightMs : mech,
+      ballisticsExact: ballisticVerified(raw), lowBtk: base.lowBtk, lowTtk: base.lowTtk,
+      lowDamage: base.lowDamage,
+      beamIndex: Number(st.beam?.beamIndex ?? NaN),
+      opticFit: Number.isFinite(fit) ? fit : null,
+      opticEligible: Number.isFinite(fit) ? fit >= minimumOpticFit(raw, d) : true,
+      practical: 0, bulletVel: vel, source: "redsec-rebuild"
+    };
+  }
+
+  // Scenario-scoped memo. The key carries every field that changes the result,
+  // so a REDSEC 2-plate row can never be served for a Multiplayer request.
+  const scenarioMemo = new Map();
+  function clearScenarioMemo() { scenarioMemo.clear(); }
+  function memoScenario(key, fn) {
+    if (scenarioMemo.has(key)) return scenarioMemo.get(key);
+    const v = fn();
+    scenarioMemo.set(key, v);
+    return v;
+  }
+
+  /**
+   * The combat row for the CURRENT scenario. This is what ranking consumes, so
+   * game mode and armor state are active during ranking itself rather than
+   * being applied to a Multiplayer result afterwards.
+   */
+  function scenarioCombat(raw, d, strategy, mpRow, winStats) {
+    if (state.gameMode !== "redsec" || !mpRow) return mpRow;
+    // Verified: REDSEC soldier-health damage and ranges are unchanged, so the
+    // unarmored scenario reuses the Multiplayer row itself.
+    if (state.targetArmor === "unarmored") return { ...mpRow, gameMode: "redsec", targetArmor: "unarmored", armorModel: null };
+    return memoScenario(`combat|${scenarioKey({ weaponId: raw?.id, distance: d, strategy })}`, () => {
+      const picked = redsecBuildRows(raw, d, strategy);
+      if (picked) return picked;
+      return redsecCombat(raw, d, state.targetArmor, mpRow, winStats);
+    });
+  }
+
+  /**
+   * The attachment build for the current scenario, shaped exactly like
+   * cachedBuild()'s result so every consumer works unchanged.
+   *
+   * Multiplayer and REDSEC unarmored return the existing optimizer result: EA
+   * verify the soldier-health path is identical, so the Multiplayer winner is
+   * the correct answer there. REDSEC armoured re-ranks the engine's own
+   * validated build set on REDSEC lethality and returns that winner, so a
+   * REDSEC result never reports a Multiplayer build or a Multiplayer TTK.
+   */
+  function scenarioBuild(raw, d, strategy, mpResult) {
+    if (state.gameMode !== "redsec" || state.targetArmor !== "plates2") return mpResult;
+    const cw = cacheWeapon(raw);
+    const row = redsecBuildRows(raw, d, strategy);
+    const b = row?.buildId ? cw?.builds?.[row.buildId] : null;
+    if (!row || !b) {
+      // No REDSEC winner could be resolved: re-time the Multiplayer build under
+      // armour rather than silently presenting Multiplayer numbers.
+      if (!mpResult) return null;
+      const rc = redsecCombat(raw, d, state.targetArmor, mpResult.combat, cachedWinningStats(raw, d, strategy));
+      return rc ? { ...mpResult, combat: rc } : mpResult;
+    }
+    const picks = Array.isArray(b.picks) ? b.picks.map(x => ({ ...x })) : [];
+    return {
+      score: row.practical ?? 0,
+      points: b.points,
+      picks,
+      audit: { ok: true, total: b.points, budget: cw.budget, errors: [] },
+      exhaustive: true,
+      combat: row
+    };
+  }
+
+  /** Scenario identity. Any field that changes the calculation must appear here. */
+  function scenarioKey(extra = {}) {
+    return [
+      extra.gameMode ?? state.gameMode,
+      (extra.gameMode ?? state.gameMode) === "redsec" ? (extra.targetArmor ?? state.targetArmor) : "n/a",
+      extra.distance ?? state.distance,
+      extra.strategy ?? activeStrategy(),
+      extra.weaponId ?? state.weaponId ?? "-",
+      extra.category ?? state.category
+    ].join("|");
+  }
+
+  function scenarioLabel() {
+    if (state.gameMode !== "redsec") return `${GAME_MODES.multiplayer} · ${state.distance}m`;
+    return `${GAME_MODES.redsec} · ${state.distance}m · ${ARMOR_STATES[state.targetArmor] ?? state.targetArmor}`;
+  }
+
   function norm(value, min, max, invert=false) {
     if (!Number.isFinite(value)) return 0;
     if (!Number.isFinite(min) || !Number.isFinite(max) || max === min) return .5;
@@ -1338,6 +1725,9 @@
         if (!state.combatCache && raw) combat = auditedClassOptimized(raw, d) || combat;
         const def = auditedDefForRoster(roster, raw);
         const winStats = raw ? cachedWinningStats(raw, d, strategy) : null;
+        // Game mode and armor state are applied here, before any ranking value
+        // is derived, so REDSEC ranks on REDSEC lethality.
+        combat = scenarioCombat(raw, d, strategy, combat, winStats);
         const velocity = Number(winStats?.bulletVel ?? (roster.cls === "DMR" ? def?.equippedVelocity : null) ?? raw?.bulletVel ?? def?.bulletVel) || 0;
         if (combat && !Number.isFinite(Number(combat.triggerTtk))) combat = addTriggerKill(roster, raw, combat, d, "standard", velocity);
         const ads = Number(winStats?.adsTimeMs ?? (roster.cls === "DMR" ? def?.adsTime : null) ?? raw?.adsTime ?? def?.adsTime);
@@ -1481,6 +1871,7 @@
    * combat math of its own.
    */
   function resolveDisplayCombat(roster, raw) {
+    if (!roster) return { classAudit: null, auditDef: null, audited: null, cached: null, cachedStats: null, optimized: null, displayVelocity: NaN, combat: null, strategy: activeStrategy() };
     const classAudit = auditForClass(roster.cls);
     const auditDef = auditedDefForRoster(roster, raw);
     const audited = auditedRosterCombat(roster, raw, state.distance);
@@ -1494,6 +1885,9 @@
     let c = cached || audited || (raw && !classAudit ? combatAtDistance(raw, state.distance) : null);
     const optimized = c && raw && !cached ? auditedClassOptimized(raw, state.distance) : null;
     const cachedStats = raw ? cachedWinningStats(raw, state.distance, detailStrategy) : null;
+    // Same scenario transform the ranking used, so the headline result and the
+    // ranking can never disagree about which scenario they describe.
+    c = scenarioCombat(raw, state.distance, detailStrategy, c, cachedStats);
     const displayVelocity = c ? Number(cachedStats?.bulletVel ?? (roster.cls === "DMR" ? auditDef?.equippedVelocity : null) ?? c.bulletVel ?? raw?.bulletVel ?? auditDef?.bulletVel) : NaN;
     if (c && !Number.isFinite(Number(c.triggerTtk))) c = addTriggerKill(roster, raw, c, state.distance, "standard", displayVelocity);
     return { classAudit, auditDef, audited, cached, cachedStats, optimized, displayVelocity, combat: c, strategy: detailStrategy };
@@ -1863,7 +2257,8 @@
     }
 
     try {
-      const result = optimize(raw, state.distance, activeStrategy());
+      const result = scenarioBuild(raw, state.distance, activeStrategy(), optimize(raw, state.distance, activeStrategy()));
+      if (!result) throw new Error("No legal build could be resolved for this scenario");
       $("pointsUsed").textContent = result.points;
       $("pointsMeter").style.width = `${Math.min(100, result.points / budget * 100)}%`;
       const audit = $("pointAuditBadge");
@@ -1934,11 +2329,13 @@
 
   function attachmentCard(opt, raw = null, ctx = null) {
     const d = attachmentDisplay(opt);
-    const flag = d.status === "VERIFIED_EXACT" ? "" :
+    const clean = d.status === "GAME_VERIFIED_EXACT";
+    const flag = clean ? "" :
       `<em class="name-flag ${d.ui.cls}" title="${escapeHtml(d.ui.note)}">${escapeHtml(d.ui.chip)}</em>`;
     const { effects, assumed } = raw ? attachmentEffects(raw, opt) : { effects: [], assumed: false };
     const reason = raw && ctx ? attachmentReason(raw, opt, ctx) : attachmentNote(opt);
-    return `<div class="attachment-card${d.status === "VERIFIED_EXACT" ? "" : " unverified-name"}">` +
+    const flagged = d.status === "UNVERIFIED" || d.status === "INTERNAL_PLACEHOLDER" || d.status === "MISMATCH";
+    return `<div class="attachment-card${flagged ? " unverified-name" : ""}">` +
       `<span>${escapeHtml(SLOT_LABELS[opt.slot] || opt.slot)}<b>${pointCost(opt)}p</b></span>` +
       `<strong>${escapeHtml(d.name)}</strong>${flag}` +
       `<div class="fx-row">${effectChips(effects)}</div>` +
@@ -2025,6 +2422,12 @@
     return [first, second].filter(Boolean);
   }
 
+  /** "A" or "An" for a display noun; SMG/LMG read as initialisms. */
+  function article(word) {
+    const w = String(word || "").trim();
+    return /^[AEIOU]/i.test(w) || /^(SMG|LMG|RPG)/.test(w) ? "An" : "A";
+  }
+
   function renderCompleteLoadout(roster) {
     const key = selectedClass(roster);
     const c = LOADOUT.classes[key];
@@ -2033,29 +2436,50 @@
     const gadgets = chooseTwoGadgets(c);
     const throwable = [...(c.throwables || [])].sort((a, b) => scoreLoadoutItem(b) - scoreLoadoutItem(a))[0];
 
-    $("classTitle").textContent = `${c.name} complete loadout`;
+    // REDSEC does not use a Multiplayer-style pre-match loadout: EA state the
+    // player picks Class, Training Path, sidearm and melee in the infiltration
+    // helicopter, and loots primaries and gadgets in-match. Only the genuinely
+    // selectable items are shown, so the app never implies an illegal loadout.
+    const redsec = state.gameMode === "redsec";
+    const lo = state.redsecModel?.loadout;
+    $("classTitle").textContent = redsec ? `${c.name} pre-drop setup` : `${c.name} complete loadout`;
+    document.querySelector(".full-loadout-card .kicker").textContent = redsec ? "PRE-DROP LOADOUT" : "COMPLETE LOADOUT";
     $("classFit").textContent = state.classChoice === "auto" ? "AUTO BEST FIT" : "MANUAL CLASS";
-    const pills = [
-      ["CLASS", c.name], ["TRAINING", path?.name || "—"], ["SIGNATURE", c.signatureGadget],
-      ["GADGET 1", gadgets[0]?.name || "—"], ["GADGET 2", gadgets[1]?.name || "—"], ["THROWABLE", throwable?.name || "—"]
-    ];
+    const pills = redsec
+      ? [["CLASS", c.name], ["TRAINING PATH", path?.name || "—"], ["SIGNATURE TRAIT", c.signatureGadget]]
+      : [
+        ["CLASS", c.name], ["TRAINING", path?.name || "—"], ["SIGNATURE", c.signatureGadget],
+        ["GADGET 1", gadgets[0]?.name || "—"], ["GADGET 2", gadgets[1]?.name || "—"], ["THROWABLE", throwable?.name || "—"]
+      ];
     $("loadoutLine").innerHTML = pills.map(([k, v]) => `<div class="loadout-pill"><span>${escapeHtml(k)}</span><strong>${escapeHtml(v)}</strong></div>`).join("");
 
     // One headline sentence, then one dense row per item. The same information
     // as before in roughly a third of the vertical space.
-    const headline = c.signatureCategory === roster.cls
-      ? `${c.name} + ${path?.name || "its default training"} — ${c.weaponBenefit} That lines up directly with ${roster.name}.`
-      : `${c.name} + ${path?.name || "its default training"} — ${c.weaponBenefit} ${c.role}`;
+    const matches = c.signatureCategory === roster.cls;
+    const headline = redsec
+      ? `${c.name} + ${path?.name || "its default training"}. In REDSEC you drop with a sidearm and melee only and loot your primary, so this is what you actually pick in the helicopter. ` +
+        (matches
+          ? `${article(c.name)} ${c.name} class chest most often yields ${article(c.signatureCategory).toLowerCase()} ${c.signatureCategory}, which is exactly what ${roster.name} is — so this class is the most likely way to end up holding it.`
+          : `Class chests for ${c.name} favour ${c.signatureCategory}s, so ${roster.name} will usually come from world loot, a mission reward or a custom weapon drop rather than your class chest.`)
+      : (matches
+        ? `${c.name} + ${path?.name || "its default training"} — ${c.weaponBenefit} That lines up directly with ${roster.name}.`
+        : `${c.name} + ${path?.name || "its default training"} — ${c.weaponBenefit} ${c.role}`);
     const lead = $("loadoutWhy");
     if (lead) lead.textContent = headline;
 
-    const rows = [
-      [path?.name, path?.why],
-      [c.signatureGadget, c.signatureTrait],
-      [gadgets[0]?.name, gadgets[0]?.why],
-      [gadgets[1]?.name, gadgets[1]?.why],
-      [throwable?.name, throwable?.why]
-    ].filter(([n, w]) => n && w);
+    const rows = (redsec
+      ? [
+        [path?.name, path?.why],
+        [c.signatureGadget, c.signatureTrait],
+        ["Primary weapon", lo?.primaryAcquisition || "Looted in-match rather than equipped before the drop."]
+      ]
+      : [
+        [path?.name, path?.why],
+        [c.signatureGadget, c.signatureTrait],
+        [gadgets[0]?.name, gadgets[0]?.why],
+        [gadgets[1]?.name, gadgets[1]?.why],
+        [throwable?.name, throwable?.why]
+      ]).filter(([n, w]) => n && w);
     $("loadoutExplanations").innerHTML = rows.length
       ? rows.map(([n, w]) => `<div class="reason-row"><strong>${escapeHtml(n)}</strong><span>${escapeHtml(w)}</span></div>`).join("")
       : `<div class="reason-row"><strong>No per-item reasons</strong><span>The current loadout data does not record a reason for these items.</span></div>`;
@@ -2093,7 +2517,11 @@
       state.rawWeapons.find(w => aliasKey(w.name) === aliasKey(rec.weapon.name)) || null;
     $("secondaryTitle").textContent = rec.weapon.name;
     const target = secondaryTargetDistance();
-    $("secondaryWhy").textContent = `${rec.role?.why || "Selected to cover the primary weapon's weak range."} Sidearm build is optimized around ~${target}m as a complement to your ${state.distance}m primary setup.`;
+    const secKicker = document.querySelector(".secondary-card .kicker");
+    if (secKicker) secKicker.textContent = state.gameMode === "redsec" ? "STARTING SIDEARM" : "SECONDARY";
+    $("secondaryWhy").textContent = state.gameMode === "redsec"
+      ? `${rec.role?.why || "Selected to cover the primary weapon's weak range."} In REDSEC you drop with this and nothing else, so it is a real pre-drop choice. Build is optimized around ~${target}m.`
+      : `${rec.role?.why || "Selected to cover the primary weapon's weak range."} Sidearm build is optimized around ~${target}m as a complement to your ${state.distance}m primary setup.`;
 
     if (!raw || !state.attachments || !state.ammo) return renderBuildPending("secondary", raw ? "Attachment/ammo feed unavailable." : "Exact sidearm attachment data unavailable.");
     try {
@@ -2204,7 +2632,7 @@
   function renderInputStamp() {
     const el = $("inputStamp");
     if (!el) return;
-    el.textContent = `${state.selectionMode === "manual" ? "BUILD MY GUN" : "AUTO META"} • ${scopeLabel()} • ${state.distance}m • ${priorityLabel()}`;
+    el.textContent = `${state.selectionMode === "manual" ? "BUILD MY GUN" : "AUTO META"} • ${scopeLabel()} • ${priorityLabel()}`;
   }
 
   function renderAnswerHeadline(roster, ranked) {
@@ -2218,16 +2646,16 @@
     }
     nameEl.textContent = roster.name;
     if (state.selectionMode === "manual") {
-      scopeEl.textContent = "YOUR WEAPON";
-      subEl.textContent = `${roster.cls} • optimized for ${state.distance}m • this weapon stays locked`;
+      scopeEl.textContent = state.gameMode === "redsec" ? "YOUR WEAPON TO SEEK" : "YOUR WEAPON";
+      subEl.textContent = `${roster.cls} • ${scenarioLabel()} • this weapon stays locked`;
       return;
     }
-    scopeEl.textContent = "BEST WEAPON";
+    scopeEl.textContent = state.gameMode === "redsec" ? "BEST WEAPON TO SEEK" : "BEST WEAPON";
     const rank = ranked.findIndex(x => x.roster.id === roster.id);
     const scope = state.category === "__all__" ? "weapon" : `${tabLabel(state.category).toLowerCase()}`;
     subEl.textContent = ranked.length && rank === 0
-      ? `Best ${scope} at ${state.distance}m out of ${ranked.length} ranked`
-      : `${roster.cls} at ${state.distance}m`;
+      ? `Best ${scope} out of ${ranked.length} ranked • ${scenarioLabel()}`
+      : `${roster.cls} • ${scenarioLabel()}`;
   }
 
   /**
@@ -2327,8 +2755,13 @@
     const exhaustive = buildResult?.exhaustive === true;
     const audited = resolved?.classAudit?.pass === true;
     const empirical = resolved?.auditDef?.confidence === "empirical-current";
+    const armored = state.gameMode === "redsec" && state.targetArmor === "plates2";
+    const redsecConfidence = armored ? state.redsecModel?.confidence?.redsecArmored : state.redsecModel?.confidence?.redsecUnarmored;
     let level, text;
     if (!resolved?.combat) { level = "bad"; text = "UNVERIFIED — NO AUDITED MODEL"; }
+    else if (state.gameMode === "redsec" && !state.redsecModel) { level = "bad"; text = "UNVERIFIED — REDSEC MODEL NOT LOADED"; }
+    // Confidence reflects the weakest material component of the shown result.
+    else if (armored && redsecConfidence !== "verified") { level = "warn"; text = "PARTIALLY VERIFIED — REDSEC ARMOUR MODEL"; }
     else if (!exhaustive) { level = "warn"; text = "FALLBACK — EXHAUSTIVE BUILD CACHE PENDING"; }
     else if (!audited || empirical) { level = "warn"; text = "PARTIALLY VERIFIED — CLASS AUDIT INCOMPLETE"; }
     else if (names.level === "VERIFIED") { level = "ok"; text = "VERIFIED"; }
@@ -2341,7 +2774,7 @@
     const legend = $("nameLegend");
     if (legend) {
       legend.innerHTML = names.total
-        ? `Attachment names: <b>${names.verified}/${names.total}</b> verified as exact Battlefield 6 labels. Names marked otherwise are shown exactly as the source provides them and are never cleaned up or guessed. <b>Name confidence does not change the build:</b> candidates, modifiers, point costs and ranking are identical either way.`
+        ? `Attachment names: <b>${names.verified}/${names.total}</b> carried verbatim from verified BF6 source data. None are yet confirmed against the live in-game string, and category/tier labels are marked as such. Names are never cleaned up or guessed. <b>Name confidence does not change the build:</b> candidates, modifiers, point costs and ranking are identical either way.`
         : "";
     }
   }
@@ -2417,6 +2850,88 @@
   // INPUT CONTROLS
   // ===========================================================================
 
+  function renderGameMode() {
+    const redsec = state.gameMode === "redsec";
+    document.querySelectorAll("#gameModeGroup button[data-gamemode]").forEach(b => {
+      const on = b.dataset.gamemode === state.gameMode;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-pressed", String(on));
+    });
+    const block = $("armorBlock");
+    if (block) block.hidden = !redsec; // armour is a REDSEC-only concept
+    document.querySelectorAll("#armorGroup button[data-armor]").forEach(b => {
+      const on = b.dataset.armor === state.targetArmor;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-pressed", String(on));
+    });
+    const note = $("gameModeNote");
+    if (note) note.textContent = redsec
+      ? "Battle royale rules: targets can carry armour plates."
+      : "Standard Battlefield 6 multiplayer soldier.";
+    const anote = $("armorNote");
+    if (anote) {
+      const pool = state.redsecModel?.armor?.battleRoyale;
+      anote.textContent = state.targetArmor === "plates2" && pool
+        ? `${pool.plates} plates x ${pool.hpPerPlate} HP = ${pool.totalHp} HP of armour on top of soldier health.`
+        : "Soldier health only — plates already broken.";
+    }
+    const chip = $("scenarioChip");
+    if (chip) {
+      chip.textContent = scenarioLabel();
+      chip.className = `scenario-chip ${redsec ? "redsec" : "mp"}`;
+    }
+  }
+
+  /** Compact armour summary. Shot-by-shot detail stays in Advanced Stats. */
+  function renderArmorSummary(resolved) {
+    const box = $("armorSummary");
+    if (!box) return;
+    const am = resolved?.combat?.armorModel;
+    if (state.gameMode !== "redsec" || state.targetArmor !== "plates2" || !am) { box.innerHTML = ""; box.className = "armor-summary"; return; }
+    box.className = "armor-summary shown";
+    box.innerHTML =
+      `<span class="armor-title">${escapeHtml(ARMOR_STATES.plates2)}</span>` +
+      `<span class="armor-fact"><b>${am.armorTotalHp} HP</b><small>armour (${am.plates} x ${am.hpPerPlate})</small></span>` +
+      `<span class="armor-fact"><b>${am.shotsToBreakArmor}</b><small>shots to break armour</small></span>` +
+      `<span class="armor-fact"><b>${am.healthBtk}</b><small>then shots to kill</small></span>` +
+      `<span class="armor-fact"><b>${am.btk}</b><small>total BTK</small></span>`;
+  }
+
+  /** Optional armour comparison, live-calculated, never hardcoded. */
+  function renderArmorComparison(roster, raw, resolved) {
+    const box = $("armorCompare");
+    if (!box) return;
+    const wrap = $("armorCompareWrap");
+    if (wrap) wrap.hidden = state.gameMode !== "redsec";
+    if (state.gameMode !== "redsec" || !raw) { box.innerHTML = ""; const l = $("armorShotLog"); if (l) l.innerHTML = ""; return; }
+    const keep = state.targetArmor;
+    const rows = [];
+    try {
+      for (const st of ["unarmored", "plates2"]) {
+        state.targetArmor = st;
+        clearScenarioMemo();
+        const r = resolveDisplayCombat(roster, raw);
+        const c = r?.combat;
+        rows.push({
+          label: ARMOR_STATES[st],
+          btk: c?.btk ?? null,
+          ttk: Number.isFinite(Number(c?.triggerTtk)) ? Math.round(Number(c.triggerTtk)) : null,
+          active: st === keep
+        });
+      }
+    } finally { state.targetArmor = keep; clearScenarioMemo(); }
+    const log = $("armorShotLog");
+    if (log) {
+      const am = resolved?.combat?.armorModel;
+      log.innerHTML = am
+        ? `<p>Shot-by-shot: ${am.shotsToBreakArmor} shot${am.shotsToBreakArmor === 1 ? "" : "s"} of ${am.armorDamagePerShot.toFixed(2)} armour damage strip ${am.armorTotalHp} HP of plates, then ${am.healthBtk} shot${am.healthBtk === 1 ? "" : "s"} of ${am.healthDamagePerShot.toFixed(2)} soldier-health damage. Leftover damage from the shot that breaks armour is not carried into health: the two layers use different damage curves and no conversion rule is published, so none is invented.</p>`
+        : "";
+    }
+    box.innerHTML = rows.map(r =>
+      `<div class="armor-compare-row${r.active ? " active" : ""}"><span>${escapeHtml(r.label)}</span><strong>${r.btk ?? "—"} BTK</strong><strong>${r.ttk == null ? "—" : r.ttk + " ms"}</strong></div>`
+    ).join("");
+  }
+
   function renderModeSwitch() {
     const autoBtn=$("autoModeBtn"), manualBtn=$("manualModeBtn");
     const isManual = state.selectionMode === "manual";
@@ -2483,7 +2998,7 @@
         ["META ENGINE", cache ? `${cache.audit?.modeled ?? "—"} / ${cache.audit?.weaponsSource ?? "—"} modeled` : "FALLBACK ACTIVE", cache ? `${cache.rules?.distances?.[0] ?? 1}–${cache.rules?.distances?.[1] ?? 300}m exhaustive cache` : "exhaustive cache not validated"],
         ["PRIMARY BUDGET", `${budgetSample ? budgetFor(budgetSample) : (cache?.rules?.primaryBudget ?? 100)} points`, "hard cap enforced per build"],
         ["SECONDARY BUDGET", `${cache?.rules?.sidearmBudget ?? 60} points`, "different from primaries"],
-        ["ATTACHMENT NAMES", state.nameAudit ? `${state.nameAudit.counts.VERIFIED_EXACT} / ${state.nameAudit.total} exact` : "AUDIT PENDING", state.nameAudit ? `${state.nameAudit.counts.UNVERIFIED} unverified • ${state.nameAudit.counts.INTERNAL_PLACEHOLDER} category labels • ${state.nameAudit.counts.MISMATCH} conflicts` : "naming audit not loaded"]
+        ["ATTACHMENT NAMES", state.nameAudit ? `${state.nameAudit.counts.SOURCE_CORROBORATED} / ${state.nameAudit.total} sourced` : "AUDIT PENDING", state.nameAudit ? `${state.nameAudit.counts.GAME_VERIFIED_EXACT} in-game confirmed • ${state.nameAudit.counts.UNVERIFIED} unverified • ${state.nameAudit.counts.INTERNAL_PLACEHOLDER} category labels • ${state.nameAudit.counts.MISMATCH} conflicts` : "naming audit not loaded"]
       ];
       grid.innerHTML = rows.map(([k, v, sub]) => `<div><span>${escapeHtml(k)}</span><strong>${escapeHtml(String(v))}</strong><small>${escapeHtml(sub)}</small></div>`).join("");
     }
@@ -2551,6 +3066,8 @@
   // ===========================================================================
 
   function renderAll() {
+    clearScenarioMemo();
+    renderGameMode();
     renderModeSwitch();
     renderPriority();
     renderDistance();
@@ -2571,6 +3088,8 @@
     renderRangeNote(roster);
     const buildResult = renderPrimaryBuild(roster, raw, resolved, ranked);
     renderConfidence(resolved, buildResult);
+    renderArmorSummary(resolved);
+    renderArmorComparison(roster, raw, resolved);
     renderPriorityDelta(roster, ranked, buildResult);
     renderAlternatives(ranked, roster);
     renderWeaponIntel(roster, raw, resolved);
@@ -2631,6 +3150,7 @@
     const next = Math.max(1, Math.min(300, Math.round(Number(d))));
     if (!Number.isFinite(next)) return;
     state.distance = next;
+    clearScenarioMemo();
     if (state.selectionMode === "auto") resolveAutoWeapon();
     populateWeaponSelect(state.weaponId);
     renderAll();
@@ -2703,10 +3223,32 @@
       const btn = e.target.closest("button[data-distance]");
       if (btn) setDistance(btn.dataset.distance);
     });
+    $("gameModeGroup")?.addEventListener("click", e => {
+      const btn = e.target.closest("button[data-gamemode]");
+      if (!btn || btn.dataset.gamemode === state.gameMode) return;
+      state.gameMode = btn.dataset.gamemode;
+      // Leaving REDSEC must not strand an armour state that no longer applies.
+      if (state.gameMode !== "redsec") state.targetArmor = "unarmored";
+      clearScenarioMemo();
+      if (state.selectionMode === "auto") resolveAutoWeapon();
+      populateTabs();
+      populateWeaponSelect(state.weaponId);
+      renderAll();
+    });
+    $("armorGroup")?.addEventListener("click", e => {
+      const btn = e.target.closest("button[data-armor]");
+      if (!btn || btn.dataset.armor === state.targetArmor) return;
+      state.targetArmor = btn.dataset.armor;
+      clearScenarioMemo();
+      if (state.selectionMode === "auto") resolveAutoWeapon();
+      populateWeaponSelect(state.weaponId);
+      renderAll();
+    });
     $("priorityGroup")?.addEventListener("click", e => {
       const btn = e.target.closest("button[data-priority]");
       if (!btn) return;
       state.priority = btn.dataset.priority;
+      clearScenarioMemo();
       if (state.selectionMode === "auto") resolveAutoWeapon();
       populateWeaponSelect(state.weaponId);
       renderAll();
@@ -2767,9 +3309,26 @@
       classes: CURRENT.primaryClasses.slice(),
       source: { ...state.source }
     }),
+    redsec: {
+      model: () => state.redsecModel,
+      armorCurve: weaponId => armorDamageCurve(state.rawWeapons.find(w => w.id === weaponId)),
+      armorDamageAt: (weaponId, d) => armorDamageAtDistance(state.rawWeapons.find(w => w.id === weaponId), d),
+      armored: (weaponId, d, armorState = "plates2") => {
+        const raw = state.rawWeapons.find(w => w.id === weaponId);
+        const keep = { g: state.gameMode, a: state.targetArmor };
+        try {
+          state.gameMode = "redsec"; state.targetArmor = armorState;
+          return redsecArmoredCombat(raw, d, { armorState });
+        } finally { state.gameMode = keep.g; state.targetArmor = keep.a; }
+      }
+    },
     snapshot(query = {}) {
-      const keep = { category: state.category, weaponId: state.weaponId, selectionMode: state.selectionMode, distance: state.distance, priority: state.priority, context: state.context, classChoice: state.classChoice };
+      const keep = { category: state.category, weaponId: state.weaponId, selectionMode: state.selectionMode, distance: state.distance, priority: state.priority, context: state.context, classChoice: state.classChoice, gameMode: state.gameMode, targetArmor: state.targetArmor };
       try {
+        clearScenarioMemo();
+        if (query.gameMode != null) state.gameMode = query.gameMode;
+        if (query.targetArmor != null) state.targetArmor = query.targetArmor;
+        if (state.gameMode !== "redsec") state.targetArmor = "unarmored";
         if (query.category != null) state.category = query.category;
         if (query.mode != null) state.selectionMode = query.mode;
         if (query.priority != null) state.priority = query.priority;
@@ -2785,7 +3344,7 @@
         const strategy = activeStrategy();
         let build = null;
         try {
-          const r = raw && state.attachments && state.ammo ? optimize(raw, state.distance, strategy) : null;
+          const r = raw && state.attachments && state.ammo ? scenarioBuild(raw, state.distance, strategy, optimize(raw, state.distance, strategy)) : null;
           if (r) build = {
             points: r.points,
             exhaustive: !!r.exhaustive,
@@ -2795,6 +3354,10 @@
         } catch (err) { build = { error: String(err && err.message || err) }; }
         return {
           query: { ...query },
+          scenario: scenarioKey(),
+          gameMode: state.gameMode,
+          targetArmor: state.targetArmor,
+          armorModel: roster ? (resolveDisplayCombat(roster, raw)?.combat?.armorModel ?? null) : null,
           distance: state.distance,
           weaponId: state.weaponId,
           weaponName: roster?.name ?? null,
@@ -2815,6 +3378,8 @@
         state.category = keep.category; state.weaponId = keep.weaponId;
         state.selectionMode = keep.selectionMode; state.distance = keep.distance;
         state.priority = keep.priority; state.context = keep.context; state.classChoice = keep.classChoice;
+        state.gameMode = keep.gameMode; state.targetArmor = keep.targetArmor;
+        clearScenarioMemo();
       }
     }
   };

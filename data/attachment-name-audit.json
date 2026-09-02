@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "policyVersion": "attachment-name-audit-v1",
+  "policyVersion": "attachment-name-audit-v2",
   "generatedBy": "scripts/audit-attachment-names.mjs",
   "displayOnly": true,
   "affectsOptimizer": false,
@@ -78,14 +78,16 @@
     }
   ],
   "statusDefinitions": {
-    "VERIFIED_EXACT": "Carried verbatim from the pinned, hash-verified upstream BF6 source snapshot and not a category label or abbreviation. \"corroborated\" evidence means an independent class audit names it identically.",
+    "GAME_VERIFIED_EXACT": "Strong evidence establishes this is the actual current Battlefield 6 in-game display string. Requires direct current in-game or extracted-string evidence. No entry currently qualifies: this repository holds no in-game string extraction.",
+    "SOURCE_CORROBORATED": "Trusted source data supports this exact string - it is carried verbatim from the pinned, hash-verified upstream snapshot and is not a category label or an abbreviation - but direct current in-game confirmation is not available.",
     "UNVERIFIED": "A plausible name exists but the available evidence is insufficient to certify it as the exact in-game label.",
     "INTERNAL_PLACEHOLDER": "A generic/internal/category label rather than a verified Battlefield 6 game label.",
     "MISMATCH": "Two in-repository sources disagree about this attachment id. Both strings are recorded and neither is overwritten."
   },
   "counts": {
-    "VERIFIED_EXACT": 124,
-    "UNVERIFIED": 21,
+    "GAME_VERIFIED_EXACT": 0,
+    "SOURCE_CORROBORATED": 94,
+    "UNVERIFIED": 51,
     "INTERNAL_PLACEHOLDER": 23,
     "MISMATCH": 0
   },
@@ -256,7 +258,7 @@
       "internalType": "ammo",
       "currentDisplayName": "Flechette",
       "verifiedExactName": "Flechette",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -271,14 +273,16 @@
         "m87a1"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "frangible",
       "internalType": "ammo",
       "currentDisplayName": "Frangible",
       "verifiedExactName": "Frangible",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -346,14 +350,16 @@
         "vz61"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "hollow_pt",
       "internalType": "ammo",
       "currentDisplayName": "Hollow Point",
       "verifiedExactName": "Hollow Point",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -416,15 +422,17 @@
         "vz61"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "lightweight",
       "internalType": "ammo",
       "currentDisplayName": "Lightweight",
-      "verifiedExactName": "Lightweight",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "independent-source-conflict",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -463,14 +471,16 @@
         "vcr2"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "Independent Battlefield 6 attachment guides describe the lightweight / ADS-move-speed ammunition as \"Polymer Case\" rather than \"Lightweight\". The mechanic matches this record (adsMoveSpeedTierShift favouring ADS movement), so the identity is not in doubt - only the display string. No replacement name is asserted here because the conflicting source is secondary."
+      ]
     },
     {
       "attachmentId": "long_range",
       "internalType": "ammo",
       "currentDisplayName": "Long-Range",
       "verifiedExactName": "Long-Range",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -489,14 +499,16 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "penetration",
       "internalType": "ammo",
       "currentDisplayName": "Penetration",
       "verifiedExactName": "Penetration",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -564,7 +576,9 @@
         "vz61"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "range_pen",
@@ -592,7 +606,7 @@
       "internalType": "ammo",
       "currentDisplayName": "Slugs",
       "verifiedExactName": "Slugs",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "corroborated-verbatim-source",
       "evidence": "corroborated",
       "provenance": [
@@ -609,7 +623,8 @@
       ],
       "conflictingSourceNames": [],
       "notes": [
-        "Independently corroborated by class-audit:shotgun-audit, class-audit:shotgun-audit, class-audit:shotgun-audit, class-audit:shotgun-audit."
+        "Independently corroborated by class-audit:shotgun-audit, class-audit:shotgun-audit, class-audit:shotgun-audit, class-audit:shotgun-audit.",
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
       ]
     },
     {
@@ -694,7 +709,7 @@
       "internalType": "ammo",
       "currentDisplayName": "Subsonic",
       "verifiedExactName": "Subsonic",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -720,7 +735,9 @@
         "usg90"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "subsonic_hp",
@@ -783,7 +800,7 @@
       "internalType": "ammo",
       "currentDisplayName": "Synthetic",
       "verifiedExactName": "Synthetic",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -812,7 +829,9 @@
         "vz61"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "basic",
@@ -895,7 +914,7 @@
       "internalType": "barrel",
       "currentDisplayName": "Cryogenic",
       "verifiedExactName": "Cryogenic",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -927,7 +946,9 @@
         "usg90"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "ext_light",
@@ -1313,7 +1334,7 @@
       "internalType": "ergo",
       "currentDisplayName": "DLC Bolt",
       "verifiedExactName": "DLC Bolt",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -1330,14 +1351,16 @@
         "sv98"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "buffer",
       "internalType": "ergo",
       "currentDisplayName": "Aftermarket Buffer",
       "verifiedExactName": "Aftermarket Buffer",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -1378,14 +1401,16 @@
         "vcr2"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "burst_mode",
       "internalType": "ergo",
       "currentDisplayName": "Burst Mode",
       "verifiedExactName": "Burst Mode",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -1399,14 +1424,16 @@
         "sl9"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "burst_training",
       "internalType": "ergo",
       "currentDisplayName": "Burst Training",
       "verifiedExactName": "Burst Training",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -1425,7 +1452,9 @@
         "umg40"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -1433,7 +1462,7 @@
       "internalType": "ergo",
       "currentDisplayName": "Speed Holster",
       "verifiedExactName": "Speed Holster",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -1451,14 +1480,16 @@
         "p18"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "fast_deploy_10",
       "internalType": "ergo",
       "currentDisplayName": "Gunslinger",
       "verifiedExactName": "Gunslinger",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -1472,14 +1503,16 @@
         "m44"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "full_auto",
       "internalType": "ergo",
       "currentDisplayName": "A3 Receiver",
       "verifiedExactName": "A3 Receiver",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "corroborated-verbatim-source",
       "evidence": "corroborated",
       "provenance": [
@@ -1495,7 +1528,8 @@
       ],
       "conflictingSourceNames": [],
       "notes": [
-        "Independently corroborated by class-audit:assault-audit."
+        "Independently corroborated by class-audit:assault-audit.",
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
       ]
     },
     {
@@ -1503,7 +1537,7 @@
       "internalType": "ergo",
       "currentDisplayName": "Folding Stock",
       "verifiedExactName": "Folding Stock",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "corroborated-verbatim-source",
       "evidence": "corroborated",
       "provenance": [
@@ -1519,7 +1553,8 @@
       ],
       "conflictingSourceNames": [],
       "notes": [
-        "Independently corroborated by class-audit:dmr-audit."
+        "Independently corroborated by class-audit:dmr-audit.",
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
       ]
     },
     {
@@ -1527,7 +1562,7 @@
       "internalType": "ergo",
       "currentDisplayName": "Burst Training",
       "verifiedExactName": "Burst Training",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -1541,7 +1576,9 @@
         "grtbc"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -1549,7 +1586,7 @@
       "internalType": "ergo",
       "currentDisplayName": "Improved Mag Catch",
       "verifiedExactName": "Improved Mag Catch",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -1589,14 +1626,16 @@
         "vz61"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "mag_flare",
       "internalType": "ergo",
       "currentDisplayName": "Magwell Flare",
       "verifiedExactName": "Magwell Flare",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -1621,14 +1660,16 @@
         "sor556"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "match_trigger",
       "internalType": "ergo",
       "currentDisplayName": "Match Trigger",
       "verifiedExactName": "Match Trigger",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -1667,7 +1708,9 @@
         "vcr2"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "none",
@@ -1699,7 +1742,7 @@
       "internalType": "ergo",
       "currentDisplayName": "Rail Cover",
       "verifiedExactName": "Rail Cover",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -1723,14 +1766,16 @@
         "sor556"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "6h64_vert",
       "internalType": "grip",
       "currentDisplayName": "6H64 Vertical",
       "verifiedExactName": "6H64 Vertical",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -1789,7 +1834,9 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -1797,7 +1844,7 @@
       "internalType": "grip",
       "currentDisplayName": "6H64 Vertical",
       "verifiedExactName": "6H64 Vertical",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -1811,7 +1858,9 @@
         "db12"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -1819,7 +1868,7 @@
       "internalType": "grip",
       "currentDisplayName": "6H64 Vertical",
       "verifiedExactName": "6H64 Vertical",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -1833,7 +1882,9 @@
         "ks18k"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -1841,7 +1892,7 @@
       "internalType": "grip",
       "currentDisplayName": "6H64 Vertical",
       "verifiedExactName": "6H64 Vertical",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -1855,7 +1906,9 @@
         "svk86"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -1863,7 +1916,7 @@
       "internalType": "grip",
       "currentDisplayName": "6H64 Vertical",
       "verifiedExactName": "6H64 Vertical",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -1875,7 +1928,9 @@
       "compatibleWeaponCount": 0,
       "compatibleWeapons": [],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -1883,7 +1938,7 @@
       "internalType": "grip",
       "currentDisplayName": "Adjustable Angled",
       "verifiedExactName": "Adjustable Angled",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -1919,14 +1974,16 @@
         "vcr2"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "alloy_vert",
       "internalType": "grip",
       "currentDisplayName": "Alloy Vertical",
       "verifiedExactName": "Alloy Vertical",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -1988,14 +2045,16 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "bipod",
       "internalType": "grip",
       "currentDisplayName": "Bipod",
       "verifiedExactName": "Bipod",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2036,7 +2095,9 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -2044,7 +2105,7 @@
       "internalType": "grip",
       "currentDisplayName": "Bipod",
       "verifiedExactName": "Bipod",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2064,7 +2125,9 @@
         "svk86"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -2072,7 +2135,7 @@
       "internalType": "grip",
       "currentDisplayName": "Canted Stubby",
       "verifiedExactName": "Canted Stubby",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2134,14 +2197,16 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "classic_grip_pod",
       "internalType": "grip",
       "currentDisplayName": "Classic Grip Pod",
       "verifiedExactName": "Classic Grip Pod",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2186,7 +2251,9 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -2194,7 +2261,7 @@
       "internalType": "grip",
       "currentDisplayName": "Classic Grip Pod",
       "verifiedExactName": "Classic Grip Pod",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2212,7 +2279,9 @@
         "sv98"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -2220,7 +2289,7 @@
       "internalType": "grip",
       "currentDisplayName": "Classic Vertical",
       "verifiedExactName": "Classic Vertical",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2279,7 +2348,9 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -2287,7 +2358,7 @@
       "internalType": "grip",
       "currentDisplayName": "Classic Vertical",
       "verifiedExactName": "Classic Vertical",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2301,7 +2372,9 @@
         "db12"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -2309,7 +2382,7 @@
       "internalType": "grip",
       "currentDisplayName": "Classic Vertical",
       "verifiedExactName": "Classic Vertical",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2323,7 +2396,9 @@
         "ks18k"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -2331,7 +2406,7 @@
       "internalType": "grip",
       "currentDisplayName": "Classic Vertical",
       "verifiedExactName": "Classic Vertical",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2345,7 +2420,9 @@
         "svk86"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -2353,7 +2430,7 @@
       "internalType": "grip",
       "currentDisplayName": "Classic Vertical",
       "verifiedExactName": "Classic Vertical",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2365,7 +2442,9 @@
       "compatibleWeaponCount": 0,
       "compatibleWeapons": [],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -2373,7 +2452,7 @@
       "internalType": "grip",
       "currentDisplayName": "Compact Handstop",
       "verifiedExactName": "Compact Handstop",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2397,14 +2476,16 @@
         "umg40"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "factory_angled_db12",
       "internalType": "grip",
       "currentDisplayName": "Factory Angled",
       "verifiedExactName": "Factory Angled",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2418,7 +2499,9 @@
         "db12"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -2426,7 +2509,7 @@
       "internalType": "grip",
       "currentDisplayName": "Factory Angled",
       "verifiedExactName": "Factory Angled",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2440,7 +2523,9 @@
         "lmr27"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -2448,7 +2533,7 @@
       "internalType": "grip",
       "currentDisplayName": "Factory Angled",
       "verifiedExactName": "Factory Angled",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2462,7 +2547,9 @@
         "sl9"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -2470,7 +2557,7 @@
       "internalType": "grip",
       "currentDisplayName": "Folding Stubby",
       "verifiedExactName": "Folding Stubby",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2532,14 +2619,16 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "fold_vert",
       "internalType": "grip",
       "currentDisplayName": "Folding Vertical",
       "verifiedExactName": "Folding Vertical",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2601,14 +2690,16 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "full_angled",
       "internalType": "grip",
       "currentDisplayName": "Full Angled",
       "verifiedExactName": "Full Angled",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2658,7 +2749,9 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -2666,7 +2759,7 @@
       "internalType": "grip",
       "currentDisplayName": "Full Angled",
       "verifiedExactName": "Full Angled",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2684,7 +2777,9 @@
         "sv98"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -2692,7 +2787,7 @@
       "internalType": "grip",
       "currentDisplayName": "Low-Profile Stubby",
       "verifiedExactName": "Low-Profile Stubby",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2751,7 +2846,9 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -2759,7 +2856,7 @@
       "internalType": "grip",
       "currentDisplayName": "Low-Profile Stubby",
       "verifiedExactName": "Low-Profile Stubby",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2773,7 +2870,9 @@
         "db12"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -2781,7 +2880,7 @@
       "internalType": "grip",
       "currentDisplayName": "Low-Profile Stubby",
       "verifiedExactName": "Low-Profile Stubby",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2795,7 +2894,9 @@
         "ks18k"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -2803,7 +2904,7 @@
       "internalType": "grip",
       "currentDisplayName": "Low-Profile Stubby",
       "verifiedExactName": "Low-Profile Stubby",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2821,7 +2922,9 @@
         "sv98"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -2829,7 +2932,7 @@
       "internalType": "grip",
       "currentDisplayName": "Low-Profile Stubby",
       "verifiedExactName": "Low-Profile Stubby",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2843,7 +2946,9 @@
         "svk86"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -2851,7 +2956,7 @@
       "internalType": "grip",
       "currentDisplayName": "Low-Profile Stubby",
       "verifiedExactName": "Low-Profile Stubby",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2863,7 +2968,9 @@
       "compatibleWeaponCount": 0,
       "compatibleWeapons": [],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -2896,7 +3003,7 @@
       "internalType": "grip",
       "currentDisplayName": "PTT Grip Pod",
       "verifiedExactName": "PTT Grip Pod",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2941,14 +3048,16 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "qd_grip_pod",
       "internalType": "grip",
       "currentDisplayName": "QD Grip Pod",
       "verifiedExactName": "QD Grip Pod",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -2993,7 +3102,9 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -3001,7 +3112,7 @@
       "internalType": "grip",
       "currentDisplayName": "QD Grip Pod",
       "verifiedExactName": "QD Grip Pod",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -3019,7 +3130,9 @@
         "sv98"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -3027,7 +3140,7 @@
       "internalType": "grip",
       "currentDisplayName": "Ribbed Stubby",
       "verifiedExactName": "Ribbed Stubby",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -3089,14 +3202,16 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "ribbed_vert",
       "internalType": "grip",
       "currentDisplayName": "Ribbed Vertical",
       "verifiedExactName": "Ribbed Vertical",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -3158,14 +3273,16 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "slim_angled",
       "internalType": "grip",
       "currentDisplayName": "Slim Angled",
       "verifiedExactName": "Slim Angled",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -3213,7 +3330,9 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -3221,7 +3340,7 @@
       "internalType": "grip",
       "currentDisplayName": "Slim Angled",
       "verifiedExactName": "Slim Angled",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -3242,7 +3361,9 @@
         "umg40"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -3250,7 +3371,7 @@
       "internalType": "grip",
       "currentDisplayName": "Slim Angled",
       "verifiedExactName": "Slim Angled",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -3268,7 +3389,9 @@
         "sv98"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -3276,7 +3399,7 @@
       "internalType": "grip",
       "currentDisplayName": "Slim Handstop",
       "verifiedExactName": "Slim Handstop",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -3326,14 +3449,16 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "stipp_stubby",
       "internalType": "grip",
       "currentDisplayName": "Stippled Stubby",
       "verifiedExactName": "Stippled Stubby",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -3392,7 +3517,9 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -3400,7 +3527,7 @@
       "internalType": "grip",
       "currentDisplayName": "Stippled Stubby",
       "verifiedExactName": "Stippled Stubby",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -3414,7 +3541,9 @@
         "db12"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -3422,7 +3551,7 @@
       "internalType": "grip",
       "currentDisplayName": "Stippled Stubby",
       "verifiedExactName": "Stippled Stubby",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -3436,7 +3565,9 @@
         "ks18k"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -3444,7 +3575,7 @@
       "internalType": "grip",
       "currentDisplayName": "Stippled Stubby",
       "verifiedExactName": "Stippled Stubby",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -3458,7 +3589,9 @@
         "svk86"
       ],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -3466,7 +3599,7 @@
       "internalType": "grip",
       "currentDisplayName": "Stippled Stubby",
       "verifiedExactName": "Stippled Stubby",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -3478,7 +3611,9 @@
       "compatibleWeaponCount": 0,
       "compatibleWeapons": [],
       "conflictingSourceNames": [],
-      "notes": [],
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ],
       "sharedDisplayName": true
     },
     {
@@ -3486,7 +3621,7 @@
       "internalType": "grip",
       "currentDisplayName": "Underslung Mount",
       "verifiedExactName": "Underslung Mount",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -3508,14 +3643,16 @@
         "sor556"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "120mw_blue",
       "internalType": "laser",
       "currentDisplayName": "120 MW Blue",
       "verifiedExactName": "120 MW Blue",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -3583,14 +3720,16 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "50mw_blue",
       "internalType": "laser",
       "currentDisplayName": "50 MW Blue",
       "verifiedExactName": "50 MW Blue",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -3658,14 +3797,16 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "50mw_green",
       "internalType": "laser",
       "currentDisplayName": "50 MW Green",
       "verifiedExactName": "50 MW Green",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -3739,14 +3880,16 @@
         "vz61"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "50mw_violet",
       "internalType": "laser",
       "currentDisplayName": "50 MW Violet",
       "verifiedExactName": "50 MW Violet",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -3814,14 +3957,16 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "5mw_green",
       "internalType": "laser",
       "currentDisplayName": "5 MW Green",
       "verifiedExactName": "5 MW Green",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -3895,14 +4040,16 @@
         "vz61"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "5mw_red",
       "internalType": "laser",
       "currentDisplayName": "5 MW Red",
       "verifiedExactName": "5 MW Red",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -3976,14 +4123,16 @@
         "vz61"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "combo_green",
       "internalType": "laser",
       "currentDisplayName": "Combo Green",
       "verifiedExactName": "Combo Green",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -4006,14 +4155,16 @@
         "vz61"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "combo_red",
       "internalType": "laser",
       "currentDisplayName": "Combo Red",
       "verifiedExactName": "Combo Red",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -4035,7 +4186,9 @@
         "vz61"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "none",
@@ -4067,7 +4220,7 @@
       "internalType": "light",
       "currentDisplayName": "Taclight - Aimed",
       "verifiedExactName": "Taclight - Aimed",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -4141,14 +4294,16 @@
         "vz61"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "flashlight",
       "internalType": "light",
       "currentDisplayName": "Flashlight",
       "verifiedExactName": "Flashlight",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -4222,14 +4377,16 @@
         "vz61"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "hip_taclight",
       "internalType": "light",
       "currentDisplayName": "Taclight - Hipfire",
       "verifiedExactName": "Taclight - Hipfire",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -4297,7 +4454,9 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "none",
@@ -4329,7 +4488,7 @@
       "internalType": "light",
       "currentDisplayName": "Range Finder",
       "verifiedExactName": "Range Finder",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -4352,7 +4511,9 @@
         "svk86"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "10_fast",
@@ -4387,9 +4548,9 @@
       "attachmentId": "10_rnd",
       "internalType": "mag",
       "currentDisplayName": "10 Rnd",
-      "verifiedExactName": "10 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -4410,15 +4571,18 @@
         "vz61"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "100_rnd",
       "internalType": "mag",
       "currentDisplayName": "100 Rnd",
-      "verifiedExactName": "100 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -4440,15 +4604,18 @@
         "m60"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "11_rnd",
       "internalType": "mag",
       "currentDisplayName": "11 Rnd",
-      "verifiedExactName": "11 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -4461,7 +4628,10 @@
         "m45a1"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "15_fast",
@@ -4496,9 +4666,9 @@
       "attachmentId": "15_rnd",
       "internalType": "mag",
       "currentDisplayName": "15 Rnd",
-      "verifiedExactName": "15 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -4521,7 +4691,10 @@
         "tr7"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "17_fast",
@@ -4550,9 +4723,9 @@
       "attachmentId": "17_rnd",
       "internalType": "mag",
       "currentDisplayName": "17 Rnd",
-      "verifiedExactName": "17 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -4566,7 +4739,10 @@
         "p18"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "20_fast",
@@ -4619,9 +4795,9 @@
       "attachmentId": "20_rnd",
       "internalType": "mag",
       "currentDisplayName": "20 Rnd",
-      "verifiedExactName": "20 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -4664,15 +4840,18 @@
         "vz61"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "200_rnd",
       "internalType": "mag",
       "currentDisplayName": "200 Rnd",
-      "verifiedExactName": "200 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -4686,15 +4865,18 @@
         "m123k"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "21_rnd",
       "internalType": "mag",
       "currentDisplayName": "21 Rnd",
-      "verifiedExactName": "21 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -4707,15 +4889,18 @@
         "p18"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "22_rnd",
       "internalType": "mag",
       "currentDisplayName": "22 Rnd",
-      "verifiedExactName": "22 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -4728,15 +4913,18 @@
         "ggh22"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "23_rnd",
       "internalType": "mag",
       "currentDisplayName": "23 Rnd",
-      "verifiedExactName": "23 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -4749,7 +4937,10 @@
         "kv9"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "25_fast",
@@ -4781,9 +4972,9 @@
       "attachmentId": "25_rnd",
       "internalType": "mag",
       "currentDisplayName": "25 Rnd",
-      "verifiedExactName": "25 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -4803,15 +4994,18 @@
         "umg40"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "27_rnd",
       "internalType": "mag",
       "currentDisplayName": "27 Rnd",
-      "verifiedExactName": "27 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -4824,7 +5018,10 @@
         "kv9"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "30_fast",
@@ -4878,9 +5075,9 @@
       "attachmentId": "30_rnd",
       "internalType": "mag",
       "currentDisplayName": "30 Rnd",
-      "verifiedExactName": "30 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -4925,7 +5122,10 @@
         "vssm"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "35_fast",
@@ -4954,9 +5154,9 @@
       "attachmentId": "35_rnd",
       "internalType": "mag",
       "currentDisplayName": "35 Rnd",
-      "verifiedExactName": "35 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -4970,15 +5170,18 @@
         "pp19"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "36_rnd",
       "internalType": "mag",
       "currentDisplayName": "36 Rnd",
-      "verifiedExactName": "36 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -5012,7 +5215,10 @@
         "vcr2"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "4_fast",
@@ -5042,9 +5248,9 @@
       "attachmentId": "4_rnd",
       "internalType": "mag",
       "currentDisplayName": "4 Rnd",
-      "verifiedExactName": "4 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -5058,7 +5264,10 @@
         "m1014"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "40_fast",
@@ -5102,9 +5311,9 @@
       "attachmentId": "40_rnd",
       "internalType": "mag",
       "currentDisplayName": "40 Rnd",
-      "verifiedExactName": "40 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -5135,15 +5344,18 @@
         "vcr2"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "41_rnd",
       "internalType": "mag",
       "currentDisplayName": "41 Rnd",
-      "verifiedExactName": "41 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -5156,7 +5368,10 @@
         "sgx"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "42_fast",
@@ -5185,9 +5400,9 @@
       "attachmentId": "42_rnd",
       "internalType": "mag",
       "currentDisplayName": "42 Rnd",
-      "verifiedExactName": "42 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -5200,7 +5415,10 @@
         "ef88"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "45_fast",
@@ -5238,9 +5456,9 @@
       "attachmentId": "45_rnd",
       "internalType": "mag",
       "currentDisplayName": "45 Rnd",
-      "verifiedExactName": "45 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -5262,7 +5480,10 @@
         "sor556"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "5_fast",
@@ -5293,9 +5514,9 @@
       "attachmentId": "5_rnd",
       "internalType": "mag",
       "currentDisplayName": "5 Rnd",
-      "verifiedExactName": "5 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -5311,7 +5532,10 @@
         "svdm"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "50_fast",
@@ -5340,9 +5564,9 @@
       "attachmentId": "50_rnd",
       "internalType": "mag",
       "currentDisplayName": "50 Rnd",
-      "verifiedExactName": "50 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -5365,15 +5589,18 @@
         "usg90"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "53_rnd",
       "internalType": "mag",
       "currentDisplayName": "53 Rnd",
-      "verifiedExactName": "53 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -5386,15 +5613,18 @@
         "pp19"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "6_rnd",
       "internalType": "mag",
       "currentDisplayName": "6 Rnd",
-      "verifiedExactName": "6 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -5409,7 +5639,10 @@
         "m87a1"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "60_fast",
@@ -5438,9 +5671,9 @@
       "attachmentId": "60_rnd",
       "internalType": "mag",
       "currentDisplayName": "60 Rnd",
-      "verifiedExactName": "60 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -5460,7 +5693,10 @@
         "sl9"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "7_fast",
@@ -5489,9 +5725,9 @@
       "attachmentId": "7_rnd",
       "internalType": "mag",
       "currentDisplayName": "14 Rnd",
-      "verifiedExactName": "14 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -5511,15 +5747,18 @@
       "conflictingSourceNames": [
         "7 Rnd"
       ],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "75_rnd",
       "internalType": "mag",
       "currentDisplayName": "75 Rnd",
-      "verifiedExactName": "75 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -5534,7 +5773,10 @@
         "rpkm"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "8_fast",
@@ -5564,9 +5806,9 @@
       "attachmentId": "8_rnd",
       "internalType": "mag",
       "currentDisplayName": "8 Rnd",
-      "verifiedExactName": "8 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -5582,15 +5824,18 @@
         "m357trait"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "95_rnd",
       "internalType": "mag",
       "currentDisplayName": "95 Rnd",
-      "verifiedExactName": "95 Rnd",
-      "verificationStatus": "VERIFIED_EXACT",
-      "rule": "verbatim-pinned-source",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
       "evidence": "single-source",
       "provenance": [
         "upstream-dataset"
@@ -5603,14 +5848,17 @@
         "rpk74m"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label.",
+        "Independent Battlefield 6 guides refer to magazines in the form \"30-Rnd Magazine\". The source string omits the \"Magazine\" noun and the hyphen, so it reads as an abbreviated internal label rather than the full in-game name. No replacement name is asserted from a secondary source."
+      ]
     },
     {
       "attachmentId": "comp_brake",
       "internalType": "muzzle",
       "currentDisplayName": "Compensated Brake",
       "verifiedExactName": "Compensated Brake",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -5672,14 +5920,16 @@
         "vcr2"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "compensator",
       "internalType": "muzzle",
       "currentDisplayName": "Compensator",
       "verifiedExactName": "Compensator",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -5736,14 +5986,16 @@
         "vz61"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "cqb_supp",
       "internalType": "muzzle",
       "currentDisplayName": "CQB Suppressor",
       "verifiedExactName": "CQB Suppressor",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -5813,14 +6065,16 @@
         "vz61"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "dp_brake",
       "internalType": "muzzle",
       "currentDisplayName": "Double-Port Brake",
       "verifiedExactName": "Double-Port Brake",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -5880,14 +6134,16 @@
         "vcr2"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "flash_comp",
       "internalType": "muzzle",
       "currentDisplayName": "Flash Comp",
       "verifiedExactName": "Flash Comp",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -5940,14 +6196,16 @@
         "vcr2"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "flash_hider",
       "internalType": "muzzle",
       "currentDisplayName": "Flash Hider",
       "verifiedExactName": "Flash Hider",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -6014,14 +6272,16 @@
         "vcr2"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "light_supp",
       "internalType": "muzzle",
       "currentDisplayName": "Lightened Suppressor",
       "verifiedExactName": "Lightened Suppressor",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -6085,14 +6345,16 @@
         "vcr2"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "linear_comp",
       "internalType": "muzzle",
       "currentDisplayName": "Linear Comp",
       "verifiedExactName": "Linear Comp",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -6150,14 +6412,16 @@
         "vcr2"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "long_supp",
       "internalType": "muzzle",
       "currentDisplayName": "Long Suppressor",
       "verifiedExactName": "Long Suppressor",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -6217,7 +6481,9 @@
         "vcr2"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "none",
@@ -6249,7 +6515,7 @@
       "internalType": "muzzle",
       "currentDisplayName": "Slant Brake",
       "verifiedExactName": "Slant Brake",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -6264,14 +6530,16 @@
         "rpkm"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "sp_brake",
       "internalType": "muzzle",
       "currentDisplayName": "Single-Port Brake",
       "verifiedExactName": "Single-Port Brake",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -6323,14 +6591,16 @@
         "vz61"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "std_supp",
       "internalType": "muzzle",
       "currentDisplayName": "Standard Suppressor",
       "verifiedExactName": "Standard Suppressor",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -6396,14 +6666,16 @@
         "vz61"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "thread_prot",
       "internalType": "muzzle",
       "currentDisplayName": "Thread Protector",
       "verifiedExactName": "Thread Protector",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -6417,14 +6689,16 @@
         "sv98"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "tp_brake",
       "internalType": "muzzle",
       "currentDisplayName": "Triple-Port Brake",
       "verifiedExactName": "Triple-Port Brake",
-      "verificationStatus": "VERIFIED_EXACT",
+      "verificationStatus": "SOURCE_CORROBORATED",
       "rule": "verbatim-pinned-source",
       "evidence": "single-source",
       "provenance": [
@@ -6440,7 +6714,9 @@
         "svk86"
       ],
       "conflictingSourceNames": [],
-      "notes": []
+      "notes": [
+        "No in-game string extraction exists in this repository, so this name is not promoted to GAME_VERIFIED_EXACT."
+      ]
     },
     {
       "attachmentId": "iron",
