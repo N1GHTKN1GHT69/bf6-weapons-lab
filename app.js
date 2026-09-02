@@ -1887,6 +1887,70 @@
     return String(v ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
   }
 
+  // Read-only regression/diagnostics surface used by the baseline comparison
+  // harness and by visual QA. It reads the same engine functions the UI uses,
+  // restores every field it touches, and is never an input to ranking,
+  // attachment scoring, point budgets or any displayed value.
+  window.BF6_LAB_DIAG = {
+    version: 1,
+    ready: () => state.source.weapons !== "loading",
+    env: () => ({
+      cacheActive: !!state.combatCache,
+      cacheCommit: state.combatCache?.source?.commit ?? null,
+      rankingModel: state.combatCache?.source?.rankingModel ?? null,
+      gameVersion: state.combatCache?.source?.gameVersion ?? null,
+      modeled: state.combatCache?.audit?.modeled ?? null,
+      rosterCount: CURRENT.roster.length,
+      primaryCount: CURRENT.roster.filter(w => w.cls !== "Secondary").length,
+      classes: CURRENT.primaryClasses.slice(),
+      source: { ...state.source }
+    }),
+    snapshot(query = {}) {
+      const keep = { category: state.category, weaponId: state.weaponId, selectionMode: state.selectionMode, distance: state.distance };
+      try {
+        if (query.category != null) state.category = query.category;
+        if (query.mode != null) state.selectionMode = query.mode;
+        if (query.distance != null) state.distance = Math.max(1, Math.min(300, Math.round(Number(query.distance))));
+        if (query.mode === "auto") resolveAutoWeapon();
+        else if (query.weaponId != null) state.weaponId = query.weaponId;
+
+        const ranked = rankWeapons(state.category, state.distance);
+        const roster = rosterWeapon();
+        const raw = rawForRoster(roster);
+        const strategy = state.selectionMode === "manual" ? "lethal" : "laserbeam";
+        let build = null;
+        try {
+          const r = raw && state.attachments && state.ammo ? optimize(raw, state.distance, strategy) : null;
+          if (r) build = {
+            points: r.points,
+            exhaustive: !!r.exhaustive,
+            picks: r.picks.map(p => ({ slot: p.slot, id: p.id, name: p.name ?? null, pts: pointCost(p) })),
+            combat: r.combat ? { ...r.combat } : null
+          };
+        } catch (err) { build = { error: String(err && err.message || err) }; }
+        return {
+          query: { ...query },
+          distance: state.distance,
+          weaponId: state.weaponId,
+          weaponName: roster?.name ?? null,
+          weaponClass: roster?.cls ?? null,
+          rankedCount: ranked.length,
+          top: ranked.slice(0, 5).map(x => ({
+            id: x.roster.id, name: x.roster.name, cls: x.roster.cls,
+            triggerTtk: x.combat?.triggerTtk ?? null, mechTtk: x.combat?.ttk ?? null,
+            btk: x.combat?.btk ?? null, damage: x.combat?.damage ?? null,
+            beamIndex: x.beamIndex ?? null, laserScore: x.laserScore ?? null,
+            metaCost: x.metaCost ?? null, velocity: x.velocity ?? null, offPace: !!x.offPace
+          })),
+          build
+        };
+      } finally {
+        state.category = keep.category; state.weaponId = keep.weaponId;
+        state.selectionMode = keep.selectionMode; state.distance = keep.distance;
+      }
+    }
+  };
+
   async function init() {
     state.category = "__all__";
     state.selectionMode = "auto";

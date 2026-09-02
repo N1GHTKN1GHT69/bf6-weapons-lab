@@ -1,0 +1,169 @@
+attachmentId,internalType,currentDisplayName,verifiedExactName,verificationStatus,rule,evidence,provenance,pointCosts,compatibleWeaponCount,conflictingSourceNames,sharedDisplayName,notes
+buckshot,ammo,#01 BUCK,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,,4,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+buckshot_00,ammo,#00 BUCK,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,,4,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+flechette,ammo,Flechette,Flechette,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,,4,,,
+frangible,ammo,Frangible,Frangible,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,,57,,,
+hollow_pt,ammo,Hollow Point,Hollow Point,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,,52,,,
+lightweight,ammo,Lightweight,Lightweight,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,,29,,,
+long_range,ammo,Long-Range,Long-Range,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,,8,,,
+penetration,ammo,Penetration,Penetration,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,,57,,,
+range_pen,ammo,Range Pen,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,,1,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+slugs,ammo,Slugs,Slugs,VERIFIED_EXACT,corroborated-verbatim-source,corroborated,upstream-dataset | class-audit:shotgun-audit,,4,,,"Independently corroborated by class-audit:shotgun-audit, class-audit:shotgun-audit, class-audit:shotgun-audit, class-audit:shotgun-audit."
+standard,ammo,Standard,,INTERNAL_PLACEHOLDER,generic-tier-label,single-source,upstream-dataset,,57,,,"Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+subsonic,ammo,Subsonic,Subsonic,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,,15,,,
+subsonic_hp,ammo,Sub HP,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,,15,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+subsonic_pen,ammo,Sub Pen,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,,1,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+synthetic,ammo,Synthetic,Synthetic,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,,18,,,
+basic,barrel,Basic,,INTERNAL_PLACEHOLDER,generic-tier-label,single-source,upstream-dataset,10,54,,,"Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+cryo,barrel,Cryogenic,Cryogenic,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,20,19,,,
+ext_light,barrel,Extended Light,,INTERNAL_PLACEHOLDER,generic-tier-label,single-source,upstream-dataset,25,1,,,"Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+extended,barrel,Extended,,INTERNAL_PLACEHOLDER,generic-tier-label,single-source,upstream-dataset,5,43,,,"Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+heavy,barrel,Heavy,,INTERNAL_PLACEHOLDER,generic-tier-label,single-source,upstream-dataset,10,22,,,"Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+heavy_ext,barrel,Heavy Extended,,INTERNAL_PLACEHOLDER,generic-tier-label,single-source,upstream-dataset,10,20,,,"Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+light,barrel,Light,,INTERNAL_PLACEHOLDER,generic-tier-label,single-source,upstream-dataset,20,39,,,"Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+none,barrel,None,,INTERNAL_PLACEHOLDER,empty-slot-state,single-source,upstream-dataset,0,0,,true,"UI empty-slot state, not a Battlefield 6 attachment."
+short,barrel,Short,,INTERNAL_PLACEHOLDER,generic-tier-label,single-source,upstream-dataset,15,29,,,"Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+short_light,barrel,Short Light,,INTERNAL_PLACEHOLDER,generic-tier-label,single-source,upstream-dataset,25,1,,,"Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+vssm_suppressed,barrel,Suppressed,,INTERNAL_PLACEHOLDER,generic-tier-label,single-source,upstream-dataset,30,1,,true,"Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+vssm_suppressed_asm,barrel,Suppressed,,INTERNAL_PLACEHOLDER,generic-tier-label,single-source,upstream-dataset,20,1,,true,"Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+ads_bolt,ergo,DLC Bolt,DLC Bolt,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,30,4,,,
+buffer,ergo,Aftermarket Buffer,Aftermarket Buffer,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5,28,,,
+burst_mode,ergo,Burst Mode,Burst Mode,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10,1,,,
+burst_training,ergo,Burst Training,Burst Training,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,15,6,,true,
+fast_deploy,ergo,Speed Holster,Speed Holster,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5,5,,,
+fast_deploy_10,ergo,Gunslinger,Gunslinger,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10,1,,,
+full_auto,ergo,A3 Receiver,A3 Receiver,VERIFIED_EXACT,corroborated-verbatim-source,corroborated,upstream-dataset | class-audit:assault-audit,25,1,,,Independently corroborated by class-audit:assault-audit.
+full_auto_vssm,ergo,Folding Stock,Folding Stock,VERIFIED_EXACT,corroborated-verbatim-source,corroborated,upstream-dataset | class-audit:dmr-audit,40,1,,,Independently corroborated by class-audit:dmr-audit.
+grtbc_burst_mode,ergo,Burst Training,Burst Training,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10,1,,true,
+mag_catch,ergo,Improved Mag Catch,Improved Mag Catch,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5,27,,,
+mag_flare,ergo,Magwell Flare,Magwell Flare,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10,12,,,
+match_trigger,ergo,Match Trigger,Match Trigger,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,15,26,,,
+none,ergo,None,,INTERNAL_PLACEHOLDER,empty-slot-state,single-source,upstream-dataset,0,2,,true,"UI empty-slot state, not a Battlefield 6 attachment."
+rail_cover,ergo,Rail Cover,Rail Cover,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5,11,,,
+6h64_vert,grip,6H64 Vertical,6H64 Vertical,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,25,46,,true,
+6h64_vert_db12,grip,6H64 Vertical,6H64 Vertical,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,25,1,,true,
+6h64_vert_ks18k,grip,6H64 Vertical,6H64 Vertical,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,25,1,,true,
+6h64_vert_svk86,grip,6H64 Vertical,6H64 Vertical,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,25,1,,true,
+6h64_vert_vssm,grip,6H64 Vertical,6H64 Vertical,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,25,0,,true,
+adj_angled,grip,Adjustable Angled,Adjustable Angled,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,15,23,,,
+alloy_vert,grip,Alloy Vertical,Alloy Vertical,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,20,49,,,
+bipod,grip,Bipod,Bipod,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10,28,,true,
+bipod_sr,grip,Bipod,Bipod,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10,7,,true,
+canted_stubby,grip,Canted Stubby,Canted Stubby,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,30,49,,,
+classic_grip_pod,grip,Classic Grip Pod,Classic Grip Pod,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,30,32,,true,
+classic_grip_pod_sr,grip,Classic Grip Pod,Classic Grip Pod,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,20,5,,true,
+classic_vert,grip,Classic Vertical,Classic Vertical,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,35,46,,true,
+classic_vert_db12,grip,Classic Vertical,Classic Vertical,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,35,1,,true,
+classic_vert_ks18k,grip,Classic Vertical,Classic Vertical,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,35,1,,true,
+classic_vert_svk86,grip,Classic Vertical,Classic Vertical,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,35,1,,true,
+classic_vert_vssm,grip,Classic Vertical,Classic Vertical,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,35,0,,true,
+cmpct_handstop,grip,Compact Handstop,Compact Handstop,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10,11,,,
+factory_angled_db12,grip,Factory Angled,Factory Angled,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,15,1,,true,
+factory_angled_lmr27,grip,Factory Angled,Factory Angled,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,25,1,,true,
+factory_angled_sl9,grip,Factory Angled,Factory Angled,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,20,1,,true,
+fold_stubby,grip,Folding Stubby,Folding Stubby,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,20,49,,,
+fold_vert,grip,Folding Vertical,Folding Vertical,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10,49,,,
+full_angled,grip,Full Angled,Full Angled,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,25,37,,true,
+full_angled_sr,grip,Full Angled,Full Angled,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5,5,,true,
+lp_stubby,grip,Low-Profile Stubby,Low-Profile Stubby,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,45,46,,true,
+lp_stubby_db12,grip,Low-Profile Stubby,Low-Profile Stubby,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,45,1,,true,
+lp_stubby_ks18k,grip,Low-Profile Stubby,Low-Profile Stubby,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,45,1,,true,
+lp_stubby_sr,grip,Low-Profile Stubby,Low-Profile Stubby,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10,5,,true,
+lp_stubby_svk86,grip,Low-Profile Stubby,Low-Profile Stubby,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,45,1,,true,
+lp_stubby_vssm,grip,Low-Profile Stubby,Low-Profile Stubby,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,45,0,,true,
+none,grip,None,,INTERNAL_PLACEHOLDER,empty-slot-state,single-source,upstream-dataset,0,2,,true,"UI empty-slot state, not a Battlefield 6 attachment."
+ptt_grip_pod,grip,PTT Grip Pod,PTT Grip Pod,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,20,32,,,
+qd_grip_pod,grip,QD Grip Pod,QD Grip Pod,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,30,32,,true,
+qd_grip_pod_sr,grip,QD Grip Pod,QD Grip Pod,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10,5,,true,
+ribbed_stubby,grip,Ribbed Stubby,Ribbed Stubby,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,30,49,,,
+ribbed_vert,grip,Ribbed Vertical,Ribbed Vertical,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,20,49,,,
+slim_angled,grip,Slim Angled,Slim Angled,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,25,35,,true,
+slim_angled_smg,grip,Slim Angled,Slim Angled,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,20,8,,true,
+slim_angled_sr,grip,Slim Angled,Slim Angled,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,15,5,,true,
+slim_handstop,grip,Slim Handstop,Slim Handstop,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,15,37,,,
+stipp_stubby,grip,Stippled Stubby,Stippled Stubby,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,35,46,,true,
+stipp_stubby_db12,grip,Stippled Stubby,Stippled Stubby,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,35,1,,true,
+stipp_stubby_ks18k,grip,Stippled Stubby,Stippled Stubby,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,35,1,,true,
+stipp_stubby_svk86,grip,Stippled Stubby,Stippled Stubby,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,35,1,,true,
+stipp_stubby_vssm,grip,Stippled Stubby,Stippled Stubby,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,35,0,,true,
+underslung_mount,grip,Underslung Mount,Underslung Mount,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10,9,,,
+120mw_blue,laser,120 MW Blue,120 MW Blue,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,30,55,,,
+50mw_blue,laser,50 MW Blue,50 MW Blue,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,20,55,,,
+50mw_green,laser,50 MW Green,50 MW Green,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,20,61,,,
+50mw_violet,laser,50 MW Violet,50 MW Violet,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10,55,,,
+5mw_green,laser,5 MW Green,5 MW Green,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10,61,,,
+5mw_red,laser,5 MW Red,5 MW Red,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10,61,,,
+combo_green,laser,Combo Green,Combo Green,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,20,10,,,
+combo_red,laser,Combo Red,Combo Red,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,20,9,,,
+none,laser,None,,INTERNAL_PLACEHOLDER,empty-slot-state,single-source,upstream-dataset,0,2,,true,"UI empty-slot state, not a Battlefield 6 attachment."
+ads_taclight,light,Taclight - Aimed,Taclight - Aimed,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5,61,,,
+flashlight,light,Flashlight,Flashlight,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10,61,,,
+hip_taclight,light,Taclight - Hipfire,Taclight - Hipfire,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,15,55,,,
+none,light,None,,INTERNAL_PLACEHOLDER,empty-slot-state,single-source,upstream-dataset,0,2,,true,"UI empty-slot state, not a Battlefield 6 attachment."
+range_finder,light,Range Finder,Range Finder,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,15,10,,,
+10_fast,mag,10 Fast,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,5 | 10,6,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+10_rnd,mag,10 Rnd,10 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5,9,,,
+100_rnd,mag,100 Rnd,100 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5 | 25 | 45 | 55,7,,,
+11_rnd,mag,11 Rnd,11 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,25,1,,,
+15_fast,mag,15 Fast,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,10 | 25 | 35,5,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+15_rnd,mag,15 Rnd,15 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5 | 20 | 30,9,,,
+17_fast,mag,17 Fast,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,10,1,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+17_rnd,mag,17 Rnd,17 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5,2,,,
+20_fast,mag,20 Fast,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,5 | 10 | 50 | 60,22,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+20_rnd,mag,20 Rnd,20 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5 | 20 | 40 | 45 | 55,27,,,
+200_rnd,mag,200 Rnd,200 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,50,2,,,
+21_rnd,mag,21 Rnd,21 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,15,1,,,
+22_rnd,mag,22 Rnd,22 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,30,1,,,
+23_rnd,mag,23 Rnd,23 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,25,1,,,
+25_fast,mag,25 Fast,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,10 | 25,3,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+25_rnd,mag,25 Rnd,25 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5 | 20 | 45,6,,,
+27_rnd,mag,27 Rnd,27 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,45,1,,,
+30_fast,mag,30 Fast,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,5 | 10,25,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+30_rnd,mag,30 Rnd,30 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5 | 40,32,,,
+35_fast,mag,35 Fast,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,20,1,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+35_rnd,mag,35 Rnd,35 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,15,2,,,
+36_rnd,mag,36 Rnd,36 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5 | 15,21,,,
+4_fast,mag,4 Fast,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,10,2,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+4_rnd,mag,4 Rnd,4 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5,2,,,
+40_fast,mag,40 Fast,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,10 | 30,15,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+40_rnd,mag,40 Rnd,40 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5 | 25,18,,,
+41_rnd,mag,41 Rnd,41 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,25,1,,,
+42_fast,mag,42 Fast,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,30,1,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+42_rnd,mag,42 Rnd,42 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,25,1,,,
+45_fast,mag,45 Fast,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,10 | 40,9,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+45_rnd,mag,45 Rnd,45 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5 | 35,9,,,
+5_fast,mag,5 Fast,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,10 | 20,2,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+5_rnd,mag,5 Rnd,5 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5,4,,,
+50_fast,mag,50 Fast,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,10,1,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+50_rnd,mag,50 Rnd,50 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5 | 10 | 45,9,,,
+53_rnd,mag,53 Rnd,53 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,45,1,,,
+6_rnd,mag,6 Rnd,6 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5,3,,,
+60_fast,mag,60 Fast,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,10,1,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+60_rnd,mag,60 Rnd,60 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5 | 20 | 30 | 55,5,,,
+7_fast,mag,7 Fast,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,20,1,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+7_rnd,mag,14 Rnd,14 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5 | 15,5,7 Rnd,,
+75_rnd,mag,75 Rnd,75 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10 | 50,2,,,
+8_fast,mag,8 Fast,,UNVERIFIED,abbreviated-source-string,single-source,upstream-dataset,10,2,,,"The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+8_rnd,mag,8 Rnd,8 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5 | 25,3,,,
+95_rnd,mag,95 Rnd,95 Rnd,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,25,1,,,
+comp_brake,muzzle,Compensated Brake,Compensated Brake,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,20,49,,,
+compensator,muzzle,Compensator,Compensator,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10,44,,,
+cqb_supp,muzzle,CQB Suppressor,CQB Suppressor,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,30,57,,,
+dp_brake,muzzle,Double-Port Brake,Double-Port Brake,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10,47,,,
+flash_comp,muzzle,Flash Comp,Flash Comp,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,20,40,,,
+flash_hider,muzzle,Flash Hider,Flash Hider,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10,54,,,
+light_supp,muzzle,Lightened Suppressor,Lightened Suppressor,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,30,51,,,
+linear_comp,muzzle,Linear Comp,Linear Comp,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10,45,,,
+long_supp,muzzle,Long Suppressor,Long Suppressor,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,25,47,,,
+none,muzzle,None,,INTERNAL_PLACEHOLDER,empty-slot-state,single-source,upstream-dataset,0,2,,true,"UI empty-slot state, not a Battlefield 6 attachment."
+slant_brake,muzzle,Slant Brake,Slant Brake,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5,2,,,
+sp_brake,muzzle,Single-Port Brake,Single-Port Brake,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5,39,,,
+std_supp,muzzle,Standard Suppressor,Standard Suppressor,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,20,53,,,
+thread_prot,muzzle,Thread Protector,Thread Protector,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,5,1,,,
+tp_brake,muzzle,Triple-Port Brake,Triple-Port Brake,VERIFIED_EXACT,verbatim-pinned-source,single-source,upstream-dataset,10,3,,,
+iron,sight,Iron Sights,,INTERNAL_PLACEHOLDER,documented-optic-tier,single-source,upstream-dataset,5,7,,,"Sight entries are coarse optic tiers, not exact BF6 sight names. README.md records that the current feed supplies tiers and Pick costs rather than magnification/FOV/reticle data, and the optimizer scores them with an explicit tier-range-fit policy."
+std_optic,sight,Standard Optic,,INTERNAL_PLACEHOLDER,documented-optic-tier,single-source,upstream-dataset,10,7,,,"Sight entries are coarse optic tiers, not exact BF6 sight names. README.md records that the current feed supplies tiers and Pick costs rather than magnification/FOV/reticle data, and the optimizer scores them with an explicit tier-range-fit policy."
+therm_hyb,sight,Thermal Hybrid,,INTERNAL_PLACEHOLDER,documented-optic-tier,single-source,upstream-dataset,35,0,,,"Sight entries are coarse optic tiers, not exact BF6 sight names. README.md records that the current feed supplies tiers and Pick costs rather than magnification/FOV/reticle data, and the optimizer scores them with an explicit tier-range-fit policy."
+thermal,sight,Thermal,,INTERNAL_PLACEHOLDER,documented-optic-tier,single-source,upstream-dataset,25,0,,,"Sight entries are coarse optic tiers, not exact BF6 sight names. README.md records that the current feed supplies tiers and Pick costs rather than magnification/FOV/reticle data, and the optimizer scores them with an explicit tier-range-fit policy."
+var_high,sight,Variable High,,INTERNAL_PLACEHOLDER,documented-optic-tier,single-source,upstream-dataset,25,0,,,"Sight entries are coarse optic tiers, not exact BF6 sight names. README.md records that the current feed supplies tiers and Pick costs rather than magnification/FOV/reticle data, and the optimizer scores them with an explicit tier-range-fit policy."
+var_low,sight,Variable Low,,INTERNAL_PLACEHOLDER,documented-optic-tier,single-source,upstream-dataset,20,0,,,"Sight entries are coarse optic tiers, not exact BF6 sight names. README.md records that the current feed supplies tiers and Pick costs rather than magnification/FOV/reticle data, and the optimizer scores them with an explicit tier-range-fit policy."

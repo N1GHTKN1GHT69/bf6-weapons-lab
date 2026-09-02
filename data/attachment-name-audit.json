@@ -1,0 +1,6588 @@
+{
+  "schema": 1,
+  "policyVersion": "attachment-name-audit-v1",
+  "generatedBy": "scripts/audit-attachment-names.mjs",
+  "displayOnly": true,
+  "affectsOptimizer": false,
+  "statement": "Name verification is display-only. It never changes attachment identity, modifiers, point costs, candidate eligibility, budgets or ranking.",
+  "sources": [
+    {
+      "id": "upstream-dataset",
+      "repository": "raymdl/BF6-Weapon-Analyzer",
+      "commit": "fb7a214778e1e4b5a5113f21ec0dd12136123845",
+      "files": [
+        "data/attachments.json",
+        "data/ammo.json"
+      ],
+      "sha256": {
+        "attachments.json": "5991a62d42f047cd1ac61f0023ed0a0e3ff21705ef14704578d42fd7eb0f94b6",
+        "ammo.json": "6464810803057237907c7edd56897073736638be4fc439ff55e20bf234ae72e0"
+      },
+      "syncedAt": "2026-09-02T04:26:32.165Z"
+    },
+    {
+      "id": "class-audit:assault-audit",
+      "file": "data/assault-audit.json",
+      "gameVersion": "1.4.2.5",
+      "verifiedAt": "2026-09-01",
+      "pass": true
+    },
+    {
+      "id": "class-audit:carbine-audit",
+      "file": "data/carbine-audit.json",
+      "gameVersion": "1.4.2.5",
+      "verifiedAt": "2026-09-01",
+      "pass": true
+    },
+    {
+      "id": "class-audit:smg-audit",
+      "file": "data/smg-audit.json",
+      "gameVersion": "1.4.2.5",
+      "verifiedAt": "2026-09-01",
+      "pass": true
+    },
+    {
+      "id": "class-audit:lmg-audit",
+      "file": "data/lmg-audit.json",
+      "gameVersion": "1.4.2.5",
+      "verifiedAt": "2026-09-01",
+      "pass": true
+    },
+    {
+      "id": "class-audit:dmr-audit",
+      "file": "data/dmr-audit.json",
+      "gameVersion": "1.4.2.5",
+      "verifiedAt": "2026-09-01",
+      "pass": true
+    },
+    {
+      "id": "class-audit:sniper-audit",
+      "file": "data/sniper-audit.json",
+      "gameVersion": "1.4.2.5",
+      "verifiedAt": "2026-09-01",
+      "pass": true
+    },
+    {
+      "id": "class-audit:sidearm-audit",
+      "file": "data/sidearm-audit.json",
+      "gameVersion": "1.4.2.5",
+      "verifiedAt": "2026-09-01",
+      "pass": true
+    },
+    {
+      "id": "class-audit:shotgun-audit",
+      "file": "data/shotgun-audit.json",
+      "gameVersion": "1.4.2.5",
+      "verifiedAt": "2026-09-01",
+      "pass": true
+    }
+  ],
+  "statusDefinitions": {
+    "VERIFIED_EXACT": "Carried verbatim from the pinned, hash-verified upstream BF6 source snapshot and not a category label or abbreviation. \"corroborated\" evidence means an independent class audit names it identically.",
+    "UNVERIFIED": "A plausible name exists but the available evidence is insufficient to certify it as the exact in-game label.",
+    "INTERNAL_PLACEHOLDER": "A generic/internal/category label rather than a verified Battlefield 6 game label.",
+    "MISMATCH": "Two in-repository sources disagree about this attachment id. Both strings are recorded and neither is overwritten."
+  },
+  "counts": {
+    "VERIFIED_EXACT": 124,
+    "UNVERIFIED": 21,
+    "INTERNAL_PLACEHOLDER": 23,
+    "MISMATCH": 0
+  },
+  "total": 168,
+  "sharedDisplayNames": [
+    {
+      "displayName": "6h64 vertical",
+      "attachmentIds": [
+        "grip:6h64_vert",
+        "grip:6h64_vert_db12",
+        "grip:6h64_vert_ks18k",
+        "grip:6h64_vert_svk86",
+        "grip:6h64_vert_vssm"
+      ]
+    },
+    {
+      "displayName": "bipod",
+      "attachmentIds": [
+        "grip:bipod",
+        "grip:bipod_sr"
+      ]
+    },
+    {
+      "displayName": "burst training",
+      "attachmentIds": [
+        "ergo:burst_training",
+        "ergo:grtbc_burst_mode"
+      ]
+    },
+    {
+      "displayName": "classic grip pod",
+      "attachmentIds": [
+        "grip:classic_grip_pod",
+        "grip:classic_grip_pod_sr"
+      ]
+    },
+    {
+      "displayName": "classic vertical",
+      "attachmentIds": [
+        "grip:classic_vert",
+        "grip:classic_vert_db12",
+        "grip:classic_vert_ks18k",
+        "grip:classic_vert_svk86",
+        "grip:classic_vert_vssm"
+      ]
+    },
+    {
+      "displayName": "factory angled",
+      "attachmentIds": [
+        "grip:factory_angled_db12",
+        "grip:factory_angled_lmr27",
+        "grip:factory_angled_sl9"
+      ]
+    },
+    {
+      "displayName": "full angled",
+      "attachmentIds": [
+        "grip:full_angled",
+        "grip:full_angled_sr"
+      ]
+    },
+    {
+      "displayName": "low-profile stubby",
+      "attachmentIds": [
+        "grip:lp_stubby",
+        "grip:lp_stubby_db12",
+        "grip:lp_stubby_ks18k",
+        "grip:lp_stubby_sr",
+        "grip:lp_stubby_svk86",
+        "grip:lp_stubby_vssm"
+      ]
+    },
+    {
+      "displayName": "none",
+      "attachmentIds": [
+        "barrel:none",
+        "ergo:none",
+        "grip:none",
+        "laser:none",
+        "light:none",
+        "muzzle:none"
+      ]
+    },
+    {
+      "displayName": "qd grip pod",
+      "attachmentIds": [
+        "grip:qd_grip_pod",
+        "grip:qd_grip_pod_sr"
+      ]
+    },
+    {
+      "displayName": "slim angled",
+      "attachmentIds": [
+        "grip:slim_angled",
+        "grip:slim_angled_smg",
+        "grip:slim_angled_sr"
+      ]
+    },
+    {
+      "displayName": "stippled stubby",
+      "attachmentIds": [
+        "grip:stipp_stubby",
+        "grip:stipp_stubby_db12",
+        "grip:stipp_stubby_ks18k",
+        "grip:stipp_stubby_svk86",
+        "grip:stipp_stubby_vssm"
+      ]
+    },
+    {
+      "displayName": "suppressed",
+      "attachmentIds": [
+        "barrel:vssm_suppressed",
+        "barrel:vssm_suppressed_asm"
+      ]
+    }
+  ],
+  "attachments": [
+    {
+      "attachmentId": "buckshot",
+      "internalType": "ammo",
+      "currentDisplayName": "#01 BUCK",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [],
+      "compatibleWeaponCount": 4,
+      "compatibleWeapons": [
+        "db12",
+        "ks18k",
+        "m1014",
+        "m87a1"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "buckshot_00",
+      "internalType": "ammo",
+      "currentDisplayName": "#00 BUCK",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [],
+      "compatibleWeaponCount": 4,
+      "compatibleWeapons": [
+        "db12",
+        "ks18k",
+        "m1014",
+        "m87a1"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "flechette",
+      "internalType": "ammo",
+      "currentDisplayName": "Flechette",
+      "verifiedExactName": "Flechette",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [],
+      "compatibleWeaponCount": 4,
+      "compatibleWeapons": [
+        "db12",
+        "ks18k",
+        "m1014",
+        "m87a1"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "frangible",
+      "internalType": "ammo",
+      "currentDisplayName": "Frangible",
+      "verifiedExactName": "Frangible",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [],
+      "compatibleWeaponCount": 57,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "drsiar",
+        "ef88",
+        "es57",
+        "ggh22",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "kts100",
+        "kv9",
+        "l110",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m2010esr",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m44",
+        "m45a1",
+        "m4a1",
+        "m60",
+        "miniscout",
+        "nvo228e",
+        "p18",
+        "pp19",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "sv98",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2",
+        "vssm",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "hollow_pt",
+      "internalType": "ammo",
+      "currentDisplayName": "Hollow Point",
+      "verifiedExactName": "Hollow Point",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [],
+      "compatibleWeaponCount": 52,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "drsiar",
+        "ef88",
+        "es57",
+        "ggh22",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "kts100",
+        "kv9",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m357trait",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m44",
+        "m45a1",
+        "m4a1",
+        "m60",
+        "nvo228e",
+        "p18",
+        "pp19",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "lightweight",
+      "internalType": "ammo",
+      "currentDisplayName": "Lightweight",
+      "verifiedExactName": "Lightweight",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [],
+      "compatibleWeaponCount": 29,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "kts100",
+        "l85a3",
+        "m121a2",
+        "m16a4",
+        "m240l",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "nvo228e",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "sg553r",
+        "sor300sc",
+        "sor556",
+        "tr7",
+        "usg90",
+        "vcr2"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "long_range",
+      "internalType": "ammo",
+      "currentDisplayName": "Long-Range",
+      "verifiedExactName": "Long-Range",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [],
+      "compatibleWeaponCount": 8,
+      "compatibleWeapons": [
+        "l115",
+        "m2010esr",
+        "m39emr",
+        "psr",
+        "sv98",
+        "svdm",
+        "svk86",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "penetration",
+      "internalType": "ammo",
+      "currentDisplayName": "Penetration",
+      "verifiedExactName": "Penetration",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [],
+      "compatibleWeaponCount": 57,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "drsiar",
+        "ef88",
+        "es57",
+        "ggh22",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "kts100",
+        "kv9",
+        "l110",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m2010esr",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m44",
+        "m45a1",
+        "m4a1",
+        "m60",
+        "miniscout",
+        "nvo228e",
+        "p18",
+        "pp19",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "sv98",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2",
+        "vssm",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "range_pen",
+      "internalType": "ammo",
+      "currentDisplayName": "Range Pen",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "slugs",
+      "internalType": "ammo",
+      "currentDisplayName": "Slugs",
+      "verifiedExactName": "Slugs",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "corroborated-verbatim-source",
+      "evidence": "corroborated",
+      "provenance": [
+        "upstream-dataset",
+        "class-audit:shotgun-audit"
+      ],
+      "pointCosts": [],
+      "compatibleWeaponCount": 4,
+      "compatibleWeapons": [
+        "db12",
+        "ks18k",
+        "m1014",
+        "m87a1"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "Independently corroborated by class-audit:shotgun-audit, class-audit:shotgun-audit, class-audit:shotgun-audit, class-audit:shotgun-audit."
+      ]
+    },
+    {
+      "attachmentId": "standard",
+      "internalType": "ammo",
+      "currentDisplayName": "Standard",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "generic-tier-label",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [],
+      "compatibleWeaponCount": 57,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "drsiar",
+        "ef88",
+        "es57",
+        "ggh22",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "kts100",
+        "kv9",
+        "l110",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m2010esr",
+        "m240l",
+        "m250",
+        "m277",
+        "m357trait",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m44",
+        "m45a1",
+        "m4a1",
+        "m60",
+        "miniscout",
+        "nvo228e",
+        "p18",
+        "pp19",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "sv98",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+      ]
+    },
+    {
+      "attachmentId": "subsonic",
+      "internalType": "ammo",
+      "currentDisplayName": "Subsonic",
+      "verifiedExactName": "Subsonic",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [],
+      "compatibleWeaponCount": 15,
+      "compatibleWeapons": [
+        "cz3a1",
+        "es57",
+        "ggh22",
+        "kv9",
+        "m417a2",
+        "p18",
+        "pp19",
+        "pw5a3",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "umg40",
+        "usg90"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "subsonic_hp",
+      "internalType": "ammo",
+      "currentDisplayName": "Sub HP",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [],
+      "compatibleWeaponCount": 15,
+      "compatibleWeapons": [
+        "cz3a1",
+        "es57",
+        "ggh22",
+        "kv9",
+        "m417a2",
+        "p18",
+        "pp19",
+        "pw5a3",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "umg40",
+        "usg90"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "subsonic_pen",
+      "internalType": "ammo",
+      "currentDisplayName": "Sub Pen",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "pw7a2"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "synthetic",
+      "internalType": "ammo",
+      "currentDisplayName": "Synthetic",
+      "verifiedExactName": "Synthetic",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [],
+      "compatibleWeaponCount": 18,
+      "compatibleWeapons": [
+        "ak205",
+        "b36a4",
+        "drsiar",
+        "ef88",
+        "grtcps",
+        "kts100",
+        "l85a3",
+        "lmr27",
+        "pp19",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "sl9",
+        "sor556",
+        "umg40",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "basic",
+      "internalType": "barrel",
+      "currentDisplayName": "Basic",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "generic-tier-label",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 54,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "db12",
+        "drsiar",
+        "ef88",
+        "es57",
+        "ggh22",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kv9",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m16a4",
+        "m2010esr",
+        "m277",
+        "m357trait",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m44",
+        "m45a1",
+        "m4a1",
+        "m87a1",
+        "miniscout",
+        "nvo228e",
+        "p18",
+        "pp19",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "sv98",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+      ]
+    },
+    {
+      "attachmentId": "cryo",
+      "internalType": "barrel",
+      "currentDisplayName": "Cryogenic",
+      "verifiedExactName": "Cryogenic",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        20
+      ],
+      "compatibleWeaponCount": 19,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "ef88",
+        "kord6p67",
+        "l85a3",
+        "m16a4",
+        "m277",
+        "m417a2",
+        "nvo228e",
+        "pp19",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "umg40",
+        "usg90"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "ext_light",
+      "internalType": "barrel",
+      "currentDisplayName": "Extended Light",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "generic-tier-label",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        25
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "ef88"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+      ]
+    },
+    {
+      "attachmentId": "extended",
+      "internalType": "barrel",
+      "currentDisplayName": "Extended",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "generic-tier-label",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5
+      ],
+      "compatibleWeaponCount": 43,
+      "compatibleWeapons": [
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "db12",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "ks18k",
+        "kv9",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m16a4",
+        "m2010esr",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m44",
+        "m4a1",
+        "m87a1",
+        "miniscout",
+        "nvo228e",
+        "pp19",
+        "psr",
+        "pw5a3",
+        "qbz192",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "sv98",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "vcr2"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+      ]
+    },
+    {
+      "attachmentId": "heavy",
+      "internalType": "barrel",
+      "currentDisplayName": "Heavy",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "generic-tier-label",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 22,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "drsiar",
+        "kord6p67",
+        "kts100",
+        "l110",
+        "l85a3",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m60",
+        "pw7a2",
+        "rpk74m",
+        "rpkm",
+        "sl9",
+        "sor556",
+        "umg40",
+        "usg90"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+      ]
+    },
+    {
+      "attachmentId": "heavy_ext",
+      "internalType": "barrel",
+      "currentDisplayName": "Heavy Extended",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "generic-tier-label",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 20,
+      "compatibleWeapons": [
+        "ak4d",
+        "b36a4",
+        "drsiar",
+        "ef88",
+        "kts100",
+        "l110",
+        "l85a3",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m60",
+        "rpk74m",
+        "rpkm",
+        "sl9",
+        "sor556",
+        "umg40",
+        "usg90"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+      ]
+    },
+    {
+      "attachmentId": "light",
+      "internalType": "barrel",
+      "currentDisplayName": "Light",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "generic-tier-label",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        20
+      ],
+      "compatibleWeaponCount": 39,
+      "compatibleWeapons": [
+        "ak205",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "drsiar",
+        "ef88",
+        "es57",
+        "ggh22",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "kv9",
+        "l110",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m16a4",
+        "m2010esr",
+        "m240l",
+        "m277",
+        "m433",
+        "m45a1",
+        "m4a1",
+        "m60",
+        "miniscout",
+        "nvo228e",
+        "p18",
+        "pp19",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sv98",
+        "svdm",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+      ]
+    },
+    {
+      "attachmentId": "none",
+      "internalType": "barrel",
+      "currentDisplayName": "None",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "empty-slot-state",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        0
+      ],
+      "compatibleWeaponCount": 0,
+      "compatibleWeapons": [],
+      "conflictingSourceNames": [],
+      "notes": [
+        "UI empty-slot state, not a Battlefield 6 attachment."
+      ],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "short",
+      "internalType": "barrel",
+      "currentDisplayName": "Short",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "generic-tier-label",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        15
+      ],
+      "compatibleWeaponCount": 29,
+      "compatibleWeapons": [
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "drsiar",
+        "ef88",
+        "grtcps",
+        "kts100",
+        "l115",
+        "l85a3",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m44",
+        "m4a1",
+        "miniscout",
+        "nvo228e",
+        "rpk74m",
+        "rpkm",
+        "sgx",
+        "sor300sc",
+        "sor556",
+        "sv98",
+        "svdm",
+        "svk86",
+        "tr7",
+        "vcr2"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+      ]
+    },
+    {
+      "attachmentId": "short_light",
+      "internalType": "barrel",
+      "currentDisplayName": "Short Light",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "generic-tier-label",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        25
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "ef88"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+      ]
+    },
+    {
+      "attachmentId": "vssm_suppressed",
+      "internalType": "barrel",
+      "currentDisplayName": "Suppressed",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "generic-tier-label",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        30
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+      ],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "vssm_suppressed_asm",
+      "internalType": "barrel",
+      "currentDisplayName": "Suppressed",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "generic-tier-label",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        20
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "Bare category/tier descriptor consumed by the tier-modifier model, not a Battlefield 6 product name."
+      ],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "ads_bolt",
+      "internalType": "ergo",
+      "currentDisplayName": "DLC Bolt",
+      "verifiedExactName": "DLC Bolt",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        30
+      ],
+      "compatibleWeaponCount": 4,
+      "compatibleWeapons": [
+        "l115",
+        "m2010esr",
+        "psr",
+        "sv98"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "buffer",
+      "internalType": "ergo",
+      "currentDisplayName": "Aftermarket Buffer",
+      "verifiedExactName": "Aftermarket Buffer",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5
+      ],
+      "compatibleWeaponCount": 28,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "ks18k",
+        "m16a4",
+        "m39emr",
+        "m417a2",
+        "m4a1",
+        "nvo228e",
+        "pp19",
+        "pw5a3",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "sg553r",
+        "sgx",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "umg40",
+        "usg90",
+        "vcr2"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "burst_mode",
+      "internalType": "ergo",
+      "currentDisplayName": "Burst Mode",
+      "verifiedExactName": "Burst Mode",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "sl9"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "burst_training",
+      "internalType": "ergo",
+      "currentDisplayName": "Burst Training",
+      "verifiedExactName": "Burst Training",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        15
+      ],
+      "compatibleWeaponCount": 6,
+      "compatibleWeapons": [
+        "cz3a1",
+        "kord6p67",
+        "kv9",
+        "pw5a3",
+        "sg553r",
+        "umg40"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "fast_deploy",
+      "internalType": "ergo",
+      "currentDisplayName": "Speed Holster",
+      "verifiedExactName": "Speed Holster",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5
+      ],
+      "compatibleWeaponCount": 5,
+      "compatibleWeapons": [
+        "ggh22",
+        "m357trait",
+        "m44",
+        "m45a1",
+        "p18"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "fast_deploy_10",
+      "internalType": "ergo",
+      "currentDisplayName": "Gunslinger",
+      "verifiedExactName": "Gunslinger",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "m44"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "full_auto",
+      "internalType": "ergo",
+      "currentDisplayName": "A3 Receiver",
+      "verifiedExactName": "A3 Receiver",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "corroborated-verbatim-source",
+      "evidence": "corroborated",
+      "provenance": [
+        "upstream-dataset",
+        "class-audit:assault-audit"
+      ],
+      "pointCosts": [
+        25
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "m16a4"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "Independently corroborated by class-audit:assault-audit."
+      ]
+    },
+    {
+      "attachmentId": "full_auto_vssm",
+      "internalType": "ergo",
+      "currentDisplayName": "Folding Stock",
+      "verifiedExactName": "Folding Stock",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "corroborated-verbatim-source",
+      "evidence": "corroborated",
+      "provenance": [
+        "upstream-dataset",
+        "class-audit:dmr-audit"
+      ],
+      "pointCosts": [
+        40
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "Independently corroborated by class-audit:dmr-audit."
+      ]
+    },
+    {
+      "attachmentId": "grtbc_burst_mode",
+      "internalType": "ergo",
+      "currentDisplayName": "Burst Training",
+      "verifiedExactName": "Burst Training",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "grtbc"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "mag_catch",
+      "internalType": "ergo",
+      "currentDisplayName": "Improved Mag Catch",
+      "verifiedExactName": "Improved Mag Catch",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5
+      ],
+      "compatibleWeaponCount": 27,
+      "compatibleWeapons": [
+        "ak205",
+        "brod3",
+        "cz3a1",
+        "ef88",
+        "es57",
+        "ggh22",
+        "grtbc",
+        "l115",
+        "lmr27",
+        "m277",
+        "m39emr",
+        "m45a1",
+        "m4a1",
+        "p18",
+        "pp19",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "scw10",
+        "sg553r",
+        "sl9",
+        "sv98",
+        "svdm",
+        "tr7",
+        "usg90",
+        "vssm",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "mag_flare",
+      "internalType": "ergo",
+      "currentDisplayName": "Magwell Flare",
+      "verifiedExactName": "Magwell Flare",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 12,
+      "compatibleWeapons": [
+        "ak205",
+        "drsiar",
+        "l110",
+        "m16a4",
+        "m277",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "rpk74m",
+        "rpkm",
+        "sor300sc",
+        "sor556"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "match_trigger",
+      "internalType": "ergo",
+      "currentDisplayName": "Match Trigger",
+      "verifiedExactName": "Match Trigger",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        15
+      ],
+      "compatibleWeaponCount": 26,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "kord6p67",
+        "kts100",
+        "l110",
+        "l85a3",
+        "m16a4",
+        "m277",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "nvo228e",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "sg553r",
+        "sor300sc",
+        "sor556",
+        "tr7",
+        "vcr2"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "none",
+      "internalType": "ergo",
+      "currentDisplayName": "None",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "empty-slot-state",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        0
+      ],
+      "compatibleWeaponCount": 2,
+      "compatibleWeapons": [
+        "brod3",
+        "ef88"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "UI empty-slot state, not a Battlefield 6 attachment."
+      ],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "rail_cover",
+      "internalType": "ergo",
+      "currentDisplayName": "Rail Cover",
+      "verifiedExactName": "Rail Cover",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5
+      ],
+      "compatibleWeaponCount": 11,
+      "compatibleWeapons": [
+        "brod3",
+        "drsiar",
+        "kts100",
+        "l110",
+        "m16a4",
+        "m240l",
+        "m4a1",
+        "m60",
+        "qbz192",
+        "sor300sc",
+        "sor556"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "6h64_vert",
+      "internalType": "grip",
+      "currentDisplayName": "6H64 Vertical",
+      "verifiedExactName": "6H64 Vertical",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        25
+      ],
+      "compatibleWeaponCount": 46,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "kts100",
+        "kv9",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "nvo228e",
+        "pp19",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "tr7",
+        "umg40",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "6h64_vert_db12",
+      "internalType": "grip",
+      "currentDisplayName": "6H64 Vertical",
+      "verifiedExactName": "6H64 Vertical",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        25
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "db12"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "6h64_vert_ks18k",
+      "internalType": "grip",
+      "currentDisplayName": "6H64 Vertical",
+      "verifiedExactName": "6H64 Vertical",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        25
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "ks18k"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "6h64_vert_svk86",
+      "internalType": "grip",
+      "currentDisplayName": "6H64 Vertical",
+      "verifiedExactName": "6H64 Vertical",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        25
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "svk86"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "6h64_vert_vssm",
+      "internalType": "grip",
+      "currentDisplayName": "6H64 Vertical",
+      "verifiedExactName": "6H64 Vertical",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        25
+      ],
+      "compatibleWeaponCount": 0,
+      "compatibleWeapons": [],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "adj_angled",
+      "internalType": "grip",
+      "currentDisplayName": "Adjustable Angled",
+      "verifiedExactName": "Adjustable Angled",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        15
+      ],
+      "compatibleWeaponCount": 23,
+      "compatibleWeapons": [
+        "ak4d",
+        "b36a4",
+        "drsiar",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m16a4",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "svk86",
+        "vcr2"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "alloy_vert",
+      "internalType": "grip",
+      "currentDisplayName": "Alloy Vertical",
+      "verifiedExactName": "Alloy Vertical",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        20
+      ],
+      "compatibleWeaponCount": 49,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "db12",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "kv9",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "nvo228e",
+        "pp19",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "bipod",
+      "internalType": "grip",
+      "currentDisplayName": "Bipod",
+      "verifiedExactName": "Bipod",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 28,
+      "compatibleWeapons": [
+        "ak4d",
+        "b36a4",
+        "drsiar",
+        "ef88",
+        "grtcps",
+        "kord6p67",
+        "kts100",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "nvo228e",
+        "rpk74m",
+        "rpkm",
+        "sor556",
+        "tr7",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "bipod_sr",
+      "internalType": "grip",
+      "currentDisplayName": "Bipod",
+      "verifiedExactName": "Bipod",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 7,
+      "compatibleWeapons": [
+        "l115",
+        "m2010esr",
+        "miniscout",
+        "psr",
+        "sv98",
+        "svdm",
+        "svk86"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "canted_stubby",
+      "internalType": "grip",
+      "currentDisplayName": "Canted Stubby",
+      "verifiedExactName": "Canted Stubby",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        30
+      ],
+      "compatibleWeaponCount": 49,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "db12",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "kv9",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "nvo228e",
+        "pp19",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "classic_grip_pod",
+      "internalType": "grip",
+      "currentDisplayName": "Classic Grip Pod",
+      "verifiedExactName": "Classic Grip Pod",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        30
+      ],
+      "compatibleWeaponCount": 32,
+      "compatibleWeapons": [
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "drsiar",
+        "ef88",
+        "grtcps",
+        "kord6p67",
+        "kts100",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "nvo228e",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "sor556",
+        "svdm",
+        "svk86",
+        "tr7",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "classic_grip_pod_sr",
+      "internalType": "grip",
+      "currentDisplayName": "Classic Grip Pod",
+      "verifiedExactName": "Classic Grip Pod",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        20
+      ],
+      "compatibleWeaponCount": 5,
+      "compatibleWeapons": [
+        "l115",
+        "m2010esr",
+        "miniscout",
+        "psr",
+        "sv98"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "classic_vert",
+      "internalType": "grip",
+      "currentDisplayName": "Classic Vertical",
+      "verifiedExactName": "Classic Vertical",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        35
+      ],
+      "compatibleWeaponCount": 46,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "kts100",
+        "kv9",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "nvo228e",
+        "pp19",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "tr7",
+        "umg40",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "classic_vert_db12",
+      "internalType": "grip",
+      "currentDisplayName": "Classic Vertical",
+      "verifiedExactName": "Classic Vertical",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        35
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "db12"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "classic_vert_ks18k",
+      "internalType": "grip",
+      "currentDisplayName": "Classic Vertical",
+      "verifiedExactName": "Classic Vertical",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        35
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "ks18k"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "classic_vert_svk86",
+      "internalType": "grip",
+      "currentDisplayName": "Classic Vertical",
+      "verifiedExactName": "Classic Vertical",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        35
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "svk86"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "classic_vert_vssm",
+      "internalType": "grip",
+      "currentDisplayName": "Classic Vertical",
+      "verifiedExactName": "Classic Vertical",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        35
+      ],
+      "compatibleWeaponCount": 0,
+      "compatibleWeapons": [],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "cmpct_handstop",
+      "internalType": "grip",
+      "currentDisplayName": "Compact Handstop",
+      "verifiedExactName": "Compact Handstop",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 11,
+      "compatibleWeapons": [
+        "cz3a1",
+        "grtbc",
+        "kv9",
+        "pp19",
+        "pw5a3",
+        "pw7a2",
+        "scw10",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "umg40"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "factory_angled_db12",
+      "internalType": "grip",
+      "currentDisplayName": "Factory Angled",
+      "verifiedExactName": "Factory Angled",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        15
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "db12"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "factory_angled_lmr27",
+      "internalType": "grip",
+      "currentDisplayName": "Factory Angled",
+      "verifiedExactName": "Factory Angled",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        25
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "lmr27"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "factory_angled_sl9",
+      "internalType": "grip",
+      "currentDisplayName": "Factory Angled",
+      "verifiedExactName": "Factory Angled",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        20
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "sl9"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "fold_stubby",
+      "internalType": "grip",
+      "currentDisplayName": "Folding Stubby",
+      "verifiedExactName": "Folding Stubby",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        20
+      ],
+      "compatibleWeaponCount": 49,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "db12",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "kv9",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "nvo228e",
+        "pp19",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "fold_vert",
+      "internalType": "grip",
+      "currentDisplayName": "Folding Vertical",
+      "verifiedExactName": "Folding Vertical",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 49,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "db12",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "kv9",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "nvo228e",
+        "pp19",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "full_angled",
+      "internalType": "grip",
+      "currentDisplayName": "Full Angled",
+      "verifiedExactName": "Full Angled",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        25
+      ],
+      "compatibleWeaponCount": 37,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "drsiar",
+        "ef88",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "nvo228e",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "sg553r",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "svk86",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "full_angled_sr",
+      "internalType": "grip",
+      "currentDisplayName": "Full Angled",
+      "verifiedExactName": "Full Angled",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5
+      ],
+      "compatibleWeaponCount": 5,
+      "compatibleWeapons": [
+        "l115",
+        "m2010esr",
+        "miniscout",
+        "psr",
+        "sv98"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "lp_stubby",
+      "internalType": "grip",
+      "currentDisplayName": "Low-Profile Stubby",
+      "verifiedExactName": "Low-Profile Stubby",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        45
+      ],
+      "compatibleWeaponCount": 46,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "kts100",
+        "kv9",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "nvo228e",
+        "pp19",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "tr7",
+        "umg40",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "lp_stubby_db12",
+      "internalType": "grip",
+      "currentDisplayName": "Low-Profile Stubby",
+      "verifiedExactName": "Low-Profile Stubby",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        45
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "db12"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "lp_stubby_ks18k",
+      "internalType": "grip",
+      "currentDisplayName": "Low-Profile Stubby",
+      "verifiedExactName": "Low-Profile Stubby",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        45
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "ks18k"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "lp_stubby_sr",
+      "internalType": "grip",
+      "currentDisplayName": "Low-Profile Stubby",
+      "verifiedExactName": "Low-Profile Stubby",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 5,
+      "compatibleWeapons": [
+        "l115",
+        "m2010esr",
+        "miniscout",
+        "psr",
+        "sv98"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "lp_stubby_svk86",
+      "internalType": "grip",
+      "currentDisplayName": "Low-Profile Stubby",
+      "verifiedExactName": "Low-Profile Stubby",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        45
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "svk86"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "lp_stubby_vssm",
+      "internalType": "grip",
+      "currentDisplayName": "Low-Profile Stubby",
+      "verifiedExactName": "Low-Profile Stubby",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        45
+      ],
+      "compatibleWeaponCount": 0,
+      "compatibleWeapons": [],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "none",
+      "internalType": "grip",
+      "currentDisplayName": "None",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "empty-slot-state",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        0
+      ],
+      "compatibleWeaponCount": 2,
+      "compatibleWeapons": [
+        "brod3",
+        "ef88"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "UI empty-slot state, not a Battlefield 6 attachment."
+      ],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "ptt_grip_pod",
+      "internalType": "grip",
+      "currentDisplayName": "PTT Grip Pod",
+      "verifiedExactName": "PTT Grip Pod",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        20
+      ],
+      "compatibleWeaponCount": 32,
+      "compatibleWeapons": [
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "drsiar",
+        "ef88",
+        "grtcps",
+        "kord6p67",
+        "kts100",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "nvo228e",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "sor556",
+        "svdm",
+        "svk86",
+        "tr7",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "qd_grip_pod",
+      "internalType": "grip",
+      "currentDisplayName": "QD Grip Pod",
+      "verifiedExactName": "QD Grip Pod",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        30
+      ],
+      "compatibleWeaponCount": 32,
+      "compatibleWeapons": [
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "drsiar",
+        "ef88",
+        "grtcps",
+        "kord6p67",
+        "kts100",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "nvo228e",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "sor556",
+        "svdm",
+        "svk86",
+        "tr7",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "qd_grip_pod_sr",
+      "internalType": "grip",
+      "currentDisplayName": "QD Grip Pod",
+      "verifiedExactName": "QD Grip Pod",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 5,
+      "compatibleWeapons": [
+        "l115",
+        "m2010esr",
+        "miniscout",
+        "psr",
+        "sv98"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "ribbed_stubby",
+      "internalType": "grip",
+      "currentDisplayName": "Ribbed Stubby",
+      "verifiedExactName": "Ribbed Stubby",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        30
+      ],
+      "compatibleWeaponCount": 49,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "db12",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "kv9",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "nvo228e",
+        "pp19",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "ribbed_vert",
+      "internalType": "grip",
+      "currentDisplayName": "Ribbed Vertical",
+      "verifiedExactName": "Ribbed Vertical",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        20
+      ],
+      "compatibleWeaponCount": 49,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "db12",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "kv9",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "nvo228e",
+        "pp19",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "slim_angled",
+      "internalType": "grip",
+      "currentDisplayName": "Slim Angled",
+      "verifiedExactName": "Slim Angled",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        25
+      ],
+      "compatibleWeaponCount": 35,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "db12",
+        "drsiar",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "l110",
+        "l85a3",
+        "m1014",
+        "m121a2",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "nvo228e",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "sg553r",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "svk86",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "slim_angled_smg",
+      "internalType": "grip",
+      "currentDisplayName": "Slim Angled",
+      "verifiedExactName": "Slim Angled",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        20
+      ],
+      "compatibleWeaponCount": 8,
+      "compatibleWeapons": [
+        "cz3a1",
+        "kv9",
+        "pp19",
+        "pw5a3",
+        "pw7a2",
+        "scw10",
+        "sgx",
+        "umg40"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "slim_angled_sr",
+      "internalType": "grip",
+      "currentDisplayName": "Slim Angled",
+      "verifiedExactName": "Slim Angled",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        15
+      ],
+      "compatibleWeaponCount": 5,
+      "compatibleWeapons": [
+        "l115",
+        "m2010esr",
+        "miniscout",
+        "psr",
+        "sv98"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "slim_handstop",
+      "internalType": "grip",
+      "currentDisplayName": "Slim Handstop",
+      "verifiedExactName": "Slim Handstop",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        15
+      ],
+      "compatibleWeaponCount": 37,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "db12",
+        "drsiar",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "nvo228e",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "sg553r",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "svk86",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "stipp_stubby",
+      "internalType": "grip",
+      "currentDisplayName": "Stippled Stubby",
+      "verifiedExactName": "Stippled Stubby",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        35
+      ],
+      "compatibleWeaponCount": 46,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "kts100",
+        "kv9",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "nvo228e",
+        "pp19",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "tr7",
+        "umg40",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "stipp_stubby_db12",
+      "internalType": "grip",
+      "currentDisplayName": "Stippled Stubby",
+      "verifiedExactName": "Stippled Stubby",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        35
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "db12"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "stipp_stubby_ks18k",
+      "internalType": "grip",
+      "currentDisplayName": "Stippled Stubby",
+      "verifiedExactName": "Stippled Stubby",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        35
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "ks18k"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "stipp_stubby_svk86",
+      "internalType": "grip",
+      "currentDisplayName": "Stippled Stubby",
+      "verifiedExactName": "Stippled Stubby",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        35
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "svk86"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "stipp_stubby_vssm",
+      "internalType": "grip",
+      "currentDisplayName": "Stippled Stubby",
+      "verifiedExactName": "Stippled Stubby",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        35
+      ],
+      "compatibleWeaponCount": 0,
+      "compatibleWeapons": [],
+      "conflictingSourceNames": [],
+      "notes": [],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "underslung_mount",
+      "internalType": "grip",
+      "currentDisplayName": "Underslung Mount",
+      "verifiedExactName": "Underslung Mount",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 9,
+      "compatibleWeapons": [
+        "ak205",
+        "b36a4",
+        "l85a3",
+        "m16a4",
+        "m277",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "sor556"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "120mw_blue",
+      "internalType": "laser",
+      "currentDisplayName": "120 MW Blue",
+      "verifiedExactName": "120 MW Blue",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        30
+      ],
+      "compatibleWeaponCount": 55,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "db12",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "kv9",
+        "l110",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m2010esr",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "miniscout",
+        "nvo228e",
+        "pp19",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "sv98",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "50mw_blue",
+      "internalType": "laser",
+      "currentDisplayName": "50 MW Blue",
+      "verifiedExactName": "50 MW Blue",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        20
+      ],
+      "compatibleWeaponCount": 55,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "db12",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "kv9",
+        "l110",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m2010esr",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "miniscout",
+        "nvo228e",
+        "pp19",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "sv98",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "50mw_green",
+      "internalType": "laser",
+      "currentDisplayName": "50 MW Green",
+      "verifiedExactName": "50 MW Green",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        20
+      ],
+      "compatibleWeaponCount": 61,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "db12",
+        "drsiar",
+        "ef88",
+        "es57",
+        "ggh22",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "kv9",
+        "l110",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m2010esr",
+        "m240l",
+        "m250",
+        "m277",
+        "m357trait",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m45a1",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "miniscout",
+        "nvo228e",
+        "p18",
+        "pp19",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "sv98",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2",
+        "vssm",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "50mw_violet",
+      "internalType": "laser",
+      "currentDisplayName": "50 MW Violet",
+      "verifiedExactName": "50 MW Violet",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 55,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "db12",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "kv9",
+        "l110",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m2010esr",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "miniscout",
+        "nvo228e",
+        "pp19",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "sv98",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "5mw_green",
+      "internalType": "laser",
+      "currentDisplayName": "5 MW Green",
+      "verifiedExactName": "5 MW Green",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 61,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "db12",
+        "drsiar",
+        "ef88",
+        "es57",
+        "ggh22",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "kv9",
+        "l110",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m2010esr",
+        "m240l",
+        "m250",
+        "m277",
+        "m357trait",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m45a1",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "miniscout",
+        "nvo228e",
+        "p18",
+        "pp19",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "sv98",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2",
+        "vssm",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "5mw_red",
+      "internalType": "laser",
+      "currentDisplayName": "5 MW Red",
+      "verifiedExactName": "5 MW Red",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 61,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "db12",
+        "drsiar",
+        "ef88",
+        "es57",
+        "ggh22",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "kv9",
+        "l110",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m2010esr",
+        "m240l",
+        "m250",
+        "m277",
+        "m357trait",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m45a1",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "miniscout",
+        "nvo228e",
+        "p18",
+        "pp19",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "sv98",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2",
+        "vssm",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "combo_green",
+      "internalType": "laser",
+      "currentDisplayName": "Combo Green",
+      "verifiedExactName": "Combo Green",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        20
+      ],
+      "compatibleWeaponCount": 10,
+      "compatibleWeapons": [
+        "es57",
+        "ggh22",
+        "grtbc",
+        "kord6p67",
+        "kts100",
+        "m357trait",
+        "m45a1",
+        "p18",
+        "sl9",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "combo_red",
+      "internalType": "laser",
+      "currentDisplayName": "Combo Red",
+      "verifiedExactName": "Combo Red",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        20
+      ],
+      "compatibleWeaponCount": 9,
+      "compatibleWeapons": [
+        "es57",
+        "ggh22",
+        "grtbc",
+        "kts100",
+        "m357trait",
+        "m45a1",
+        "p18",
+        "sl9",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "none",
+      "internalType": "laser",
+      "currentDisplayName": "None",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "empty-slot-state",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        0
+      ],
+      "compatibleWeaponCount": 2,
+      "compatibleWeapons": [
+        "brod3",
+        "ef88"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "UI empty-slot state, not a Battlefield 6 attachment."
+      ],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "ads_taclight",
+      "internalType": "light",
+      "currentDisplayName": "Taclight - Aimed",
+      "verifiedExactName": "Taclight - Aimed",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5
+      ],
+      "compatibleWeaponCount": 61,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "db12",
+        "drsiar",
+        "ef88",
+        "es57",
+        "ggh22",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "kv9",
+        "l110",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m2010esr",
+        "m240l",
+        "m250",
+        "m277",
+        "m357trait",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m45a1",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "miniscout",
+        "nvo228e",
+        "p18",
+        "pp19",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "sv98",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2",
+        "vssm",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "flashlight",
+      "internalType": "light",
+      "currentDisplayName": "Flashlight",
+      "verifiedExactName": "Flashlight",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 61,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "db12",
+        "drsiar",
+        "ef88",
+        "es57",
+        "ggh22",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "kv9",
+        "l110",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m2010esr",
+        "m240l",
+        "m250",
+        "m277",
+        "m357trait",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m45a1",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "miniscout",
+        "nvo228e",
+        "p18",
+        "pp19",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "sv98",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2",
+        "vssm",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "hip_taclight",
+      "internalType": "light",
+      "currentDisplayName": "Taclight - Hipfire",
+      "verifiedExactName": "Taclight - Hipfire",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        15
+      ],
+      "compatibleWeaponCount": 55,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "db12",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "kv9",
+        "l110",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m2010esr",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "miniscout",
+        "nvo228e",
+        "pp19",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "sv98",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "none",
+      "internalType": "light",
+      "currentDisplayName": "None",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "empty-slot-state",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        0
+      ],
+      "compatibleWeaponCount": 2,
+      "compatibleWeapons": [
+        "brod3",
+        "ef88"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "UI empty-slot state, not a Battlefield 6 attachment."
+      ],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "range_finder",
+      "internalType": "light",
+      "currentDisplayName": "Range Finder",
+      "verifiedExactName": "Range Finder",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        15
+      ],
+      "compatibleWeaponCount": 10,
+      "compatibleWeapons": [
+        "grtcps",
+        "l115",
+        "lmr27",
+        "m2010esr",
+        "m39emr",
+        "miniscout",
+        "psr",
+        "sv98",
+        "svdm",
+        "svk86"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "10_fast",
+      "internalType": "mag",
+      "currentDisplayName": "10 Fast",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5,
+        10
+      ],
+      "compatibleWeaponCount": 6,
+      "compatibleWeapons": [
+        "lmr27",
+        "miniscout",
+        "svdm",
+        "svk86",
+        "tr7",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "10_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "10 Rnd",
+      "verifiedExactName": "10 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5
+      ],
+      "compatibleWeaponCount": 9,
+      "compatibleWeapons": [
+        "lmr27",
+        "m417a2",
+        "miniscout",
+        "psr",
+        "sv98",
+        "svdm",
+        "svk86",
+        "vssm",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "100_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "100 Rnd",
+      "verifiedExactName": "100 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5,
+        25,
+        45,
+        55
+      ],
+      "compatibleWeaponCount": 7,
+      "compatibleWeapons": [
+        "kts100",
+        "l110",
+        "m121a2",
+        "m123k",
+        "m240l",
+        "m250",
+        "m60"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "11_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "11 Rnd",
+      "verifiedExactName": "11 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        25
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "m45a1"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "15_fast",
+      "internalType": "mag",
+      "currentDisplayName": "15 Fast",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10,
+        25,
+        35
+      ],
+      "compatibleWeaponCount": 5,
+      "compatibleWeapons": [
+        "ak4d",
+        "lmr27",
+        "m39emr",
+        "miniscout",
+        "scw10"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "15_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "15 Rnd",
+      "verifiedExactName": "15 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5,
+        20,
+        30
+      ],
+      "compatibleWeaponCount": 9,
+      "compatibleWeapons": [
+        "ak4d",
+        "ggh22",
+        "grtcps",
+        "lmr27",
+        "m277",
+        "m39emr",
+        "miniscout",
+        "scw10",
+        "tr7"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "17_fast",
+      "internalType": "mag",
+      "currentDisplayName": "17 Fast",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "kv9"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "17_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "17 Rnd",
+      "verifiedExactName": "17 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5
+      ],
+      "compatibleWeaponCount": 2,
+      "compatibleWeapons": [
+        "kv9",
+        "p18"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "20_fast",
+      "internalType": "mag",
+      "currentDisplayName": "20 Fast",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5,
+        10,
+        50,
+        60
+      ],
+      "compatibleWeaponCount": 22,
+      "compatibleWeapons": [
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "grtcps",
+        "l85a3",
+        "lmr27",
+        "m16a4",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "miniscout",
+        "nvo228e",
+        "pp19",
+        "sg553r",
+        "sor300sc",
+        "sor556",
+        "tr7",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "20_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "20 Rnd",
+      "verifiedExactName": "20 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5,
+        20,
+        40,
+        45,
+        55
+      ],
+      "compatibleWeaponCount": 27,
+      "compatibleWeapons": [
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "es57",
+        "ggh22",
+        "grtcps",
+        "l85a3",
+        "lmr27",
+        "m16a4",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "miniscout",
+        "nvo228e",
+        "pw5a3",
+        "pw7a2",
+        "scw10",
+        "sg553r",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "tr7",
+        "vcr2",
+        "vssm",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "200_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "200 Rnd",
+      "verifiedExactName": "200 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        50
+      ],
+      "compatibleWeaponCount": 2,
+      "compatibleWeapons": [
+        "l110",
+        "m123k"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "21_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "21 Rnd",
+      "verifiedExactName": "21 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        15
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "p18"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "22_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "22 Rnd",
+      "verifiedExactName": "22 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        30
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "ggh22"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "23_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "23 Rnd",
+      "verifiedExactName": "23 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        25
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "kv9"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "25_fast",
+      "internalType": "mag",
+      "currentDisplayName": "25 Fast",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10,
+        25
+      ],
+      "compatibleWeaponCount": 3,
+      "compatibleWeapons": [
+        "m277",
+        "tr7",
+        "umg40"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "25_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "25 Rnd",
+      "verifiedExactName": "25 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5,
+        20,
+        45
+      ],
+      "compatibleWeaponCount": 6,
+      "compatibleWeapons": [
+        "m277",
+        "m39emr",
+        "m417a2",
+        "scw10",
+        "tr7",
+        "umg40"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "27_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "27 Rnd",
+      "verifiedExactName": "27 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        45
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "kv9"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "30_fast",
+      "internalType": "mag",
+      "currentDisplayName": "30 Fast",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5,
+        10
+      ],
+      "compatibleWeaponCount": 25,
+      "compatibleWeapons": [
+        "ak205",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "kord6p67",
+        "l85a3",
+        "m16a4",
+        "m433",
+        "m4a1",
+        "nvo228e",
+        "pp19",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "sg553r",
+        "sgx",
+        "sor300sc",
+        "sor556",
+        "umg40",
+        "vcr2"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "30_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "30 Rnd",
+      "verifiedExactName": "30 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5,
+        40
+      ],
+      "compatibleWeaponCount": 32,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "drsiar",
+        "ef88",
+        "es57",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "l85a3",
+        "m16a4",
+        "m277",
+        "m433",
+        "m4a1",
+        "nvo228e",
+        "pp19",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "tr7",
+        "umg40",
+        "vcr2",
+        "vssm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "35_fast",
+      "internalType": "mag",
+      "currentDisplayName": "35 Fast",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        20
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "cz3a1"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "35_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "35 Rnd",
+      "verifiedExactName": "35 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        15
+      ],
+      "compatibleWeaponCount": 2,
+      "compatibleWeapons": [
+        "cz3a1",
+        "pp19"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "36_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "36 Rnd",
+      "verifiedExactName": "36 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5,
+        15
+      ],
+      "compatibleWeaponCount": 21,
+      "compatibleWeapons": [
+        "ak205",
+        "b36a4",
+        "brod3",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "kord6p67",
+        "l85a3",
+        "m16a4",
+        "m433",
+        "m4a1",
+        "nvo228e",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "sg553r",
+        "sgx",
+        "sor300sc",
+        "sor556",
+        "umg40",
+        "vcr2"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "4_fast",
+      "internalType": "mag",
+      "currentDisplayName": "4 Fast",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 2,
+      "compatibleWeapons": [
+        "ks18k",
+        "m1014"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "4_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "4 Rnd",
+      "verifiedExactName": "4 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5
+      ],
+      "compatibleWeaponCount": 2,
+      "compatibleWeapons": [
+        "ks18k",
+        "m1014"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "40_fast",
+      "internalType": "mag",
+      "currentDisplayName": "40 Fast",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10,
+        30
+      ],
+      "compatibleWeaponCount": 15,
+      "compatibleWeapons": [
+        "ak205",
+        "b36a4",
+        "brod3",
+        "drsiar",
+        "kord6p67",
+        "l85a3",
+        "m16a4",
+        "m433",
+        "m4a1",
+        "nvo228e",
+        "rpkm",
+        "sg553r",
+        "sor300sc",
+        "sor556",
+        "vcr2"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "40_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "40 Rnd",
+      "verifiedExactName": "40 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5,
+        25
+      ],
+      "compatibleWeaponCount": 18,
+      "compatibleWeapons": [
+        "ak205",
+        "b36a4",
+        "brod3",
+        "drsiar",
+        "kord6p67",
+        "l85a3",
+        "m16a4",
+        "m433",
+        "m4a1",
+        "nvo228e",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpkm",
+        "sg553r",
+        "sor300sc",
+        "sor556",
+        "vcr2"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "41_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "41 Rnd",
+      "verifiedExactName": "41 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        25
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "sgx"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "42_fast",
+      "internalType": "mag",
+      "currentDisplayName": "42 Fast",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        30
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "ef88"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "42_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "42 Rnd",
+      "verifiedExactName": "42 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        25
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "ef88"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "45_fast",
+      "internalType": "mag",
+      "currentDisplayName": "45 Fast",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10,
+        40
+      ],
+      "compatibleWeaponCount": 9,
+      "compatibleWeapons": [
+        "ak205",
+        "b36a4",
+        "drsiar",
+        "grtbc",
+        "kord6p67",
+        "kts100",
+        "l85a3",
+        "rpk74m",
+        "sor556"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "45_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "45 Rnd",
+      "verifiedExactName": "45 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5,
+        35
+      ],
+      "compatibleWeaponCount": 9,
+      "compatibleWeapons": [
+        "ak205",
+        "b36a4",
+        "drsiar",
+        "grtbc",
+        "kord6p67",
+        "kts100",
+        "l85a3",
+        "rpk74m",
+        "sor556"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "5_fast",
+      "internalType": "mag",
+      "currentDisplayName": "5 Fast",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10,
+        20
+      ],
+      "compatibleWeaponCount": 2,
+      "compatibleWeapons": [
+        "m2010esr",
+        "m87a1"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "5_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "5 Rnd",
+      "verifiedExactName": "5 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5
+      ],
+      "compatibleWeaponCount": 4,
+      "compatibleWeapons": [
+        "l115",
+        "m2010esr",
+        "m87a1",
+        "svdm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "50_fast",
+      "internalType": "mag",
+      "currentDisplayName": "50 Fast",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "m121a2"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "50_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "50 Rnd",
+      "verifiedExactName": "50 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5,
+        10,
+        45
+      ],
+      "compatibleWeaponCount": 9,
+      "compatibleWeapons": [
+        "ak205",
+        "drsiar",
+        "kts100",
+        "m121a2",
+        "m240l",
+        "m250",
+        "m60",
+        "rpk74m",
+        "usg90"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "53_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "53 Rnd",
+      "verifiedExactName": "53 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        45
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "pp19"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "6_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "6 Rnd",
+      "verifiedExactName": "6 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5
+      ],
+      "compatibleWeaponCount": 3,
+      "compatibleWeapons": [
+        "m1014",
+        "m44",
+        "m87a1"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "60_fast",
+      "internalType": "mag",
+      "currentDisplayName": "60 Fast",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "kts100"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "60_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "60 Rnd",
+      "verifiedExactName": "60 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5,
+        20,
+        30,
+        55
+      ],
+      "compatibleWeaponCount": 5,
+      "compatibleWeapons": [
+        "drsiar",
+        "kts100",
+        "rpk74m",
+        "rpkm",
+        "sl9"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "7_fast",
+      "internalType": "mag",
+      "currentDisplayName": "7 Fast",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        20
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "l115"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "7_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "14 Rnd",
+      "verifiedExactName": "14 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5,
+        15
+      ],
+      "compatibleWeaponCount": 5,
+      "compatibleWeapons": [
+        "db12",
+        "l115",
+        "m45a1",
+        "m87a1",
+        "psr"
+      ],
+      "conflictingSourceNames": [
+        "7 Rnd"
+      ],
+      "notes": []
+    },
+    {
+      "attachmentId": "75_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "75 Rnd",
+      "verifiedExactName": "75 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10,
+        50
+      ],
+      "compatibleWeaponCount": 2,
+      "compatibleWeapons": [
+        "m240l",
+        "rpkm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "8_fast",
+      "internalType": "mag",
+      "currentDisplayName": "8 Fast",
+      "verifiedExactName": null,
+      "verificationStatus": "UNVERIFIED",
+      "rule": "abbreviated-source-string",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 2,
+      "compatibleWeapons": [
+        "ks18k",
+        "m357trait"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "The source string is visibly abbreviated or inconsistently cased relative to the rest of the catalog, so it cannot be certified as the exact in-game label."
+      ]
+    },
+    {
+      "attachmentId": "8_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "8 Rnd",
+      "verifiedExactName": "8 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5,
+        25
+      ],
+      "compatibleWeaponCount": 3,
+      "compatibleWeapons": [
+        "ks18k",
+        "m2010esr",
+        "m357trait"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "95_rnd",
+      "internalType": "mag",
+      "currentDisplayName": "95 Rnd",
+      "verifiedExactName": "95 Rnd",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        25
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "rpk74m"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "comp_brake",
+      "internalType": "muzzle",
+      "currentDisplayName": "Compensated Brake",
+      "verifiedExactName": "Compensated Brake",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        20
+      ],
+      "compatibleWeaponCount": 49,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "kts100",
+        "kv9",
+        "l110",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m2010esr",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "miniscout",
+        "nvo228e",
+        "pp19",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "sv98",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "compensator",
+      "internalType": "muzzle",
+      "currentDisplayName": "Compensator",
+      "verifiedExactName": "Compensator",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 44,
+      "compatibleWeapons": [
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "drsiar",
+        "ef88",
+        "es57",
+        "ggh22",
+        "grtbc",
+        "grtcps",
+        "ks18k",
+        "kts100",
+        "kv9",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m45a1",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "miniscout",
+        "nvo228e",
+        "p18",
+        "pw5a3",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "cqb_supp",
+      "internalType": "muzzle",
+      "currentDisplayName": "CQB Suppressor",
+      "verifiedExactName": "CQB Suppressor",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        30
+      ],
+      "compatibleWeaponCount": 57,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "db12",
+        "drsiar",
+        "ef88",
+        "es57",
+        "ggh22",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "kv9",
+        "l110",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m2010esr",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m45a1",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "miniscout",
+        "nvo228e",
+        "p18",
+        "pp19",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "dp_brake",
+      "internalType": "muzzle",
+      "currentDisplayName": "Double-Port Brake",
+      "verifiedExactName": "Double-Port Brake",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 47,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "kts100",
+        "kv9",
+        "l110",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m2010esr",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "miniscout",
+        "nvo228e",
+        "pp19",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "flash_comp",
+      "internalType": "muzzle",
+      "currentDisplayName": "Flash Comp",
+      "verifiedExactName": "Flash Comp",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        20
+      ],
+      "compatibleWeaponCount": 40,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "kts100",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m2010esr",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "miniscout",
+        "nvo228e",
+        "pp19",
+        "pw5a3",
+        "pw7a2",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sor300sc",
+        "sor556",
+        "sv98",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "flash_hider",
+      "internalType": "muzzle",
+      "currentDisplayName": "Flash Hider",
+      "verifiedExactName": "Flash Hider",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 54,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "db12",
+        "drsiar",
+        "ef88",
+        "es57",
+        "ggh22",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "kv9",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m2010esr",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m45a1",
+        "m4a1",
+        "m60",
+        "miniscout",
+        "nvo228e",
+        "p18",
+        "pp19",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "light_supp",
+      "internalType": "muzzle",
+      "currentDisplayName": "Lightened Suppressor",
+      "verifiedExactName": "Lightened Suppressor",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        30
+      ],
+      "compatibleWeaponCount": 51,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "ks18k",
+        "kts100",
+        "kv9",
+        "l110",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m1014",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m2010esr",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "m87a1",
+        "miniscout",
+        "nvo228e",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "sv98",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "linear_comp",
+      "internalType": "muzzle",
+      "currentDisplayName": "Linear Comp",
+      "verifiedExactName": "Linear Comp",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 45,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "kts100",
+        "kv9",
+        "l110",
+        "l85a3",
+        "lmr27",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "nvo228e",
+        "pp19",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "long_supp",
+      "internalType": "muzzle",
+      "currentDisplayName": "Long Suppressor",
+      "verifiedExactName": "Long Suppressor",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        25
+      ],
+      "compatibleWeaponCount": 47,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "drsiar",
+        "ef88",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "kts100",
+        "kv9",
+        "l110",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m2010esr",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m4a1",
+        "m60",
+        "miniscout",
+        "nvo228e",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "none",
+      "internalType": "muzzle",
+      "currentDisplayName": "None",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "empty-slot-state",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        0
+      ],
+      "compatibleWeaponCount": 2,
+      "compatibleWeapons": [
+        "brod3",
+        "ef88"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "UI empty-slot state, not a Battlefield 6 attachment."
+      ],
+      "sharedDisplayName": true
+    },
+    {
+      "attachmentId": "slant_brake",
+      "internalType": "muzzle",
+      "currentDisplayName": "Slant Brake",
+      "verifiedExactName": "Slant Brake",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5
+      ],
+      "compatibleWeaponCount": 2,
+      "compatibleWeapons": [
+        "rpk74m",
+        "rpkm"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "sp_brake",
+      "internalType": "muzzle",
+      "currentDisplayName": "Single-Port Brake",
+      "verifiedExactName": "Single-Port Brake",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5
+      ],
+      "compatibleWeaponCount": 39,
+      "compatibleWeapons": [
+        "brod3",
+        "cz3a1",
+        "drsiar",
+        "ef88",
+        "es57",
+        "ggh22",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "kts100",
+        "kv9",
+        "l110",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m16a4",
+        "m2010esr",
+        "m250",
+        "m277",
+        "m39emr",
+        "m45a1",
+        "m4a1",
+        "m60",
+        "miniscout",
+        "nvo228e",
+        "p18",
+        "psr",
+        "pw7a2",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "svk86",
+        "tr7",
+        "usg90",
+        "vcr2",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "std_supp",
+      "internalType": "muzzle",
+      "currentDisplayName": "Standard Suppressor",
+      "verifiedExactName": "Standard Suppressor",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        20
+      ],
+      "compatibleWeaponCount": 53,
+      "compatibleWeapons": [
+        "ak205",
+        "ak4d",
+        "b36a4",
+        "brod3",
+        "cz3a1",
+        "drsiar",
+        "ef88",
+        "es57",
+        "ggh22",
+        "grtbc",
+        "grtcps",
+        "kord6p67",
+        "kts100",
+        "kv9",
+        "l110",
+        "l115",
+        "l85a3",
+        "lmr27",
+        "m121a2",
+        "m123k",
+        "m16a4",
+        "m2010esr",
+        "m240l",
+        "m250",
+        "m277",
+        "m39emr",
+        "m417a2",
+        "m433",
+        "m45a1",
+        "m4a1",
+        "m60",
+        "miniscout",
+        "nvo228e",
+        "p18",
+        "psr",
+        "pw5a3",
+        "pw7a2",
+        "qbz192",
+        "rpk74m",
+        "rpkm",
+        "scw10",
+        "sg553r",
+        "sgx",
+        "sl9",
+        "sor300sc",
+        "sor556",
+        "svdm",
+        "svk86",
+        "tr7",
+        "umg40",
+        "usg90",
+        "vcr2",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "thread_prot",
+      "internalType": "muzzle",
+      "currentDisplayName": "Thread Protector",
+      "verifiedExactName": "Thread Protector",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5
+      ],
+      "compatibleWeaponCount": 1,
+      "compatibleWeapons": [
+        "sv98"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "tp_brake",
+      "internalType": "muzzle",
+      "currentDisplayName": "Triple-Port Brake",
+      "verifiedExactName": "Triple-Port Brake",
+      "verificationStatus": "VERIFIED_EXACT",
+      "rule": "verbatim-pinned-source",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 3,
+      "compatibleWeapons": [
+        "ks18k",
+        "sv98",
+        "svk86"
+      ],
+      "conflictingSourceNames": [],
+      "notes": []
+    },
+    {
+      "attachmentId": "iron",
+      "internalType": "sight",
+      "currentDisplayName": "Iron Sights",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "documented-optic-tier",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        5
+      ],
+      "compatibleWeaponCount": 7,
+      "compatibleWeapons": [
+        "es57",
+        "ggh22",
+        "m357trait",
+        "m44",
+        "m45a1",
+        "p18",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "Sight entries are coarse optic tiers, not exact BF6 sight names. README.md records that the current feed supplies tiers and Pick costs rather than magnification/FOV/reticle data, and the optimizer scores them with an explicit tier-range-fit policy."
+      ]
+    },
+    {
+      "attachmentId": "std_optic",
+      "internalType": "sight",
+      "currentDisplayName": "Standard Optic",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "documented-optic-tier",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        10
+      ],
+      "compatibleWeaponCount": 7,
+      "compatibleWeapons": [
+        "es57",
+        "ggh22",
+        "m357trait",
+        "m44",
+        "m45a1",
+        "p18",
+        "vz61"
+      ],
+      "conflictingSourceNames": [],
+      "notes": [
+        "Sight entries are coarse optic tiers, not exact BF6 sight names. README.md records that the current feed supplies tiers and Pick costs rather than magnification/FOV/reticle data, and the optimizer scores them with an explicit tier-range-fit policy."
+      ]
+    },
+    {
+      "attachmentId": "therm_hyb",
+      "internalType": "sight",
+      "currentDisplayName": "Thermal Hybrid",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "documented-optic-tier",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        35
+      ],
+      "compatibleWeaponCount": 0,
+      "compatibleWeapons": [],
+      "conflictingSourceNames": [],
+      "notes": [
+        "Sight entries are coarse optic tiers, not exact BF6 sight names. README.md records that the current feed supplies tiers and Pick costs rather than magnification/FOV/reticle data, and the optimizer scores them with an explicit tier-range-fit policy."
+      ]
+    },
+    {
+      "attachmentId": "thermal",
+      "internalType": "sight",
+      "currentDisplayName": "Thermal",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "documented-optic-tier",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        25
+      ],
+      "compatibleWeaponCount": 0,
+      "compatibleWeapons": [],
+      "conflictingSourceNames": [],
+      "notes": [
+        "Sight entries are coarse optic tiers, not exact BF6 sight names. README.md records that the current feed supplies tiers and Pick costs rather than magnification/FOV/reticle data, and the optimizer scores them with an explicit tier-range-fit policy."
+      ]
+    },
+    {
+      "attachmentId": "var_high",
+      "internalType": "sight",
+      "currentDisplayName": "Variable High",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "documented-optic-tier",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        25
+      ],
+      "compatibleWeaponCount": 0,
+      "compatibleWeapons": [],
+      "conflictingSourceNames": [],
+      "notes": [
+        "Sight entries are coarse optic tiers, not exact BF6 sight names. README.md records that the current feed supplies tiers and Pick costs rather than magnification/FOV/reticle data, and the optimizer scores them with an explicit tier-range-fit policy."
+      ]
+    },
+    {
+      "attachmentId": "var_low",
+      "internalType": "sight",
+      "currentDisplayName": "Variable Low",
+      "verifiedExactName": null,
+      "verificationStatus": "INTERNAL_PLACEHOLDER",
+      "rule": "documented-optic-tier",
+      "evidence": "single-source",
+      "provenance": [
+        "upstream-dataset"
+      ],
+      "pointCosts": [
+        20
+      ],
+      "compatibleWeaponCount": 0,
+      "compatibleWeapons": [],
+      "conflictingSourceNames": [],
+      "notes": [
+        "Sight entries are coarse optic tiers, not exact BF6 sight names. README.md records that the current feed supplies tiers and Pick costs rather than magnification/FOV/reticle data, and the optimizer scores them with an explicit tier-range-fit policy."
+      ]
+    }
+  ]
+}
