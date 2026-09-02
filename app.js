@@ -1356,7 +1356,36 @@
    * the two transforms EA documents. Returns a dmg-shaped array so the existing
    * damageAtDistance() step logic can evaluate it unchanged.
    */
-  function armorDamageCurve(raw) {
+  /**
+   * The two REDSEC mechanics EA has not published exactly. Both alternatives
+   * below are built only from values already in the data - the weapon's own two
+   * damage steps, and the bullet's own two damage values - so neither invents a
+   * number. They exist so the sensitivity analysis can measure how much the
+   * remaining uncertainty actually moves a recommendation.
+   */
+  const REDSEC_INTERPRETATIONS = {
+    closeRange: {
+      remove: "Leading close-range max-damage step dropped (literal reading of EA's \"removed\"/\"flattened\").",
+      keep: "Leading step retained, range shift only (bounds EA's alternative \"significantly reduced\" wording)."
+    },
+    spillover: {
+      none: "The shot that destroys armour damages armour only; the next shot begins on health.",
+      proportional: "The fraction of the shot's armour damage not needed to break armour carries into health, scaled by that same shot's health-damage value."
+    }
+  };
+  // Set only by the sensitivity harness; null in all normal operation.
+  const REDSEC_OVERRIDE = { closeRange: null, spillover: null };
+  function defaultCloseRange() {
+    if (REDSEC_OVERRIDE.closeRange) return REDSEC_OVERRIDE.closeRange;
+    return redsecModel()?.damageVsArmor?.removeFirstCloseRangeStep?.policy === "remove" ? "remove" : "keep";
+  }
+  function defaultSpillover() {
+    if (REDSEC_OVERRIDE.spillover) return REDSEC_OVERRIDE.spillover;
+    const rec = (redsecModel()?.unresolved ?? []).find(u => u.implementedPolicy);
+    return rec?.implementedPolicy === "proportional" ? "proportional" : "none";
+  }
+
+  function armorDamageCurve(raw, closeRange = defaultCloseRange()) {
     const model = redsecModel()?.damageVsArmor;
     if (!model || !Array.isArray(raw?.dmg) || !raw.dmg.length) return null;
     const shift = Number(model.rangeShiftMeters?.value);
@@ -1371,7 +1400,7 @@
     // second step's damage applies from 0 m. Applied before the range shift so
     // the surviving boundaries are the ones that move.
     const dropModes = model.removeFirstCloseRangeStep?.appliesToFireModes ?? [];
-    if (model.removeFirstCloseRangeStep?.policy === "remove" && dropModes.includes(raw?.fireMode)) {
+    if (closeRange === "remove" && dropModes.includes(raw?.fireMode)) {
       const first = pts[0].d;
       const changeAt = pts.findIndex(p => p.d !== first);
       if (changeAt > 0) pts = pts.slice(changeAt);
@@ -1385,8 +1414,8 @@
   }
 
   /** Per-shot damage against armor at an exact distance. */
-  function armorDamageAtDistance(raw, d) {
-    const curve = armorDamageCurve(raw);
+  function armorDamageAtDistance(raw, d, closeRange = defaultCloseRange()) {
+    const curve = armorDamageCurve(raw, closeRange);
     if (!curve) return null;
     // Reuse the weapon's own curve semantics (stepped vs linear vs pellet blend)
     // by evaluating through the same function the health path uses.
@@ -1406,37 +1435,55 @@
    * source does not publish. That policy is recorded in data/redsec-model.json.
    */
   function redsecArmoredCombat(raw, d, opts = {}) {
+    const closeRange = opts.closeRange ?? defaultCloseRange();
+    const spillover = opts.spillover ?? defaultSpillover();
     const pool = opts.pool ?? armorPool(opts.armorState);
     const healthPerShot = opts.healthDamage ?? combatAtDistance(raw, d)?.damage;
-    const armorPerShot = armorDamageAtDistance(raw, d);
+    const armorPerShot = armorDamageAtDistance(raw, d, closeRange);
     if (!pool || !Number.isFinite(Number(healthPerShot)) || Number(healthPerShot) <= 0) return null;
     if (!Number.isFinite(Number(armorPerShot)) || Number(armorPerShot) <= 0) return null;
 
+    const a = Number(armorPerShot), h = Number(healthPerShot);
     // Plates are consumed in order so per-plate behaviour can be added later
     // without changing callers; with no spillover this equals one 80 HP pool.
     let remainingArmor = pool.totalHp;
-    let shotsIntoArmor = 0;
-    const armorHitLog = [];
-    while (remainingArmor > 0) {
-      remainingArmor -= Number(armorPerShot);
-      shotsIntoArmor++;
-      armorHitLog.push({ shot: shotsIntoArmor, layer: "armor", damage: Number(armorPerShot), remaining: Math.max(0, remainingArmor) });
-      if (shotsIntoArmor > 200) break; // defensive: never loop forever on bad data
+    let remainingHealth = 100;
+    let shots = 0, shotsIntoArmor = 0, carriedHealthDamage = 0;
+    const log = [];
+    while (remainingHealth > 0 && shots < 400) {
+      shots++;
+      if (remainingArmor > 0) {
+        shotsIntoArmor++;
+        const usedOnArmor = Math.min(remainingArmor, a);
+        remainingArmor -= a;
+        if (remainingArmor <= 0 && spillover === "proportional") {
+          // The unused fraction of this shot's armour damage carries into
+          // health, scaled by the same shot's own health-damage value. No new
+          // constant is introduced: both numbers come from this bullet.
+          const carried = h * ((a - usedOnArmor) / a);
+          carriedHealthDamage = carried;
+          remainingHealth -= carried;
+        }
+        log.push({ shot: shots, layer: "armor", armorDamage: a, armorRemaining: Math.max(0, remainingArmor), healthCarried: remainingArmor <= 0 && spillover === "proportional" ? carriedHealthDamage : 0 });
+        continue;
+      }
+      remainingHealth -= h;
+      log.push({ shot: shots, layer: "health", healthDamage: h, healthRemaining: Math.max(0, remainingHealth) });
     }
 
-    const healthBtk = Math.ceil(100 / Number(healthPerShot));
-    const totalBtk = shotsIntoArmor + healthBtk;
     return {
       shotsToBreakArmor: shotsIntoArmor,
-      armorDamagePerShot: Number(armorPerShot),
-      healthDamagePerShot: Number(healthPerShot),
-      healthBtk,
-      btk: totalBtk,
+      armorDamagePerShot: a,
+      healthDamagePerShot: h,
+      healthBtk: shots - shotsIntoArmor,
+      btk: shots,
       armorTotalHp: pool.totalHp,
       plates: pool.plates,
       hpPerPlate: pool.hpPerPlate,
-      spilloverPolicy: "no-spillover",
-      log: armorHitLog
+      spilloverPolicy: spillover,
+      closeRangePolicy: closeRange,
+      carriedHealthDamage,
+      log
     };
   }
 
@@ -1447,12 +1494,12 @@
    * REDSEC UNARMORED returns the Multiplayer row itself: EA state that soldier
    * health damage and ranges are unchanged, so this is reuse, not duplication.
    */
-  function redsecCombat(raw, d, armorState = state.targetArmor, mpRow = null, buildStats = null) {
+  function redsecCombat(raw, d, armorState = state.targetArmor, mpRow = null, buildStats = null, interp = {}) {
     const base = mpRow;
     if (!base) return null;
     if (armorState === "unarmored") return { ...base, gameMode: "redsec", targetArmor: "unarmored", armorModel: null };
 
-    const armored = redsecArmoredCombat(raw, d, { armorState, healthDamage: base.damage });
+    const armored = redsecArmoredCombat(raw, d, { armorState, healthDamage: base.damage, ...interp });
     if (!armored) return null;
 
     // Timing uses the winning build's transformed cadence when available, which
@@ -1660,6 +1707,65 @@
       exhaustive: true,
       combat: row
     };
+  }
+
+  /**
+   * Which unresolved REDSEC mechanics does THIS result actually depend on?
+   *
+   * A blanket "partially verified" on every REDSEC result is misleading: a
+   * 150 m engagement never touches the close-range automatic rule, and many
+   * results have the same BTK under either spillover reading. Confidence is
+   * therefore computed from the mechanics the specific numbers really use.
+   */
+  function redsecDependencies(raw, d, mpRow) {
+    if (state.gameMode !== "redsec" || state.targetArmor !== "plates2" || !raw || !mpRow) return null;
+    const health = Number(mpRow.damage);
+    if (!Number.isFinite(health) || health <= 0) return null;
+    const base = { armorState: state.targetArmor, healthDamage: health };
+    const run = (closeRange, spillover) => redsecArmoredCombat(raw, d, { ...base, closeRange, spillover });
+
+    const cur = run(defaultCloseRange(), defaultSpillover());
+    if (!cur) return null;
+    const altClose = run(defaultCloseRange() === "remove" ? "keep" : "remove", defaultSpillover());
+    const altSpill = run(defaultCloseRange(), defaultSpillover() === "none" ? "proportional" : "none");
+
+    const closeRangeMatters = !!altClose && altClose.btk !== cur.btk;
+    const spilloverMatters = !!altSpill && altSpill.btk !== cur.btk;
+    // The close-range rule is only *invoked* when the weapon is automatic and
+    // the shot actually lands inside the affected band.
+    const closeRangeInvoked = !!(redsecModel()?.damageVsArmor?.removeFirstCloseRangeStep?.appliesToFireModes ?? []).includes(raw.fireMode)
+      && !!altClose && altClose.armorDamagePerShot !== cur.armorDamagePerShot;
+
+    return {
+      btk: cur.btk,
+      closeRangeInvoked,
+      closeRangeMatters,
+      spilloverMatters,
+      btkIfCloseRangeKept: altClose?.btk ?? null,
+      btkIfSpillover: altSpill?.btk ?? null,
+      robust: !closeRangeMatters && !spilloverMatters
+    };
+  }
+
+  /** Provenance of each mechanic this scenario relies on. Display only. */
+  function redsecProvenance(deps) {
+    const m = redsecModel();
+    if (!m) return [];
+    const rows = [
+      ["Armour HP", "VERIFIED", `${m.armor.battleRoyale.plates} plates x ${m.armor.battleRoyale.hpPerPlate} HP, stated by EA.`],
+      ["Armour range shift", "VERIFIED", `+${m.damageVsArmor.rangeShiftMeters.value} m on every drop-off threshold, stated by EA.`],
+      ["Soldier health after armour", m.soldierHealth.confidence === "verified" ? "VERIFIED" : "ASSUMED", "EA state health damage and ranges are unchanged from the rest of Battlefield 6."]
+    ];
+    if (!deps) return rows;
+    rows.push(["Close-range armour damage", deps.closeRangeInvoked ? (deps.closeRangeMatters ? "DERIVED — AFFECTS THIS RESULT" : "DERIVED — NOT MATERIAL HERE") : "NOT INVOKED",
+      deps.closeRangeInvoked
+        ? `EA describe the automatic close-range step as "reduced or removed" without publishing a table. Removed is implemented. Keeping the step instead would give ${deps.btkIfCloseRangeKept} BTK versus ${deps.btk}.`
+        : "This distance and fire mode do not use the uncertain close-range step."]);
+    rows.push(["Armour-break transition", deps.spilloverMatters ? "UNVERIFIED — AFFECTS THIS RESULT" : "UNVERIFIED — NOT MATERIAL HERE",
+      deps.spilloverMatters
+        ? `No source states whether leftover damage carries into health. No spillover is modelled; proportional spillover would give ${deps.btkIfSpillover} BTK versus ${deps.btk}.`
+        : `No source states whether leftover damage carries into health, but both readings give ${deps.btk} BTK here.`]);
+    return rows;
   }
 
   /** Scenario identity. Any field that changes the calculation must appear here. */
@@ -1887,10 +1993,12 @@
     const cachedStats = raw ? cachedWinningStats(raw, state.distance, detailStrategy) : null;
     // Same scenario transform the ranking used, so the headline result and the
     // ranking can never disagree about which scenario they describe.
+    const mpRowForDeps = c;
     c = scenarioCombat(raw, state.distance, detailStrategy, c, cachedStats);
+    const deps = redsecDependencies(raw, state.distance, mpRowForDeps);
     const displayVelocity = c ? Number(cachedStats?.bulletVel ?? (roster.cls === "DMR" ? auditDef?.equippedVelocity : null) ?? c.bulletVel ?? raw?.bulletVel ?? auditDef?.bulletVel) : NaN;
     if (c && !Number.isFinite(Number(c.triggerTtk))) c = addTriggerKill(roster, raw, c, state.distance, "standard", displayVelocity);
-    return { classAudit, auditDef, audited, cached, cachedStats, optimized, displayVelocity, combat: c, strategy: detailStrategy };
+    return { classAudit, auditDef, audited, cached, cachedStats, optimized, displayVelocity, combat: c, strategy: detailStrategy, deps };
   }
 
   function renderWeaponIntel(roster, raw, resolved = resolveDisplayCombat(roster, raw)) {
@@ -2756,12 +2864,14 @@
     const audited = resolved?.classAudit?.pass === true;
     const empirical = resolved?.auditDef?.confidence === "empirical-current";
     const armored = state.gameMode === "redsec" && state.targetArmor === "plates2";
-    const redsecConfidence = armored ? state.redsecModel?.confidence?.redsecArmored : state.redsecModel?.confidence?.redsecUnarmored;
+    const deps = resolved?.deps ?? null;
     let level, text;
     if (!resolved?.combat) { level = "bad"; text = "UNVERIFIED — NO AUDITED MODEL"; }
     else if (state.gameMode === "redsec" && !state.redsecModel) { level = "bad"; text = "UNVERIFIED — REDSEC MODEL NOT LOADED"; }
-    // Confidence reflects the weakest material component of the shown result.
-    else if (armored && redsecConfidence !== "verified") { level = "warn"; text = "PARTIALLY VERIFIED — REDSEC ARMOUR MODEL"; }
+    // Confidence reflects the mechanics this specific result actually depends
+    // on, not a blanket label applied to every REDSEC scenario.
+    else if (armored && deps && !deps.robust) { level = "warn"; text = "PROVISIONAL REDSEC RANKING"; }
+    else if (armored) { level = "ok"; text = "REDSEC — ROBUST TO ARMOUR UNCERTAINTY"; }
     else if (!exhaustive) { level = "warn"; text = "FALLBACK — EXHAUSTIVE BUILD CACHE PENDING"; }
     else if (!audited || empirical) { level = "warn"; text = "PARTIALLY VERIFIED — CLASS AUDIT INCOMPLETE"; }
     else if (names.level === "VERIFIED") { level = "ok"; text = "VERIFIED"; }
@@ -3019,6 +3129,23 @@
       prov.innerHTML = items.map(([k, v]) => `<div class="prov"><span>${escapeHtml(k)}</span><strong>${escapeHtml(String(v))}</strong></div>`).join("");
     }
 
+    const rp=$("redsecProvenance");
+    if (rp) {
+      if (state.gameMode !== "redsec") { rp.innerHTML = ""; rp.hidden = true; }
+      else {
+        rp.hidden = false;
+        const deps = state.lastDeps ?? null;
+        const rows = redsecProvenance(deps);
+        const verdict = state.targetArmor !== "plates2"
+          ? "REDSEC unarmored reuses the verified Multiplayer soldier-health path, so no armour assumption applies to this result."
+          : deps?.robust
+            ? "This ranking is robust to the known armour-model uncertainty: every supported interpretation gives the same bullets to kill."
+            : "This ranking depends on an unresolved armour mechanic and is shown as provisional.";
+        rp.innerHTML = `<div class="stat-bars-head"><b>REDSEC MECHANIC PROVENANCE</b><span>${escapeHtml(verdict)}</span></div>` +
+          `<div class="reason-list">${rows.map(([k, v, why]) => `<div class="reason-row"><strong>${escapeHtml(k)} — ${escapeHtml(v)}</strong><span>${escapeHtml(why)}</span></div>`).join("")}</div>`;
+      }
+    }
+
     const headline=$("dataAuditHeadline");
     if (headline) {
       const failed = Object.values(state.source).filter(v => v === "failed" || v === "invalid").length;
@@ -3087,6 +3214,7 @@
     renderKeyStats(roster, raw, resolved);
     renderRangeNote(roster);
     const buildResult = renderPrimaryBuild(roster, raw, resolved, ranked);
+    state.lastDeps = resolved?.deps ?? null;
     renderConfidence(resolved, buildResult);
     renderArmorSummary(resolved);
     renderArmorComparison(roster, raw, resolved);
@@ -3320,6 +3448,50 @@
           state.gameMode = "redsec"; state.targetArmor = armorState;
           return redsecArmoredCombat(raw, d, { armorState });
         } finally { state.gameMode = keep.g; state.targetArmor = keep.a; }
+      }
+    },
+    /** Sensitivity across the supported interpretations of the two open mechanics. */
+    redsecSensitivity(query = {}) {
+      const keep = { g: state.gameMode, a: state.targetArmor, c: state.category, d: state.distance, m: state.selectionMode, p: state.priority };
+      try {
+        state.gameMode = "redsec"; state.targetArmor = "plates2";
+        state.selectionMode = "auto";
+        if (query.category != null) state.category = query.category;
+        if (query.distance != null) state.distance = query.distance;
+        if (query.priority != null) state.priority = query.priority;
+        const combos = [];
+        for (const closeRange of ["remove", "keep"]) {
+          for (const spillover of ["none", "proportional"]) {
+            clearScenarioMemo();
+            REDSEC_OVERRIDE.closeRange = closeRange;
+            REDSEC_OVERRIDE.spillover = spillover;
+            const ranked = rankWeapons(state.category, state.distance);
+            combos.push({
+              closeRange, spillover,
+              winner: ranked[0]?.roster?.id ?? null,
+              winnerName: ranked[0]?.roster?.name ?? null,
+              btk: ranked[0]?.combat?.btk ?? null,
+              ttk: Number.isFinite(Number(ranked[0]?.combat?.triggerTtk)) ? Math.round(Number(ranked[0].combat.triggerTtk)) : null,
+              top3: ranked.slice(0, 3).map(x => x.roster.id)
+            });
+          }
+        }
+        const winners = new Set(combos.map(c => c.winner));
+        const top3s = new Set(combos.map(c => c.top3.join(",")));
+        const btks = new Set(combos.map(c => c.btk));
+        return {
+          category: state.category, distance: state.distance, priority: state.priority,
+          combos,
+          winnerStable: winners.size === 1,
+          top3Stable: top3s.size === 1,
+          btkStable: btks.size === 1,
+          robust: winners.size === 1 && top3s.size === 1
+        };
+      } finally {
+        REDSEC_OVERRIDE.closeRange = null; REDSEC_OVERRIDE.spillover = null;
+        state.gameMode = keep.g; state.targetArmor = keep.a; state.category = keep.c;
+        state.distance = keep.d; state.selectionMode = keep.m; state.priority = keep.p;
+        clearScenarioMemo();
       }
     },
     snapshot(query = {}) {

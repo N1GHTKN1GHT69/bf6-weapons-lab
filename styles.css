@@ -217,6 +217,8 @@ main{padding-top:22px;display:flex;flex-direction:column;gap:var(--gap)}
 .armor-compare-row.active{background:#0d141b;box-shadow:inset 2px 0 0 var(--orange)}
 .armor-compare-row span{color:#9db4cb;font-size:10px;letter-spacing:.12em;font-weight:850;text-transform:uppercase}
 .armor-compare-row strong{font-size:13px;text-align:right;min-width:74px}
+.redsec-provenance[hidden]{display:none}
+.redsec-provenance .stat-bars-head{margin-bottom:8px}
 .armor-shot-log p{margin:10px 0 0;color:#8498ab;font-size:10px;line-height:1.6}
 
 /* ---------- semantic effect chips: up = better, down = worse ---------- */

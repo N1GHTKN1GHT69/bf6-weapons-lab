@@ -24,7 +24,9 @@
   "soldierHealth": {
     "sameAsMultiplayer": true,
     "confidence": "verified",
-    "evidence": "EA: \"Once armor breaks, that weapon will deal the same damage to soldier health, at the same ranges, as it does in the rest of Battlefield 6.\" REDSEC unarmored therefore reuses the Multiplayer health-damage path unchanged rather than duplicating it."
+    "claimVerified": "REDSEC soldier health is the same standard Battlefield 6 soldier-health pool used by Multiplayer, and weapons deal the same health damage at the same ranges.",
+    "evidence": "EA: \"Once armor breaks, that weapon will deal the same damage to soldier health, at the same ranges, as it does in the rest of Battlefield 6.\" EA also describe armour as \"extra health layered on top of your standard soldier health\", and state the guiding principle is to \"leave core gun mechanics and soldier health damage the same across experiences\" and tune REDSEC by adjusting damage vs. armor instead.",
+    "note": "EA do not print a health number, but the claim this project relies on is equality with Multiplayer, which they state directly. The numeric pool (100 HP) comes from this project's own audited Multiplayer model, not from the REDSEC source. There is therefore nothing unresolved here."
   },
   "damageVsArmor": {
     "principle": "Each caliber effectively has two damage curves: Damage vs. Soldier Health and Damage vs. Armor. Only the damage-vs-armor curve is adjusted; the soldier-health curve is untouched.",
@@ -44,7 +46,16 @@
       "confidence": "partially-verified",
       "evidence": "EA: \"For automatic weapons we reduce or remove the very close-range maximum damage step when calculating damage vs. armor\", and elsewhere \"the very close-range damage is flattened\". The source states the rule qualitatively and publishes no per-caliber damage-vs-armor table, so the exact treatment (fully removed versus partially reduced, and by how much) is not established.",
       "implementedReading": "The leading maximum-damage step is dropped entirely, so the second step's damage applies from 0 m. This is the literal reading of \"removed\"/\"flattened\" and requires no invented number. The alternative reading (\"reduced\" by some unpublished amount) would need a value the source does not provide, so it is not implemented.",
-      "fireModeSource": "data/weapons.json fireMode field; 'auto' is the only fire mode that is unambiguously an automatic weapon. Burst, semi, bolt and pump weapons receive the range shift only."
+      "fireModeSource": "data/weapons.json fireMode field; 'auto' is the only fire mode that is unambiguously an automatic weapon. Burst, semi, bolt and pump weapons receive the range shift only.",
+      "generalisationScope": {
+        "publishedExampleCalibers": [
+          "7.62x39mm"
+        ],
+        "appliedToWeapons": 39,
+        "appliedToCalibers": 14,
+        "confidence": "derived",
+        "note": "EA published a worked example for one calibre only. The rule is stated generally for 'automatic weapons', so it is applied to every fireMode:auto weapon, but no per-calibre armour table has been published or extracted. Treat per-weapon close-range armour damage as DERIVED, not verified."
+      }
     }
   },
   "unresolved": [
@@ -63,12 +74,20 @@
       "mechanic": "Spillover of leftover damage when a shot destroys armor",
       "why": "Not addressed by the source. Armor damage and health damage are different scales, so converting leftover armor damage into health damage would require an unpublished conversion rule.",
       "evidenceChecked": [
-        "EA REDSEC armor community update and its mirrors",
-        "targeted spillover search"
+        "EA REDSEC armor community update (ea.com) and its EA Forums / se7en mirrors",
+        "Targeted searches for overkill / carry-over / plate-break damage behaviour",
+        "raymdl/BF6-Weapon-Analyzer upstream repository - contains no REDSEC or armour data",
+        "Steam community discussion on REDSEC plates - opinion only, no instrumented testing"
       ],
       "wouldNeed": "An explicit statement or measurement of whether excess damage carries into health.",
       "implementedPolicy": "no-spillover",
-      "implementedPolicyRationale": "Modelling no spillover requires no invented conversion between the armor and health damage scales. Modelling spillover would. The conservative choice is therefore the one that invents nothing."
+      "implementedPolicyRationale": "Modelling no spillover requires no invented conversion between the armor and health damage scales. Modelling spillover would. The conservative choice is therefore the one that invents nothing.",
+      "modelledInterpretations": {
+        "none": "Implemented default. The shot that destroys armour damages armour only; the next shot begins on health.",
+        "proportional": "Alternative used for sensitivity analysis only. The fraction of the shot's armour damage not needed to break armour carries into health, scaled by that same shot's health-damage value. Both numbers come from the bullet itself, so no constant is invented."
+      },
+      "status": "unresolved-externally; quantified by sensitivity analysis",
+      "manualTestRequired": true
     },
     {
       "mechanic": "Headshot and limb multipliers against armor",
@@ -87,21 +106,12 @@
       ],
       "wouldNeed": "A statement or measurement of per-plate break behaviour.",
       "note": "Under the implemented no-spillover policy the two readings produce identical BTK and TTK, so this does not currently affect any displayed result. The model stores plates as an ordered list so per-plate behaviour can be added later."
-    },
-    {
-      "mechanic": "REDSEC soldier base health value",
-      "why": "Not numerically stated by the source.",
-      "evidenceChecked": [
-        "EA REDSEC armor community update and its mirrors"
-      ],
-      "wouldNeed": "An explicit REDSEC soldier health value.",
-      "note": "The source states soldier-health damage and ranges are unchanged from the rest of Battlefield 6, so the Multiplayer 100 HP health path is reused unchanged rather than a REDSEC-specific value being invented."
     }
   ],
   "confidence": {
     "redsecUnarmored": "verified",
     "redsecArmored": "partially-verified",
-    "reason": "Armor pool size and the range-shift rule are verified. The close-range automatic-weapon rule is stated only qualitatively and spillover is unstated, so armored BTK/TTK is partially verified and is labelled as such wherever it is shown."
+    "reason": "Armour HP, the +10 m range shift and the post-armour health path are verified. The close-range automatic rule is DERIVED from a single published calibre example, and the armour-break transition is unverified. Per-result confidence is computed from whether those two mechanics actually change that specific result."
   },
   "sources": [
     {
@@ -189,5 +199,98 @@
       "ea-redsec-br-101",
       "ea-redsec-new-player-guide"
     ]
+  },
+  "transformFixture": {
+    "purpose": "Validates the damage-vs-armor transform against the only worked example EA has published. These numbers are EA's article values for a later balance state and are deliberately NOT copied into data/weapons.json, which stays the pinned Sym.gg snapshot.",
+    "caliber": "7.62x39mm",
+    "source": "ea-redsec-armor-update",
+    "healthCurve": [
+      [
+        0,
+        33.4
+      ],
+      [
+        9,
+        33.4
+      ],
+      [
+        9,
+        27.3
+      ],
+      [
+        21,
+        27.3
+      ],
+      [
+        21,
+        21.5
+      ],
+      [
+        36,
+        21.5
+      ],
+      [
+        36,
+        20
+      ],
+      [
+        75,
+        20
+      ],
+      [
+        75,
+        16.7
+      ]
+    ],
+    "expectedArmorFirstStepDamage": 27.3,
+    "expectedArmorBreakpointsM": [
+      31,
+      46,
+      85
+    ],
+    "fireMode": "auto"
+  },
+  "spilloverResolutionTest": {
+    "purpose": "Settle the armour-break transition with the fewest shots. Both cases use weapons that are NOT automatic, so the derived close-range rule is not applied to them and the test isolates the spillover mechanic alone.",
+    "howToRead": "Count the total bullets needed to down a full-armour (2 plate, 80 HP) target that is not healing. The two candidate models predict different totals, so the shot count alone settles it.",
+    "primaryCase": {
+      "weapon": "M39 EMR",
+      "fireMode": "semi",
+      "ammo": "Standard",
+      "attachments": "Any. No attachment in the current data changes chest damage; use Standard ammo so no ammo modifier is involved.",
+      "distanceM": "40 to 60 (anywhere in this band gives the same prediction, so exact ranging is not required)",
+      "targetState": "Full armour, 2 plates, 80 HP, undamaged health",
+      "aimAt": "Chest / torso only. Do not headshot: head multipliers against armour are unverified and would invalidate the test.",
+      "modelledArmorDamagePerShot": 37.6,
+      "modelledHealthDamagePerShot": 37.6,
+      "shotsToBreakArmor": 3,
+      "predictedTotalShots": {
+        "noSpillover": 6,
+        "proportionalSpillover": 5
+      },
+      "distinguishes": "6 shots to down = NO spillover (current implementation). 5 shots to down = damage carries across the armour break."
+    },
+    "highContrastCase": {
+      "weapon": "SV-98",
+      "fireMode": "bolt",
+      "ammo": "Standard",
+      "distanceM": 100,
+      "targetState": "Full armour, 2 plates, 80 HP, undamaged health",
+      "aimAt": "Chest / torso only",
+      "modelledArmorDamagePerShot": 77.2,
+      "modelledHealthDamagePerShot": 62,
+      "shotsToBreakArmor": 2,
+      "predictedTotalShots": {
+        "noSpillover": 4,
+        "proportionalSpillover": 3
+      },
+      "distinguishes": "4 shots = NO spillover. 3 shots = spillover. Highest contrast of any case found: the armour-breaking shot has 74.4 of 77.2 armour damage unused."
+    },
+    "alsoRecord": [
+      "The damage numbers shown in the personal damage log for each individual shot, if the HUD exposes them.",
+      "Whether the armour bar and the health bar both move on the same shot.",
+      "Whether the result differs when the first plate breaks versus when the second plate breaks (this would indicate per-plate rather than single-pool behaviour)."
+    ],
+    "caveat": "Predicted shot counts use this project's pinned Sym.gg damage snapshot, which is a slightly different balance state from EA's published article values. If the observed count matches neither prediction, record the per-shot damage numbers rather than assuming a spillover model."
   }
 }

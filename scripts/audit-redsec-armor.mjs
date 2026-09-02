@@ -42,11 +42,11 @@ function stepDamage(curve, d) {
 }
 
 /** Independent re-implementation of the two documented armour transforms. */
-function armorCurve(raw) {
+function armorCurve(raw, closeRange = model.damageVsArmor.removeFirstCloseRangeStep.policy) {
   const shift = Number(model.damageVsArmor.rangeShiftMeters.value);
   let pts = raw.dmg.map(p => ({ r: Number(p.r), d: Number(p.d) }));
   const rule = model.damageVsArmor.removeFirstCloseRangeStep;
-  if (rule.policy === 'remove' && rule.appliesToFireModes.includes(raw.fireMode)) {
+  if (closeRange === 'remove' && rule.appliesToFireModes.includes(raw.fireMode)) {
     const first = pts[0].d;
     const changeAt = pts.findIndex(p => p.d !== first);
     if (changeAt > 0) pts = pts.slice(changeAt);
@@ -76,6 +76,8 @@ eq('battle royale total armour', br.totalHp, 80);
 eq('total armour equals plates x hp per plate', br.plates * br.hpPerPlate, br.totalHp);
 eq('range shift', model.damageVsArmor.rangeShiftMeters.value, 10);
 if (model.soldierHealth.sameAsMultiplayer !== true) errors.push('model no longer reuses the Multiplayer health path');
+if (model.soldierHealth.confidence !== 'verified') errors.push('soldier-health equality with Multiplayer is stated directly by EA and should not be recorded as unresolved');
+if ((model.unresolved || []).some(u => /soldier base health/i.test(u.mechanic))) errors.push('soldier health is still listed as unresolved while also being reused as verified: contradictory provenance');
 if (!model.unresolved?.length) errors.push('model claims no unresolved mechanics; uncertainty must stay recorded');
 if (model.confidence?.redsecArmored === 'verified') errors.push('armoured model must not claim full verification while the close-range rule and spillover are unresolved');
 const spill = model.unresolved.find(u => /spillover/i.test(u.mechanic));
@@ -131,6 +133,36 @@ if (rpkm) {
   eq('zero armour equals multiplayer BTK', armoredBtk(rpkm, 25, 0).btk, Math.ceil(100 / healthDmg(rpkm, 25)));
 }
 
+// --- 4b. EA's published worked example must reproduce exactly ---------------
+// EA give one calibre example. The transform is validated against THEIR numbers
+// rather than the repository's pinned snapshot, which is a different balance
+// state; this checks the rule, not the data.
+const fx = model.transformFixture;
+if (!fx) errors.push('transform fixture (EA worked example) is missing');
+else {
+  const fake = { dmg: fx.healthCurve.map(([r, d]) => ({ r, d })), fireMode: fx.fireMode, pellets: 1 };
+  const curve = armorCurve(fake);
+  eq('EA example: armour damage at 0m', stepDamage(curve, 0), fx.expectedArmorFirstStepDamage);
+  eq('EA example: armour damage at 30m (still first surviving step)', stepDamage(curve, 30), fx.expectedArmorFirstStepDamage);
+  const boundaries = [...new Set(curve.map(p => p.r))].filter(r => r > 0).sort((a, b) => a - b);
+  for (const b of fx.expectedArmorBreakpointsM) {
+    if (!boundaries.includes(b)) errors.push(`EA example: expected armour breakpoint ${b}m, got [${boundaries.join(', ')}]`);
+  }
+  // The health curve itself must be untouched by the armour transform.
+  eq('EA example: health damage at 5m unchanged', stepDamage(fake.dmg, 5), 33.4);
+}
+
+// --- 4c. Generalisation scope must stay honestly recorded -------------------
+const scope = model.damageVsArmor.removeFirstCloseRangeStep.generalisationScope;
+if (!scope) errors.push('close-range rule does not record how far it is generalised');
+else {
+  if (scope.confidence !== 'derived') errors.push('close-range rule must remain DERIVED until per-calibre armour data exists');
+  const autos = weapons.filter(w => w.fireMode === 'auto' && Array.isArray(w.dmg) && w.dmg.length &&
+    w.dmg.findIndex(p => Number(p.d) !== Number(w.dmg[0].d)) > 0);
+  eq('recorded weapon count matches the data', scope.appliedToWeapons, autos.length);
+  eq('recorded calibre count matches the data', scope.appliedToCalibers, new Set(autos.map(w => w.cal)).size);
+}
+
 // --- 5. REDSEC must not be a generic extra-health pool ---------------------
 // This is the test that fails if someone later "simplifies" 2 plates into 180 HP.
 let generic = 0;
@@ -151,8 +183,10 @@ if (rpkm) {
 
 // --- 6. Application wiring -------------------------------------------------
 const need = [
-  ['function armorDamageCurve(raw)', 'armour curve derivation missing'],
+  ['function armorDamageCurve(raw, closeRange', 'armour curve derivation missing'],
   ['function redsecArmoredCombat(raw, d, opts = {})', 'shot-by-shot armour model missing'],
+  ['function redsecDependencies(raw, d, mpRow)', 'per-result confidence analysis missing'],
+  ['const REDSEC_INTERPRETATIONS', 'supported alternative interpretations are not declared'],
   ['function scenarioCombat(raw, d, strategy, mpRow, winStats)', 'scenario transform missing'],
   ['combat = scenarioCombat(raw, d, strategy, combat, winStats);', 'game mode / armour state does not reach weapon ranking'],
   ['function scenarioKey(', 'scenario identity key missing'],
