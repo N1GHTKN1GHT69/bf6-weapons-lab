@@ -1,0 +1,12 @@
+# Generated audit artefacts are written with LF by the audit scripts. Without
+# this, checkout rewrites them to CRLF on Windows and every regenerated report
+# shows as 100% changed, which hides real result changes in the noise.
+*.mjs   text eol=lf
+*.js    text eol=lf
+*.json  text eol=lf
+*.csv   text eol=lf
+*.log   text eol=lf
+*.md    text eol=lf
+*.css   text eol=lf
+*.html  text eol=lf
+*.yml   text eol=lf
