@@ -8,9 +8,11 @@ Backup: tag `overnight-checkpoint-20260903`, bundle
 
 ## What this means (plain English)
 
-**Both CI workflows passed after the push**, including a full 62-weapon cache
-rebuild — which produced a **byte-identical** cache, independently confirming
-that the attachment-legality refactor changed nothing.
+**CI passed on the push**, including a full 62-weapon cache rebuild — which
+produced a **byte-identical** cache, independently confirming that the
+attachment-legality refactor changed nothing. One later Combat Engine run failed,
+but only at its final push step, because I pushed again while it was running;
+diagnosed and fixed below, with no data lost.
 
 **The focus has moved from algorithms to facts, and that is the right move.**
 The optimizer is validated to a very high standard: 2.0 billion attachment
