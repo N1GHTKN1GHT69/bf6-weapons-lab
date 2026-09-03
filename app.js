@@ -4109,6 +4109,70 @@
       }
     },
 
+    /**
+     * Sensitivity probe on the OPERATIVE beam-index primitives.
+     *
+     * recoilV, recoilVar and spreadMax reach BALANCED ranking only through the
+     * cached beam index, via primitives the cache builder stores alongside it:
+     *
+     *   recoilV   -> recoil            (and unpredictable = recoil*sin(varDeg))
+     *   recoilVar -> recoilVariationDeg (and unpredictable)
+     *   spreadMax -> effectiveAdsSpreadDeg
+     *
+     * Perturbing the raw weapon field cannot show this, because production reads
+     * the precomputed cache. So this scales the stored primitive and recomputes
+     * beamIndex with the EXACT production formula from build-combat-cache.mjs,
+     * then re-ranks. That measures the real dependency a cache rebuild would
+     * follow.
+     *
+     * The factor is a PROBE, not a claim about any actual change. The field ->
+     * primitive relationship is monotonic but not necessarily linear (effSpread
+     * comes from a spread simulation seeded by spreadMax), so a factor is
+     * interpreted as "this much error in the operative primitive", not "this
+     * much error in the source field".
+     */
+    perturbBeamPrimitive(weaponId, primitive, factor, query = {}) {
+      const raw = state.rawWeapons.find(w => w.id === weaponId);
+      const cw = raw ? cacheWeapon(raw) : null;
+      if (!cw) return { error: "no cached weapon" };
+      const touched = [];
+      const recompute = row => {
+        if (!row || typeof row !== "object") return;
+        const recoil0 = Number(row.recoil), varDeg0 = Number(row.recoilVariationDeg);
+        const eff0 = Number(row.effectiveAdsSpreadDeg), moving0 = Number(row.movingAdsMinSpreadDeg);
+        if (![recoil0, varDeg0, eff0, moving0].every(Number.isFinite)) return;
+        let recoil = recoil0, varDeg = varDeg0, eff = eff0;
+        if (primitive === "recoil") recoil = recoil0 * factor;
+        else if (primitive === "recoilVariationDeg") varDeg = Math.min(90, varDeg0 * factor);
+        else if (primitive === "effectiveAdsSpreadDeg") eff = eff0 * factor;
+        else return;
+        const unpredictable = recoil * Math.sin(Math.min(90, varDeg) * Math.PI / 180);
+        // Exact formula from scripts/build-combat-cache.mjs beamMetricsFromPrimitives().
+        const rangeT = Math.min(1, Math.max(1, Number(row._d) || Number(query.distance) || 25) / 120);
+        const beam = (recoil * (1.00 + 0.35 * rangeT))
+          + (unpredictable * (1.25 + 0.75 * rangeT))
+          + (eff * (2.00 + 2.50 * rangeT))
+          + (moving0 * (0.35 + 0.65 * rangeT));
+        touched.push([row, row.beamIndex]);
+        row.beamIndex = +beam.toFixed(6);
+      };
+      try {
+        for (const src of ["best", "bestLethal"]) {
+          for (const [k, row] of Object.entries(cw[src] ?? {})) {
+            if (row && typeof row === "object") { row._d = Number(k); recompute(row); }
+          }
+        }
+        clearScenarioMemo();
+        return this.snapshot({ ...query, mode: "auto" });
+      } finally {
+        for (const [row, prev] of touched) row.beamIndex = prev;
+        for (const src of ["best", "bestLethal"]) {
+          for (const row of Object.values(cw[src] ?? {})) { if (row) delete row._d; }
+        }
+        clearScenarioMemo();
+      }
+    },
+
     /** Eligibility/count reconciliation for one scope. */
     scope(query = {}) {
       const keep = { c: state.category, d: state.distance, g: state.gameMode, a: state.targetArmor, m: state.selectionMode, p: state.priority };

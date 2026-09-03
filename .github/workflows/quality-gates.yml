@@ -76,5 +76,6 @@ jobs:
           node scripts/audit-current-patch-coverage.mjs
           node scripts/audit-source-data.mjs
           node scripts/audit-field-impact.mjs
+          node scripts/audit-beam-sensitivity.mjs
           node scripts/audit-name-honesty.mjs
           node scripts/audit-meta-sweep.mjs

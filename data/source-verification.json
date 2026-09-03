@@ -1,6 +1,6 @@
 {
  "schema": 2,
- "generatedAt": "2026-09-03T15:08:41.943Z",
+ "generatedAt": "2026-09-03T15:44:46.357Z",
  "liveGameVersion": "1.4.2.5",
  "pinnedSnapshotVersion": "1.3.3.0",
  "combatVerifiedThrough": "1.4.1.5",
@@ -16,15 +16,29 @@
   "UNVERIFIED": 2
  },
  "currentPatchCoverage": {
-  "CURRENT_1_4_2_5_VERIFIED": 176,
-  "UNCHANGED_SINCE_EARLIER_PATCH_VERIFIED": 557,
-  "MISSING": 13,
+  "PATCH_RECONCILED_NO_KNOWN_DELTA": 730,
+  "MISSING_UNSUPPORTED": 13,
   "STALE_NEEDS_RECHECK": 4,
-  "PROVISIONAL": 9
+  "PROVISIONAL": 9,
+  "VERIFIED_UNCHANGED": 3
  },
  "fieldsThatCanMoveAResult": 573,
  "fieldsThatCanMoveAResultAndAreNotVerified": 395,
- "resultAffectingCoveragePercent": 97,
+ "resultAffectingBreakdown": {
+  "CURRENT_PATCH_VERIFIED": 0,
+  "VERIFIED_UNCHANGED": 3,
+  "PATCH_RECONCILED_NO_KNOWN_DELTA": 553,
+  "STALE_NEEDS_RECHECK": 4,
+  "PROVISIONAL": 9,
+  "MISSING_UNSUPPORTED": 4
+ },
+ "headline": {
+  "knownPatchDeltaCoveragePercent": 97,
+  "knownPatchDeltaCoverageMeaning": "Share of result-affecting fields with no outstanding published patch delta against them. Says nothing about whether the number itself is current.",
+  "currentNumericalVerificationPercent": 1,
+  "currentNumericalVerificationMeaning": "Share of result-affecting fields whose value is either confirmed against the live version or affirmatively checked as unchanged through it. Carrying an old value forward on the absence of a delta does NOT count.",
+  "doNotMerge": "These two figures measure different things and must always be reported separately."
+ },
  "staleFields": 750,
  "weaponsAffectedByUnresolvedDelta": [
   "ef88",
@@ -36,7 +50,7 @@
  ],
  "endToEndStatus": "PROVISIONAL",
  "reasons": [
-  "6 of 62 weapons carry an unresolved current-patch delta (see weaponOverrides); the remaining 56 were checked against the full patch ledger and none was found",
+  "6 of 62 weapons carry an unresolved published patch delta (see weaponOverrides). The other 56 are patch-reconciled with no known delta - which is NOT the same as numerically verified against 1.4.2.5: only 3 of 573 result-affecting fields have live-version or affirmative-unchanged evidence",
   "395 of 573 result-moving fields are not independently re-derived"
  ],
  "weaponOverrides": {

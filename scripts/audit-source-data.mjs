@@ -255,33 +255,99 @@ if (patchCoverage) {
   }
 }
 
+/**
+ * Current-patch status taxonomy — CORRECTED 2026-09-03.
+ *
+ * The previous version mapped status==='VERIFIED' (pinned snapshot value that a
+ * class audit re-derives) straight to CURRENT_1_4_2_5_VERIFIED. That was wrong
+ * and materially overstated confidence: the class audits re-derive from the SAME
+ * pinned 1.3.3.0 snapshot, so agreement between them proves internal
+ * consistency, not currency. "No published delta names this field" is also not
+ * evidence the field is current - it is evidence that nobody has told us it
+ * changed, which is a weaker and different claim.
+ *
+ * The buckets below are therefore ordered by the STRENGTH OF EVIDENCE ABOUT
+ * CURRENCY, and two things are now required rather than inferred:
+ *
+ *   CURRENT_PATCH_VERIFIED   demands evidence attributable to the CURRENT live
+ *                            version - a 1.4.2.5-era measurement, extraction or
+ *                            first-party numeric statement. Re-deriving old data
+ *                            never qualifies, however rigorously.
+ *   VERIFIED_UNCHANGED       demands an AFFIRMATIVE, recorded, targeted check of
+ *                            the intervening patches for this specific mechanic,
+ *                            finding no change. Incidental silence is not enough.
+ *
+ * Everything whose only claim is "the ledger names no delta" lands in
+ * PATCH_RECONCILED_NO_KNOWN_DELTA and is NOT counted as verified-current.
+ */
+const ledgerComplete = patchCoverage?.ledgerCompleteness?.verified === true;
+const effectiveSnapshotVersion = patchCoverage?.effectiveSnapshotCurrency?.effectiveVersionAtLeast ?? SNAPSHOT_VERSION;
+const SNAPSHOT_EXTRACTED = patchCoverage?.effectiveSnapshotCurrency?.extractedOn ?? null;
+
 const CURRENT_PATCH_STATUS = {
-  VERIFIED_TIMELESS: 'CURRENT_1_4_2_5_VERIFIED',       // official first-party, not version-gated (e.g. REDSEC armour HP)
-  VERIFIED_REDERIVED: 'CURRENT_1_4_2_5_VERIFIED',       // snapshot value independently re-derived by a passing class audit
-  HIGH_CONFIDENCE: 'CURRENT_1_4_2_5_HIGH_CONFIDENCE',   // snapshot value, plausible, not independently re-derived
-  UNCHANGED: 'UNCHANGED_SINCE_EARLIER_PATCH_VERIFIED',  // full ledger checked; no delta ever named this weapon/field
-  STALE: 'STALE_NEEDS_RECHECK',                         // a specific unresolved delta names this exact field
+  CURRENT_VERIFIED: 'CURRENT_PATCH_VERIFIED',
+  VERIFIED_UNCHANGED: 'VERIFIED_UNCHANGED',
+  RECONCILED: 'PATCH_RECONCILED_NO_KNOWN_DELTA',
+  STALE: 'STALE_NEEDS_RECHECK',
   PROVISIONAL: 'PROVISIONAL',
-  MISSING: 'MISSING'
+  MISSING: 'MISSING_UNSUPPORTED'
+};
+
+/**
+ * Mechanics with an affirmative, recorded, targeted check across every patch
+ * between the snapshot and the live version. Each entry names the evidence, so
+ * the claim can be challenged rather than taken on trust. Nothing is added here
+ * without such a check on record.
+ */
+const AFFIRMATIVE_UNCHANGED_EVIDENCE = {
+  chestVsArmourMultipliers: 'data/redsec-model.json records a targeted check of the 1.4.1.0, 1.4.1.5, 1.4.2.0 and 1.4.2.5 changelogs specifically for armor-chest multiplier changes, finding none (checked 2026-09-02).',
+  armourTotalHp: 'EA REDSEC armor update is the standing first-party spec; the 1.4.2.0 and 1.4.2.5 changelogs were fetched and read in full on 2026-09-03 and document no REDSEC armour change.',
+  armourRangeShiftM: 'Same targeted changelog reads as armourTotalHp: the +10 m drop-off shift is restated by no later patch and contradicted by none.'
 };
 
 for (const r of all) {
   const snapshotBacked = /snapshot|game-file|ballistics|class audit/i.test(r.sourceType || '');
   r.snapshotVersion = snapshotBacked ? SNAPSHOT_VERSION : null;
-  r.stale = snapshotBacked && cmpVer(SNAPSHOT_VERSION, LIVE_VERSION) < 0; // kept for backward compatibility; superseded by currentPatchStatus below
+  r.stale = snapshotBacked && cmpVer(SNAPSHOT_VERSION, LIVE_VERSION) < 0; // kept for backward compatibility only
   r.lastVerified = LAST_VERIFIED;
 
-  if (r.status === 'MISSING') { r.currentPatchStatus = CURRENT_PATCH_STATUS.MISSING; continue; }
-  if (r.status === 'PROVISIONAL' || r.status === 'UNVERIFIED') { r.currentPatchStatus = CURRENT_PATCH_STATUS.PROVISIONAL; continue; }
-  if (!snapshotBacked) { r.currentPatchStatus = CURRENT_PATCH_STATUS.VERIFIED_TIMELESS; continue; }
+  if (r.status === 'MISSING') { r.currentPatchStatus = CURRENT_PATCH_STATUS.MISSING; r.currencyEvidence = 'field absent from every checked source'; continue; }
+  if (r.status === 'PROVISIONAL' || r.status === 'UNVERIFIED') { r.currentPatchStatus = CURRENT_PATCH_STATUS.PROVISIONAL; r.currencyEvidence = 'known uncertainty in the value or mechanic itself, independent of patch currency'; continue; }
 
+  // A specific unresolved delta names this exact field.
   const namedFields = affectedFields.get(r.weaponId);
-  const thisFieldNamed = namedFields && [...namedFields].some(f => r.field === f || r.field.startsWith(f));
-  if (thisFieldNamed) { r.currentPatchStatus = CURRENT_PATCH_STATUS.STALE; continue; }
-  if (!patchCoverage) { r.currentPatchStatus = r.stale ? CURRENT_PATCH_STATUS.HIGH_CONFIDENCE : (r.status === 'VERIFIED' ? CURRENT_PATCH_STATUS.VERIFIED_REDERIVED : CURRENT_PATCH_STATUS.HIGH_CONFIDENCE); continue; }
-  // Checked against the full ledger and not named by any unresolved delta.
-  r.currentPatchStatus = r.status === 'VERIFIED' ? CURRENT_PATCH_STATUS.VERIFIED_REDERIVED : CURRENT_PATCH_STATUS.UNCHANGED;
+  if (namedFields && [...namedFields].some(f => r.field === f || r.field.startsWith(f))) {
+    r.currentPatchStatus = CURRENT_PATCH_STATUS.STALE;
+    r.currencyEvidence = 'an unresolved published patch delta names this field; value carried forward because no replacement number exists at any evidence tier';
+    continue;
+  }
+
+  // Affirmative targeted check on record -> VERIFIED_UNCHANGED.
+  if (AFFIRMATIVE_UNCHANGED_EVIDENCE[r.field]) {
+    r.currentPatchStatus = CURRENT_PATCH_STATUS.VERIFIED_UNCHANGED;
+    r.currencyEvidence = AFFIRMATIVE_UNCHANGED_EVIDENCE[r.field];
+    continue;
+  }
+
+  // Everything else: the ledger is reconciled and names no delta, which is the
+  // honest extent of the claim. NOT current-verified.
+  r.currentPatchStatus = CURRENT_PATCH_STATUS.RECONCILED;
+  // Reconciliation strength matters: a check across a VERIFIED-COMPLETE patch
+  // set is far stronger than incidental silence, and it is what lets a
+  // reconciled field support HIGH CONFIDENCE trust. It still is not measurement.
+  r.reconciliationStrength = ledgerComplete ? 'complete-ledger-targeted-check' : 'incidental-no-delta-found';
+  r.effectiveSnapshotVersion = effectiveSnapshotVersion;
+  r.currencyEvidence = snapshotBacked
+    ? `value from the pinned snapshot (declared ${SNAPSHOT_VERSION}, extracted ${SNAPSHOT_EXTRACTED ?? 'n/a'}, effective content >= ${effectiveSnapshotVersion}); every patch through ${LIVE_VERSION} was enumerated${ledgerComplete ? ' and the set verified COMPLETE' : ''} and none names a change affecting this field. No ${LIVE_VERSION} measurement or extraction exists, so this is reconciliation, not verification.`
+    : `no published change affecting it through ${LIVE_VERSION}; not independently confirmed against the live game`;
 }
+
+// Nothing may claim CURRENT_PATCH_VERIFIED without live-version evidence. No
+// field currently qualifies: there is no 1.4.2.5 game-file extraction, no
+// in-game measurement on record, and EA published no numbers in 1.4.2.0 or
+// 1.4.2.5. This gate exists so that stops being an assumption and starts being
+// an assertion something has to satisfy.
+const currentVerifiedClaims = all.filter(r => r.currentPatchStatus === CURRENT_PATCH_STATUS.CURRENT_VERIFIED);
 
 // ---- aggregates ----
 const byStatus = {};
@@ -303,13 +369,34 @@ const priority = all
 
 const notVerifiedButMoves = all.filter(r => r.status !== 'VERIFIED' && movesResult(r)).length;
 
-// Result-affecting coverage using the DEPENDENCY-AWARE lens (Phase 9): a field
-// only counts against current-patch coverage if it can move a result AND a
-// specific unresolved delta actually names it.
+// ---- TWO SEPARATE HEADLINE METRICS, never merged --------------------------
+//
+// Merging these was the error being corrected. They answer different questions
+// and differ by roughly two orders of magnitude:
+//
+//   KNOWN PATCH-DELTA COVERAGE      "has every published change been reconciled
+//                                    against this field?"  -> high
+//   CURRENT NUMERICAL VERIFICATION  "has this field's NUMBER been confirmed
+//                                    against the live game?" -> very low
+//
+// A single blended percentage would let the first silently vouch for the second.
 const resultAffecting = all.filter(movesResult);
-const resultAffectingCurrent = resultAffecting.filter(r => !currentPatchUncertain(r)).length;
-const resultAffectingStale = resultAffecting.filter(r => r.currentPatchStatus === CURRENT_PATCH_STATUS.STALE).length;
-const resultAffectingUnknown = resultAffecting.filter(r => r.currentPatchStatus === CURRENT_PATCH_STATUS.MISSING).length;
+const S = CURRENT_PATCH_STATUS;
+const countRA = st => resultAffecting.filter(r => r.currentPatchStatus === st).length;
+
+const raCurrentVerified = countRA(S.CURRENT_VERIFIED);
+const raVerifiedUnchanged = countRA(S.VERIFIED_UNCHANGED);
+const raReconciled = countRA(S.RECONCILED);
+const raStale = countRA(S.STALE);
+const raProvisional = countRA(S.PROVISIONAL);
+const raMissing = countRA(S.MISSING);
+
+// Reconciled against the published record: everything except fields with an
+// outstanding named delta, a known mechanic-level uncertainty, or no value.
+const knownPatchDeltaCovered = raCurrentVerified + raVerifiedUnchanged + raReconciled;
+// Confirmed against the live version, or affirmatively checked as unchanged
+// through it. Carrying an old value forward does NOT count here.
+const currentNumericallyVerified = raCurrentVerified + raVerifiedUnchanged;
 
 const affectedWeaponIds = new Set(patchCoverage?.weaponsAffectedByUnresolvedDelta?.map(w => w.weaponId) ?? []);
 
@@ -323,16 +410,29 @@ const summary = {
   patchesWithUnrepresentedCombatDeltas: unrepresentedPatches,
   weaponsAudited: weapons.length,
   weaponsAffectedByUnresolvedDelta: affectedWeaponIds.size,
-  weaponsUnchangedSinceEarlierPatch: weapons.length - affectedWeaponIds.size,
+  weaponsWithNoKnownDelta: weapons.length - affectedWeaponIds.size,
   fieldsAudited: all.length,
   coverage: byStatus,
   currentPatchCoverage: byCurrentPatchStatus,
   fieldsThatCanMoveAResult: resultAffecting.length,
   fieldsThatCanMoveAResultAndAreNotVerified: notVerifiedButMoves,
-  resultAffectingFieldsCurrent: resultAffectingCurrent,
-  resultAffectingFieldsStale: resultAffectingStale,
-  resultAffectingFieldsUnknownMissing: resultAffectingUnknown,
-  resultAffectingCoveragePercent: Math.round(100 * resultAffectingCurrent / resultAffecting.length),
+  resultAffectingBreakdown: {
+    CURRENT_PATCH_VERIFIED: raCurrentVerified,
+    VERIFIED_UNCHANGED: raVerifiedUnchanged,
+    PATCH_RECONCILED_NO_KNOWN_DELTA: raReconciled,
+    STALE_NEEDS_RECHECK: raStale,
+    PROVISIONAL: raProvisional,
+    MISSING_UNSUPPORTED: raMissing
+  },
+  headline: {
+    knownPatchDeltaCoveragePercent: Math.round(100 * knownPatchDeltaCovered / resultAffecting.length),
+    knownPatchDeltaCoverageMeaning: 'Share of result-affecting fields with no outstanding published patch delta against them. Says nothing about whether the number itself is current.',
+    currentNumericalVerificationPercent: Math.round(100 * currentNumericallyVerified / resultAffecting.length),
+    currentNumericalVerificationMeaning: 'Share of result-affecting fields whose value is either confirmed against the live version or affirmatively checked as unchanged through it. Carrying an old value forward on the absence of a delta does NOT count.',
+    doNotMerge: 'These two figures measure different things and must always be reported separately.'
+  },
+  ledgerCompletenessVerified: ledgerComplete,
+  effectiveSnapshotVersion,
   staleFields: all.filter(r => r.stale).length,
   topPriority: priority.slice(0, 12).map(r => ({ weapon: r.weapon, field: r.field, status: r.status, currentPatchStatus: r.currentPatchStatus, affects: r.affects, why: r.why }))
 };
@@ -369,7 +469,8 @@ const endToEnd = {
   currentPatchCoverage: byCurrentPatchStatus,
   fieldsThatCanMoveAResult: summary.fieldsThatCanMoveAResult,
   fieldsThatCanMoveAResultAndAreNotVerified: notVerifiedButMoves,
-  resultAffectingCoveragePercent: summary.resultAffectingCoveragePercent,
+  resultAffectingBreakdown: summary.resultAffectingBreakdown,
+  headline: summary.headline,
   staleFields: summary.staleFields,
   weaponsAffectedByUnresolvedDelta: [...affectedWeaponIds],
   // Global summary flag, kept for gates that want one word. VERIFIED only when
@@ -378,7 +479,7 @@ const endToEnd = {
   endToEndStatus: Object.keys(weaponOverrides).length === 0 ? 'VERIFIED' : 'PROVISIONAL',
   reasons: [
     affectedWeaponIds.size > 0
-      ? `${affectedWeaponIds.size} of ${weapons.length} weapons carry an unresolved current-patch delta (see weaponOverrides); the remaining ${weapons.length - affectedWeaponIds.size} were checked against the full patch ledger and none was found`
+      ? `${affectedWeaponIds.size} of ${weapons.length} weapons carry an unresolved published patch delta (see weaponOverrides). The other ${weapons.length - affectedWeaponIds.size} are patch-reconciled with no known delta - which is NOT the same as numerically verified against ${LIVE_VERSION}: only ${currentNumericallyVerified} of ${resultAffecting.length} result-affecting fields have live-version or affirmative-unchanged evidence`
       : null,
     notVerifiedButMoves > 0
       ? `${notVerifiedButMoves} of ${summary.fieldsThatCanMoveAResult} result-moving fields are not independently re-derived`
@@ -390,11 +491,24 @@ await writeFile('data/source-verification.json', JSON.stringify(endToEnd, null, 
 
 await mkdir('reports/overnight', { recursive: true });
 await writeFile('reports/overnight/source-data-audit.json', JSON.stringify({ summary, fields: all }, null, 1));
-const cols = ['weaponId', 'weapon', 'cls', 'field', 'value', 'status', 'confidence', 'sourceType', 'source', 'reDerivedBy', 'snapshotVersion', 'stale', 'lastVerified', 'affects', 'why'];
+const cols = ['weaponId', 'weapon', 'cls', 'field', 'value', 'status', 'currentPatchStatus', 'reconciliationStrength', 'effectiveSnapshotVersion', 'currencyEvidence', 'confidence', 'sourceType', 'source', 'reDerivedBy', 'snapshotVersion', 'lastVerified', 'affects', 'why'];
 await writeFile('reports/overnight/source-data-audit.csv',
   [cols.join(','), ...all.map(r => cols.map(c => JSON.stringify(Array.isArray(r[c]) ? r[c].join('|') : (r[c] ?? '')).replace(/\n/g, ' ')).join(','))].join('\n'));
 
 console.log(JSON.stringify(summary, null, 1));
+
+// Any CURRENT_PATCH_VERIFIED claim must name live-version evidence. Today none
+// does, and that is the correct state - but this fails loudly if a future edit
+// promotes a field without the evidence to back it.
+if (currentVerifiedClaims.length) {
+  const unbacked = currentVerifiedClaims.filter(r => !/1\.4\.2\.5|live[- ]game|in-game measurement|extraction/i.test(r.currencyEvidence || ''));
+  if (unbacked.length) {
+    console.error(`
+FAIL: ${unbacked.length} field(s) claim CURRENT_PATCH_VERIFIED without naming live-version evidence`);
+    for (const u of unbacked.slice(0, 10)) console.error(`  ${u.weapon} ${u.field}: ${u.currencyEvidence}`);
+    process.exit(1);
+  }
+}
 
 // Gate: nothing may claim VERIFIED without a recorded re-derivation.
 const bogus = all.filter(r => r.status === 'VERIFIED' && !r.reDerivedBy && r.sourceType !== 'official first-party');

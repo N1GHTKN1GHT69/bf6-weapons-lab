@@ -32,6 +32,18 @@ const cache = await readJson('data/combat-cache.json').catch(() => null);
 
 const RESEARCH_LOG = [
   {
+    item: 'LEDGER COMPLETENESS + effective snapshot currency (meta-check, 2026-09-03)',
+    tiersChecked: [
+      { tier: 3, source: 'bf6balancelog.com patch index, cross-read against the EA news index', result: 'Enumerated every BF6 patch version around the baseline. CONFIRMED: no patch exists between 1.3.3.0 (2026-06-26) and 1.4.1.0 (2026-07-16) - no 1.3.3.5, 1.3.4.0 or 1.4.0.x. The four post-baseline ledger entries (1.4.1.0, 1.4.1.5, 1.4.2.0, 1.4.2.5) are therefore the COMPLETE set, not a sample.' },
+      { tier: 1, source: 'EA changelogs for all four post-baseline patches', result: 'All four read in full. This is what makes "no known delta" a targeted check across a verified-complete set rather than an argument from incidental silence.' },
+      { tier: 'direct-inspection', source: 'data/source-manifest.json + data/patch-delta-ledger.json', result: 'The snapshot was EXTRACTED 2026-07-25, nine days after 1.4.1.0 shipped (2026-07-16). Its self-declared "1.3.3.0" metadata therefore understates its real content currency: the extraction captures game state at >= 1.4.1.0. Only 1.4.1.5 (no combat effect), 1.4.2.0 and 1.4.2.5 post-date it.' }
+    ],
+    outcome: 'The patch ledger is verified COMPLETE for the interval, and the snapshot effective currency is >= 1.4.1.0 rather than 1.3.3.0. This does NOT make any field numerically verified against 1.4.2.5 - argument from silence is not measurement - but it is what allows a patch-reconciled field to support HIGH CONFIDENCE trust rather than mere hope.',
+    affectedWeapons: [],
+    affectedFields: [],
+    resultAffecting: false
+  },
+  {
     item: 'EF88 / BROD 3 / VSSM weapon statistics updates (1.4.2.0)',
     tiersChecked: [
       { tier: 1, source: 'https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-1-4-2-0', result: 'Qualitative only: "Weapon statistics now update correctly for the EF88, BROD, and VSSM." No numeric values published. Fetched and re-confirmed 2026-09-03.' },
@@ -151,6 +163,21 @@ const doc = {
   upstreamRepoHeadCommit: 'fb7a214778e1e4b5a5113f21ec0dd12136123845',
   upstreamRepoHeadCheckedAt: new Date().toISOString(),
   upstreamRepoHasNewerData: false,
+  ledgerCompleteness: {
+    verified: true,
+    verifiedAt: new Date().toISOString(),
+    evidence: 'Independent patch index enumeration confirms no BF6 patch exists between 1.3.3.0 (2026-06-26) and 1.4.1.0 (2026-07-16). The four post-baseline ledger entries are the complete set.',
+    postBaselinePatches: ['1.4.1.0', '1.4.1.5', '1.4.2.0', '1.4.2.5'],
+    consequence: 'Lets a PATCH_RECONCILED_NO_KNOWN_DELTA field support HIGH CONFIDENCE trust: the reconciliation is a targeted check across a verified-complete patch set, not incidental silence.'
+  },
+  effectiveSnapshotCurrency: {
+    declaredVersion: '1.3.3.0',
+    extractedOn: '2026-07-25',
+    effectiveVersionAtLeast: '1.4.1.0',
+    reasoning: 'The extraction post-dates 1.4.1.0 (2026-07-16) by nine days, so it captures game state including that patch. The declared version is stale file metadata, not a content ceiling.',
+    patchesPostDatingExtraction: ['1.4.1.5 (no combat effect)', '1.4.2.0 (5 blocking items)', '1.4.2.5 (resolved via overlay)'],
+    caveat: 'This raises the floor on how current the values are. It is NOT numerical verification against 1.4.2.5.'
+  },
   researchLog: RESEARCH_LOG,
   weaponsAffectedByUnresolvedDelta: [...affectedSet.entries()].map(([id, items]) => ({ weaponId: id, items })),
   weaponsUnaffected: unaffected,
