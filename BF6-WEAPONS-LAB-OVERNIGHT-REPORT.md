@@ -63,19 +63,43 @@ Live example: at 50 m the REDSEC chip now reads
 
 ## 1. CI result after push
 
-| Workflow | Result |
-| --- | --- |
-| **BF6 Lightweight Quality Gates** | **success** |
-| **BF6 Combat Engine** (62-weapon matrix) | **success** |
+| Commit | Workflow | Result |
+| --- | --- | --- |
+| `4f489c0` | BF6 Lightweight Quality Gates | **success** |
+| `4f489c0` | BF6 Combat Engine (62-weapon matrix) | **success** |
+| `9671063` | BF6 Combat Engine | **failure — final push step only** |
+| `fe503d4` | BF6 Lightweight Quality Gates | **success** |
 
 Combat Engine triggered because `scripts/verified-source-sanitizer.mjs` is in its
 path filter — correct behaviour, since a sanitizer change *could* alter the cache.
 It rebuilt from scratch and committed `ec9c3dd`.
 
 **The rebuild changed nothing.** Cache winners hash `9cbd7a8bd5328d54` before and
-after, same upstream commit `fb7a214`, same 62 modelled weapons. That is
-independent confirmation of the byte-identical-sanitization claim, produced by CI
-rather than by me. `ec9c3dd` is integrated locally and all gates re-pass against it.
+after, same upstream commit `fb7a214`, same 62 modelled weapons. Independent
+confirmation of the byte-identical-sanitization claim, produced by CI rather than
+by me. `ec9c3dd` is integrated locally and all gates re-pass against it.
+
+### The one failure, diagnosed and fixed
+
+`9671063`'s Combat Engine failed — but **all 62 cache jobs, the merge and the
+validation succeeded**. Only the last step, `Commit atomic source + cache update`,
+failed. Cause: I pushed `fe503d4` while that ~30-minute rebuild was running, so
+its `git push` was non-fast-forward. A completed, fully validated rebuild was
+discarded and the whole run reported as failed. No data was lost — the cache it
+built was identical anyway.
+
+Fixed: the commit step now rebases onto `origin/main` and retries up to three
+times. A genuine conflict still fails loudly rather than resolving generated data
+by guesswork.
+
+Two further CI corrections:
+
+- `data/attachment-name-audit.json` matched the Combat Engine glob
+  `data/*-audit.json`, so regenerating a **display-only** file — one that declares
+  `affectsOptimizer:false` and whose separation is gated across 24 engine
+  functions — was spawning the 62-weapon matrix. Excluded.
+- `attachment-legality.js` genuinely does affect cache construction, so it is now
+  in the trigger paths **and** the per-weapon shard cache key.
 
 ---
 
@@ -230,6 +254,41 @@ Ordered by whether they can move BTK / TTK / attachment winner / weapon winner.
 | 7 | **`sniperSweetSpotUnderArmourShift`** | UNVERIFIED | BTK, TTK, weapon winner | Armoured sweet-spot sniper results stay provisional. |
 | 8 | **`adsTime` missing** — M16A4, PP-19, RPK-74M, L115 | MISSING | weapon winner | Absent values silently rank as 9999 in the ADS tie-break, so these four always lose it. |
 
+### Measured, not asserted
+
+The impact map above was originally structural — reasoned from how the engine is
+wired. `scripts/audit-field-impact.mjs` now measures it: 60 observations over 10
+fields, one weapon per class, perturbing each field and comparing the weapon's own
+ranking row.
+
+It **contradicted two of my own claims**, which is why it exists:
+
+- **`dmg` and `rpm` are inert under perturbation.** The audited class range and
+  cadence tables are the operative source on the ranking path, not the raw
+  `weapons.json` field. Verified directly: setting KORD 6P67 to a flat 1 damage
+  leaves its ranked damage at 17.13 — its audited 3-range value. Both trace to the
+  same pinned upstream commit, so this is about *which value the engine reads*,
+  not a provenance gap.
+- **`spreadMax` is inert on this path** because the fallback Beam Index uses
+  recoil primitives only; the richer cached index consumes spread. Recorded as a
+  limitation of the harness, not a claim about the engine.
+
+Confirmed as designed: `mag`, `tacRld` and `emptyRld` are inert on every weapon —
+initial trigger-to-kill never spans a reload. `recoilV` and `recoilVar` move Beam
+Index on all six; `bulletVel` moves TTK.
+
+The gate fails on an inert field with no recorded explanation, so a genuinely dead
+input cannot hide behind a plausible-sounding impact map.
+
+### Fixed: unknown ADS time no longer ranks as worst
+
+`buildRankPool()` substituted `9999` for a missing `adsTime`. That does not mean
+"unknown" — it asserts those four weapons are the slowest-aiming in the game.
+Absence is now `null` and the comparison falls through. Verified as an honesty fix
+rather than a behaviour change: the meta sweep is byte-identical across all 1,344
+cases, because the ADS tie-break sits behind BTK, chest damage and velocity and is
+never actually reached.
+
 ### Two data-integrity findings recorded, not "fixed"
 
 - **`damageStatus` says `verified` for all 62 weapons**, but BROD 3, EF88 and
@@ -321,9 +380,9 @@ source facts          PROVISIONAL   <-- 750/759 stale, 395/573 not re-derived
 Nothing downstream can be stronger than its inputs, and the UI now enforces that
 rather than relying on the reader to remember it.
 
-**Test status: 25/25 gates pass**, syntax clean, both CI workflows green.
-Gates added this session: `audit-source-data.mjs`, plus the end-to-end cap check
-inside `audit-name-honesty.mjs`.
+**Test status: 27/27 gates pass**, syntax clean.
+Gates added this session: `audit-source-data.mjs`, `audit-field-impact.mjs`, plus
+the end-to-end cap check inside `audit-name-honesty.mjs`.
 
 ---
 
