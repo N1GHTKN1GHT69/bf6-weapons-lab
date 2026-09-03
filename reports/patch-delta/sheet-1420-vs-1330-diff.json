@@ -1,0 +1,161 @@
+{
+ "compared": 812,
+ "agreed": 793,
+ "diffs": [
+  {
+   "weapon": "ef88",
+   "field": "recoil.ads.amount",
+   "sheetField": "ADSRecoilAmount",
+   "ours": 0.59065,
+   "sheet": 0.5965,
+   "deltaPct": 0.99
+  },
+  {
+   "weapon": "ef88",
+   "field": "recoil.ads.amountMult",
+   "sheetField": "ADSRecoilAmountMultiplier",
+   "ours": 0.9579,
+   "sheet": 0.9375,
+   "deltaPct": -2.13
+  },
+  {
+   "weapon": "ef88",
+   "field": "recoil.ads.dirVar",
+   "sheetField": "ADSRecoilDirectionVariation",
+   "ours": 20.3,
+   "sheet": 26.1,
+   "deltaPct": 28.571
+  },
+  {
+   "weapon": "ef88",
+   "field": "recoil.ads.dirVarMult",
+   "sheetField": "ADSRecoilDirectionVariationMultiplier",
+   "ours": 0.89864,
+   "sheet": 0.915366,
+   "deltaPct": 1.861
+  },
+  {
+   "weapon": "ef88",
+   "field": "spread.adsStand[0]",
+   "sheetField": "ADSStandBaseMin",
+   "ours": 0.1,
+   "sheet": 0.05,
+   "deltaPct": -50
+  },
+  {
+   "weapon": "ef88",
+   "field": "spreadDyn.ads.inc",
+   "sheetField": "ADSBaseSpreadInc",
+   "ours": 0.3,
+   "sheet": 0.36,
+   "deltaPct": 20
+  },
+  {
+   "weapon": "ef88",
+   "field": "spreadDyn.ads.firingCoef",
+   "sheetField": "ADSBaseSpreadFiringDecCoef",
+   "ours": 1.04,
+   "sheet": 1.2,
+   "deltaPct": 15.385
+  },
+  {
+   "weapon": "ef88",
+   "field": "spreadDyn.ads.firingOffset",
+   "sheetField": "ADSBaseSpreadFiringDecOffset",
+   "ours": 2.05,
+   "sheet": 2.7,
+   "deltaPct": 31.707
+  },
+  {
+   "weapon": "ef88",
+   "field": "spreadDyn.ads.distExp",
+   "sheetField": "ADSBaseSpreadDistExp",
+   "ours": 0.67,
+   "sheet": 0.5,
+   "deltaPct": -25.373
+  },
+  {
+   "weapon": "ef88",
+   "field": "bulletVel",
+   "sheetField": "velocity",
+   "ours": 670,
+   "sheet": 724,
+   "deltaPct": 8.06
+  },
+  {
+   "weapon": "ef88",
+   "field": "rpm",
+   "sheetField": "RoF",
+   "ours": 675,
+   "sheet": 674.999,
+   "deltaPct": 0
+  },
+  {
+   "weapon": "brod3",
+   "field": "spreadDyn.ads.inc",
+   "sheetField": "ADSBaseSpreadInc",
+   "ours": 0.228,
+   "sheet": 0.304,
+   "deltaPct": 33.333
+  },
+  {
+   "weapon": "brod3",
+   "field": "spreadDyn.ads.firingCoef",
+   "sheetField": "ADSBaseSpreadFiringDecCoef",
+   "ours": 1.22,
+   "sheet": 1.2,
+   "deltaPct": -1.639
+  },
+  {
+   "weapon": "brod3",
+   "field": "spreadDyn.ads.firingOffset",
+   "sheetField": "ADSBaseSpreadFiringDecOffset",
+   "ours": 1.84,
+   "sheet": 2.7,
+   "deltaPct": 46.739
+  },
+  {
+   "weapon": "brod3",
+   "field": "spreadDyn.ads.distExp",
+   "sheetField": "ADSBaseSpreadDistExp",
+   "ours": 0.67,
+   "sheet": 0.5,
+   "deltaPct": -25.373
+  },
+  {
+   "weapon": "brod3",
+   "field": "bulletVel",
+   "sheetField": "velocity",
+   "ours": 580,
+   "sheet": 563,
+   "deltaPct": -2.931
+  },
+  {
+   "weapon": "brod3",
+   "field": "rpm",
+   "sheetField": "RoF",
+   "ours": 830.7692307692307,
+   "sheet": 830.769,
+   "deltaPct": 0
+  },
+  {
+   "weapon": "vssm",
+   "field": "rpm",
+   "sheetField": "RoF",
+   "ours": 449.999,
+   "sheet": 799.999,
+   "deltaPct": 77.778
+  },
+  {
+   "weapon": "l115",
+   "field": "bulletVel",
+   "sheetField": "velocity",
+   "ours": 664,
+   "sheet": 742,
+   "deltaPct": 11.747
+  }
+ ],
+ "unmatched": [
+  "Interdictor"
+ ]
+}
