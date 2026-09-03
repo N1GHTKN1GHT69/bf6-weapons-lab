@@ -3149,12 +3149,26 @@
     const am = resolved?.combat?.armorModel;
     if (state.gameMode !== "redsec" || state.targetArmor !== "plates2" || !am) { box.innerHTML = ""; box.className = "armor-summary"; return; }
     box.className = "armor-summary shown";
+    // Armour damage is shown next to health damage on purpose. Without it the
+    // panel reads as a contradiction: the headline damage metric is the SOLDIER
+    // HEALTH figure, so "17.1 damage" beside "80 armour HP" and "6 shots to
+    // break" looks like arithmetic that does not work. Armour uses its own
+    // damage curve and its own class multiplier, and that is the number the
+    // break count is actually derived from.
+    const mult = Number(am.armorChestMultiplier);
+    const multNote = Number.isFinite(mult) && mult !== 1
+      ? ` (${am.healthDamagePerShot.toFixed(2)} x ${mult} chest-vs-armour)`
+      : "";
+    const spillLabel = am.spilloverPolicy === "proportional" ? "carries into health" : "does not carry into health";
     box.innerHTML =
       `<span class="armor-title">${escapeHtml(ARMOR_STATES.plates2)}</span>` +
+      `<span class="armor-fact"><b>${am.armorDamagePerShot.toFixed(2)}</b><small>armour damage / shot</small></span>` +
+      `<span class="armor-fact"><b>${am.healthDamagePerShot.toFixed(2)}</b><small>health damage / shot</small></span>` +
       `<span class="armor-fact"><b>${am.armorTotalHp} HP</b><small>armour (${am.plates} x ${am.hpPerPlate})</small></span>` +
       `<span class="armor-fact"><b>${am.shotsToBreakArmor}</b><small>shots to break armour</small></span>` +
       `<span class="armor-fact"><b>${am.healthBtk}</b><small>then shots to kill</small></span>` +
-      `<span class="armor-fact"><b>${am.btk}</b><small>total BTK</small></span>`;
+      `<span class="armor-fact"><b>${am.btk}</b><small>total BTK</small></span>` +
+      `<span class="armor-fact armor-rule" title="${escapeHtml(`Armour damage per shot = health damage${multNote}. Leftover damage on the breaking shot ${spillLabel}; this mechanic is unpublished, so the conservative reading is used and no conversion is invented.`)}"><b>SPILLOVER: ${am.spilloverPolicy === "proportional" ? "ON" : "OFF"}</b><small>armour-break rule (unverified)</small></span>`;
   }
 
   /** Optional armour comparison, live-calculated, never hardcoded. */
@@ -3734,6 +3748,43 @@
      * object alone. It calls the production combat path only; it computes
      * nothing of its own beyond restating the formulae it used.
      */
+    /**
+     * Drive the real render pipeline for one scenario and return the text the
+     * user would actually see in the panels that carry combat meaning. Lets UI
+     * regressions be caught with string assertions instead of pixel tests.
+     */
+    render(query = {}) {
+      const keep = { c: state.category, d: state.distance, g: state.gameMode, a: state.targetArmor, m: state.selectionMode, p: state.priority, w: state.weaponId };
+      try {
+        clearScenarioMemo();
+        if (query.gameMode != null) state.gameMode = query.gameMode;
+        if (query.targetArmor != null) state.targetArmor = query.targetArmor;
+        if (state.gameMode !== "redsec") state.targetArmor = "unarmored";
+        if (query.category != null) state.category = query.category;
+        if (query.distance != null) state.distance = Math.max(1, Math.min(300, Math.round(Number(query.distance))));
+        if (query.priority != null) state.priority = query.priority;
+        state.selectionMode = query.mode ?? "auto";
+        if (state.selectionMode === "auto") resolveAutoWeapon();
+        else if (query.weaponId != null) state.weaponId = query.weaponId;
+        renderAll();
+        const txt = id => String($(id)?.innerHTML ?? $(id)?.textContent ?? "");
+        return {
+          scenarioChip: String($("scenarioChip")?.textContent ?? ""),
+          confidenceChip: String($("confidenceChip")?.textContent ?? ""),
+          armorSummary: txt("armorSummary"),
+          armorShotLog: txt("armorShotLog"),
+          armorCompare: txt("armorCompare"),
+          weaponTabs: txt("weaponTabs"),
+          dashboardWeapon: String($("dashboardWeapon")?.textContent ?? ""),
+          armorNote: String($("armorNote")?.textContent ?? "")
+        };
+      } finally {
+        state.category = keep.c; state.distance = keep.d; state.gameMode = keep.g;
+        state.targetArmor = keep.a; state.selectionMode = keep.m; state.priority = keep.p;
+        state.weaponId = keep.w; clearScenarioMemo();
+      }
+    },
+
     /** Eligibility/count reconciliation for one scope. */
     scope(query = {}) {
       const keep = { c: state.category, d: state.distance, g: state.gameMode, a: state.targetArmor, m: state.selectionMode, p: state.priority };

@@ -1,0 +1,87 @@
+#!/usr/bin/env node
+/**
+ * Mode isolation + REDSEC auditability gate.
+ *
+ * Drives the REAL render pipeline through the headless harness and asserts:
+ *  - MULTIPLAYER never receives REDSEC armour maths, panels or labels
+ *  - REDSEC 2 PLATES states armour damage AND health damage, so the shot counts
+ *    are checkable against the numbers on screen
+ *  - the armour arithmetic shown is self-consistent
+ *  - no stale state survives a mode/armour transition
+ */
+import { writeFile, mkdir } from 'node:fs/promises';
+import { bootLab } from './lab-harness.mjs';
+
+const { diag } = await bootLab();
+const errors = [];
+const strip = h => String(h).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+const num = (t, re) => { const m = strip(t).match(re); return m ? Number(m[1]) : NaN; };
+
+const D = [10, 25, 50, 100, 150];
+
+for (const d of D) {
+  // ---- MULTIPLAYER must be free of REDSEC ----
+  const mp = diag.render({ gameMode: 'multiplayer', category: '__all__', distance: d, priority: 'fastest', mode: 'auto' });
+  if (strip(mp.armorSummary) !== '') errors.push(`MP ${d}m: armour summary rendered in Multiplayer`);
+  if (strip(mp.armorShotLog) !== '') errors.push(`MP ${d}m: armour shot log rendered in Multiplayer`);
+  if (/REDSEC|PLATES|ARMOUR|ARMOR/i.test(mp.scenarioChip)) errors.push(`MP ${d}m: scenario chip leaks REDSEC ("${mp.scenarioChip}")`);
+  if (/REDSEC/i.test(mp.confidenceChip)) errors.push(`MP ${d}m: confidence chip leaks REDSEC ("${mp.confidenceChip}")`);
+
+  // ---- REDSEC UNARMORED must reuse the Multiplayer health path ----
+  const ru = diag.render({ gameMode: 'redsec', targetArmor: 'unarmored', category: '__all__', distance: d, priority: 'fastest', mode: 'auto' });
+  if (strip(ru.armorSummary) !== '') errors.push(`REDSEC unarmored ${d}m: armour summary shown for an unarmored target`);
+  if (!/REDSEC/i.test(ru.scenarioChip)) errors.push(`REDSEC unarmored ${d}m: scenario chip does not say REDSEC`);
+  const mpSnap = diag.snapshot({ gameMode: 'multiplayer', category: '__all__', distance: d, priority: 'fastest', mode: 'auto' });
+  const ruSnap = diag.snapshot({ gameMode: 'redsec', targetArmor: 'unarmored', category: '__all__', distance: d, priority: 'fastest', mode: 'auto' });
+  if (mpSnap.top[0]?.id !== ruSnap.top[0]?.id || mpSnap.top[0]?.btk !== ruSnap.top[0]?.btk) {
+    errors.push(`${d}m: REDSEC unarmored diverges from Multiplayer (${mpSnap.top[0]?.id}/${mpSnap.top[0]?.btk} vs ${ruSnap.top[0]?.id}/${ruSnap.top[0]?.btk}) — EA state health damage is unchanged`);
+  }
+
+  // ---- REDSEC 2 PLATES must be auditable on screen ----
+  const ra = diag.render({ gameMode: 'redsec', targetArmor: 'plates2', category: '__all__', distance: d, priority: 'fastest', mode: 'auto' });
+  const s = strip(ra.armorSummary);
+  if (s === '') { errors.push(`REDSEC 2 plates ${d}m: no armour summary rendered`); continue; }
+  if (!/armour damage \/ shot/i.test(s)) errors.push(`REDSEC 2 plates ${d}m: armour damage per shot not shown — shot counts are unverifiable on screen`);
+  if (!/health damage \/ shot/i.test(s)) errors.push(`REDSEC 2 plates ${d}m: health damage per shot not shown`);
+  if (!/SPILLOVER:/i.test(s)) errors.push(`REDSEC 2 plates ${d}m: unresolved armour-break rule not surfaced`);
+
+  const aDmg = num(s, /([\d.]+) armour damage/i);
+  const hDmg = num(s, /([\d.]+) health damage/i);
+  const aHp = num(s, /([\d.]+) HP armour/i);
+  const brk = num(s, /(\d+) shots to break/i);
+  const after = num(s, /(\d+) then shots/i);
+  const total = num(s, /(\d+) total BTK/i);
+  if ([aDmg, hDmg, aHp, brk, after, total].some(v => !Number.isFinite(v))) {
+    errors.push(`REDSEC 2 plates ${d}m: armour summary is not machine-readable ("${s}")`);
+    continue;
+  }
+  // The numbers on screen must justify the counts on screen.
+  if (Math.ceil(aHp / aDmg) !== brk) errors.push(`REDSEC 2 plates ${d}m: ceil(${aHp}/${aDmg})=${Math.ceil(aHp / aDmg)} but panel claims ${brk} shots to break`);
+  if (Math.ceil(100 / hDmg) !== after) errors.push(`REDSEC 2 plates ${d}m: ceil(100/${hDmg})=${Math.ceil(100 / hDmg)} but panel claims ${after} health shots`);
+  if (brk + after !== total) errors.push(`REDSEC 2 plates ${d}m: ${brk}+${after} != ${total} total BTK`);
+  if (!(aDmg <= hDmg + 1e-9)) errors.push(`REDSEC 2 plates ${d}m: armour damage ${aDmg} exceeds health damage ${hDmg} — no current class multiplier is above 1x`);
+}
+
+// ---- No stale state across transitions ----
+{
+  const seq = [
+    { gameMode: 'redsec', targetArmor: 'plates2', distance: 25 },
+    { gameMode: 'multiplayer', distance: 25 },
+    { gameMode: 'redsec', targetArmor: 'plates2', distance: 25 }
+  ];
+  const out = seq.map(q => diag.render({ ...q, category: '__all__', priority: 'fastest', mode: 'auto' }));
+  if (strip(out[1].armorSummary) !== '') errors.push('transition: armour summary survived the switch to Multiplayer');
+  if (strip(out[0].armorSummary) !== strip(out[2].armorSummary)) errors.push('transition: returning to REDSEC 2 PLATES did not restore the same armour result');
+  const a = diag.snapshot({ gameMode: 'redsec', targetArmor: 'plates2', category: '__all__', distance: 25, priority: 'fastest', mode: 'auto' });
+  diag.snapshot({ gameMode: 'multiplayer', category: '__all__', distance: 300, priority: 'balanced', mode: 'auto' });
+  const b = diag.snapshot({ gameMode: 'redsec', targetArmor: 'plates2', category: '__all__', distance: 25, priority: 'fastest', mode: 'auto' });
+  if (a.top[0]?.id !== b.top[0]?.id || a.top[0]?.btk !== b.top[0]?.btk || a.scenario !== b.scenario) {
+    errors.push(`cache contamination: same query gave ${a.top[0]?.id}/${a.top[0]?.btk} then ${b.top[0]?.id}/${b.top[0]?.btk}`);
+  }
+}
+
+await mkdir('reports/overnight', { recursive: true });
+await writeFile('reports/overnight/mode-isolation.json', JSON.stringify({ generatedAt: new Date().toISOString(), distances: D, errors }, null, 1));
+console.log(`mode isolation: ${D.length} distances x 3 modes checked, plus transition and cache-contamination cases`);
+if (errors.length) { console.error('FAIL:\n' + errors.join('\n')); process.exit(1); }
+console.log('PASS: modes are isolated and every REDSEC armour count is justified by numbers shown on screen.');

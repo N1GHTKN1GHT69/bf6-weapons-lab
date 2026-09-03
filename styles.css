@@ -213,6 +213,8 @@ main{padding-top:22px;display:flex;flex-direction:column;gap:var(--gap)}
 .armor-fact{display:flex;flex-direction:column;min-width:0}
 .armor-fact b{font-size:17px;line-height:1.1}
 .armor-fact small{color:#8a9db0;font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;margin-top:2px}
+.armor-fact.armor-rule b{font-size:11px;letter-spacing:.1em;color:#ffb36b}
+.armor-fact.armor-rule{cursor:help}
 .armor-compare-wrap[hidden]{display:none}
 .armor-compare{display:grid;gap:1px;background:var(--line2);border:1px solid var(--line2);border-radius:3px;overflow:hidden}
 .armor-compare-row{display:grid;grid-template-columns:1fr auto auto;gap:16px;background:#090e13;padding:9px 11px;align-items:baseline}
