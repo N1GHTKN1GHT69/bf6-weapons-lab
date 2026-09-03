@@ -58,21 +58,43 @@ const RESEARCH_LOG = [
   {
     item: 'VSSM barrel unintended recoil modifier removed (1.4.2.0)',
     tiersChecked: [
-      { tier: 1, source: 'https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-1-4-2-0', result: 'Qualitative only.' },
-      { tier: 'direct-inspection', source: 'data/attachments.json BARRELS: vssm_suppressed, vssm_suppressed_asm', result: 'Neither record currently carries any recoil-affecting field (no adsRecoilTierMod, no recoilTierMod; spreadIncMult:1 is neutral). There is no value present that could represent the "unintended modifier" the patch removed.' }
+      { tier: 1, source: 'https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-1-4-2-0', result: 'Qualitative only. No field name, no magnitude, no direction (increase vs decrease) stated.' },
+      { tier: 'direct-inspection', source: 'data/attachments.json BARRELS (all 12 records, every weapon)', result: 'No BARRELS record in the ENTIRE catalog carries a recoil-affecting field - the vocabulary is adsTimeTierMod/hipSpreadTierMod/movingAdsSpreadTierMod/spreadFiringDecCoefMult/spreadFiringDecOffsetMult/spreadIncMult/sprintRecoveryTierShift/velMult/velTierMod only. This is a schema-wide absence, not a VSSM-specific one: VSSM is not being singled out by a data gap relative to its peers.' },
+      { tier: 'direct-inspection', source: 'data/attachments.json GRIPS/MUZZLES for vssm', result: 'Recoil modifiers (adsRecoilTierMod etc.) live on GRIPS and MUZZLES in this schema, and VSSM\'s own grip catalog is fully populated there (17 options, all carrying adsRecoilTierMod) exactly like every other weapon\'s. VSSM is treated consistently with its peers everywhere the schema DOES model recoil.' }
     ],
-    outcome: 'NOT result-affecting. The field the patch fixed is not present in the current dataset, so there is nothing to correct.',
+    // CORRECTED 2026-09-03: absence of a field is not the same as verified
+    // absence of an effect. The schema-wide check above establishes that
+    // BARRELS never carry recoil for ANY weapon here - so this specific
+    // mechanic cannot currently be represented by ANY weapon's barrel record,
+    // which is a fact about the schema's vocabulary, not a verified statement
+    // that the removed in-game modifier had zero true effect. Two readings
+    // remain open and neither is asserted: (a) barrel attachments never
+    // actually affect recoil in BF6's real combat math and the "unintended
+    // modifier" was a display/inspection-only bug, in which case there is
+    // truly nothing to model; or (b) barrels do affect recoil in the live
+    // game and this schema has a genuine roster-wide gap that happens to be
+    // equally absent for all 62 other weapons, not unique to VSSM. No
+    // published magnitude exists to settle it, and none is invented.
+    outcome: 'UNRESOLVED - kept open, not resolved by absence of a matching field. VSSM stays flagged (already PROVISIONAL via its dmg/bulletVel weapon-statistics item, so this finding does not change its displayed status but must not be reported as closed).',
     affectedWeapons: ['vssm'],
     affectedFields: [],
-    resultAffecting: false
+    resultAffecting: 'unresolved-schema-wide-limitation'
   },
   {
     item: 'VSSM limb damage multipliers adjusted (1.4.2.0)',
     tiersChecked: [
       { tier: 1, source: 'https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-1-4-2-0', result: 'Qualitative only.' },
-      { tier: 'direct-inspection', source: 'app.js', result: 'No per-hit-location limb damage model exists anywhere in the combat engine; ranking is chest-damage only by design (documented throughout the project).' }
+      { tier: 'direct-inspection', source: 'app.js', result: 'Grepped for every limb-related token: none exist. No hit-location model of any kind (chest/limb/head) is implemented for ANY weapon - ranking and the optimizer read chest damage exclusively, a longstanding documented design boundary, not an omission specific to this patch item.' }
     ],
-    outcome: 'NOT result-affecting. The mechanic is outside this application\'s combat model by design.',
+    // Distinct from the barrel-recoil item above: this is not "our schema is
+    // silent where it could carry the value" (unresolved), it is "this
+    // application has no hit-location concept at all, for anyone, by explicit
+    // design" (notModelled) - the same category the ledger already uses for
+    // sniper ADS handling and underwater ballistics. Classified as currently
+    // NON-OPERATIVE for that reason, not as verified-current data: the patch
+    // delta itself remains an unsupported/unmodelled mechanic, retained here
+    // rather than marked resolved.
+    outcome: 'NON-OPERATIVE, by design scope, not by verification. Retained as an unmodelled mechanic (ledger check type notModelled), not treated as current-data verification.',
     affectedWeapons: ['vssm'],
     affectedFields: [],
     resultAffecting: false
@@ -113,10 +135,17 @@ for (const r of RESEARCH_LOG) {
 const roster = weapons.map(w => w.id);
 const unaffected = roster.filter(id => !affectedSet.has(id));
 
+// Absence of a matching field in today's schema is not proof of zero effect.
+// Items marked resultAffecting:'unresolved-schema-wide-limitation' stay open
+// and visible here rather than being folded silently into either "resolved" or
+// "affects this weapon's specific field" - they don't map onto one
+// weapons.json field, so they would otherwise disappear from both.
+const unresolvedUnmapped = RESEARCH_LOG.filter(r => r.resultAffecting !== false && r.resultAffecting !== true && r.resultAffecting !== 'partial');
+
 const doc = {
   schema: 1,
   generatedAt: new Date().toISOString(),
-  method: 'Per-weapon dependency-aware current-patch coverage, derived from data/patch-delta-ledger.json plus direct inspection of whether each implicated field is present and operative. Community stat-aggregator sites were searched but never used to establish a number.',
+  method: 'Per-weapon dependency-aware current-patch coverage, derived from data/patch-delta-ledger.json plus direct inspection of whether each implicated field is present and operative. Community stat-aggregator sites were searched but never used to establish a number. Absence of a matching field is recorded as UNRESOLVED, never as verified-unchanged.',
   liveGameVersion: '1.4.2.5',
   pinnedSnapshotVersion: '1.3.3.0',
   upstreamRepoHeadCommit: 'fb7a214778e1e4b5a5113f21ec0dd12136123845',
@@ -125,10 +154,12 @@ const doc = {
   researchLog: RESEARCH_LOG,
   weaponsAffectedByUnresolvedDelta: [...affectedSet.entries()].map(([id, items]) => ({ weaponId: id, items })),
   weaponsUnaffected: unaffected,
+  unresolvedNotMappedToAWeaponField: unresolvedUnmapped.map(r => ({ item: r.item, weapons: r.affectedWeapons, outcome: r.outcome })),
   summary: {
     totalWeapons: roster.length,
     affectedByUnresolvedResultAffectingDelta: affectedSet.size,
-    unchangedSinceEarlierPatchVerified: unaffected.length
+    unchangedSinceEarlierPatchVerified: unaffected.length,
+    unresolvedNotMappedToAWeaponField: unresolvedUnmapped.length
   }
 };
 

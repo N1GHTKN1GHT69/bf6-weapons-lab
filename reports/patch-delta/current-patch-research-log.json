@@ -66,20 +66,25 @@
    {
     "tier": 1,
     "source": "https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-1-4-2-0",
-    "result": "Qualitative only."
+    "result": "Qualitative only. No field name, no magnitude, no direction (increase vs decrease) stated."
    },
    {
     "tier": "direct-inspection",
-    "source": "data/attachments.json BARRELS: vssm_suppressed, vssm_suppressed_asm",
-    "result": "Neither record currently carries any recoil-affecting field (no adsRecoilTierMod, no recoilTierMod; spreadIncMult:1 is neutral). There is no value present that could represent the \"unintended modifier\" the patch removed."
+    "source": "data/attachments.json BARRELS (all 12 records, every weapon)",
+    "result": "No BARRELS record in the ENTIRE catalog carries a recoil-affecting field - the vocabulary is adsTimeTierMod/hipSpreadTierMod/movingAdsSpreadTierMod/spreadFiringDecCoefMult/spreadFiringDecOffsetMult/spreadIncMult/sprintRecoveryTierShift/velMult/velTierMod only. This is a schema-wide absence, not a VSSM-specific one: VSSM is not being singled out by a data gap relative to its peers."
+   },
+   {
+    "tier": "direct-inspection",
+    "source": "data/attachments.json GRIPS/MUZZLES for vssm",
+    "result": "Recoil modifiers (adsRecoilTierMod etc.) live on GRIPS and MUZZLES in this schema, and VSSM's own grip catalog is fully populated there (17 options, all carrying adsRecoilTierMod) exactly like every other weapon's. VSSM is treated consistently with its peers everywhere the schema DOES model recoil."
    }
   ],
-  "outcome": "NOT result-affecting. The field the patch fixed is not present in the current dataset, so there is nothing to correct.",
+  "outcome": "UNRESOLVED - kept open, not resolved by absence of a matching field. VSSM stays flagged (already PROVISIONAL via its dmg/bulletVel weapon-statistics item, so this finding does not change its displayed status but must not be reported as closed).",
   "affectedWeapons": [
    "vssm"
   ],
   "affectedFields": [],
-  "resultAffecting": false
+  "resultAffecting": "unresolved-schema-wide-limitation"
  },
  {
   "item": "VSSM limb damage multipliers adjusted (1.4.2.0)",
@@ -92,10 +97,10 @@
    {
     "tier": "direct-inspection",
     "source": "app.js",
-    "result": "No per-hit-location limb damage model exists anywhere in the combat engine; ranking is chest-damage only by design (documented throughout the project)."
+    "result": "Grepped for every limb-related token: none exist. No hit-location model of any kind (chest/limb/head) is implemented for ANY weapon - ranking and the optimizer read chest damage exclusively, a longstanding documented design boundary, not an omission specific to this patch item."
    }
   ],
-  "outcome": "NOT result-affecting. The mechanic is outside this application's combat model by design.",
+  "outcome": "NON-OPERATIVE, by design scope, not by verification. Retained as an unmodelled mechanic (ledger check type notModelled), not treated as current-data verification.",
   "affectedWeapons": [
    "vssm"
   ],
