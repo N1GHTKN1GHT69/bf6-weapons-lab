@@ -11,8 +11,14 @@ on:
       - 'scripts/auto-selection-policy.mjs'
       - 'scripts/cache-state-signature.mjs'
       - 'scripts/verified-source-sanitizer.mjs'
+      - 'attachment-legality.js'
       - 'scripts/list-cache-weapons.mjs'
       - 'data/*-audit.json'
+      # attachment-name-audit.json matches the glob above but is display-only:
+      # it declares affectsOptimizer:false and 24 engine functions are gated
+      # against referencing the naming layer, so it cannot alter the cache.
+      # Without this exclusion, regenerating it spawns the 62-weapon matrix.
+      - '!data/attachment-name-audit.json'
       - 'data/weapons.json'
       - 'data/attachments.json'
       - 'data/ammo.json'
@@ -163,7 +169,7 @@ jobs:
           path: |
             partial-cache/${{ matrix.slug }}.json
             partial-audit/${{ matrix.slug }}.json
-          key: ${{ runner.os }}-bf6-perweapon-v30-${{ needs.prepare.outputs.upstream_sha }}-${{ hashFiles('scripts/build-combat-cache.mjs', 'scripts/auto-selection-policy.mjs', 'scripts/cache-state-signature.mjs', 'scripts/verified-source-sanitizer.mjs', 'scripts/list-cache-weapons.mjs', 'data/*-audit.json') }}-${{ matrix.slug }}
+          key: ${{ runner.os }}-bf6-perweapon-v30-${{ needs.prepare.outputs.upstream_sha }}-${{ hashFiles('scripts/build-combat-cache.mjs', 'scripts/auto-selection-policy.mjs', 'scripts/cache-state-signature.mjs', 'scripts/verified-source-sanitizer.mjs', 'attachment-legality.js', 'scripts/list-cache-weapons.mjs', 'data/*-audit.json') }}-${{ matrix.slug }}
       - name: Build ${{ matrix.weapon_name }} exhaustive cache shard
         if: steps.weapon-cache.outputs.cache-hit != 'true'
         shell: bash

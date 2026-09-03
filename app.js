@@ -2090,7 +2090,12 @@
         if (combat && !Number.isFinite(Number(combat.triggerTtk))) combat = addTriggerKill(roster, raw, combat, d, "standard", velocity);
         const ads = Number(winStats?.adsTimeMs ?? (roster.cls === "DMR" ? def?.adsTime : null) ?? raw?.adsTime ?? def?.adsTime);
         const beamIndex = Number(combat?.beamIndex ?? winStats?.beam?.beamIndex ?? fallbackBeamIndex(raw,d));
-        return { roster, raw, combat, velocity, ads:Number.isFinite(ads) ? ads : 9999, beamIndex:Number.isFinite(beamIndex)?beamIndex:null };
+        // Unknown ADS time is NULL, not 9999. Four weapons (M16A4, PP-19, RPK-74M,
+      // L115) have no adsTime in any source, and a 9999 sentinel silently ranked
+      // them last on that tie-break - which asserts they are the slowest to aim
+      // rather than admitting the value is unknown. Absence is now neutral: the
+      // comparison falls through to the next key.
+      return { roster, raw, combat, velocity, ads:Number.isFinite(ads) ? ads : null, beamIndex:Number.isFinite(beamIndex)?beamIndex:null };
       })
       .filter(x => combatScopeExclusion(x, category) === null);
   }
@@ -2156,7 +2161,9 @@
     const tieBreak = (a,b) =>
       a.combat.btk-b.combat.btk ||
       b.combat.damage-a.combat.damage ||
-      b.velocity-a.velocity || a.ads-b.ads;
+      b.velocity-a.velocity ||
+      // Neutral when either side's ADS time is unknown.
+      ((a.ads == null || b.ads == null) ? 0 : a.ads-b.ads);
 
     // Two comparators, one per PRIORITY, over the same rows.
     //
