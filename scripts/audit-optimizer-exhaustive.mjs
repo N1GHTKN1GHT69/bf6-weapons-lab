@@ -19,7 +19,12 @@
 import { writeFile, mkdir, readFile } from 'node:fs/promises';
 import { bootLab } from './lab-harness.mjs';
 
-const BRUTE_FORCE_LIMIT = 2000000;
+// Cases at or below this are enumerated by TRUE brute force. --full raises it to
+// infinity so every case is brute-forced (about 2.0 billion combinations, a few
+// minutes); the default keeps the gate fast enough to run on every push while
+// still brute-forcing the majority.
+const FULL = process.argv.includes('--full');
+const BRUTE_FORCE_LIMIT = FULL ? Infinity : 20000000;
 const DISTANCES = [10, 25, 100];
 
 const { diag, window: win } = await bootLab();
@@ -155,7 +160,12 @@ const brutes = rows.filter(r => r.method === 'brute-force-exhaustive');
 const summary = {
   generatedAt: new Date().toISOString(),
   weaponsConsidered: roster.length,
-  weaponsOptimizable: roster.length - optionErrors.length,
+  // Count what was actually optimized. Weapons absent from data/weapons.json are
+  // skipped silently by the options accessor, so roster length minus thrown
+  // errors overstated this.
+  weaponsOptimized: new Set(rows.map(r => r.id)).size,
+  weaponsSkippedNoSourceEntry: roster.length - new Set(rows.map(r => r.id)).size - optionErrors.length,
+  bruteForceLimit: FULL ? 'none (--full)' : BRUTE_FORCE_LIMIT,
   distances: DISTANCES,
   cases: rows.length,
   trueExhaustiveCases: brutes.length,

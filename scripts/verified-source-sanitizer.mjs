@@ -1,32 +1,28 @@
-export function stripPartialAssumptions(value, stats = { strippedFields: 0, touchedRecords: 0 }) {
-  if (Array.isArray(value)) return value.map(v => stripPartialAssumptions(v, stats));
-  if (!value || typeof value !== 'object') return value;
+/**
+ * Node-side view of the ONE authoritative attachment legality policy.
+ *
+ * The implementation lives in ../attachment-legality.js so that the browser
+ * on-demand optimizer and this cache builder cannot drift apart. This module is
+ * a thin re-export; it deliberately contains no policy of its own.
+ */
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+import vm from 'node:vm';
 
-  const keys = Array.isArray(value.assumedFields)
-    ? value.assumedFields.map(String)
-    : (value.assumedFields && typeof value.assumedFields === 'object'
-      ? Object.keys(value.assumedFields)
-      : []);
-  const assumed = new Set(keys);
-  if (assumed.size) stats.touchedRecords++;
+const here = path.dirname(fileURLToPath(import.meta.url));
+const src = readFileSync(path.join(here, '..', 'attachment-legality.js'), 'utf8');
+const sandbox = { globalThis: {} };
+sandbox.globalThis = sandbox;
+vm.createContext(sandbox);
+vm.runInContext(src, sandbox, { filename: 'attachment-legality.js' });
 
-  const out = {};
-  for (const [k, v] of Object.entries(value)) {
-    if (k === 'assumedFields') continue;
-    if (assumed.has(k)) {
-      stats.strippedFields++;
-      continue;
-    }
-    out[k] = stripPartialAssumptions(v, stats);
-  }
-  return out;
-}
+const policy = sandbox.BF6_ATTACHMENT_LEGALITY;
+if (!policy) throw new Error('attachment-legality.js did not expose BF6_ATTACHMENT_LEGALITY');
 
-export function hasPartialAssumptionMarker(value) {
-  if (Array.isArray(value)) return value.some(hasPartialAssumptionMarker);
-  if (!value || typeof value !== 'object') return false;
-  if (value.assumedFields && (Array.isArray(value.assumedFields)
-    ? value.assumedFields.length > 0
-    : typeof value.assumedFields === 'object' && Object.keys(value.assumedFields).length > 0)) return true;
-  return Object.values(value).some(hasPartialAssumptionMarker);
-}
+export const POLICY_VERSION = policy.POLICY_VERSION;
+export const assumedFieldNames = policy.assumedFieldNames;
+export const isWhollyAssumed = policy.isWhollyAssumed;
+export const stripPartialAssumptions = policy.stripPartialAssumptions;
+export const hasPartialAssumptionMarker = policy.hasPartialAssumptionMarker;
+export const legalOption = policy.legalOption;

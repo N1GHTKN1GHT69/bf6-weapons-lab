@@ -51,8 +51,9 @@ function makeEl(id = '') {
 
 export async function bootLab(root = process.cwd()) {
   const read = p => readFile(path.join(root, p), 'utf8');
-  const [rosterSrc, classSrc, appSrc] = await Promise.all([
-    read('roster-data.js'), read('class-data.js'), read('app.js')
+  // Same script set, same order, as index.html.
+  const [legalitySrc, rosterSrc, classSrc, appSrc] = await Promise.all([
+    read('attachment-legality.js'), read('roster-data.js'), read('class-data.js'), read('app.js')
   ]);
 
   const els = new Map();
@@ -99,6 +100,7 @@ export async function bootLab(root = process.cwd()) {
   sandbox.self = sandbox;
   vm.createContext(sandbox);
 
+  vm.runInContext(legalitySrc, sandbox, { filename: 'attachment-legality.js' });
   vm.runInContext(rosterSrc, sandbox, { filename: 'roster-data.js' });
   vm.runInContext(classSrc, sandbox, { filename: 'class-data.js' });
   vm.runInContext(appSrc, sandbox, { filename: 'app.js' });

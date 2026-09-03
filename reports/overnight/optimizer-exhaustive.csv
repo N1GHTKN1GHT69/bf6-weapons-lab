@@ -1,157 +1,160 @@
 id,name,cls,d,budget,combos,method,prodScore,refScore,prodPoints,refPoints,match
-"m433","M433","Assault Rifle",10,100,3528000,"exact-memoised-search",481.93,481.93,100,100,true
-"m433","M433","Assault Rifle",25,100,3528000,"exact-memoised-search",472.52124999999995,472.52125,100,100,true
-"m433","M433","Assault Rifle",100,100,3528000,"exact-memoised-search",476.6507142857143,476.6507142857143,95,95,true
-"b36a4","B36A4","Assault Rifle",10,100,5443200,"exact-memoised-search",476.93,476.93,100,100,true
-"b36a4","B36A4","Assault Rifle",25,100,5443200,"exact-memoised-search",467.715,467.71500000000003,100,100,true
-"b36a4","B36A4","Assault Rifle",100,100,5443200,"exact-memoised-search",481.93642857142856,481.93642857142856,100,100,true
-"sor556","SOR-556 MK2","Assault Rifle",10,100,8164800,"exact-memoised-search",481.93,481.93,95,95,true
-"sor556","SOR-556 MK2","Assault Rifle",25,100,8164800,"exact-memoised-search",472.84,472.84000000000003,100,100,true
-"sor556","SOR-556 MK2","Assault Rifle",100,100,8164800,"exact-memoised-search",484.58285714285716,484.58285714285716,100,100,true
-"ak4d","AK4D","Assault Rifle",10,100,1795500,"brute-force-exhaustive",464.43,464.43,95,95,true
-"ak4d","AK4D","Assault Rifle",25,100,1795500,"brute-force-exhaustive",455.715,455.715,100,100,true
-"ak4d","AK4D","Assault Rifle",100,100,1795500,"brute-force-exhaustive",468.97214285714284,468.97214285714284,100,100,true
-"tr7","TR-7","Assault Rifle",10,100,3175200,"exact-memoised-search",487.8,487.8,100,100,true
-"tr7","TR-7","Assault Rifle",25,100,3175200,"exact-memoised-search",480.6009375,480.6009375,100,100,true
-"tr7","TR-7","Assault Rifle",100,100,3175200,"exact-memoised-search",483.1882142857143,483.18821428571425,100,100,true
-"kord6p67","KORD 6P67","Assault Rifle",10,100,1270080,"brute-force-exhaustive",455.03000000000003,455.03000000000003,100,100,true
-"kord6p67","KORD 6P67","Assault Rifle",25,100,1270080,"brute-force-exhaustive",447.44624999999996,447.44624999999996,95,95,true
-"kord6p67","KORD 6P67","Assault Rifle",100,100,1270080,"brute-force-exhaustive",441.1364285714286,441.1364285714286,100,100,true
-"nvo228e","NVO-228E","Assault Rifle",10,100,3810240,"exact-memoised-search",478.43,478.43,100,100,true
-"nvo228e","NVO-228E","Assault Rifle",25,100,3810240,"exact-memoised-search",470.70874999999995,470.70875,100,100,true
-"nvo228e","NVO-228E","Assault Rifle",100,100,3810240,"exact-memoised-search",484.58285714285716,484.58285714285716,100,100,true
-"l85a3","L85A3","Assault Rifle",10,100,4354560,"exact-memoised-search",472.43,472.43,100,100,true
-"l85a3","L85A3","Assault Rifle",25,100,4354560,"exact-memoised-search",463.83374999999995,463.83375,95,95,true
-"l85a3","L85A3","Assault Rifle",100,100,4354560,"exact-memoised-search",469.36857142857144,469.3685714285714,95,95,true
-"vcr2","VCR-2","Assault Rifle",10,100,4021920,"exact-memoised-search",478.43,478.43,100,100,true
-"vcr2","VCR-2","Assault Rifle",25,100,4021920,"exact-memoised-search",470.70874999999995,470.70875,100,100,true
-"vcr2","VCR-2","Assault Rifle",100,100,4021920,"exact-memoised-search",484.58285714285716,484.58285714285716,100,100,true
-"m16a4","M16A4","Assault Rifle",10,100,8467200,"exact-memoised-search",100463.13,100463.13,100,100,true
-"m16a4","M16A4","Assault Rifle",25,100,8467200,"exact-memoised-search",100451.23375,100451.23375,100,100,true
-"m16a4","M16A4","Assault Rifle",100,100,8467200,"exact-memoised-search",100457.07928571428,100457.07928571428,95,95,true
-"ef88","EF88","Assault Rifle",10,100,7257600,"exact-memoised-search",468.55,468.55,100,100,true
-"ef88","EF88","Assault Rifle",25,100,7257600,"exact-memoised-search",461.29468749999995,461.2946875,100,100,true
-"ef88","EF88","Assault Rifle",100,100,7257600,"exact-memoised-search",473.3864285714286,473.3864285714286,100,100,true
-"m4a1","M4A1","Carbine",10,100,8467200,"exact-memoised-search",488.75000000000006,488.75,100,100,true
-"m4a1","M4A1","Carbine",25,100,8467200,"exact-memoised-search",479.41343749999993,479.4134375,100,100,true
-"m4a1","M4A1","Carbine",100,100,8467200,"exact-memoised-search",484.58285714285716,484.58285714285716,100,100,true
-"m277","M277","Carbine",10,100,2903040,"exact-memoised-search",479.2,479.2,100,100,true
-"m277","M277","Carbine",25,100,2903040,"exact-memoised-search",467.40718749999996,467.40718749999996,100,100,true
-"m277","M277","Carbine",100,100,2903040,"exact-memoised-search",464.30785714285713,464.30785714285713,100,100,true
-"ak205","AK-205","Carbine",10,100,3024000,"exact-memoised-search",469.85,469.85,100,100,true
-"ak205","AK-205","Carbine",25,100,3024000,"exact-memoised-search",459.71343749999994,459.7134375,95,95,true
-"ak205","AK-205","Carbine",100,100,3024000,"exact-memoised-search",450.4935714285715,450.49357142857144,100,100,true
-"m417a2","M417 A2","Carbine",10,100,2822400,"exact-memoised-search",485.93,485.93,100,100,true
-"m417a2","M417 A2","Carbine",25,100,2822400,"exact-memoised-search",473.87125,473.87125000000003,100,100,true
-"m417a2","M417 A2","Carbine",100,100,2822400,"exact-memoised-search",483.07928571428573,483.07928571428573,100,100,true
-"grtbc","GRT-BC","Carbine",10,100,1036800,"brute-force-exhaustive",464.55,464.55,100,100,true
-"grtbc","GRT-BC","Carbine",25,100,1036800,"brute-force-exhaustive",459.78218749999996,459.78218749999996,100,100,true
-"grtbc","GRT-BC","Carbine",100,100,1036800,"brute-force-exhaustive",470.1328571428572,470.1328571428572,100,100,true
-"qbz192","QBZ-192","Carbine",10,100,870912,"brute-force-exhaustive",455.68,455.68,100,100,true
-"qbz192","QBZ-192","Carbine",25,100,870912,"brute-force-exhaustive",448.92125,448.92125,95,95,true
-"qbz192","QBZ-192","Carbine",100,100,870912,"brute-force-exhaustive",464.9185714285715,464.9185714285715,100,100,true
-"sg553r","SG 553R","Carbine",10,100,4148928,"exact-memoised-search",487.25000000000006,487.25,95,95,true
-"sg553r","SG 553R","Carbine",25,100,4148928,"exact-memoised-search",479.41343749999993,479.4134375,100,100,true
-"sg553r","SG 553R","Carbine",100,100,4148928,"exact-memoised-search",484.58285714285716,484.58285714285716,100,100,true
-"sor300sc","SOR-300SC","Carbine",10,100,7902720,"exact-memoised-search",482.43,482.43,100,100,true
-"sor300sc","SOR-300SC","Carbine",25,100,7902720,"exact-memoised-search",472.84,472.84000000000003,100,100,true
-"sor300sc","SOR-300SC","Carbine",100,100,7902720,"exact-memoised-search",484.58285714285716,484.58285714285716,100,100,true
-"brod3","BROD 3","Carbine",10,100,7197120,"exact-memoised-search",488.75000000000006,488.75,100,100,true
-"brod3","BROD 3","Carbine",25,100,7197120,"exact-memoised-search",479.41343749999993,479.4134375,100,100,true
-"brod3","BROD 3","Carbine",100,100,7197120,"exact-memoised-search",484.58285714285716,484.58285714285716,100,100,true
-"sgx","SGX","SMG",10,100,1257984,"brute-force-exhaustive",456.48,456.48,100,100,true
-"sgx","SGX","SMG",25,100,1257984,"brute-force-exhaustive",449.6275,449.6275,100,100,true
-"sgx","SGX","SMG",100,100,1257984,"brute-force-exhaustive",464.8935714285715,464.8935714285715,100,100,true
-"pw5a3","PW5A3","SMG",10,100,917280,"brute-force-exhaustive",473.4,473.4,100,100,true
-"pw5a3","PW5A3","SMG",25,100,917280,"brute-force-exhaustive",467.1134375,467.1134375,100,100,true
-"pw5a3","PW5A3","SMG",100,100,917280,"brute-force-exhaustive",476.62928571428574,476.62928571428574,100,100,true
-"pw7a2","PW7A2","SMG",10,100,314496,"brute-force-exhaustive",466.3,466.3,100,100,true
-"pw7a2","PW7A2","SMG",25,100,314496,"brute-force-exhaustive",458.90718749999996,458.90718749999996,100,100,true
-"pw7a2","PW7A2","SMG",100,100,314496,"brute-force-exhaustive",440.90964285714284,440.90964285714284,100,100,true
-"umg40","UMG-40","SMG",10,100,1146600,"brute-force-exhaustive",462.48,462.48,100,100,true
-"umg40","UMG-40","SMG",25,100,1146600,"brute-force-exhaustive",455.7525,455.7525,100,100,true
-"umg40","UMG-40","SMG",100,100,1146600,"brute-force-exhaustive",475.42928571428575,475.42928571428575,100,100,true
-"usg90","USG-90","SMG",10,100,21168,"brute-force-exhaustive",460.3,460.3,90,90,true
-"usg90","USG-90","SMG",25,100,21168,"brute-force-exhaustive",454.84468749999996,454.84468749999996,95,95,true
-"usg90","USG-90","SMG",100,100,21168,"brute-force-exhaustive",445.02214285714285,445.02214285714285,100,100,true
-"kv9","KV9","SMG",10,100,471744,"brute-force-exhaustive",450.48,450.48,100,100,true
-"kv9","KV9","SMG",25,100,471744,"brute-force-exhaustive",443.7525,443.7525,100,100,true
-"kv9","KV9","SMG",100,100,471744,"brute-force-exhaustive",451.10785714285714,451.10785714285714,100,100,true
-"scw10","SCW-10","SMG",10,100,786240,"brute-force-exhaustive",465.3,465.3,100,100,true
-"scw10","SCW-10","SMG",25,100,786240,"brute-force-exhaustive",456.0196875,456.0196875,100,100,true
-"scw10","SCW-10","SMG",100,100,786240,"brute-force-exhaustive",456.9739285714286,456.9739285714286,100,100,true
-"sl9","SL9","SMG",10,100,314496,"brute-force-exhaustive",465.3,465.3,100,100,true
-"sl9","SL9","SMG",25,100,314496,"brute-force-exhaustive",458.3321875,458.3321875,100,100,true
-"sl9","SL9","SMG",100,100,314496,"brute-force-exhaustive",456.9739285714286,456.9739285714286,95,95,true
-"cz3a1","CZ3A1","SMG",10,100,1769040,"brute-force-exhaustive",484.75,484.75,100,100,true
-"cz3a1","CZ3A1","SMG",25,100,1769040,"brute-force-exhaustive",477.65093749999994,477.65093749999994,100,100,true
-"cz3a1","CZ3A1","SMG",100,100,1769040,"brute-force-exhaustive",483.6542857142857,483.6542857142857,95,95,true
-"pp19","PP-19","SMG",10,100,1375920,"brute-force-exhaustive",471.75,471.75,100,100,true
-"pp19","PP-19","SMG",25,100,1375920,"brute-force-exhaustive",464.77593749999994,464.77593749999994,100,100,true
-"pp19","PP-19","SMG",100,100,1375920,"brute-force-exhaustive",479.58285714285716,479.58285714285716,100,100,true
-"l110","L110","LMG",10,100,290304,"brute-force-exhaustive",463.1,463.1,100,100,true
-"l110","L110","LMG",25,100,290304,"brute-force-exhaustive",455.1375,455.1375,100,100,true
-"l110","L110","LMG",100,100,290304,"brute-force-exhaustive",446.72857142857146,446.72857142857146,100,100,true
-"drsiar","DRS-IAR","LMG",10,100,10342080,"exact-memoised-search",465.03000000000003,465.03,100,100,true
-"drsiar","DRS-IAR","LMG",25,100,10342080,"exact-memoised-search",456.4525,456.4525,100,100,true
-"drsiar","DRS-IAR","LMG",100,100,10342080,"exact-memoised-search",470.1328571428572,470.1328571428571,100,100,true
-"m60","M/60","LMG",10,100,287280,"brute-force-exhaustive",451.65000000000003,451.65000000000003,95,95,true
-"m60","M/60","LMG",25,100,287280,"brute-force-exhaustive",444.39374999999995,444.39374999999995,100,100,true
-"m60","M/60","LMG",100,100,287280,"brute-force-exhaustive",435.8964285714286,435.8964285714286,100,100,true
-"rpkm","RPKM","LMG",10,100,4826304,"exact-memoised-search",477.43,477.43,95,95,true
-"rpkm","RPKM","LMG",25,100,4826304,"exact-memoised-search",469.2775,469.27750000000003,100,100,true
-"rpkm","RPKM","LMG",100,100,4826304,"exact-memoised-search",482.7971428571429,482.79714285714283,100,100,true
-"m123k","M123K","LMG",10,100,57120,"brute-force-exhaustive",453.6,453.6,100,100,true
-"m123k","M123K","LMG",25,100,57120,"brute-force-exhaustive",441.95,441.95,100,100,true
-"m123k","M123K","LMG",100,100,57120,"brute-force-exhaustive",414.1,414.1,100,100,true
-"m240l","M240L","LMG",10,100,226800,"brute-force-exhaustive",463.45000000000005,463.45000000000005,95,95,true
-"m240l","M240L","LMG",25,100,226800,"brute-force-exhaustive",456.60624999999993,456.60624999999993,100,100,true
-"m240l","M240L","LMG",100,100,226800,"brute-force-exhaustive",449.93928571428575,449.93928571428575,100,100,true
-"m121a2","M121 A2","LMG",10,100,113400,"brute-force-exhaustive",454.65000000000003,454.65000000000003,100,100,true
-"m121a2","M121 A2","LMG",25,100,113400,"brute-force-exhaustive",442.50624999999997,442.50624999999997,95,95,true
-"m121a2","M121 A2","LMG",100,100,113400,"brute-force-exhaustive",418.55357142857144,418.55357142857144,100,100,true
-"rpk74m","RPK-74M","LMG",10,100,3677184,"exact-memoised-search",481.33000000000004,481.33,95,95,true
-"rpk74m","RPK-74M","LMG",25,100,3677184,"exact-memoised-search",470.08374999999995,470.08375,100,100,true
-"rpk74m","RPK-74M","LMG",100,100,3677184,"exact-memoised-search",464.0292857142857,464.0292857142857,100,100,true
-"m39emr","M39 EMR","DMR",10,100,3878280,"exact-memoised-search",476.75,476.75,100,100,true
-"m39emr","M39 EMR","DMR",25,100,3878280,"exact-memoised-search",465.32593749999995,465.3259375,100,100,true
-"m39emr","M39 EMR","DMR",100,100,3878280,"exact-memoised-search",484.0185714285714,484.0185714285714,100,100,true
-"lmr27","LMR27","DMR",10,100,2585520,"exact-memoised-search",468.8,468.8,100,100,true
-"lmr27","LMR27","DMR",25,100,2585520,"exact-memoised-search",459.5821875,459.5821875,100,100,true
-"lmr27","LMR27","DMR",100,100,2585520,"exact-memoised-search",463.8989285714286,463.89892857142854,100,100,true
-"svk86","SVK-8.6","DMR",10,100,430920,"brute-force-exhaustive",453.48,453.48,95,95,true
-"svk86","SVK-8.6","DMR",25,100,430920,"brute-force-exhaustive",444.89625,444.89625,100,100,true
-"svk86","SVK-8.6","DMR",100,100,430920,"brute-force-exhaustive",472.06142857142856,472.06142857142856,100,100,true
-"svdm","SVDM","DMR",10,100,3447360,"exact-memoised-search",487.8,487.8,100,100,true
-"svdm","SVDM","DMR",25,100,3447360,"exact-memoised-search",476.5196875,476.51968750000003,100,100,true
-"svdm","SVDM","DMR",100,100,3447360,"exact-memoised-search",497.56857142857143,497.56857142857143,100,100,true
-"grtcps","GRT-CPS","DMR",10,100,2612736,"exact-memoised-search",466.43,466.43,100,100,true
-"grtcps","GRT-CPS","DMR",25,100,2612736,"exact-memoised-search",458.70874999999995,458.70875,100,100,true
-"grtcps","GRT-CPS","DMR",100,100,2612736,"exact-memoised-search",477.9007142857143,477.9007142857143,100,100,true
-"vssm","VSSM","DMR",10,100,181440,"brute-force-exhaustive",100409.78,100409.78,100,100,true
-"vssm","VSSM","DMR",25,100,181440,"brute-force-exhaustive",100379.615,100379.615,100,100,true
-"vssm","VSSM","DMR",100,100,181440,"brute-force-exhaustive",100318.11857142857,100318.11857142857,100,100,true
-"m2010esr","M2010 ESR","Sniper Rifle",10,100,381024,"brute-force-exhaustive",454.18,454.18,100,100,true
-"m2010esr","M2010 ESR","Sniper Rifle",25,100,381024,"brute-force-exhaustive",445.6025,445.6025,100,100,true
-"m2010esr","M2010 ESR","Sniper Rifle",100,100,381024,"brute-force-exhaustive",479.6042857142857,479.6042857142857,100,100,true
-"sv98","SV-98","Sniper Rifle",10,100,127008,"brute-force-exhaustive",470.3,470.3,100,100,true
-"sv98","SV-98","Sniper Rifle",25,100,127008,"brute-force-exhaustive",459.5821875,459.5821875,100,100,true
-"sv98","SV-98","Sniper Rifle",100,100,127008,"brute-force-exhaustive",479.6042857142857,479.6042857142857,100,100,true
-"psr","PSR","Sniper Rifle",10,100,254016,"brute-force-exhaustive",475.69,475.69,95,95,true
-"psr","PSR","Sniper Rifle",25,100,254016,"brute-force-exhaustive",467.2834375,467.2834375,100,100,true
-"psr","PSR","Sniper Rifle",100,100,254016,"brute-force-exhaustive",487.20642857142855,487.20642857142855,100,100,true
-"miniscout","Mini Scout","Sniper Rifle",10,100,381024,"brute-force-exhaustive",453.98,453.98,100,100,true
-"miniscout","Mini Scout","Sniper Rifle",25,100,381024,"brute-force-exhaustive",444.5775,444.5775,100,100,true
-"miniscout","Mini Scout","Sniper Rifle",100,100,381024,"brute-force-exhaustive",454.93285714285713,454.93285714285713,95,95,true
-"l115","L115A3","Sniper Rifle",10,100,635040,"brute-force-exhaustive",470.3,470.3,100,100,true
-"l115","L115A3","Sniper Rifle",25,100,635040,"brute-force-exhaustive",459.5821875,459.5821875,100,100,true
-"l115","L115A3","Sniper Rifle",100,100,635040,"brute-force-exhaustive",479.6042857142857,479.6042857142857,100,100,true
-"m87a1","M87A1","Shotgun",10,100,60480,"brute-force-exhaustive",476.49,476.49,85,85,true
-"m87a1","M87A1","Shotgun",25,100,60480,"brute-force-exhaustive",463.08875,463.08875,100,100,true
-"m87a1","M87A1","Shotgun",100,100,60480,"brute-force-exhaustive",460.35214285714284,460.35214285714284,95,95,true
-"m1014","M1014","Shotgun",10,100,45360,"brute-force-exhaustive",476.49,476.49,85,85,true
-"m1014","M1014","Shotgun",25,100,45360,"brute-force-exhaustive",100450.20125,100450.20125,100,100,true
-"m1014","M1014","Shotgun",100,100,45360,"brute-force-exhaustive",460.35214285714284,460.35214285714284,95,95,true
-"db12","DB-12","Shotgun",10,100,21168,"brute-force-exhaustive",462.06,462.06,85,85,true
-"db12","DB-12","Shotgun",25,100,21168,"brute-force-exhaustive",450.0425,450.0425,100,100,true
-"db12","DB-12","Shotgun",100,100,21168,"brute-force-exhaustive",456.11571428571426,456.11571428571426,100,100,true
+"m433","M433","Assault Rifle",10,100,14112000,"brute-force-exhaustive",481.93,481.93,100,100,true
+"m433","M433","Assault Rifle",25,100,14112000,"brute-force-exhaustive",472.52124999999995,472.52124999999995,100,100,true
+"m433","M433","Assault Rifle",100,100,14112000,"brute-force-exhaustive",476.6507142857143,476.6507142857143,95,95,true
+"b36a4","B36A4","Assault Rifle",10,100,38102400,"brute-force-exhaustive",476.93,476.93,100,100,true
+"b36a4","B36A4","Assault Rifle",25,100,38102400,"brute-force-exhaustive",467.715,467.715,100,100,true
+"b36a4","B36A4","Assault Rifle",100,100,38102400,"brute-force-exhaustive",481.93642857142856,481.93642857142856,100,100,true
+"sor556","SOR-556 MK2","Assault Rifle",10,100,59875200,"brute-force-exhaustive",481.93,481.93,95,95,true
+"sor556","SOR-556 MK2","Assault Rifle",25,100,59875200,"brute-force-exhaustive",472.84,472.84,100,100,true
+"sor556","SOR-556 MK2","Assault Rifle",100,100,59875200,"brute-force-exhaustive",484.58285714285716,484.58285714285716,100,100,true
+"ak4d","AK4D","Assault Rifle",10,100,14364000,"brute-force-exhaustive",464.43,464.43,95,95,true
+"ak4d","AK4D","Assault Rifle",25,100,14364000,"brute-force-exhaustive",455.715,455.715,100,100,true
+"ak4d","AK4D","Assault Rifle",100,100,14364000,"brute-force-exhaustive",468.97214285714284,468.97214285714284,100,100,true
+"tr7","TR-7","Assault Rifle",10,100,11642400,"brute-force-exhaustive",487.8,487.8,100,100,true
+"tr7","TR-7","Assault Rifle",25,100,11642400,"brute-force-exhaustive",480.6009375,480.6009375,100,100,true
+"tr7","TR-7","Assault Rifle",100,100,11642400,"brute-force-exhaustive",483.1882142857143,483.1882142857143,100,100,true
+"kord6p67","KORD 6P67","Assault Rifle",10,100,9676800,"brute-force-exhaustive",455.03000000000003,455.03000000000003,100,100,true
+"kord6p67","KORD 6P67","Assault Rifle",25,100,9676800,"brute-force-exhaustive",447.44624999999996,447.44624999999996,95,95,true
+"kord6p67","KORD 6P67","Assault Rifle",100,100,9676800,"brute-force-exhaustive",441.1364285714286,441.1364285714286,100,100,true
+"nvo228e","NVO-228E","Assault Rifle",10,100,17463600,"brute-force-exhaustive",478.43,478.43,100,100,true
+"nvo228e","NVO-228E","Assault Rifle",25,100,17463600,"brute-force-exhaustive",470.70874999999995,470.70874999999995,100,100,true
+"nvo228e","NVO-228E","Assault Rifle",100,100,17463600,"brute-force-exhaustive",484.58285714285716,484.58285714285716,100,100,true
+"l85a3","L85A3","Assault Rifle",10,100,27941760,"brute-force-exhaustive",472.43,472.43,100,100,true
+"l85a3","L85A3","Assault Rifle",25,100,27941760,"brute-force-exhaustive",463.83374999999995,463.83374999999995,95,95,true
+"l85a3","L85A3","Assault Rifle",100,100,27941760,"brute-force-exhaustive",469.36857142857144,469.36857142857144,95,95,true
+"vcr2","VCR-2","Assault Rifle",10,100,14747040,"brute-force-exhaustive",478.43,478.43,100,100,true
+"vcr2","VCR-2","Assault Rifle",25,100,14747040,"brute-force-exhaustive",470.70874999999995,470.70874999999995,100,100,true
+"vcr2","VCR-2","Assault Rifle",100,100,14747040,"brute-force-exhaustive",484.58285714285716,484.58285714285716,100,100,true
+"m16a4","M16A4","Assault Rifle",10,100,54331200,"brute-force-exhaustive",100463.13,100463.13,100,100,true
+"m16a4","M16A4","Assault Rifle",25,100,54331200,"brute-force-exhaustive",100451.23375,100451.23375,100,100,true
+"m16a4","M16A4","Assault Rifle",100,100,54331200,"brute-force-exhaustive",100457.07928571428,100457.07928571428,95,95,true
+"ef88","EF88","Assault Rifle",10,100,35481600,"brute-force-exhaustive",468.55,468.55,100,100,true
+"ef88","EF88","Assault Rifle",25,100,35481600,"brute-force-exhaustive",461.29468749999995,461.29468749999995,100,100,true
+"ef88","EF88","Assault Rifle",100,100,35481600,"brute-force-exhaustive",473.3864285714286,473.3864285714286,100,100,true
+"m4a1","M4A1","Carbine",10,100,31046400,"brute-force-exhaustive",488.75000000000006,488.75000000000006,100,100,true
+"m4a1","M4A1","Carbine",25,100,31046400,"brute-force-exhaustive",479.41343749999993,479.41343749999993,100,100,true
+"m4a1","M4A1","Carbine",100,100,31046400,"brute-force-exhaustive",484.58285714285716,484.58285714285716,100,100,true
+"m277","M277","Carbine",10,100,21288960,"brute-force-exhaustive",479.2,479.2,100,100,true
+"m277","M277","Carbine",25,100,21288960,"brute-force-exhaustive",467.40718749999996,467.40718749999996,100,100,true
+"m277","M277","Carbine",100,100,21288960,"brute-force-exhaustive",464.30785714285713,464.30785714285713,100,100,true
+"ak205","AK-205","Carbine",10,100,21772800,"brute-force-exhaustive",469.85,469.85,100,100,true
+"ak205","AK-205","Carbine",25,100,21772800,"brute-force-exhaustive",459.71343749999994,459.71343749999994,95,95,true
+"ak205","AK-205","Carbine",100,100,21772800,"brute-force-exhaustive",450.4935714285715,450.4935714285715,100,100,true
+"m417a2","M417 A2","Carbine",10,100,15052800,"brute-force-exhaustive",485.93,485.93,100,100,true
+"m417a2","M417 A2","Carbine",25,100,15052800,"brute-force-exhaustive",473.87125,473.87125,100,100,true
+"m417a2","M417 A2","Carbine",100,100,15052800,"brute-force-exhaustive",483.07928571428573,483.07928571428573,100,100,true
+"grtbc","GRT-BC","Carbine",10,100,2851200,"brute-force-exhaustive",464.55,464.55,100,100,true
+"grtbc","GRT-BC","Carbine",25,100,2851200,"brute-force-exhaustive",459.78218749999996,459.78218749999996,100,100,true
+"grtbc","GRT-BC","Carbine",100,100,2851200,"brute-force-exhaustive",470.1328571428572,470.1328571428572,100,100,true
+"qbz192","QBZ-192","Carbine",10,100,2612736,"brute-force-exhaustive",455.68,455.68,100,100,true
+"qbz192","QBZ-192","Carbine",25,100,2612736,"brute-force-exhaustive",448.92125,448.92125,95,95,true
+"qbz192","QBZ-192","Carbine",100,100,2612736,"brute-force-exhaustive",464.9185714285715,464.9185714285715,100,100,true
+"sg553r","SG 553R","Carbine",10,100,15212736,"brute-force-exhaustive",487.25000000000006,487.25000000000006,95,95,true
+"sg553r","SG 553R","Carbine",25,100,15212736,"brute-force-exhaustive",479.41343749999993,479.41343749999993,100,100,true
+"sg553r","SG 553R","Carbine",100,100,15212736,"brute-force-exhaustive",484.58285714285716,484.58285714285716,100,100,true
+"sor300sc","SOR-300SC","Carbine",10,100,36220800,"brute-force-exhaustive",482.43,482.43,100,100,true
+"sor300sc","SOR-300SC","Carbine",25,100,36220800,"brute-force-exhaustive",472.84,472.84,100,100,true
+"sor300sc","SOR-300SC","Carbine",100,100,36220800,"brute-force-exhaustive",484.58285714285716,484.58285714285716,100,100,true
+"brod3","BROD 3","Carbine",10,100,26389440,"brute-force-exhaustive",488.75000000000006,488.75000000000006,100,100,true
+"brod3","BROD 3","Carbine",25,100,26389440,"brute-force-exhaustive",479.41343749999993,479.41343749999993,100,100,true
+"brod3","BROD 3","Carbine",100,100,26389440,"brute-force-exhaustive",484.58285714285716,484.58285714285716,100,100,true
+"sgx","SGX","SMG",10,100,4193280,"brute-force-exhaustive",456.48,456.48,100,100,true
+"sgx","SGX","SMG",25,100,4193280,"brute-force-exhaustive",449.6275,449.6275,100,100,true
+"sgx","SGX","SMG",100,100,4193280,"brute-force-exhaustive",464.8935714285715,464.8935714285715,100,100,true
+"pw5a3","PW5A3","SMG",10,100,5503680,"brute-force-exhaustive",473.4,473.4,100,100,true
+"pw5a3","PW5A3","SMG",25,100,5503680,"brute-force-exhaustive",467.1134375,467.1134375,100,100,true
+"pw5a3","PW5A3","SMG",100,100,5503680,"brute-force-exhaustive",476.62928571428574,476.62928571428574,100,100,true
+"pw7a2","PW7A2","SMG",10,100,3144960,"brute-force-exhaustive",466.3,466.3,100,100,true
+"pw7a2","PW7A2","SMG",25,100,3144960,"brute-force-exhaustive",458.90718749999996,458.90718749999996,100,100,true
+"pw7a2","PW7A2","SMG",100,100,3144960,"brute-force-exhaustive",440.90964285714284,440.90964285714284,100,100,true
+"umg40","UMG-40","SMG",10,100,9172800,"brute-force-exhaustive",462.48,462.48,100,100,true
+"umg40","UMG-40","SMG",25,100,9172800,"brute-force-exhaustive",455.7525,455.7525,100,100,true
+"umg40","UMG-40","SMG",100,100,9172800,"brute-force-exhaustive",475.42928571428575,475.42928571428575,100,100,true
+"usg90","USG-90","SMG",10,100,194040,"brute-force-exhaustive",460.3,460.3,90,90,true
+"usg90","USG-90","SMG",25,100,194040,"brute-force-exhaustive",454.84468749999996,454.84468749999996,95,95,true
+"usg90","USG-90","SMG",100,100,194040,"brute-force-exhaustive",453.58642857142854,453.58642857142854,90,90,true
+"kv9","KV9","SMG",10,100,1572480,"brute-force-exhaustive",450.48,450.48,100,100,true
+"kv9","KV9","SMG",25,100,1572480,"brute-force-exhaustive",443.7525,443.7525,100,100,true
+"kv9","KV9","SMG",100,100,1572480,"brute-force-exhaustive",451.10785714285714,451.10785714285714,100,100,true
+"scw10","SCW-10","SMG",10,100,3144960,"brute-force-exhaustive",465.3,465.3,100,100,true
+"scw10","SCW-10","SMG",25,100,3144960,"brute-force-exhaustive",456.0196875,456.0196875,100,100,true
+"scw10","SCW-10","SMG",100,100,3144960,"brute-force-exhaustive",456.9739285714286,456.9739285714286,100,100,true
+"sl9","SL9","SMG",10,100,1572480,"brute-force-exhaustive",465.3,465.3,100,100,true
+"sl9","SL9","SMG",25,100,1572480,"brute-force-exhaustive",458.3321875,458.3321875,100,100,true
+"sl9","SL9","SMG",100,100,1572480,"brute-force-exhaustive",456.9739285714286,456.9739285714286,95,95,true
+"cz3a1","CZ3A1","SMG",10,100,5896800,"brute-force-exhaustive",484.75,484.75,100,100,true
+"cz3a1","CZ3A1","SMG",25,100,5896800,"brute-force-exhaustive",477.65093749999994,477.65093749999994,100,100,true
+"cz3a1","CZ3A1","SMG",100,100,5896800,"brute-force-exhaustive",483.6542857142857,483.6542857142857,95,95,true
+"pp19","PP-19","SMG",10,100,5503680,"brute-force-exhaustive",471.75,471.75,100,100,true
+"pp19","PP-19","SMG",25,100,5503680,"brute-force-exhaustive",464.77593749999994,464.77593749999994,100,100,true
+"pp19","PP-19","SMG",100,100,5503680,"brute-force-exhaustive",479.58285714285716,479.58285714285716,100,100,true
+"l110","L110","LMG",10,100,3193344,"brute-force-exhaustive",463.1,463.1,100,100,true
+"l110","L110","LMG",25,100,3193344,"brute-force-exhaustive",455.1375,455.1375,100,100,true
+"l110","L110","LMG",100,100,3193344,"brute-force-exhaustive",457.3642857142857,457.3642857142857,100,100,true
+"drsiar","DRS-IAR","LMG",10,100,56881440,"brute-force-exhaustive",465.03000000000003,465.03000000000003,100,100,true
+"drsiar","DRS-IAR","LMG",25,100,56881440,"brute-force-exhaustive",456.4525,456.4525,100,100,true
+"drsiar","DRS-IAR","LMG",100,100,56881440,"brute-force-exhaustive",470.1328571428572,470.1328571428572,100,100,true
+"m60","M/60","LMG",10,100,3160080,"brute-force-exhaustive",451.65000000000003,451.65000000000003,95,95,true
+"m60","M/60","LMG",25,100,3160080,"brute-force-exhaustive",444.39374999999995,444.39374999999995,100,100,true
+"m60","M/60","LMG",100,100,3160080,"brute-force-exhaustive",448.0357142857143,448.0357142857143,100,100,true
+"rpkm","RPKM","LMG",10,100,26812800,"brute-force-exhaustive",477.43,477.43,95,95,true
+"rpkm","RPKM","LMG",25,100,26812800,"brute-force-exhaustive",469.2775,469.2775,100,100,true
+"rpkm","RPKM","LMG",100,100,26812800,"brute-force-exhaustive",482.7971428571429,482.7971428571429,100,100,true
+"m123k","M123K","LMG",10,100,685440,"brute-force-exhaustive",453.6,453.6,100,100,true
+"m123k","M123K","LMG",25,100,685440,"brute-force-exhaustive",441.95,441.95,100,100,true
+"m123k","M123K","LMG",100,100,685440,"brute-force-exhaustive",448.0107142857143,448.0107142857143,100,100,true
+"m250","M250","LMG",10,100,561792,"brute-force-exhaustive",445.3,445.3,100,100,true
+"m250","M250","LMG",25,100,561792,"brute-force-exhaustive",440.46875,440.46875,100,100,true
+"m250","M250","LMG",100,100,561792,"brute-force-exhaustive",448.0107142857143,448.0107142857143,95,95,true
+"m240l","M240L","LMG",10,100,2177280,"brute-force-exhaustive",463.45000000000005,463.45000000000005,95,95,true
+"m240l","M240L","LMG",25,100,2177280,"brute-force-exhaustive",456.60624999999993,456.60624999999993,100,100,true
+"m240l","M240L","LMG",100,100,2177280,"brute-force-exhaustive",460.21785714285716,460.21785714285716,100,100,true
+"m121a2","M121 A2","LMG",10,100,1360800,"brute-force-exhaustive",454.65000000000003,454.65000000000003,100,100,true
+"m121a2","M121 A2","LMG",25,100,1360800,"brute-force-exhaustive",442.50624999999997,442.50624999999997,95,95,true
+"m121a2","M121 A2","LMG",100,100,1360800,"brute-force-exhaustive",451.24642857142857,451.24642857142857,100,100,true
+"rpk74m","RPK-74M","LMG",10,100,24514560,"brute-force-exhaustive",481.33000000000004,481.33000000000004,95,95,true
+"rpk74m","RPK-74M","LMG",25,100,24514560,"brute-force-exhaustive",470.08374999999995,470.08374999999995,100,100,true
+"rpk74m","RPK-74M","LMG",100,100,24514560,"brute-force-exhaustive",479.565,479.565,100,100,true
+"m39emr","M39 EMR","DMR",10,100,11850300,"brute-force-exhaustive",476.75,476.75,100,100,true
+"m39emr","M39 EMR","DMR",25,100,11850300,"brute-force-exhaustive",465.32593749999995,465.32593749999995,100,100,true
+"m39emr","M39 EMR","DMR",100,100,11850300,"brute-force-exhaustive",484.0185714285714,484.0185714285714,100,100,true
+"lmr27","LMR27","DMR",10,100,7900200,"brute-force-exhaustive",468.8,468.8,100,100,true
+"lmr27","LMR27","DMR",25,100,7900200,"brute-force-exhaustive",459.5821875,459.5821875,100,100,true
+"lmr27","LMR27","DMR",100,100,7900200,"brute-force-exhaustive",463.8989285714286,463.8989285714286,100,100,true
+"svk86","SVK-8.6","DMR",10,100,1077300,"brute-force-exhaustive",453.48,453.48,95,95,true
+"svk86","SVK-8.6","DMR",25,100,1077300,"brute-force-exhaustive",444.89625,444.89625,100,100,true
+"svk86","SVK-8.6","DMR",100,100,1077300,"brute-force-exhaustive",472.06142857142856,472.06142857142856,100,100,true
+"svdm","SVDM","DMR",10,100,8618400,"brute-force-exhaustive",487.8,487.8,100,100,true
+"svdm","SVDM","DMR",25,100,8618400,"brute-force-exhaustive",476.5196875,476.5196875,100,100,true
+"svdm","SVDM","DMR",100,100,8618400,"brute-force-exhaustive",497.56857142857143,497.56857142857143,100,100,true
+"grtcps","GRT-CPS","DMR",10,100,7983360,"brute-force-exhaustive",466.43,466.43,100,100,true
+"grtcps","GRT-CPS","DMR",25,100,7983360,"brute-force-exhaustive",458.70874999999995,458.70874999999995,100,100,true
+"grtcps","GRT-CPS","DMR",100,100,7983360,"brute-force-exhaustive",477.9007142857143,477.9007142857143,100,100,true
+"vssm","VSSM","DMR",10,100,362880,"brute-force-exhaustive",100409.78,100409.78,100,100,true
+"vssm","VSSM","DMR",25,100,362880,"brute-force-exhaustive",100379.615,100379.615,100,100,true
+"vssm","VSSM","DMR",100,100,362880,"brute-force-exhaustive",100318.11857142857,100318.11857142857,100,100,true
+"m2010esr","M2010 ESR","Sniper Rifle",10,100,1058400,"brute-force-exhaustive",454.18,454.18,100,100,true
+"m2010esr","M2010 ESR","Sniper Rifle",25,100,1058400,"brute-force-exhaustive",445.6025,445.6025,100,100,true
+"m2010esr","M2010 ESR","Sniper Rifle",100,100,1058400,"brute-force-exhaustive",479.6042857142857,479.6042857142857,100,100,true
+"sv98","SV-98","Sniper Rifle",10,100,423360,"brute-force-exhaustive",470.3,470.3,100,100,true
+"sv98","SV-98","Sniper Rifle",25,100,423360,"brute-force-exhaustive",459.5821875,459.5821875,100,100,true
+"sv98","SV-98","Sniper Rifle",100,100,423360,"brute-force-exhaustive",479.6042857142857,479.6042857142857,100,100,true
+"psr","PSR","Sniper Rifle",10,100,635040,"brute-force-exhaustive",475.69,475.69,95,95,true
+"psr","PSR","Sniper Rifle",25,100,635040,"brute-force-exhaustive",467.2834375,467.2834375,100,100,true
+"psr","PSR","Sniper Rifle",100,100,635040,"brute-force-exhaustive",487.20642857142855,487.20642857142855,100,100,true
+"miniscout","Mini Scout","Sniper Rifle",10,100,1164240,"brute-force-exhaustive",453.98,453.98,100,100,true
+"miniscout","Mini Scout","Sniper Rifle",25,100,1164240,"brute-force-exhaustive",444.5775,444.5775,100,100,true
+"miniscout","Mini Scout","Sniper Rifle",100,100,1164240,"brute-force-exhaustive",454.93285714285713,454.93285714285713,95,95,true
+"l115","L115A3","Sniper Rifle",10,100,1693440,"brute-force-exhaustive",470.3,470.3,100,100,true
+"l115","L115A3","Sniper Rifle",25,100,1693440,"brute-force-exhaustive",459.5821875,459.5821875,100,100,true
+"l115","L115A3","Sniper Rifle",100,100,1693440,"brute-force-exhaustive",479.6042857142857,479.6042857142857,100,100,true
+"m87a1","M87A1","Shotgun",10,100,241920,"brute-force-exhaustive",476.49,476.49,85,85,true
+"m87a1","M87A1","Shotgun",25,100,241920,"brute-force-exhaustive",463.08875,463.08875,100,100,true
+"m87a1","M87A1","Shotgun",100,100,241920,"brute-force-exhaustive",460.35214285714284,460.35214285714284,95,95,true
+"m1014","M1014","Shotgun",10,100,181440,"brute-force-exhaustive",476.49,476.49,85,85,true
+"m1014","M1014","Shotgun",25,100,181440,"brute-force-exhaustive",100450.20125,100450.20125,100,100,true
+"m1014","M1014","Shotgun",100,100,181440,"brute-force-exhaustive",460.35214285714284,460.35214285714284,95,95,true
+"db12","DB-12","Shotgun",10,100,42336,"brute-force-exhaustive",462.06,462.06,85,85,true
+"db12","DB-12","Shotgun",25,100,42336,"brute-force-exhaustive",450.0425,450.0425,100,100,true
+"db12","DB-12","Shotgun",100,100,42336,"brute-force-exhaustive",456.11571428571426,456.11571428571426,100,100,true

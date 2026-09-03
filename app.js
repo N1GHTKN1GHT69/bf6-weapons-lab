@@ -803,27 +803,45 @@
       options.ammo = options.ammo.filter(x => verified.has(x.id));
     }
 
+    // ONE legality policy, the same object the exhaustive cache builder uses via
+    // scripts/verified-source-sanitizer.mjs. See attachment-legality.js.
+    //
+    //   assumed: true   -> the whole option is speculative; exclude it.
+    //   assumedFields   -> strip only those fields; keep the option and every
+    //                      verified field on it.
+    //
+    // This path previously treated any assumedFields as whole-option assumption
+    // and dropped the option, which hid 13 partially-assumed records from the
+    // on-demand optimizer and left M250 - whose only two barrels are both
+    // partially assumed - with no legal barrel at all. The cache builder never
+    // had that defect, which is why the two disagreed. It also removes the need
+    // for the old hand-written VSSM exception: full_auto_vssm's verified
+    // fire-mode/RPM transform now survives generically, because only its assumed
+    // recoilDecreaseFactorOverride is stripped.
+    const legality = LEGALITY();
     for (const [slot, list] of Object.entries(options)) {
-      options[slot] = list.filter(opt => pointCost(opt) !== null && (!isAssumedOption(opt) || auditedAssumedException(raw, opt)));
+      options[slot] = list
+        .map(opt => {
+          const ok = legality.legalOption(opt, pointCost);
+          return ok ? { ...ok, slot } : null;
+        })
+        .filter(Boolean);
       if (!options[slot].length) throw new Error(`${slot}: no verified point-cost choices`);
     }
     return options;
   }
 
-  function auditedAssumedException(raw, opt) {
-    // VSSM Folding Stock's lethal transform (40p, full-auto, 800 RPM) is independently
-    // audited. Upstream still marks a recoil-decay sub-field as assumed, which must not
-    // suppress the verified fire-mode/RPM transform itself.
-    return !!(state.dmrAudit?.pass && raw?.id === "vssm" && opt?.id === "full_auto_vssm");
+  /** The shared legality policy, or a hard failure - never a silent fallback. */
+  function LEGALITY() {
+    const p = window.BF6_ATTACHMENT_LEGALITY;
+    if (!p || typeof p.legalOption !== "function") {
+      throw new Error("Attachment legality policy unavailable (attachment-legality.js not loaded)");
+    }
+    return p;
   }
 
   function isAssumedOption(opt) {
-    if (!opt || typeof opt !== "object") return false;
-    if (opt.assumed === true) return true;
-    const fields = opt.assumedFields;
-    if (Array.isArray(fields)) return fields.length > 0;
-    if (fields && typeof fields === "object") return Object.keys(fields).length > 0;
-    return false;
+    return LEGALITY().isWhollyAssumed(opt);
   }
 
   /**
@@ -836,12 +854,15 @@
    * claiming a confidence the data does not support.
    */
   function assumedPicksIn(raw, picks) {
+    const legality = LEGALITY();
     const out = [];
     for (const p of picks || []) {
       if (!p || p.id === "none") continue;
       const item = catalogItem(p.slot, p.id);
-      if (item && isAssumedOption(item) && !auditedAssumedException(raw, item)) {
-        out.push({ slot: p.slot, id: p.id, fields: Object.keys(item.assumedFields || {}) });
+      if (!item) continue;
+      const fields = legality.assumedFieldNames(item);
+      if (legality.isWhollyAssumed(item) || fields.length) {
+        out.push({ slot: p.slot, id: p.id, fields });
       }
     }
     return out;
@@ -2703,7 +2724,7 @@
       const assumed = assumedPicksIn(rawForRoster(roster), result?.picks || []);
       if (assumed.length) rows.push({
         title: "Assumed modifiers",
-        text: `${assumed.map(a => a.id).join(", ")} carry upstream modifier fields marked assumed rather than measured (${[...new Set(assumed.flatMap(a => a.fields))].join(", ") || "unspecified"}). Damage, RPM and BTK are unaffected; the recoil/spread controllability index is. The exhaustive cache admits these attachments while the on-demand optimizer rejects them, so this result is labelled partially verified until that is reconciled.`
+        text: `${assumed.map(a => a.id).join(", ")} carry upstream modifier fields marked assumed rather than measured (${[...new Set(assumed.flatMap(a => a.fields))].join(", ") || "unspecified"}). Those fields are stripped before any calculation, by the same policy the exhaustive cache uses, so no unverified number reaches this result. The attachment's verified modifiers are applied in full. The build is labelled partially verified because the attachment's behaviour is not completely characterised, not because the maths used a guess.`
       });
     }
     return rows;
@@ -3130,7 +3151,7 @@
     chip.textContent = text;
     chip.className = `confidence-chip ${level}`;
     const assumedNote = assumed.length
-      ? ` Build contains ${assumed.map(a => `${a.id} (${a.fields.join(", ") || "assumed"})`).join("; ")}: upstream marks these modifier fields as assumed, not measured.`
+      ? ` Build contains ${assumed.map(a => `${a.id} (${a.fields.join(", ") || "assumed"})`).join("; ")}: upstream marks these modifier fields as assumed rather than measured, so they are stripped before any calculation. The attachment's verified modifiers are used in full; its behaviour is simply not completely characterised.`
       : "";
     chip.title = (names.total ? `${names.verified}/${names.total} attachment names carried verbatim from trusted BF6 source data. ${names.exact ?? 0} confirmed against the live in-game string.` : "") + assumedNote;
 
