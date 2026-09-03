@@ -1802,7 +1802,49 @@
   // Scenario-scoped memo. The key carries every field that changes the result,
   // so a REDSEC 2-plate row can never be served for a Multiplayer request.
   const scenarioMemo = new Map();
-  function clearScenarioMemo() { scenarioMemo.clear(); }
+  function clearScenarioMemo() { scenarioMemo.clear(); redsecStabilityMemo.clear(); }
+
+  const redsecStabilityMemo = new Map();
+
+  /**
+   * Is the ARMOURED ranking winner stable across the interpretations EA has not
+   * published?
+   *
+   * redsecDependencies() answers a narrower question - whether the SELECTED
+   * weapon's own numbers move. In AUTO META the engine also chooses the weapon,
+   * so a recommendation is only robust if the winner itself survives both
+   * readings. At 25 m it does not: closeRange="remove" wins with one weapon and
+   * "keep" with another, while every individual weapon's own result may look
+   * stable. Reporting that as "robust" would understate the uncertainty.
+   *
+   * Returns true / false, or null when the question does not apply.
+   */
+  function redsecWinnerStable(category = state.category, d = state.distance) {
+    if (state.gameMode !== "redsec" || state.targetArmor !== "plates2") return null;
+    if (state.selectionMode !== "auto") return null;
+    const key = `stab|${category}|${d}|${rankingStrategy()}`;
+    if (redsecStabilityMemo.has(key)) return redsecStabilityMemo.get(key);
+    const winners = new Set();
+    try {
+      for (const closeRange of ["remove", "keep"]) {
+        for (const spillover of ["none", "proportional"]) {
+          clearScenarioMemo();
+          REDSEC_OVERRIDE.closeRange = closeRange;
+          REDSEC_OVERRIDE.spillover = spillover;
+          winners.add(rankWeapons(category, d)[0]?.roster?.id ?? null);
+        }
+      }
+    } catch (_) {
+      return null;
+    } finally {
+      REDSEC_OVERRIDE.closeRange = null;
+      REDSEC_OVERRIDE.spillover = null;
+      scenarioMemo.clear();
+    }
+    const stable = winners.size === 1;
+    redsecStabilityMemo.set(key, stable);
+    return stable;
+  }
   function memoScenario(key, fn) {
     if (scenarioMemo.has(key)) return scenarioMemo.get(key);
     const v = fn();
@@ -3125,7 +3167,11 @@
     else if (state.gameMode === "redsec" && !state.redsecModel) { level = "bad"; text = "UNVERIFIED — REDSEC MODEL NOT LOADED"; }
     // Confidence reflects the mechanics this specific result actually depends
     // on, not a blanket label applied to every REDSEC scenario.
-    else if (armored && deps && !deps.robust) { level = "warn"; text = "PROVISIONAL REDSEC RANKING"; }
+    // Robust means BOTH: this weapon's own numbers hold under the unpublished
+    // mechanics, AND (in AUTO META) the engine would still pick this weapon.
+    else if (armored && ((deps && !deps.robust) || redsecWinnerStable() === false)) {
+      level = "warn"; text = "PROVISIONAL REDSEC RANKING";
+    }
     else if (armored) { level = "ok"; text = "REDSEC — ROBUST TO ARMOUR UNCERTAINTY"; }
     // A missing build is not the same as a non-exhaustive one. Reporting a
     // failed build as "cache pending" told the user a data-freshness story for

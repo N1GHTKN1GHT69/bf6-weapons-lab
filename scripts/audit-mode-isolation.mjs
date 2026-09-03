@@ -101,6 +101,21 @@ for (const d of D) {
   }
 }
 
+// ---- Armoured robustness claims must include winner stability ----
+// redsecDependencies() only asks whether the SELECTED weapon's own numbers move.
+// In AUTO META the engine also picks the weapon, so a result may only be called
+// robust if the winner survives both unpublished-mechanic readings too.
+for (const d of [1, 10, 25, 36, 50, 75, 100, 150, 300]) {
+  for (const priority of ['balanced', 'fastest']) {
+    const q = { gameMode: 'redsec', targetArmor: 'plates2', category: '__all__', distance: d, priority, mode: 'auto' };
+    const chip = diag.render(q).confidenceChip;
+    const sens = diag.redsecSensitivity({ category: '__all__', distance: d, priority });
+    if (!sens.winnerStable && /ROBUST/i.test(chip)) {
+      errors.push(`REDSEC 2 plates ${d}m/${priority}: labelled "${chip}" but the winner changes under the unresolved close-range reading (${sens.combos.map(c => c.closeRange + '=' + c.winnerName).join(', ')})`);
+    }
+  }
+}
+
 // ---- No silent render failures ----
 // renderPrimaryBuild() catches every error and degrades to "no build". A fault
 // there previously surfaced as a benign "exhaustive cache pending" label, so a
