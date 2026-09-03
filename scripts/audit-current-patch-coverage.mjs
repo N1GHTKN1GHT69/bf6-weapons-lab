@@ -44,6 +44,19 @@ const RESEARCH_LOG = [
     resultAffecting: false
   },
   {
+    item: 'RECOIL/SPREAD current-value verification attempt for the 5 highest-impact fields (2026-09-03)',
+    tiersChecked: [
+      { tier: 1, source: 'EA changelogs 1.4.2.0 and 1.4.2.5, read in full', result: 'Neither publishes any recoil or spread value for L110, B36A4, M250, M240L or KORD 6P67. Notably these same notes DO carry other weapon balance items (VSSM barrel recoil, Match Grade ammo, EF88/BROD statistics), so they are a venue where such changes appear when they occur.' },
+      { tier: 2, source: 'raymdl/BF6-Weapon-Analyzer commit history', result: 'Last weapon-data commit 2026-08-13, one day before 1.4.2.0. No newer numbers exist in the reproducible mirror.' },
+      { tier: 2, source: 'sym.gg (the primary source the snapshot cites)', result: 'Charts page is client-side rendered and not machine-readable; no version label retrievable. The mirror that consumes it has not updated past 2026-08-13, giving no indication newer BF6 data has been published.' },
+      { tier: 3, source: 'targeted web search for extracted recoil values for these weapons', result: 'No source with a stated extraction methodology. Aggregator figures encountered (e.g. "L110 recoil 32") are on an incompatible display scale to the dataset normalised values (L110 recoilV 0.566) and carry no methodology, so they are unusable and were not used.' }
+    ],
+    outcome: 'EXHAUSTED with no verification achieved. No accessible tier publishes a current recoil or spread number for these weapons. Values are carried forward unchanged and remain PATCH_RECONCILED_NO_KNOWN_DELTA - deliberately NOT promoted, because changelog silence in a bounded window is not measurement. Nothing invented.',
+    affectedWeapons: [],
+    affectedFields: [],
+    resultAffecting: false
+  },
+  {
     item: 'EF88 / BROD 3 / VSSM weapon statistics updates (1.4.2.0)',
     tiersChecked: [
       { tier: 1, source: 'https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-1-4-2-0', result: 'Qualitative only: "Weapon statistics now update correctly for the EF88, BROD, and VSSM." No numeric values published. Fetched and re-confirmed 2026-09-03.' },
@@ -174,9 +187,12 @@ const doc = {
     declaredVersion: '1.3.3.0',
     extractedOn: '2026-07-25',
     effectiveVersionAtLeast: '1.4.1.0',
-    reasoning: 'The extraction post-dates 1.4.1.0 (2026-07-16) by nine days, so it captures game state including that patch. The declared version is stale file metadata, not a content ceiling.',
-    patchesPostDatingExtraction: ['1.4.1.5 (no combat effect)', '1.4.2.0 (5 blocking items)', '1.4.2.5 (resolved via overlay)'],
-    caveat: 'This raises the floor on how current the values are. It is NOT numerical verification against 1.4.2.5.'
+    upstreamLastDataCommit: '2026-08-13 (fb7a214)',
+    contentWindowUpperBound: '1.4.2.0 (2026-08-14) - EXCLUDED',
+    reasoning: 'Two independent date bounds pin the content window. LOWER: the extraction is dated 2026-07-25, nine days after 1.4.1.0 shipped (2026-07-16), so it captures that patch - the declared "1.3.3.0" is stale file metadata, not a content ceiling. UPPER: the upstream mirror last touched weapon data on 2026-08-13, ONE DAY before 1.4.2.0 shipped (2026-08-14), so it definitively cannot contain 1.4.2.0 or later.',
+    contentWindow: 'includes everything through 1.4.1.5 (2026-08-03, which the ledger records as having no combat effect); excludes 1.4.2.0 and 1.4.2.5',
+    consequence: 'The only patches whose combat content could be missing are 1.4.2.0 and 1.4.2.5 - exactly the two the ledger already tracks as unrepresented, whose blocking items name exactly the 6 already-flagged weapons. Every other field is bounded as current as of 1.4.1.5.',
+    caveat: 'This bounds the window tightly and is materially stronger than bare reconciliation, but it is still NOT numerical verification. EA publishes balance changes without numbers and could tune a value silently, so a bounded window plus changelog silence does not equal a measurement. Nothing is promoted to CURRENT_PATCH_VERIFIED or VERIFIED_UNCHANGED on this basis.'
   },
   researchLog: RESEARCH_LOG,
   weaponsAffectedByUnresolvedDelta: [...affectedSet.entries()].map(([id, items]) => ({ weaponId: id, items })),

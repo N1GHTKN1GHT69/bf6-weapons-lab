@@ -1,15 +1,15 @@
 {
  "schema": 1,
- "generatedAt": "2026-09-03T15:44:47.973Z",
+ "generatedAt": "2026-09-03T15:47:00.278Z",
  "method": "Per-weapon dependency-aware current-patch coverage, derived from data/patch-delta-ledger.json plus direct inspection of whether each implicated field is present and operative. Community stat-aggregator sites were searched but never used to establish a number. Absence of a matching field is recorded as UNRESOLVED, never as verified-unchanged.",
  "liveGameVersion": "1.4.2.5",
  "pinnedSnapshotVersion": "1.3.3.0",
  "upstreamRepoHeadCommit": "fb7a214778e1e4b5a5113f21ec0dd12136123845",
- "upstreamRepoHeadCheckedAt": "2026-09-03T15:44:47.973Z",
+ "upstreamRepoHeadCheckedAt": "2026-09-03T15:47:00.279Z",
  "upstreamRepoHasNewerData": false,
  "ledgerCompleteness": {
   "verified": true,
-  "verifiedAt": "2026-09-03T15:44:47.973Z",
+  "verifiedAt": "2026-09-03T15:47:00.279Z",
   "evidence": "Independent patch index enumeration confirms no BF6 patch exists between 1.3.3.0 (2026-06-26) and 1.4.1.0 (2026-07-16). The four post-baseline ledger entries are the complete set.",
   "postBaselinePatches": [
    "1.4.1.0",
@@ -23,13 +23,12 @@
   "declaredVersion": "1.3.3.0",
   "extractedOn": "2026-07-25",
   "effectiveVersionAtLeast": "1.4.1.0",
-  "reasoning": "The extraction post-dates 1.4.1.0 (2026-07-16) by nine days, so it captures game state including that patch. The declared version is stale file metadata, not a content ceiling.",
-  "patchesPostDatingExtraction": [
-   "1.4.1.5 (no combat effect)",
-   "1.4.2.0 (5 blocking items)",
-   "1.4.2.5 (resolved via overlay)"
-  ],
-  "caveat": "This raises the floor on how current the values are. It is NOT numerical verification against 1.4.2.5."
+  "upstreamLastDataCommit": "2026-08-13 (fb7a214)",
+  "contentWindowUpperBound": "1.4.2.0 (2026-08-14) - EXCLUDED",
+  "reasoning": "Two independent date bounds pin the content window. LOWER: the extraction is dated 2026-07-25, nine days after 1.4.1.0 shipped (2026-07-16), so it captures that patch - the declared \"1.3.3.0\" is stale file metadata, not a content ceiling. UPPER: the upstream mirror last touched weapon data on 2026-08-13, ONE DAY before 1.4.2.0 shipped (2026-08-14), so it definitively cannot contain 1.4.2.0 or later.",
+  "contentWindow": "includes everything through 1.4.1.5 (2026-08-03, which the ledger records as having no combat effect); excludes 1.4.2.0 and 1.4.2.5",
+  "consequence": "The only patches whose combat content could be missing are 1.4.2.0 and 1.4.2.5 - exactly the two the ledger already tracks as unrepresented, whose blocking items name exactly the 6 already-flagged weapons. Every other field is bounded as current as of 1.4.1.5.",
+  "caveat": "This bounds the window tightly and is materially stronger than bare reconciliation, but it is still NOT numerical verification. EA publishes balance changes without numbers and could tune a value silently, so a bounded window plus changelog silence does not equal a measurement. Nothing is promoted to CURRENT_PATCH_VERIFIED or VERIFIED_UNCHANGED on this basis."
  },
  "researchLog": [
   {
@@ -52,6 +51,35 @@
     }
    ],
    "outcome": "The patch ledger is verified COMPLETE for the interval, and the snapshot effective currency is >= 1.4.1.0 rather than 1.3.3.0. This does NOT make any field numerically verified against 1.4.2.5 - argument from silence is not measurement - but it is what allows a patch-reconciled field to support HIGH CONFIDENCE trust rather than mere hope.",
+   "affectedWeapons": [],
+   "affectedFields": [],
+   "resultAffecting": false
+  },
+  {
+   "item": "RECOIL/SPREAD current-value verification attempt for the 5 highest-impact fields (2026-09-03)",
+   "tiersChecked": [
+    {
+     "tier": 1,
+     "source": "EA changelogs 1.4.2.0 and 1.4.2.5, read in full",
+     "result": "Neither publishes any recoil or spread value for L110, B36A4, M250, M240L or KORD 6P67. Notably these same notes DO carry other weapon balance items (VSSM barrel recoil, Match Grade ammo, EF88/BROD statistics), so they are a venue where such changes appear when they occur."
+    },
+    {
+     "tier": 2,
+     "source": "raymdl/BF6-Weapon-Analyzer commit history",
+     "result": "Last weapon-data commit 2026-08-13, one day before 1.4.2.0. No newer numbers exist in the reproducible mirror."
+    },
+    {
+     "tier": 2,
+     "source": "sym.gg (the primary source the snapshot cites)",
+     "result": "Charts page is client-side rendered and not machine-readable; no version label retrievable. The mirror that consumes it has not updated past 2026-08-13, giving no indication newer BF6 data has been published."
+    },
+    {
+     "tier": 3,
+     "source": "targeted web search for extracted recoil values for these weapons",
+     "result": "No source with a stated extraction methodology. Aggregator figures encountered (e.g. \"L110 recoil 32\") are on an incompatible display scale to the dataset normalised values (L110 recoilV 0.566) and carry no methodology, so they are unusable and were not used."
+    }
+   ],
+   "outcome": "EXHAUSTED with no verification achieved. No accessible tier publishes a current recoil or spread number for these weapons. Values are carried forward unchanged and remain PATCH_RECONCILED_NO_KNOWN_DELTA - deliberately NOT promoted, because changelog silence in a bounded window is not measurement. Nothing invented.",
    "affectedWeapons": [],
    "affectedFields": [],
    "resultAffecting": false
