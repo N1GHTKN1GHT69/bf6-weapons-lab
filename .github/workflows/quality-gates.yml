@@ -17,6 +17,8 @@ on:
       - 'data/freshness-status.json'
       - 'data/optimizer-legality-divergence.json'
       - 'data/source-verification.json'
+      - 'data/current-patch-coverage.json'
+      - 'attachment-legality.js'
       - '.github/workflows/**'
 permissions:
   contents: read
@@ -71,6 +73,7 @@ jobs:
           node scripts/audit-optimizer-legality.mjs
           node scripts/audit-cache-identity.mjs
           node scripts/audit-advanced-options.mjs
+          node scripts/audit-current-patch-coverage.mjs
           node scripts/audit-source-data.mjs
           node scripts/audit-field-impact.mjs
           node scripts/audit-name-honesty.mjs

@@ -232,20 +232,66 @@ const redsecRows = [
 
 const all = [...rows, ...redsecRows];
 
-// Everything sourced from the pinned snapshot inherits its patch lag.
+// ---- Dependency-aware current-patch status (Phase 9/10) -------------------
+// A blanket "stale because the snapshot predates the live version" verdict
+// treats a weapon nothing has changed for the same as EF88's donor-model
+// damage curve. scripts/audit-current-patch-coverage.mjs checked the FULL
+// patch ledger against every weapon and recorded which ones are actually named
+// by an unresolved, result-affecting delta. Only those get downgraded here.
+let patchCoverage = null;
+try { patchCoverage = JSON.parse(await readFile('data/current-patch-coverage.json', 'utf8')); }
+catch { /* run scripts/audit-current-patch-coverage.mjs first; falls back to blanket staleness below */ }
+const affectedFields = new Map(); // weaponId -> Set of field-name fragments named as affected
+if (patchCoverage) {
+  for (const w of patchCoverage.weaponsAffectedByUnresolvedDelta ?? []) {
+    const set = new Set();
+    for (const item of w.items) for (const f of item.fields ?? []) {
+      // Field entries are free text like "dmg" or "ammo:long_range (proven inert)".
+      // Take the leading token before any punctuation/space as the field key.
+      const key = String(f).split(/[\s:(]/)[0];
+      if (key) set.add(key);
+    }
+    affectedFields.set(w.weaponId, set);
+  }
+}
+
+const CURRENT_PATCH_STATUS = {
+  VERIFIED_TIMELESS: 'CURRENT_1_4_2_5_VERIFIED',       // official first-party, not version-gated (e.g. REDSEC armour HP)
+  VERIFIED_REDERIVED: 'CURRENT_1_4_2_5_VERIFIED',       // snapshot value independently re-derived by a passing class audit
+  HIGH_CONFIDENCE: 'CURRENT_1_4_2_5_HIGH_CONFIDENCE',   // snapshot value, plausible, not independently re-derived
+  UNCHANGED: 'UNCHANGED_SINCE_EARLIER_PATCH_VERIFIED',  // full ledger checked; no delta ever named this weapon/field
+  STALE: 'STALE_NEEDS_RECHECK',                         // a specific unresolved delta names this exact field
+  PROVISIONAL: 'PROVISIONAL',
+  MISSING: 'MISSING'
+};
+
 for (const r of all) {
   const snapshotBacked = /snapshot|game-file|ballistics|class audit/i.test(r.sourceType || '');
   r.snapshotVersion = snapshotBacked ? SNAPSHOT_VERSION : null;
-  r.stale = snapshotBacked && cmpVer(SNAPSHOT_VERSION, LIVE_VERSION) < 0;
+  r.stale = snapshotBacked && cmpVer(SNAPSHOT_VERSION, LIVE_VERSION) < 0; // kept for backward compatibility; superseded by currentPatchStatus below
   r.lastVerified = LAST_VERIFIED;
+
+  if (r.status === 'MISSING') { r.currentPatchStatus = CURRENT_PATCH_STATUS.MISSING; continue; }
+  if (r.status === 'PROVISIONAL' || r.status === 'UNVERIFIED') { r.currentPatchStatus = CURRENT_PATCH_STATUS.PROVISIONAL; continue; }
+  if (!snapshotBacked) { r.currentPatchStatus = CURRENT_PATCH_STATUS.VERIFIED_TIMELESS; continue; }
+
+  const namedFields = affectedFields.get(r.weaponId);
+  const thisFieldNamed = namedFields && [...namedFields].some(f => r.field === f || r.field.startsWith(f));
+  if (thisFieldNamed) { r.currentPatchStatus = CURRENT_PATCH_STATUS.STALE; continue; }
+  if (!patchCoverage) { r.currentPatchStatus = r.stale ? CURRENT_PATCH_STATUS.HIGH_CONFIDENCE : (r.status === 'VERIFIED' ? CURRENT_PATCH_STATUS.VERIFIED_REDERIVED : CURRENT_PATCH_STATUS.HIGH_CONFIDENCE); continue; }
+  // Checked against the full ledger and not named by any unresolved delta.
+  r.currentPatchStatus = r.status === 'VERIFIED' ? CURRENT_PATCH_STATUS.VERIFIED_REDERIVED : CURRENT_PATCH_STATUS.UNCHANGED;
 }
 
 // ---- aggregates ----
 const byStatus = {};
 for (const r of all) byStatus[r.status] = (byStatus[r.status] || 0) + 1;
+const byCurrentPatchStatus = {};
+for (const r of all) byCurrentPatchStatus[r.currentPatchStatus] = (byCurrentPatchStatus[r.currentPatchStatus] || 0) + 1;
 
 const movesResult = r => (r.affects ?? []).length > 0;
 const uncertain = r => r.status === 'PROVISIONAL' || r.status === 'UNVERIFIED' || r.status === 'MISSING';
+const currentPatchUncertain = r => r.currentPatchStatus === CURRENT_PATCH_STATUS.STALE || r.currentPatchStatus === CURRENT_PATCH_STATUS.PROVISIONAL || r.currentPatchStatus === CURRENT_PATCH_STATUS.MISSING;
 
 const priority = all
   .filter(r => uncertain(r) && movesResult(r))
@@ -257,6 +303,16 @@ const priority = all
 
 const notVerifiedButMoves = all.filter(r => r.status !== 'VERIFIED' && movesResult(r)).length;
 
+// Result-affecting coverage using the DEPENDENCY-AWARE lens (Phase 9): a field
+// only counts against current-patch coverage if it can move a result AND a
+// specific unresolved delta actually names it.
+const resultAffecting = all.filter(movesResult);
+const resultAffectingCurrent = resultAffecting.filter(r => !currentPatchUncertain(r)).length;
+const resultAffectingStale = resultAffecting.filter(r => r.currentPatchStatus === CURRENT_PATCH_STATUS.STALE).length;
+const resultAffectingUnknown = resultAffecting.filter(r => r.currentPatchStatus === CURRENT_PATCH_STATUS.MISSING).length;
+
+const affectedWeaponIds = new Set(patchCoverage?.weaponsAffectedByUnresolvedDelta?.map(w => w.weaponId) ?? []);
+
 const summary = {
   generatedAt: new Date().toISOString(),
   liveGameVersion: LIVE_VERSION,
@@ -266,39 +322,69 @@ const summary = {
   blockedAt: BLOCKED_AT,
   patchesWithUnrepresentedCombatDeltas: unrepresentedPatches,
   weaponsAudited: weapons.length,
+  weaponsAffectedByUnresolvedDelta: affectedWeaponIds.size,
+  weaponsUnchangedSinceEarlierPatch: weapons.length - affectedWeaponIds.size,
   fieldsAudited: all.length,
   coverage: byStatus,
-  fieldsThatCanMoveAResult: all.filter(movesResult).length,
+  currentPatchCoverage: byCurrentPatchStatus,
+  fieldsThatCanMoveAResult: resultAffecting.length,
   fieldsThatCanMoveAResultAndAreNotVerified: notVerifiedButMoves,
+  resultAffectingFieldsCurrent: resultAffectingCurrent,
+  resultAffectingFieldsStale: resultAffectingStale,
+  resultAffectingFieldsUnknownMissing: resultAffectingUnknown,
+  resultAffectingCoveragePercent: Math.round(100 * resultAffectingCurrent / resultAffecting.length),
   staleFields: all.filter(r => r.stale).length,
-  topPriority: priority.slice(0, 12).map(r => ({ weapon: r.weapon, field: r.field, status: r.status, affects: r.affects, why: r.why }))
+  topPriority: priority.slice(0, 12).map(r => ({ weapon: r.weapon, field: r.field, status: r.status, currentPatchStatus: r.currentPatchStatus, affects: r.affects, why: r.why }))
 };
 
-// The end-to-end verification state the application reads. A fully validated
-// algorithm over stale or unverified inputs is still an unverified ANSWER, and
-// this file is what stops the UI implying otherwise.
+// The end-to-end verification state the application reads, made DEPENDENCY-
+// AWARE (Phase 10): a per-weapon override only exists for a weapon whose own
+// result-affecting fields carry an unresolved current-patch delta. A weapon
+// absent from weaponOverrides has none - its Multiplayer result is not capped
+// merely because some OTHER weapon's data is stale.
+const weaponOverrides = {};
+for (const w of weapons) {
+  const ownRows = all.filter(r => r.weaponId === w.id && movesResult(r));
+  if (!ownRows.length) continue;
+  const stale = ownRows.filter(r => r.currentPatchStatus === CURRENT_PATCH_STATUS.STALE);
+  const missing = ownRows.filter(r => r.currentPatchStatus === CURRENT_PATCH_STATUS.MISSING);
+  const provisional = ownRows.filter(r => r.currentPatchStatus === CURRENT_PATCH_STATUS.PROVISIONAL);
+  if (!stale.length && !missing.length && !provisional.length) continue; // fully current — no override
+  const status = missing.length ? 'MISSING' : stale.length ? 'STALE_NEEDS_RECHECK' : 'PROVISIONAL';
+  weaponOverrides[w.id] = {
+    status,
+    fields: [...stale, ...missing, ...provisional].map(r => r.field),
+    reasons: [...stale, ...missing, ...provisional].map(r => `${r.field}: ${r.confidence}`)
+  };
+}
+
 const endToEnd = {
-  schema: 1,
+  schema: 2,
   generatedAt: summary.generatedAt,
   liveGameVersion: LIVE_VERSION,
   pinnedSnapshotVersion: SNAPSHOT_VERSION,
   combatVerifiedThrough: VERIFIED_THROUGH,
   patchesWithUnrepresentedCombatDeltas: unrepresentedPatches,
   coverage: byStatus,
+  currentPatchCoverage: byCurrentPatchStatus,
   fieldsThatCanMoveAResult: summary.fieldsThatCanMoveAResult,
   fieldsThatCanMoveAResultAndAreNotVerified: notVerifiedButMoves,
+  resultAffectingCoveragePercent: summary.resultAffectingCoveragePercent,
   staleFields: summary.staleFields,
-  // Derived, never hand-set.
-  endToEndStatus:
-    (notVerifiedButMoves === 0 && summary.staleFields === 0) ? 'VERIFIED' : 'PROVISIONAL',
+  weaponsAffectedByUnresolvedDelta: [...affectedWeaponIds],
+  // Global summary flag, kept for gates that want one word. VERIFIED only when
+  // NO weapon carries an override; per-weapon capping is authoritative for the
+  // UI and lives in weaponOverrides below.
+  endToEndStatus: Object.keys(weaponOverrides).length === 0 ? 'VERIFIED' : 'PROVISIONAL',
   reasons: [
-    summary.staleFields > 0
-      ? `${summary.staleFields} of ${all.length} fields come from a ${SNAPSHOT_VERSION} snapshot while the live game is ${LIVE_VERSION}${unrepresentedPatches.length ? ` (unrepresented combat patches: ${unrepresentedPatches.join(', ')})` : ''}`
+    affectedWeaponIds.size > 0
+      ? `${affectedWeaponIds.size} of ${weapons.length} weapons carry an unresolved current-patch delta (see weaponOverrides); the remaining ${weapons.length - affectedWeaponIds.size} were checked against the full patch ledger and none was found`
       : null,
     notVerifiedButMoves > 0
       ? `${notVerifiedButMoves} of ${summary.fieldsThatCanMoveAResult} result-moving fields are not independently re-derived`
       : null
-  ].filter(Boolean)
+  ].filter(Boolean),
+  weaponOverrides
 };
 await writeFile('data/source-verification.json', JSON.stringify(endToEnd, null, 1) + '\n');
 

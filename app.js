@@ -514,7 +514,7 @@
   async function loadSourceVerification() {
     try {
       const v = await fetchJson("./data/source-verification.json", 4000);
-      if (v?.schema === 1 && typeof v.endToEndStatus === "string") {
+      if ((v?.schema === 1 || v?.schema === 2) && typeof v.endToEndStatus === "string") {
         state.sourceVerification = v;
         state.source.sourceVerification = "loaded";
         return v;
@@ -3225,22 +3225,34 @@
       level = "warn";
       text = `PARTIALLY VERIFIED — ${assumed.length} ASSUMED MODIFIER${assumed.length === 1 ? "" : "S"}`;
     }
-    // END-TO-END CAP.
+    // END-TO-END CAP — DEPENDENCY-AWARE.
     //
     // Everything above judges the ALGORITHM: is this the best legal build, is
     // the armour maths robust, are the names sourced. None of it judges the
-    // FACTS the algorithm consumed. While the source-data audit reports the
-    // end-to-end state as provisional - stale snapshot, or result-moving fields
-    // that are not independently re-derived - no result may present as fully
-    // verified. This can only ever downgrade.
+    // FACTS the algorithm consumed for THIS weapon specifically. A blanket cap
+    // whenever any weapon anywhere had stale data would downgrade every other
+    // weapon's result over a fact that cannot touch it. Instead this weapon's
+    // own override (from data/source-verification.json, computed only for
+    // weapons whose own result-affecting fields carry an unresolved
+    // current-patch delta) is consulted; a weapon with no override has none -
+    // its result is not capped merely because some OTHER weapon's data is
+    // stale. This can only ever downgrade.
     const sv = state.sourceVerification;
-    if (level === "ok" && sv && sv.endToEndStatus !== "VERIFIED") {
-      level = "warn";
-      text = `${text} — SOURCE DATA ${sv.endToEndStatus}`;
+    const weaponId = rosterWeapon()?.id ?? null;
+    const override = sv?.weaponOverrides?.[weaponId] ?? null;
+    // Always disclosed when present, not only when it would be the sole reason
+    // for a downgrade: a weapon already PARTIALLY VERIFIED for its attachment
+    // names must not have its separate source-data problem silently absorbed
+    // into that other warning. Never upgrades severity past what it already is.
+    if (override) {
+      if (level === "ok") level = "warn";
+      text = `${text} — SOURCE DATA ${override.status}`;
     }
-    const sourceNote = sv
-      ? ` Source data: ${sv.endToEndStatus}. ${(sv.reasons || []).join("; ")}.`
-      : " Source-data verification state unavailable.";
+    const sourceNote = !sv
+      ? " Source-data verification state unavailable."
+      : override
+        ? ` Source data for this weapon: ${override.status} (${override.fields.join(", ")}). ${(override.reasons || []).join("; ")}.`
+        : ` Source data for this weapon: current. Checked against the full patch-delta ledger through ${sv.liveGameVersion ?? "the live game version"}; no unresolved delta names it.`;
 
     chip.textContent = text;
     chip.className = `confidence-chip ${level}`;

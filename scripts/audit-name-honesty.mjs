@@ -29,6 +29,8 @@ if (audit.affectsOptimizer !== false) errors.push('naming audit does not declare
 if (!sourceVerification) errors.push('data/source-verification.json missing - run scripts/audit-source-data.mjs');
 else if (!['VERIFIED', 'PROVISIONAL'].includes(sourceVerification.endToEndStatus)) {
   errors.push(`unrecognised endToEndStatus "${sourceVerification.endToEndStatus}"`);
+} else if (typeof sourceVerification.weaponOverrides !== 'object') {
+  errors.push('source-verification.json is missing weaponOverrides - dependency-aware capping requires it');
 }
 
 const roster = (win.BF6_CURRENT?.roster ?? []).filter(w => w.cls !== 'Secondary');
@@ -68,16 +70,21 @@ for (const m of modes) {
       if (!['up', 'down', 'none'].includes(kind)) errors.push(`${rw.id}: unknown effect-chip class "${kind}"`);
     }
 
-    // END-TO-END: while the source-data audit reports the facts as provisional,
-    // no result may present as fully verified, however well-validated the
-    // algorithm that produced it is.
-    if (sourceVerification && sourceVerification.endToEndStatus !== 'VERIFIED') {
+    // END-TO-END, DEPENDENCY-AWARE: a chip may only be capped by THIS weapon's
+    // own override. A weapon with no override in source-verification.json has
+    // no unresolved current-patch delta naming it, so a clean VERIFIED-quality
+    // chip is correct for it - capping every weapon over one other weapon's
+    // stale field would be the bug this gate exists to prevent.
+    const override = sourceVerification?.weaponOverrides?.[rw.id] ?? null;
+    if (override) {
       if (/^VERIFIED$/i.test(r.confidenceChip.trim())) {
-        errors.push(`${rw.id}: chip reads "${r.confidenceChip}" while source data is ${sourceVerification.endToEndStatus}`);
+        errors.push(`${rw.id}: chip reads "${r.confidenceChip}" while this weapon's own source data is ${override.status} (${override.fields.join(', ')})`);
       }
       if (/ROBUST/i.test(r.confidenceChip) && !/SOURCE DATA/i.test(r.confidenceChip)) {
-        errors.push(`${rw.id}: chip claims robustness ("${r.confidenceChip}") without disclosing that source data is ${sourceVerification.endToEndStatus}`);
+        errors.push(`${rw.id}: chip claims robustness ("${r.confidenceChip}") without disclosing that this weapon's source data is ${override.status}`);
       }
+    } else if (/SOURCE DATA/i.test(r.confidenceChip)) {
+      errors.push(`${rw.id}: chip discloses a source-data problem ("${r.confidenceChip}") but this weapon has no recorded override - capping leaked from another weapon`);
     }
 
     // No headline may assert exactness the audit does not support.
