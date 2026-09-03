@@ -1,0 +1,96 @@
+{
+ "generatedAt": "2026-09-03T10:58:10.656Z",
+ "predictionsFrom": "production engine (app.js) under explicit interpretation overrides, via scripts/lab-harness.mjs",
+ "closeRange": {
+  "question": "EA: automatic weapons have the very close-range maximum damage step \"reduced or removed\" against armour. Removed is implemented.",
+  "interpretationA": "remove — leading max-damage step dropped, second step applies from 0 m (implemented)",
+  "interpretationB": "keep — leading step retained, +10 m range shift only",
+  "candidateTests": 74,
+  "recommended": [
+   {
+    "id": "ak4d",
+    "name": "AK4D",
+    "cls": "Assault Rifle",
+    "cal": "7.62×51mm NATO",
+    "d": 11,
+    "rpm": 514,
+    "removeBtk": 7,
+    "removeBrk": 4,
+    "removeADmg": 21.882,
+    "keepBtk": 6,
+    "keepBrk": 3,
+    "keepADmg": 29.584799999999998,
+    "gap": 1,
+    "maxShots": 7,
+    "bandMin": 1,
+    "bandMax": 21,
+    "bandWidth": 21
+   },
+   {
+    "id": "rpkm",
+    "name": "RPKM",
+    "cls": "LMG",
+    "cal": "7.62×39mm",
+    "d": 5,
+    "rpm": 554,
+    "removeBtk": 7,
+    "removeBrk": 4,
+    "removeADmg": 23.083199999999998,
+    "keepBtk": 6,
+    "keepBrk": 3,
+    "keepADmg": 29.584799999999998,
+    "gap": 1,
+    "maxShots": 7,
+    "bandMin": 1,
+    "bandMax": 9,
+    "bandWidth": 9
+   }
+  ]
+ },
+ "spillover": {
+  "question": "Does leftover damage on the armour-breaking shot carry into health? No source states either way.",
+  "interpretationA": "none — the breaking shot damages armour only (implemented)",
+  "interpretationB": "proportional — the unused fraction of that shot carries into health",
+  "candidateTests": 7,
+  "recommended": [
+   {
+    "id": "svk86",
+    "name": "SVK-8.6",
+    "cls": "DMR",
+    "cal": ".338 Lapua Mag",
+    "d": 5,
+    "rpm": 150,
+    "noneBtk": 4,
+    "propBtk": 3,
+    "brk": 2,
+    "overkillPct": 68,
+    "aDmg": 60.697,
+    "hDmg": 66.7,
+    "gap": 1,
+    "maxShots": 4,
+    "bandMin": 1,
+    "bandMax": 9,
+    "bandWidth": 9
+   },
+   {
+    "id": "m39emr",
+    "name": "M39 EMR",
+    "cls": "DMR",
+    "cal": "7.62×51mm NATO",
+    "d": 38,
+    "rpm": 257,
+    "noneBtk": 6,
+    "propBtk": 5,
+    "brk": 3,
+    "overkillPct": 66,
+    "aDmg": 34.216,
+    "hDmg": 37.6,
+    "gap": 1,
+    "maxShots": 6,
+    "bandMin": 1,
+    "bandMax": 75,
+    "bandWidth": 75
+   }
+  ]
+ }
+}

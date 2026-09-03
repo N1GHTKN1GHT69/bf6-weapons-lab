@@ -3858,12 +3858,21 @@
       model: () => state.redsecModel,
       armorCurve: weaponId => armorDamageCurve(state.rawWeapons.find(w => w.id === weaponId)),
       armorDamageAt: (weaponId, d) => armorDamageAtDistance(state.rawWeapons.find(w => w.id === weaponId), d),
-      armored: (weaponId, d, armorState = "plates2") => {
+      /**
+       * Armoured resolution under an EXPLICIT interpretation of the two
+       * mechanics EA has not published. Passing closeRange/spillover lets an
+       * experiment designer compute what each competing reading predicts, which
+       * is what makes an in-game discrimination test possible.
+       */
+      armored: (weaponId, d, armorState = "plates2", interp = {}) => {
         const raw = state.rawWeapons.find(w => w.id === weaponId);
         const keep = { g: state.gameMode, a: state.targetArmor };
         try {
           state.gameMode = "redsec"; state.targetArmor = armorState;
-          return redsecArmoredCombat(raw, d, { armorState });
+          const opts = { armorState };
+          if (interp.closeRange) opts.closeRange = interp.closeRange;
+          if (interp.spillover) opts.spillover = interp.spillover;
+          return redsecArmoredCombat(raw, d, opts);
         } finally { state.gameMode = keep.g; state.targetArmor = keep.a; }
       }
     },
