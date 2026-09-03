@@ -1,0 +1,16 @@
+{
+ "data/weapons.json": "d8ae577f43d67b631b56ca995033d9a65f1c63bcda3f0633b05df3b9249cadfb",
+ "data/attachments.json": "06de7eeb40f4c721889476e17df5abf62a4eb323e4808c395f69a19765900c04",
+ "data/ammo.json": "cc5306f888df15e3cfc84477d33265d4a4f483e2548810d4e0cb0e30e3519822",
+ "data/ballistics.json": "7970ecb9b9ba7239afa2eab8c0f1141ea5db1acfc0be69086603783fbe997a8d",
+ "data/combat-cache.json": "5bbc2261c1f8f55858bbcd9ad765ea6bc8394c8b1a2419d9b755c8b584b081e0",
+ "data/redsec-model.json": "6aba9d735b15fe28645a3b168354479a978126a927e3a9c5cb0da99788203e3c",
+ "data/source-manifest.json": "09b73b92dc6b887b27066a360eeff0fb082d40f012900337cc6ca6746afadd69",
+ "_combat-cache-winners-hash": "9cbd7a8bd5328d54dd1fc304dfb5ef88eeb3ecf8a2b57e169966802f21cba242",
+ "_combat-cache-source": {
+  "commit": "fb7a214778e1e4b5a5113f21ec0dd12136123845",
+  "gameVersion": "1.4.2.5",
+  "rankingModel": "laserbeam-v4-stable-utility-range-optics",
+  "modeled": 62
+ }
+}

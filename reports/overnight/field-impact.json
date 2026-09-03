@@ -1,6 +1,6 @@
 {
  "summary": {
-  "generatedAt": "2026-09-03T11:18:18.251Z",
+  "generatedAt": "2026-09-03T14:50:14.752Z",
   "method": "perturb one raw field, re-evaluate on the ON-DEMAND path, compare the weapon's own ranking row",
   "limitation": "observes the dependency a cache rebuild would follow, not the currently cached values; Beam Index here is the fallback index (recoil primitives only)",
   "weaponsSampled": [
