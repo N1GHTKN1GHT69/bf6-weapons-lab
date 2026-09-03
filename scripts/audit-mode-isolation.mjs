@@ -12,7 +12,7 @@
 import { writeFile, mkdir } from 'node:fs/promises';
 import { bootLab } from './lab-harness.mjs';
 
-const { diag } = await bootLab();
+const { diag, window: win } = await bootLab();
 const errors = [];
 const strip = h => String(h).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 const num = (t, re) => { const m = strip(t).match(re); return m ? Number(m[1]) : NaN; };
@@ -78,6 +78,29 @@ for (const d of D) {
   if (a.top[0]?.id !== b.top[0]?.id || a.top[0]?.btk !== b.top[0]?.btk || a.scenario !== b.scenario) {
     errors.push(`cache contamination: same query gave ${a.top[0]?.id}/${a.top[0]?.btk} then ${b.top[0]?.id}/${b.top[0]?.btk}`);
   }
+}
+
+// ---- No silent render failures ----
+// renderPrimaryBuild() catches every error and degrades to "no build". A fault
+// there previously surfaced as a benign "exhaustive cache pending" label, so a
+// crash looked like a data-freshness state. Every roster primary must build, in
+// every mode, with no recorded build error.
+{
+  // Weapons the project deliberately keeps fail-closed: they are absent from the
+  // trusted upstream source, so no build is produced on purpose. Pinned rather
+  // than skipped, so a NEW unbuildable weapon is still a failure.
+  const EXPECTED_NO_BUILD = new Set(['interdictor']);
+  const roster = (win.BF6_CURRENT?.roster ?? []).filter(w => w.cls !== 'Secondary');
+  const noBuild = new Set();
+  for (const m of [{ gameMode: 'multiplayer' }, { gameMode: 'redsec', targetArmor: 'plates2' }]) {
+    for (const rw of roster) {
+      const r = diag.render({ ...m, category: '__all__', distance: 25, priority: 'fastest', mode: 'manual', weaponId: rw.id });
+      if (r.buildError) errors.push(`${m.gameMode} ${rw.id}: build failed silently - ${r.buildError.message}`);
+      if (/NO BUILD PRODUCED/.test(r.confidenceChip)) noBuild.add(rw.id);
+    }
+  }
+  for (const id of noBuild) if (!EXPECTED_NO_BUILD.has(id)) errors.push(`${id}: unexpectedly produces no build`);
+  for (const id of EXPECTED_NO_BUILD) if (!noBuild.has(id)) errors.push(`${id}: now builds - update EXPECTED_NO_BUILD`);
 }
 
 await mkdir('reports/overnight', { recursive: true });

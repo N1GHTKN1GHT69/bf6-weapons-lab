@@ -34,6 +34,9 @@
     preferences: { stayAds: true, movingAds: true, stealth: false, bigMag: false },
     classChoice: "auto",
     context: "mixed",
+    // Set when renderPrimaryBuild() cannot produce a build, so a fault is not
+    // reported downstream as an ordinary "cache pending" state.
+    lastBuildError: null,
     rawWeapons: [],
     attachments: null,
     ammo: null,
@@ -800,6 +803,27 @@
     if (Array.isArray(fields)) return fields.length > 0;
     if (fields && typeof fields === "object") return Object.keys(fields).length > 0;
     return false;
+  }
+
+  /**
+   * Attachments in a build whose upstream record marks one or more modifier
+   * fields as assumed rather than verified.
+   *
+   * The exhaustive cache builder admits these; buildOptions() in the on-demand
+   * optimizer rejects them. While those two policies disagree, a build that
+   * contains one must not be labelled fully VERIFIED - the label would be
+   * claiming a confidence the data does not support.
+   */
+  function assumedPicksIn(raw, picks) {
+    const out = [];
+    for (const p of picks || []) {
+      if (!p || p.id === "none") continue;
+      const item = catalogItem(p.slot, p.id);
+      if (item && isAssumedOption(item) && !auditedAssumedException(raw, item)) {
+        out.push({ slot: p.slot, id: p.id, fields: Object.keys(item.assumedFields || {}) });
+      }
+    }
+    return out;
   }
 
   function dedupeOptions(list) {
@@ -2544,8 +2568,13 @@
       if (buildWhy) buildWhy.textContent = whyThisBuild(roster, raw, resolved, result);
       const buildFx = $("buildEffects");
       if (buildFx) buildFx.innerHTML = effectChips(buildDeltas(raw, resolved));
+      state.lastBuildError = null;
       return result;
     } catch (err) {
+      // This catch exists for the legitimate data condition "no legal build for
+      // this weapon yet". It also catches genuine faults, so the reason is
+      // recorded rather than being reported downstream as a benign cache state.
+      state.lastBuildError = { weaponId: roster?.id ?? null, distance: state.distance, message: String(err && err.message || err) };
       renderBuildPending("primary", err.message);
       $("whySummary").textContent = "No build could be produced, so no reason is claimed.";
       return null;
@@ -2622,6 +2651,13 @@
       if (Number.isFinite(Number(c.effectiveAdsSpreadDeg))) rows.push({ title: "Sustained ADS spread", text: `${Number(c.effectiveAdsSpreadDeg).toFixed(3)}° after spread growth and recovery, with ${Number(c.recoil ?? NaN).toFixed(3)} recoil and ${Number(c.recoilVariationDeg ?? NaN).toFixed(1)}° directional variation on the winning build.` });
     }
     if (result) rows.push({ title: "Point budget", text: `${result.points} of ${result.audit?.budget ?? "—"} points spent across ${result.picks.filter(p => p.id !== "none").length} attachments. The budget is a hard cap and the build is re-checked against it after selection.` });
+    {
+      const assumed = assumedPicksIn(rawForRoster(roster), result?.picks || []);
+      if (assumed.length) rows.push({
+        title: "Assumed modifiers",
+        text: `${assumed.map(a => a.id).join(", ")} carry upstream modifier fields marked assumed rather than measured (${[...new Set(assumed.flatMap(a => a.fields))].join(", ") || "unspecified"}). Damage, RPM and BTK are unaffected; the recoil/spread controllability index is. The exhaustive cache admits these attachments while the on-demand optimizer rejects them, so this result is labelled partially verified until that is reconciled.`
+      });
+    }
     return rows;
   }
 
@@ -3022,14 +3058,29 @@
     // on, not a blanket label applied to every REDSEC scenario.
     else if (armored && deps && !deps.robust) { level = "warn"; text = "PROVISIONAL REDSEC RANKING"; }
     else if (armored) { level = "ok"; text = "REDSEC — ROBUST TO ARMOUR UNCERTAINTY"; }
+    // A missing build is not the same as a non-exhaustive one. Reporting a
+    // failed build as "cache pending" told the user a data-freshness story for
+    // what was actually a build failure.
+    else if (!buildResult) { level = "bad"; text = "NO BUILD PRODUCED"; }
     else if (!exhaustive) { level = "warn"; text = "FALLBACK — EXHAUSTIVE BUILD CACHE PENDING"; }
     else if (!audited || empirical) { level = "warn"; text = "PARTIALLY VERIFIED — CLASS AUDIT INCOMPLETE"; }
     else if (names.level === "VERIFIED") { level = "ok"; text = "VERIFIED"; }
     else if (names.level === "UNVERIFIED" && names.cls === "bad") { level = "bad"; text = "PARTIALLY VERIFIED — NAME CONFLICT"; }
     else { level = "warn"; text = `PARTIALLY VERIFIED — ${names.verified}/${names.total} NAMES EXACT`; }
+    // A build can only ever be downgraded here, never upgraded: if it contains
+    // attachments whose modifiers upstream marks as assumed, the headline must
+    // not read as fully verified.
+    const assumed = assumedPicksIn(rawForRoster(rosterWeapon()), buildResult?.picks || []);
+    if (assumed.length && level === "ok") {
+      level = "warn";
+      text = `PARTIALLY VERIFIED — ${assumed.length} ASSUMED MODIFIER${assumed.length === 1 ? "" : "S"}`;
+    }
     chip.textContent = text;
     chip.className = `confidence-chip ${level}`;
-    chip.title = names.total ? `${names.verified}/${names.total} attachment names verified as exact BF6 labels.` : "";
+    const assumedNote = assumed.length
+      ? ` Build contains ${assumed.map(a => `${a.id} (${a.fields.join(", ") || "assumed"})`).join("; ")}: upstream marks these modifier fields as assumed, not measured.`
+      : "";
+    chip.title = (names.total ? `${names.verified}/${names.total} attachment names verified as exact BF6 labels.` : "") + assumedNote;
 
     const legend = $("nameLegend");
     if (legend) {
@@ -3749,6 +3800,56 @@
      * nothing of its own beyond restating the formulae it used.
      */
     /**
+     * Optimizer primitives, so an audit can enumerate the true optimum over the
+     * SAME candidate set / point costs / scores the production optimizer uses and
+     * compare. Exposes the DP path explicitly because optimize() returns the
+     * exhaustive cache winner when one is valid.
+     */
+    optimizer: {
+      budget: weaponId => budgetFor(state.rawWeapons.find(w => w.id === weaponId)),
+      options: (weaponId, d = 25) => {
+        const raw = state.rawWeapons.find(w => w.id === weaponId);
+        if (!raw) return null;
+        const keep = state.distance;
+        try {
+          state.distance = d;
+          const opts = buildOptions(raw);
+          const out = {};
+          for (const [slot, list] of Object.entries(opts)) {
+            out[slot] = list.map(o => ({ id: o.id, name: o.name ?? null, pts: pointCost(o), score: scoreOption(o, raw, d) }));
+          }
+          return out;
+        } finally { state.distance = keep; }
+      },
+      /** Production DP result, with the exhaustive cache deliberately bypassed. */
+      dpBuild: (weaponId, d = 25, strategy = "laserbeam") => {
+        const raw = state.rawWeapons.find(w => w.id === weaponId);
+        if (!raw) return null;
+        const keepCache = state.combatCache, keepD = state.distance;
+        try {
+          state.combatCache = null;
+          state.distance = d;
+          const r = optimize(raw, d, strategy);
+          return { points: r.points, score: r.score, audit: r.audit, picks: r.picks.map(p => ({ slot: p.slot, id: p.id, pts: pointCost(p), score: p.score })) };
+        } catch (err) {
+          return { error: String(err && err.message || err) };
+        } finally { state.combatCache = keepCache; state.distance = keepD; }
+      },
+      /** The exhaustive-cache winner for the same query, when one exists. */
+      cachedBuild: (weaponId, d = 25, strategy = "laserbeam") => {
+        const raw = state.rawWeapons.find(w => w.id === weaponId);
+        if (!raw) return null;
+        const keep = state.distance;
+        try {
+          state.distance = d;
+          const r = cachedBuild(raw, d, null, strategy);
+          if (!r) return null;
+          return { points: r.points, exhaustive: !!r.exhaustive, picks: r.picks.map(p => ({ slot: p.slot, id: p.id, pts: pointCost(p) })), combat: r.combat ? { ...r.combat } : null };
+        } finally { state.distance = keep; }
+      }
+    },
+
+    /**
      * Drive the real render pipeline for one scenario and return the text the
      * user would actually see in the panels that carry combat meaning. Lets UI
      * regressions be caught with string assertions instead of pixel tests.
@@ -3776,7 +3877,8 @@
           armorCompare: txt("armorCompare"),
           weaponTabs: txt("weaponTabs"),
           dashboardWeapon: String($("dashboardWeapon")?.textContent ?? ""),
-          armorNote: String($("armorNote")?.textContent ?? "")
+          armorNote: String($("armorNote")?.textContent ?? ""),
+          buildError: state.lastBuildError ? { ...state.lastBuildError } : null
         };
       } finally {
         state.category = keep.c; state.distance = keep.d; state.gameMode = keep.g;
