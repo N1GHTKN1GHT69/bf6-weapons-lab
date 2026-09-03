@@ -4066,6 +4066,37 @@
       }
     },
 
+    /**
+     * Temporarily perturb one raw weapon field, evaluate, and restore.
+     *
+     * The source-data audit asserts which fields can move which outputs. This
+     * lets that map be MEASURED instead: if a field the audit calls
+     * result-moving can be changed with no observable effect, either the map is
+     * wrong or the field is silently ignored - and both are worth knowing.
+     *
+     * Restores the previous value unconditionally, including on throw.
+     */
+    perturb(weaponId, field, value, query = {}) {
+      const raw = state.rawWeapons.find(w => w.id === weaponId);
+      if (!raw) return { error: "unknown weapon id" };
+      const had = Object.prototype.hasOwnProperty.call(raw, field);
+      const previous = raw[field];
+      const keepCache = state.combatCache;
+      try {
+        // The exhaustive cache holds precomputed rows, so a source perturbation
+        // is only observable on the on-demand path. That is also the path a
+        // rebuilt cache would follow, so this measures the same dependency.
+        state.combatCache = null;
+        raw[field] = value;
+        clearScenarioMemo();
+        return this.snapshot({ mode: "manual", weaponId, ...query });
+      } finally {
+        if (had) raw[field] = previous; else delete raw[field];
+        state.combatCache = keepCache;
+        clearScenarioMemo();
+      }
+    },
+
     /** Eligibility/count reconciliation for one scope. */
     scope(query = {}) {
       const keep = { c: state.category, d: state.distance, g: state.gameMode, a: state.targetArmor, m: state.selectionMode, p: state.priority };

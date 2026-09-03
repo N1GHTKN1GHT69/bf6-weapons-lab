@@ -1,0 +1,1288 @@
+{
+ "summary": {
+  "generatedAt": "2026-09-03T11:18:18.251Z",
+  "method": "perturb one raw field, re-evaluate on the ON-DEMAND path, compare the weapon's own ranking row",
+  "limitation": "observes the dependency a cache rebuild would follow, not the currently cached values; Beam Index here is the fallback index (recoil primitives only)",
+  "weaponsSampled": [
+   "M433 (Assault Rifle)",
+   "M4A1 (Carbine)",
+   "SGX (SMG)",
+   "L110 (LMG)",
+   "M39 EMR (DMR)",
+   "M2010 ESR (Sniper Rifle)",
+   "M87A1 (Shotgun)"
+  ],
+  "fieldsTested": 10,
+  "observations": 60,
+  "rollup": [
+   {
+    "field": "recoilV",
+    "weaponsTested": 6,
+    "weaponsWhereItMoved": 6,
+    "outputsMoved": [
+     "beamIndex"
+    ],
+    "inertOnEveryWeapon": false,
+    "explanation": null
+   },
+   {
+    "field": "recoilVar",
+    "weaponsTested": 6,
+    "weaponsWhereItMoved": 6,
+    "outputsMoved": [
+     "beamIndex"
+    ],
+    "inertOnEveryWeapon": false,
+    "explanation": null
+   },
+   {
+    "field": "bulletVel",
+    "weaponsTested": 6,
+    "weaponsWhereItMoved": 5,
+    "outputsMoved": [
+     "TTK"
+    ],
+    "inertOnEveryWeapon": false,
+    "explanation": null
+   },
+   {
+    "field": "adsTime",
+    "weaponsTested": 6,
+    "weaponsWhereItMoved": 0,
+    "outputsMoved": [],
+    "inertOnEveryWeapon": true,
+    "explanation": "last ranking tie-break, behind BTK, chest damage and velocity; never reached in the 1,344-case sweep"
+   },
+   {
+    "field": "dmg",
+    "weaponsTested": 6,
+    "weaponsWhereItMoved": 0,
+    "outputsMoved": [],
+    "inertOnEveryWeapon": true,
+    "explanation": "the audited class RANGE table is the operative damage source on the ranking path, so perturbing the raw curve does not move it. Both trace to the same pinned upstream commit - weapons.json is the synced snapshot, the class audit is re-derived from the same simulator - so this is about which value the engine reads, not a provenance gap. Verified directly: setting KORD 6P67 to a flat 1 damage leaves its ranked damage at 17.13, which is its audited 3-range table."
+   },
+   {
+    "field": "emptyRld",
+    "weaponsTested": 6,
+    "weaponsWhereItMoved": 0,
+    "outputsMoved": [],
+    "inertOnEveryWeapon": true,
+    "explanation": null
+   },
+   {
+    "field": "mag",
+    "weaponsTested": 6,
+    "weaponsWhereItMoved": 0,
+    "outputsMoved": [],
+    "inertOnEveryWeapon": true,
+    "explanation": null
+   },
+   {
+    "field": "rpm",
+    "weaponsTested": 6,
+    "weaponsWhereItMoved": 0,
+    "outputsMoved": [],
+    "inertOnEveryWeapon": true,
+    "explanation": "audited class cadence supersedes the raw RPM field for every audited class, which is deliberate - see README on bolt-action cadence and the Mini Scout +100 ms adjustment"
+   },
+   {
+    "field": "spreadMax",
+    "weaponsTested": 6,
+    "weaponsWhereItMoved": 0,
+    "outputsMoved": [],
+    "inertOnEveryWeapon": true,
+    "explanation": "consumed by the CACHED Beam Index, not the fallback index this harness exercises"
+   },
+   {
+    "field": "tacRld",
+    "weaponsTested": 6,
+    "weaponsWhereItMoved": 0,
+    "outputsMoved": [],
+    "inertOnEveryWeapon": true,
+    "explanation": null
+   }
+  ],
+  "confirmedInert": [
+   "emptyRld",
+   "mag",
+   "tacRld"
+  ],
+  "unexplainedInert": []
+ },
+ "results": [
+  {
+   "weapon": "M433",
+   "weaponId": "m433",
+   "cls": "Assault Rifle",
+   "field": "rpm",
+   "moved": [],
+   "before": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 330.4704147133568,
+    "beamIndex": 2.4062671057639307
+   },
+   "after": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 330.4704147133568,
+    "beamIndex": 2.4062671057639307
+   }
+  },
+  {
+   "weapon": "M433",
+   "weaponId": "m433",
+   "cls": "Assault Rifle",
+   "field": "bulletVel",
+   "moved": [
+    "TTK"
+   ],
+   "before": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 330.4704147133568,
+    "beamIndex": 2.4062671057639307
+   },
+   "after": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 392.67603678339196,
+    "beamIndex": 2.4062671057639307
+   }
+  },
+  {
+   "weapon": "M433",
+   "weaponId": "m433",
+   "cls": "Assault Rifle",
+   "field": "mag",
+   "moved": [],
+   "before": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 330.4704147133568,
+    "beamIndex": 2.4062671057639307
+   },
+   "after": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 330.4704147133568,
+    "beamIndex": 2.4062671057639307
+   }
+  },
+  {
+   "weapon": "M433",
+   "weaponId": "m433",
+   "cls": "Assault Rifle",
+   "field": "tacRld",
+   "moved": [],
+   "before": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 330.4704147133568,
+    "beamIndex": 2.4062671057639307
+   },
+   "after": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 330.4704147133568,
+    "beamIndex": 2.4062671057639307
+   }
+  },
+  {
+   "weapon": "M433",
+   "weaponId": "m433",
+   "cls": "Assault Rifle",
+   "field": "emptyRld",
+   "moved": [],
+   "before": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 330.4704147133568,
+    "beamIndex": 2.4062671057639307
+   },
+   "after": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 330.4704147133568,
+    "beamIndex": 2.4062671057639307
+   }
+  },
+  {
+   "weapon": "M433",
+   "weaponId": "m433",
+   "cls": "Assault Rifle",
+   "field": "recoilV",
+   "moved": [
+    "beamIndex"
+   ],
+   "before": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 330.4704147133568,
+    "beamIndex": 2.4062671057639307
+   },
+   "after": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 330.4704147133568,
+    "beamIndex": 26.72129094402957
+   }
+  },
+  {
+   "weapon": "M433",
+   "weaponId": "m433",
+   "cls": "Assault Rifle",
+   "field": "recoilVar",
+   "moved": [
+    "beamIndex"
+   ],
+   "before": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 330.4704147133568,
+    "beamIndex": 2.4062671057639307
+   },
+   "after": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 330.4704147133568,
+    "beamIndex": 2.7671667513097153
+   }
+  },
+  {
+   "weapon": "M433",
+   "weaponId": "m433",
+   "cls": "Assault Rifle",
+   "field": "spreadMax",
+   "moved": [],
+   "before": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 330.4704147133568,
+    "beamIndex": 2.4062671057639307
+   },
+   "after": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 330.4704147133568,
+    "beamIndex": 2.4062671057639307
+   }
+  },
+  {
+   "weapon": "M433",
+   "weaponId": "m433",
+   "cls": "Assault Rifle",
+   "field": "adsTime",
+   "moved": [],
+   "before": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 330.4704147133568,
+    "beamIndex": 2.4062671057639307
+   },
+   "after": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 330.4704147133568,
+    "beamIndex": 2.4062671057639307
+   }
+  },
+  {
+   "weapon": "M433",
+   "weaponId": "m433",
+   "cls": "Assault Rifle",
+   "field": "dmg",
+   "moved": [],
+   "before": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 330.4704147133568,
+    "beamIndex": 2.4062671057639307
+   },
+   "after": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 330.4704147133568,
+    "beamIndex": 2.4062671057639307
+   }
+  },
+  {
+   "weapon": "M4A1",
+   "weaponId": "m4a1",
+   "cls": "Carbine",
+   "field": "rpm",
+   "moved": [],
+   "before": {
+    "btk": 6,
+    "damage": 17.74,
+    "triggerTtk": 377.2819682532454,
+    "beamIndex": 2.2460438172284265
+   },
+   "after": {
+    "btk": 6,
+    "damage": 17.74,
+    "triggerTtk": 377.2819682532454,
+    "beamIndex": 2.2460438172284265
+   }
+  },
+  {
+   "weapon": "M4A1",
+   "weaponId": "m4a1",
+   "cls": "Carbine",
+   "field": "bulletVel",
+   "moved": [
+    "TTK"
+   ],
+   "before": {
+    "btk": 6,
+    "damage": 17.74,
+    "triggerTtk": 377.2819682532454,
+    "beamIndex": 2.2460438172284265
+   },
+   "after": {
+    "btk": 6,
+    "damage": 17.74,
+    "triggerTtk": 443.70492063311343,
+    "beamIndex": 2.2460438172284265
+   }
+  },
+  {
+   "weapon": "M4A1",
+   "weaponId": "m4a1",
+   "cls": "Carbine",
+   "field": "mag",
+   "moved": [],
+   "before": {
+    "btk": 6,
+    "damage": 17.74,
+    "triggerTtk": 377.2819682532454,
+    "beamIndex": 2.2460438172284265
+   },
+   "after": {
+    "btk": 6,
+    "damage": 17.74,
+    "triggerTtk": 377.2819682532454,
+    "beamIndex": 2.2460438172284265
+   }
+  },
+  {
+   "weapon": "M4A1",
+   "weaponId": "m4a1",
+   "cls": "Carbine",
+   "field": "tacRld",
+   "moved": [],
+   "before": {
+    "btk": 6,
+    "damage": 17.74,
+    "triggerTtk": 377.2819682532454,
+    "beamIndex": 2.2460438172284265
+   },
+   "after": {
+    "btk": 6,
+    "damage": 17.74,
+    "triggerTtk": 377.2819682532454,
+    "beamIndex": 2.2460438172284265
+   }
+  },
+  {
+   "weapon": "M4A1",
+   "weaponId": "m4a1",
+   "cls": "Carbine",
+   "field": "emptyRld",
+   "moved": [],
+   "before": {
+    "btk": 6,
+    "damage": 17.74,
+    "triggerTtk": 377.2819682532454,
+    "beamIndex": 2.2460438172284265
+   },
+   "after": {
+    "btk": 6,
+    "damage": 17.74,
+    "triggerTtk": 377.2819682532454,
+    "beamIndex": 2.2460438172284265
+   }
+  },
+  {
+   "weapon": "M4A1",
+   "weaponId": "m4a1",
+   "cls": "Carbine",
+   "field": "recoilV",
+   "moved": [
+    "beamIndex"
+   ],
+   "before": {
+    "btk": 6,
+    "damage": 17.74,
+    "triggerTtk": 377.2819682532454,
+    "beamIndex": 2.2460438172284265
+   },
+   "after": {
+    "btk": 6,
+    "damage": 17.74,
+    "triggerTtk": 377.2819682532454,
+    "beamIndex": 24.872713897183576
+   }
+  },
+  {
+   "weapon": "M4A1",
+   "weaponId": "m4a1",
+   "cls": "Carbine",
+   "field": "recoilVar",
+   "moved": [
+    "beamIndex"
+   ],
+   "before": {
+    "btk": 6,
+    "damage": 17.74,
+    "triggerTtk": 377.2819682532454,
+    "beamIndex": 2.2460438172284265
+   },
+   "after": {
+    "btk": 6,
+    "damage": 17.74,
+    "triggerTtk": 377.2819682532454,
+    "beamIndex": 2.8117879405147956
+   }
+  },
+  {
+   "weapon": "M4A1",
+   "weaponId": "m4a1",
+   "cls": "Carbine",
+   "field": "spreadMax",
+   "moved": [],
+   "before": {
+    "btk": 6,
+    "damage": 17.74,
+    "triggerTtk": 377.2819682532454,
+    "beamIndex": 2.2460438172284265
+   },
+   "after": {
+    "btk": 6,
+    "damage": 17.74,
+    "triggerTtk": 377.2819682532454,
+    "beamIndex": 2.2460438172284265
+   }
+  },
+  {
+   "weapon": "M4A1",
+   "weaponId": "m4a1",
+   "cls": "Carbine",
+   "field": "adsTime",
+   "moved": [],
+   "before": {
+    "btk": 6,
+    "damage": 17.74,
+    "triggerTtk": 377.2819682532454,
+    "beamIndex": 2.2460438172284265
+   },
+   "after": {
+    "btk": 6,
+    "damage": 17.74,
+    "triggerTtk": 377.2819682532454,
+    "beamIndex": 2.2460438172284265
+   }
+  },
+  {
+   "weapon": "M4A1",
+   "weaponId": "m4a1",
+   "cls": "Carbine",
+   "field": "dmg",
+   "moved": [],
+   "before": {
+    "btk": 6,
+    "damage": 17.74,
+    "triggerTtk": 377.2819682532454,
+    "beamIndex": 2.2460438172284265
+   },
+   "after": {
+    "btk": 6,
+    "damage": 17.74,
+    "triggerTtk": 377.2819682532454,
+    "beamIndex": 2.2460438172284265
+   }
+  },
+  {
+   "weapon": "SGX",
+   "weaponId": "sgx",
+   "cls": "SMG",
+   "field": "rpm",
+   "moved": [],
+   "before": {
+    "btk": 6,
+    "damage": 17.13,
+    "triggerTtk": 430.11735785559466,
+    "beamIndex": 1.7773429560247072
+   },
+   "after": {
+    "btk": 6,
+    "damage": 17.13,
+    "triggerTtk": 430.11735785559466,
+    "beamIndex": 1.7773429560247072
+   }
+  },
+  {
+   "weapon": "SGX",
+   "weaponId": "sgx",
+   "cls": "SMG",
+   "field": "bulletVel",
+   "moved": [
+    "TTK"
+   ],
+   "before": {
+    "btk": 6,
+    "damage": 17.13,
+    "triggerTtk": 430.11735785559466,
+    "beamIndex": 1.7773429560247072
+   },
+   "after": {
+    "btk": 6,
+    "damage": 17.13,
+    "triggerTtk": 533.7933946389866,
+    "beamIndex": 1.7773429560247072
+   }
+  },
+  {
+   "weapon": "SGX",
+   "weaponId": "sgx",
+   "cls": "SMG",
+   "field": "mag",
+   "moved": [],
+   "before": {
+    "btk": 6,
+    "damage": 17.13,
+    "triggerTtk": 430.11735785559466,
+    "beamIndex": 1.7773429560247072
+   },
+   "after": {
+    "btk": 6,
+    "damage": 17.13,
+    "triggerTtk": 430.11735785559466,
+    "beamIndex": 1.7773429560247072
+   }
+  },
+  {
+   "weapon": "SGX",
+   "weaponId": "sgx",
+   "cls": "SMG",
+   "field": "tacRld",
+   "moved": [],
+   "before": {
+    "btk": 6,
+    "damage": 17.13,
+    "triggerTtk": 430.11735785559466,
+    "beamIndex": 1.7773429560247072
+   },
+   "after": {
+    "btk": 6,
+    "damage": 17.13,
+    "triggerTtk": 430.11735785559466,
+    "beamIndex": 1.7773429560247072
+   }
+  },
+  {
+   "weapon": "SGX",
+   "weaponId": "sgx",
+   "cls": "SMG",
+   "field": "emptyRld",
+   "moved": [],
+   "before": {
+    "btk": 6,
+    "damage": 17.13,
+    "triggerTtk": 430.11735785559466,
+    "beamIndex": 1.7773429560247072
+   },
+   "after": {
+    "btk": 6,
+    "damage": 17.13,
+    "triggerTtk": 430.11735785559466,
+    "beamIndex": 1.7773429560247072
+   }
+  },
+  {
+   "weapon": "SGX",
+   "weaponId": "sgx",
+   "cls": "SMG",
+   "field": "recoilV",
+   "moved": [
+    "beamIndex"
+   ],
+   "before": {
+    "btk": 6,
+    "damage": 17.13,
+    "triggerTtk": 430.11735785559466,
+    "beamIndex": 1.7773429560247072
+   },
+   "after": {
+    "btk": 6,
+    "damage": 17.13,
+    "triggerTtk": 430.11735785559466,
+    "beamIndex": 20.63942294018229
+   }
+  },
+  {
+   "weapon": "SGX",
+   "weaponId": "sgx",
+   "cls": "SMG",
+   "field": "recoilVar",
+   "moved": [
+    "beamIndex"
+   ],
+   "before": {
+    "btk": 6,
+    "damage": 17.13,
+    "triggerTtk": 430.11735785559466,
+    "beamIndex": 1.7773429560247072
+   },
+   "after": {
+    "btk": 6,
+    "damage": 17.13,
+    "triggerTtk": 430.11735785559466,
+    "beamIndex": 2.1656494755261884
+   }
+  },
+  {
+   "weapon": "SGX",
+   "weaponId": "sgx",
+   "cls": "SMG",
+   "field": "spreadMax",
+   "moved": [],
+   "before": {
+    "btk": 6,
+    "damage": 17.13,
+    "triggerTtk": 430.11735785559466,
+    "beamIndex": 1.7773429560247072
+   },
+   "after": {
+    "btk": 6,
+    "damage": 17.13,
+    "triggerTtk": 430.11735785559466,
+    "beamIndex": 1.7773429560247072
+   }
+  },
+  {
+   "weapon": "SGX",
+   "weaponId": "sgx",
+   "cls": "SMG",
+   "field": "adsTime",
+   "moved": [],
+   "before": {
+    "btk": 6,
+    "damage": 17.13,
+    "triggerTtk": 430.11735785559466,
+    "beamIndex": 1.7773429560247072
+   },
+   "after": {
+    "btk": 6,
+    "damage": 17.13,
+    "triggerTtk": 430.11735785559466,
+    "beamIndex": 1.7773429560247072
+   }
+  },
+  {
+   "weapon": "SGX",
+   "weaponId": "sgx",
+   "cls": "SMG",
+   "field": "dmg",
+   "moved": [],
+   "before": {
+    "btk": 6,
+    "damage": 17.13,
+    "triggerTtk": 430.11735785559466,
+    "beamIndex": 1.7773429560247072
+   },
+   "after": {
+    "btk": 6,
+    "damage": 17.13,
+    "triggerTtk": 430.11735785559466,
+    "beamIndex": 1.7773429560247072
+   }
+  },
+  {
+   "weapon": "L110",
+   "weaponId": "l110",
+   "cls": "LMG",
+   "field": "rpm",
+   "moved": [],
+   "before": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 368.3058936073173,
+    "beamIndex": 1.8342822597945514
+   },
+   "after": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 368.3058936073173,
+    "beamIndex": 1.8342822597945514
+   }
+  },
+  {
+   "weapon": "L110",
+   "weaponId": "l110",
+   "cls": "LMG",
+   "field": "bulletVel",
+   "moved": [
+    "TTK"
+   ],
+   "before": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 368.3058936073173,
+    "beamIndex": 1.8342822597945514
+   },
+   "after": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 421.26473401829315,
+    "beamIndex": 1.8342822597945514
+   }
+  },
+  {
+   "weapon": "L110",
+   "weaponId": "l110",
+   "cls": "LMG",
+   "field": "mag",
+   "moved": [],
+   "before": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 368.3058936073173,
+    "beamIndex": 1.8342822597945514
+   },
+   "after": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 368.3058936073173,
+    "beamIndex": 1.8342822597945514
+   }
+  },
+  {
+   "weapon": "L110",
+   "weaponId": "l110",
+   "cls": "LMG",
+   "field": "tacRld",
+   "moved": [],
+   "before": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 368.3058936073173,
+    "beamIndex": 1.8342822597945514
+   },
+   "after": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 368.3058936073173,
+    "beamIndex": 1.8342822597945514
+   }
+  },
+  {
+   "weapon": "L110",
+   "weaponId": "l110",
+   "cls": "LMG",
+   "field": "emptyRld",
+   "moved": [],
+   "before": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 368.3058936073173,
+    "beamIndex": 1.8342822597945514
+   },
+   "after": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 368.3058936073173,
+    "beamIndex": 1.8342822597945514
+   }
+  },
+  {
+   "weapon": "L110",
+   "weaponId": "l110",
+   "cls": "LMG",
+   "field": "recoilV",
+   "moved": [
+    "beamIndex"
+   ],
+   "before": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 368.3058936073173,
+    "beamIndex": 1.8342822597945514
+   },
+   "after": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 368.3058936073173,
+    "beamIndex": 19.97295489549016
+   }
+  },
+  {
+   "weapon": "L110",
+   "weaponId": "l110",
+   "cls": "LMG",
+   "field": "recoilVar",
+   "moved": [
+    "beamIndex"
+   ],
+   "before": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 368.3058936073173,
+    "beamIndex": 1.8342822597945514
+   },
+   "after": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 368.3058936073173,
+    "beamIndex": 2.208101640640609
+   }
+  },
+  {
+   "weapon": "L110",
+   "weaponId": "l110",
+   "cls": "LMG",
+   "field": "spreadMax",
+   "moved": [],
+   "before": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 368.3058936073173,
+    "beamIndex": 1.8342822597945514
+   },
+   "after": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 368.3058936073173,
+    "beamIndex": 1.8342822597945514
+   }
+  },
+  {
+   "weapon": "L110",
+   "weaponId": "l110",
+   "cls": "LMG",
+   "field": "adsTime",
+   "moved": [],
+   "before": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 368.3058936073173,
+    "beamIndex": 1.8342822597945514
+   },
+   "after": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 368.3058936073173,
+    "beamIndex": 1.8342822597945514
+   }
+  },
+  {
+   "weapon": "L110",
+   "weaponId": "l110",
+   "cls": "LMG",
+   "field": "dmg",
+   "moved": [],
+   "before": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 368.3058936073173,
+    "beamIndex": 1.8342822597945514
+   },
+   "after": {
+    "btk": 5,
+    "damage": 20.67,
+    "triggerTtk": 368.3058936073173,
+    "beamIndex": 1.8342822597945514
+   }
+  },
+  {
+   "weapon": "M39 EMR",
+   "weaponId": "m39emr",
+   "cls": "DMR",
+   "field": "rpm",
+   "moved": [],
+   "before": {
+    "btk": 3,
+    "damage": 37.5,
+    "triggerTtk": 494.50143291517344,
+    "beamIndex": 2.4507834888982334
+   },
+   "after": {
+    "btk": 3,
+    "damage": 37.5,
+    "triggerTtk": 494.50143291517344,
+    "beamIndex": 2.4507834888982334
+   }
+  },
+  {
+   "weapon": "M39 EMR",
+   "weaponId": "m39emr",
+   "cls": "DMR",
+   "field": "bulletVel",
+   "moved": [],
+   "before": {
+    "btk": 3,
+    "damage": 37.5,
+    "triggerTtk": 494.50143291517344,
+    "beamIndex": 2.4507834888982334
+   },
+   "after": {
+    "btk": 3,
+    "damage": 37.5,
+    "triggerTtk": 494.50143291517344,
+    "beamIndex": 2.4507834888982334
+   }
+  },
+  {
+   "weapon": "M39 EMR",
+   "weaponId": "m39emr",
+   "cls": "DMR",
+   "field": "mag",
+   "moved": [],
+   "before": {
+    "btk": 3,
+    "damage": 37.5,
+    "triggerTtk": 494.50143291517344,
+    "beamIndex": 2.4507834888982334
+   },
+   "after": {
+    "btk": 3,
+    "damage": 37.5,
+    "triggerTtk": 494.50143291517344,
+    "beamIndex": 2.4507834888982334
+   }
+  },
+  {
+   "weapon": "M39 EMR",
+   "weaponId": "m39emr",
+   "cls": "DMR",
+   "field": "tacRld",
+   "moved": [],
+   "before": {
+    "btk": 3,
+    "damage": 37.5,
+    "triggerTtk": 494.50143291517344,
+    "beamIndex": 2.4507834888982334
+   },
+   "after": {
+    "btk": 3,
+    "damage": 37.5,
+    "triggerTtk": 494.50143291517344,
+    "beamIndex": 2.4507834888982334
+   }
+  },
+  {
+   "weapon": "M39 EMR",
+   "weaponId": "m39emr",
+   "cls": "DMR",
+   "field": "emptyRld",
+   "moved": [],
+   "before": {
+    "btk": 3,
+    "damage": 37.5,
+    "triggerTtk": 494.50143291517344,
+    "beamIndex": 2.4507834888982334
+   },
+   "after": {
+    "btk": 3,
+    "damage": 37.5,
+    "triggerTtk": 494.50143291517344,
+    "beamIndex": 2.4507834888982334
+   }
+  },
+  {
+   "weapon": "M39 EMR",
+   "weaponId": "m39emr",
+   "cls": "DMR",
+   "field": "recoilV",
+   "moved": [
+    "beamIndex"
+   ],
+   "before": {
+    "btk": 3,
+    "damage": 37.5,
+    "triggerTtk": 494.50143291517344,
+    "beamIndex": 2.4507834888982334
+   },
+   "after": {
+    "btk": 3,
+    "damage": 37.5,
+    "triggerTtk": 494.50143291517344,
+    "beamIndex": 28.726416588441133
+   }
+  },
+  {
+   "weapon": "M39 EMR",
+   "weaponId": "m39emr",
+   "cls": "DMR",
+   "field": "recoilVar",
+   "moved": [
+    "beamIndex"
+   ],
+   "before": {
+    "btk": 3,
+    "damage": 37.5,
+    "triggerTtk": 494.50143291517344,
+    "beamIndex": 2.4507834888982334
+   },
+   "after": {
+    "btk": 3,
+    "damage": 37.5,
+    "triggerTtk": 494.50143291517344,
+    "beamIndex": 4.526794955167837
+   }
+  },
+  {
+   "weapon": "M39 EMR",
+   "weaponId": "m39emr",
+   "cls": "DMR",
+   "field": "spreadMax",
+   "moved": [],
+   "before": {
+    "btk": 3,
+    "damage": 37.5,
+    "triggerTtk": 494.50143291517344,
+    "beamIndex": 2.4507834888982334
+   },
+   "after": {
+    "btk": 3,
+    "damage": 37.5,
+    "triggerTtk": 494.50143291517344,
+    "beamIndex": 2.4507834888982334
+   }
+  },
+  {
+   "weapon": "M39 EMR",
+   "weaponId": "m39emr",
+   "cls": "DMR",
+   "field": "adsTime",
+   "moved": [],
+   "before": {
+    "btk": 3,
+    "damage": 37.5,
+    "triggerTtk": 494.50143291517344,
+    "beamIndex": 2.4507834888982334
+   },
+   "after": {
+    "btk": 3,
+    "damage": 37.5,
+    "triggerTtk": 494.50143291517344,
+    "beamIndex": 2.4507834888982334
+   }
+  },
+  {
+   "weapon": "M39 EMR",
+   "weaponId": "m39emr",
+   "cls": "DMR",
+   "field": "dmg",
+   "moved": [],
+   "before": {
+    "btk": 3,
+    "damage": 37.5,
+    "triggerTtk": 494.50143291517344,
+    "beamIndex": 2.4507834888982334
+   },
+   "after": {
+    "btk": 3,
+    "damage": 37.5,
+    "triggerTtk": 494.50143291517344,
+    "beamIndex": 2.4507834888982334
+   }
+  },
+  {
+   "weapon": "M2010 ESR",
+   "weaponId": "m2010esr",
+   "cls": "Sniper Rifle",
+   "field": "rpm",
+   "moved": [],
+   "before": {
+    "btk": 2,
+    "damage": 80,
+    "triggerTtk": 1429.3767911439668,
+    "beamIndex": 2.1309974580995146
+   },
+   "after": {
+    "btk": 2,
+    "damage": 80,
+    "triggerTtk": 1429.3767911439668,
+    "beamIndex": 2.1309974580995146
+   }
+  },
+  {
+   "weapon": "M2010 ESR",
+   "weaponId": "m2010esr",
+   "cls": "Sniper Rifle",
+   "field": "bulletVel",
+   "moved": [
+    "TTK"
+   ],
+   "before": {
+    "btk": 2,
+    "damage": 80,
+    "triggerTtk": 1429.3767911439668,
+    "beamIndex": 2.1309974580995146
+   },
+   "after": {
+    "btk": 2,
+    "damage": 80,
+    "triggerTtk": 1480.941977859917,
+    "beamIndex": 2.1309974580995146
+   }
+  },
+  {
+   "weapon": "M2010 ESR",
+   "weaponId": "m2010esr",
+   "cls": "Sniper Rifle",
+   "field": "mag",
+   "moved": [],
+   "before": {
+    "btk": 2,
+    "damage": 80,
+    "triggerTtk": 1429.3767911439668,
+    "beamIndex": 2.1309974580995146
+   },
+   "after": {
+    "btk": 2,
+    "damage": 80,
+    "triggerTtk": 1429.3767911439668,
+    "beamIndex": 2.1309974580995146
+   }
+  },
+  {
+   "weapon": "M2010 ESR",
+   "weaponId": "m2010esr",
+   "cls": "Sniper Rifle",
+   "field": "tacRld",
+   "moved": [],
+   "before": {
+    "btk": 2,
+    "damage": 80,
+    "triggerTtk": 1429.3767911439668,
+    "beamIndex": 2.1309974580995146
+   },
+   "after": {
+    "btk": 2,
+    "damage": 80,
+    "triggerTtk": 1429.3767911439668,
+    "beamIndex": 2.1309974580995146
+   }
+  },
+  {
+   "weapon": "M2010 ESR",
+   "weaponId": "m2010esr",
+   "cls": "Sniper Rifle",
+   "field": "emptyRld",
+   "moved": [],
+   "before": {
+    "btk": 2,
+    "damage": 80,
+    "triggerTtk": 1429.3767911439668,
+    "beamIndex": 2.1309974580995146
+   },
+   "after": {
+    "btk": 2,
+    "damage": 80,
+    "triggerTtk": 1429.3767911439668,
+    "beamIndex": 2.1309974580995146
+   }
+  },
+  {
+   "weapon": "M2010 ESR",
+   "weaponId": "m2010esr",
+   "cls": "Sniper Rifle",
+   "field": "recoilV",
+   "moved": [
+    "beamIndex"
+   ],
+   "before": {
+    "btk": 2,
+    "damage": 80,
+    "triggerTtk": 1429.3767911439668,
+    "beamIndex": 2.1309974580995146
+   },
+   "after": {
+    "btk": 2,
+    "damage": 80,
+    "triggerTtk": 1429.3767911439668,
+    "beamIndex": 26.497521663549087
+   }
+  },
+  {
+   "weapon": "M2010 ESR",
+   "weaponId": "m2010esr",
+   "cls": "Sniper Rifle",
+   "field": "recoilVar",
+   "moved": [
+    "beamIndex"
+   ],
+   "before": {
+    "btk": 2,
+    "damage": 80,
+    "triggerTtk": 1429.3767911439668,
+    "beamIndex": 2.1309974580995146
+   },
+   "after": {
+    "btk": 2,
+    "damage": 80,
+    "triggerTtk": 1429.3767911439668,
+    "beamIndex": 3.8420371873434593
+   }
+  },
+  {
+   "weapon": "M2010 ESR",
+   "weaponId": "m2010esr",
+   "cls": "Sniper Rifle",
+   "field": "spreadMax",
+   "moved": [],
+   "before": {
+    "btk": 2,
+    "damage": 80,
+    "triggerTtk": 1429.3767911439668,
+    "beamIndex": 2.1309974580995146
+   },
+   "after": {
+    "btk": 2,
+    "damage": 80,
+    "triggerTtk": 1429.3767911439668,
+    "beamIndex": 2.1309974580995146
+   }
+  },
+  {
+   "weapon": "M2010 ESR",
+   "weaponId": "m2010esr",
+   "cls": "Sniper Rifle",
+   "field": "adsTime",
+   "moved": [],
+   "before": {
+    "btk": 2,
+    "damage": 80,
+    "triggerTtk": 1429.3767911439668,
+    "beamIndex": 2.1309974580995146
+   },
+   "after": {
+    "btk": 2,
+    "damage": 80,
+    "triggerTtk": 1429.3767911439668,
+    "beamIndex": 2.1309974580995146
+   }
+  },
+  {
+   "weapon": "M2010 ESR",
+   "weaponId": "m2010esr",
+   "cls": "Sniper Rifle",
+   "field": "dmg",
+   "moved": [],
+   "before": {
+    "btk": 2,
+    "damage": 80,
+    "triggerTtk": 1429.3767911439668,
+    "beamIndex": 2.1309974580995146
+   },
+   "after": {
+    "btk": 2,
+    "damage": 80,
+    "triggerTtk": 1429.3767911439668,
+    "beamIndex": 2.1309974580995146
+   }
+  }
+ ]
+}

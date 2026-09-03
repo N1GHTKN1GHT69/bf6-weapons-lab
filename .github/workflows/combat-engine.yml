@@ -289,4 +289,23 @@ jobs:
             exit 0
           fi
           git commit -m "data: atomic BF6 source + per-weapon combat cache rebuild [skip ci]"
-          git push origin HEAD:main
+          # A push to main while this 62-weapon rebuild was running leaves the
+          # push non-fast-forward, which previously threw away a completed and
+          # fully validated rebuild and reported the whole run as failed. Rebase
+          # onto whatever landed meanwhile and retry. A genuine conflict still
+          # fails loudly rather than being resolved by guesswork.
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then
+              echo "Pushed on attempt $attempt."
+              exit 0
+            fi
+            echo "Push rejected on attempt $attempt; rebasing onto origin/main and retrying."
+            git fetch origin main
+            git rebase origin/main || {
+              echo "Rebase conflict against origin/main - refusing to resolve generated data automatically."
+              git rebase --abort || true
+              exit 1
+            }
+          done
+          echo "Push still rejected after 3 attempts."
+          exit 1

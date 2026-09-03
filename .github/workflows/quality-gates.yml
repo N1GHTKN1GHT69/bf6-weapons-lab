@@ -72,5 +72,6 @@ jobs:
           node scripts/audit-cache-identity.mjs
           node scripts/audit-advanced-options.mjs
           node scripts/audit-source-data.mjs
+          node scripts/audit-field-impact.mjs
           node scripts/audit-name-honesty.mjs
           node scripts/audit-meta-sweep.mjs
