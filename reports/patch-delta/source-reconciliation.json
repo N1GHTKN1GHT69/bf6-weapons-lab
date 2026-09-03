@@ -1,0 +1,1008 @@
+{
+ "generatedAt": "2026-09-03T16:41:38.219Z",
+ "source": {
+  "name": "sym.gg",
+  "url": "https://sym.gg/games/bf6/patch-notes",
+  "published": "2026-06-30",
+  "represents": "1.3.3.0",
+  "deltaRange": "1.3.1.0 (12 MAY 2026) -> 1.3.3.0 (30 JUN 2026)"
+ },
+ "liveGameVersion": "1.4.2.5",
+ "establishes": "FIDELITY of our stored values to the original publisher. NOT currency: Sym has published no BF6 numeric data after 1.3.3.0.",
+ "weaponsInSource": 38,
+ "weaponsMatched": 38,
+ "unmatched": [],
+ "fieldComparisons": 152,
+ "agreed": 152,
+ "conflicts": [],
+ "perWeapon": [
+  {
+   "weaponId": "m433",
+   "symName": "M433",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.6695,
+     "sym": 0.6695,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 41.4,
+     "sym": 41.4,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.922146,
+     "sym": 0.922146,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 630,
+     "sym": 630,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "b36a4",
+   "symName": "B36A4",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.6034,
+     "sym": 0.6034,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 28,
+     "sym": 28,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.918362,
+     "sym": 0.918362,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 740,
+     "sym": 740,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "sor556",
+   "symName": "SOR-556 MK2",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.5041,
+     "sym": 0.5041,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 12.7,
+     "sym": 12.7,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.909447,
+     "sym": 0.909447,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 768,
+     "sym": 768,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "ak4d",
+   "symName": "AK4D",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.7022,
+     "sym": 0.7022,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 20,
+     "sym": 20,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.916278,
+     "sym": 0.916278,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 680,
+     "sym": 680,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "tr7",
+   "symName": "TR7",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.9917,
+     "sym": 0.9917,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 40.8,
+     "sym": 40.8,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.928083,
+     "sym": 0.928083,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 604,
+     "sym": 604,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "kord6p67",
+   "symName": "KORD 6P67",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.4494,
+     "sym": 0.4494,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 28.9,
+     "sym": 28.9,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.918198,
+     "sym": 0.918198,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 724,
+     "sym": 724,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "nvo228e",
+   "symName": "NVO-228E",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.607,
+     "sym": 0.607,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 28.9,
+     "sym": 28.9,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.917129,
+     "sym": 0.917129,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 626,
+     "sym": 626,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "l85a3",
+   "symName": "L85A3",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.5524,
+     "sym": 0.5524,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 22.8,
+     "sym": 22.8,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.913643,
+     "sym": 0.913643,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 778,
+     "sym": 778,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "vcr2",
+   "symName": "VCR-2",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.698,
+     "sym": 0.698,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 50.3,
+     "sym": 50.3,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.922964,
+     "sym": 0.922964,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 660,
+     "sym": 660,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "m16a4",
+   "symName": "M16A4",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.6487,
+     "sym": 0.6487,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 37.5,
+     "sym": 37.5,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.919722,
+     "sym": 0.919722,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 680,
+     "sym": 680,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "m4a1",
+   "symName": "M4A1",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.7102,
+     "sym": 0.7102,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 30.7,
+     "sym": 30.7,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.921205,
+     "sym": 0.921205,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 590,
+     "sym": 590,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "m277",
+   "symName": "M277",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.801,
+     "sym": 0.801,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 34.4,
+     "sym": 34.4,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.921523,
+     "sym": 0.921523,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 592,
+     "sym": 592,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "ak205",
+   "symName": "AK-205",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.4078,
+     "sym": 0.4078,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 7.4,
+     "sym": 7.4,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.906545,
+     "sym": 0.906545,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 708,
+     "sym": 708,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "m417a2",
+   "symName": "M417 A2",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.775,
+     "sym": 0.775,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 15.4,
+     "sym": 15.4,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.919032,
+     "sym": 0.919032,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 560,
+     "sym": 560,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "grtbc",
+   "symName": "GRT-BC",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.6703,
+     "sym": 0.6703,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 26.1,
+     "sym": 26.1,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.918691,
+     "sym": 0.918691,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 563,
+     "sym": 563,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "qbz192",
+   "symName": "QBZ-192",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.6358,
+     "sym": 0.6358,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 19.9,
+     "sym": 19.9,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.916291,
+     "sym": 0.916291,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 608,
+     "sym": 608,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "sg553r",
+   "symName": "SG 553R",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.6866,
+     "sym": 0.6866,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 35.8,
+     "sym": 35.8,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.91674,
+     "sym": 0.91674,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 483,
+     "sym": 483,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "sor300sc",
+   "symName": "SOR-300SC",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.6047,
+     "sym": 0.6047,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 15.8,
+     "sym": 15.8,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.912427,
+     "sym": 0.912427,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 528,
+     "sym": 528,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "sgx",
+   "symName": "SGX",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.4966,
+     "sym": 0.4966,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 31.7,
+     "sym": 31.7,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.915368,
+     "sym": 0.915368,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 378,
+     "sym": 378,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "pw5a3",
+   "symName": "PW5A3",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.4618,
+     "sym": 0.4618,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 28.3,
+     "sym": 28.3,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.912707,
+     "sym": 0.912707,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 408,
+     "sym": 408,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "pw7a2",
+   "symName": "PW7A2",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.4195,
+     "sym": 0.4195,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 27.8,
+     "sym": 27.8,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.915065,
+     "sym": 0.915065,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 576,
+     "sym": 576,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "umg40",
+   "symName": "UMG-40",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.4857,
+     "sym": 0.4857,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 13,
+     "sym": 13,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.908244,
+     "sym": 0.908244,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 467,
+     "sym": 467,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "usg90",
+   "symName": "USG-90",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.4497,
+     "sym": 0.4497,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 35.5,
+     "sym": 35.5,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.912355,
+     "sym": 0.912355,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 543,
+     "sym": 543,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "kv9",
+   "symName": "KV9",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.4577,
+     "sym": 0.4577,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 50,
+     "sym": 50,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.923064,
+     "sym": 0.923064,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 362,
+     "sym": 362,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "scw10",
+   "symName": "SCW-10",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.5997,
+     "sym": 0.5997,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 33.5,
+     "sym": 33.5,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.922931,
+     "sym": 0.922931,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 398,
+     "sym": 398,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "sl9",
+   "symName": "SL9",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.4238,
+     "sym": 0.4238,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 13,
+     "sym": 13,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.909421,
+     "sym": 0.909421,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 486,
+     "sym": 486,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "cz3a1",
+   "symName": "CZ3A1",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.5765,
+     "sym": 0.5765,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 50.8,
+     "sym": 50.8,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.918141,
+     "sym": 0.918141,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 336,
+     "sym": 336,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "l110",
+   "symName": "L110",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.47,
+     "sym": 0.47,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 31,
+     "sym": 31,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.917792,
+     "sym": 0.917792,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 740,
+     "sym": 740,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "drsiar",
+   "symName": "DRS-IAR",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.5923,
+     "sym": 0.5923,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 29.3,
+     "sym": 29.3,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.921469,
+     "sym": 0.921469,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 680,
+     "sym": 680,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "m60",
+   "symName": "M/60",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.6066,
+     "sym": 0.6066,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 29.9,
+     "sym": 29.9,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.914665,
+     "sym": 0.914665,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 680,
+     "sym": 680,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "rpkm",
+   "symName": "RPKM",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.5327,
+     "sym": 0.5327,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 17.5,
+     "sym": 17.5,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.911058,
+     "sym": 0.911058,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 630,
+     "sym": 630,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "m123k",
+   "symName": "M123K",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.5154,
+     "sym": 0.5154,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 47.7,
+     "sym": 47.7,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.920302,
+     "sym": 0.920302,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 630,
+     "sym": 630,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "m250",
+   "symName": "M250",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.6084,
+     "sym": 0.6084,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 35.9,
+     "sym": 35.9,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.920102,
+     "sym": 0.920102,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 724,
+     "sym": 724,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "kts100",
+   "symName": "KTS100 MK8",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.4199,
+     "sym": 0.4199,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 9.5,
+     "sym": 9.5,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.90525,
+     "sym": 0.90525,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 808,
+     "sym": 808,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "m240l",
+   "symName": "M240L",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.6769,
+     "sym": 0.6769,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 34.5,
+     "sym": 34.5,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.921501,
+     "sym": 0.921501,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 590,
+     "sym": 590,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "m121a2",
+   "symName": "M121 A2",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.6819,
+     "sym": 0.6819,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 31.8,
+     "sym": 31.8,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.925433,
+     "sym": 0.925433,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 560,
+     "sym": 560,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "rpk74m",
+   "symName": "RPK-74M",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.3844,
+     "sym": 0.3844,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 16.1,
+     "sym": 16.1,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.909117,
+     "sym": 0.909117,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 808,
+     "sym": 808,
+     "match": true
+    }
+   }
+  },
+  {
+   "weaponId": "vz61",
+   "symName": "VZ. 61",
+   "fields": {
+    "recoil.ads.amount": {
+     "ours": 0.4059,
+     "sym": 0.4059,
+     "match": true
+    },
+    "recoil.ads.dirVar": {
+     "ours": 18.4,
+     "sym": 18.4,
+     "match": true
+    },
+    "recoil.ads.dirVarMult": {
+     "ours": 0.904386,
+     "sym": 0.904386,
+     "match": true
+    },
+    "bulletVel": {
+     "ours": 313,
+     "sym": 313,
+     "match": true
+    }
+   }
+  }
+ ]
+}
