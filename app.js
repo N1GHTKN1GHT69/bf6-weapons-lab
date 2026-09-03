@@ -573,15 +573,18 @@
   /** Build-level naming confidence. Display only; the build itself is unchanged. */
   function buildNameConfidence(picks) {
     const real = (picks || []).filter(p => p.id !== "none");
-    if (!state.nameAudit) return { level: "PENDING", label: "NAME AUDIT PENDING", cls: "", verified: 0, total: real.length };
+    if (!state.nameAudit) return { level: "PENDING", label: "NAME AUDIT PENDING", cls: "", verified: 0, exact: 0, total: real.length };
     const statuses = real.map(p => attachmentDisplay(p).status);
     // Source-corroborated counts as a named attachment for build-level rollup;
     // the per-card chip still distinguishes it from in-game confirmation.
     const verified = statuses.filter(s => s === "GAME_VERIFIED_EXACT" || s === "SOURCE_CORROBORATED").length;
-    if (statuses.includes("MISMATCH")) return { level: "UNVERIFIED", label: "NAME CONFLICT", cls: "bad", verified, total: real.length };
-    if (!real.length || verified === real.length) return { level: "VERIFIED", label: "NAMES SOURCED", cls: "ok", verified, total: real.length };
-    if (verified === 0) return { level: "UNVERIFIED", label: "NAMES UNVERIFIED", cls: "warn", verified, total: real.length };
-    return { level: "PARTIALLY_VERIFIED", label: "PARTIALLY VERIFIED", cls: "warn", verified, total: real.length };
+    // Kept separate so the UI can never present source corroboration as an
+    // in-game exact-name confirmation.
+    const exact = statuses.filter(s => s === "GAME_VERIFIED_EXACT").length;
+    if (statuses.includes("MISMATCH")) return { level: "UNVERIFIED", label: "NAME CONFLICT", cls: "bad", verified, exact, total: real.length };
+    if (!real.length || verified === real.length) return { level: "VERIFIED", label: "NAMES SOURCED", cls: "ok", verified, exact, total: real.length };
+    if (verified === 0) return { level: "UNVERIFIED", label: "NAMES UNVERIFIED", cls: "warn", verified, exact, total: real.length };
+    return { level: "PARTIALLY_VERIFIED", label: "PARTIALLY VERIFIED", cls: "warn", verified, exact, total: real.length };
   }
 
   // ---------------------------------------------------------------------------
@@ -3072,7 +3075,11 @@
     else if (!audited || empirical) { level = "warn"; text = "PARTIALLY VERIFIED — CLASS AUDIT INCOMPLETE"; }
     else if (names.level === "VERIFIED") { level = "ok"; text = "VERIFIED"; }
     else if (names.level === "UNVERIFIED" && names.cls === "bad") { level = "bad"; text = "PARTIALLY VERIFIED — NAME CONFLICT"; }
-    else { level = "warn"; text = `PARTIALLY VERIFIED — ${names.verified}/${names.total} NAMES EXACT`; }
+    // "SOURCED", not "EXACT": names.verified counts SOURCE_CORROBORATED as well
+    // as GAME_VERIFIED_EXACT, and the audit's own status definitions say a
+    // source-corroborated string is explicitly NOT an exact in-game claim.
+    // Saying EXACT here asserted a confidence the data does not carry.
+    else { level = "warn"; text = `PARTIALLY VERIFIED — ${names.verified}/${names.total} NAMES SOURCED`; }
     // A build can only ever be downgraded here, never upgraded: if it contains
     // attachments whose modifiers upstream marks as assumed, the headline must
     // not read as fully verified.
@@ -3086,7 +3093,7 @@
     const assumedNote = assumed.length
       ? ` Build contains ${assumed.map(a => `${a.id} (${a.fields.join(", ") || "assumed"})`).join("; ")}: upstream marks these modifier fields as assumed, not measured.`
       : "";
-    chip.title = (names.total ? `${names.verified}/${names.total} attachment names verified as exact BF6 labels.` : "") + assumedNote;
+    chip.title = (names.total ? `${names.verified}/${names.total} attachment names carried verbatim from trusted BF6 source data. ${names.exact ?? 0} confirmed against the live in-game string.` : "") + assumedNote;
 
     const legend = $("nameLegend");
     if (legend) {
@@ -3884,7 +3891,10 @@
           weaponTabs: txt("weaponTabs"),
           dashboardWeapon: String($("dashboardWeapon")?.textContent ?? ""),
           armorNote: String($("armorNote")?.textContent ?? ""),
-          buildError: state.lastBuildError ? { ...state.lastBuildError } : null
+          buildError: state.lastBuildError ? { ...state.lastBuildError } : null,
+          attachmentGrid: txt("attachmentGrid"),
+          nameLegend: txt("nameLegend"),
+          pointAuditBadge: String($("pointAuditBadge")?.textContent ?? "")
         };
       } finally {
         state.category = keep.c; state.distance = keep.d; state.gameMode = keep.g;

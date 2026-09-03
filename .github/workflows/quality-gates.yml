@@ -15,6 +15,7 @@ on:
       - 'data/redsec-model.json'
       - 'data/patch-delta-ledger.json'
       - 'data/freshness-status.json'
+      - 'data/optimizer-legality-divergence.json'
       - '.github/workflows/**'
 permissions:
   contents: read
@@ -55,3 +56,19 @@ jobs:
           node scripts/audit-range-optics.mjs
           node scripts/audit-laserbeam-meta.mjs
           node scripts/validate-combat-cache.mjs data/combat-cache.json data/source-manifest.json
+      - name: Engine-execution gates
+        # These boot the real app.js through scripts/lab-harness.mjs and compare
+        # actual production output against independent references, instead of
+        # pattern-matching the source the way the gates above do.
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/audit-engine-crosscheck.mjs
+          node scripts/audit-eligibility-consistency.mjs
+          node scripts/audit-mode-isolation.mjs
+          node scripts/audit-optimizer-exhaustive.mjs
+          node scripts/audit-optimizer-legality.mjs
+          node scripts/audit-cache-identity.mjs
+          node scripts/audit-advanced-options.mjs
+          node scripts/audit-name-honesty.mjs
+          node scripts/audit-meta-sweep.mjs

@@ -1,0 +1,36 @@
+{
+ "generatedAt": "2026-09-03T03:58:14.346Z",
+ "observations": [
+  {
+   "control": "classChoice",
+   "values": 5,
+   "distinctCombatResults": 1,
+   "distinctLoadouts": 4
+  },
+  {
+   "control": "context",
+   "values": 4,
+   "distinctCombatResults": 1,
+   "distinctLoadouts": 4
+  },
+  {
+   "control": "distance",
+   "changesCombat": true
+  },
+  {
+   "control": "gameMode+armour",
+   "changesCombat": true
+  },
+  {
+   "control": "category",
+   "changesCombat": true
+  },
+  {
+   "control": "priority",
+   "cases": 14,
+   "casesWhereBuildChanged": 4,
+   "casesWhereWinnerChanged": 2
+  }
+ ],
+ "errors": []
+}

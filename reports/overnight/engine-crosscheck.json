@@ -1,6 +1,6 @@
 {
  "summary": {
-  "generatedAt": "2026-09-03T03:50:23.486Z",
+  "generatedAt": "2026-09-03T03:57:54.564Z",
   "productionSource": "app.js executed via scripts/lab-harness.mjs",
   "referenceSource": "scripts/redsec-reference.mjs (data-only, shares no code with app.js)",
   "weapons": 56,
