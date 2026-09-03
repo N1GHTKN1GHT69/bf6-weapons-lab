@@ -21,6 +21,7 @@
     gameMode: "multiplayer",
     targetArmor: "unarmored",
     redsecModel: null,
+    sourceVerification: null,
     freshness: null,
     // One canonical fighting distance in meters. The slider, the preset
     // shortcuts and the custom numeric input all write this single value, and
@@ -503,6 +504,29 @@
   }
 
 
+  /**
+   * End-to-end source-data verification state, produced by
+   * scripts/audit-source-data.mjs. The optimizer and ranking engine are
+   * separately validated; this describes the FACTS they consume, so the UI can
+   * never present a validated algorithm over stale or unverified inputs as a
+   * verified answer.
+   */
+  async function loadSourceVerification() {
+    try {
+      const v = await fetchJson("./data/source-verification.json", 4000);
+      if (v?.schema === 1 && typeof v.endToEndStatus === "string") {
+        state.sourceVerification = v;
+        state.source.sourceVerification = "loaded";
+        return v;
+      }
+      state.source.sourceVerification = "invalid";
+      return null;
+    } catch (_) {
+      state.source.sourceVerification = "failed";
+      return null;
+    }
+  }
+
   async function loadFreshnessStatus() {
     try {
       const f = await fetchJson("./data/freshness-status.json", 3000);
@@ -638,7 +662,7 @@
     state.attachments = attachments && typeof attachments === "object" ? attachments : null;
     state.ammo = ammo && typeof ammo === "object" ? ammo : null;
     state.ballistics = ballistics && typeof ballistics === "object" ? ballistics : null;
-    await Promise.all([loadFreshnessStatus(), loadCombatCache(), loadAssaultAudit(), loadCarbineAudit(), loadSmgAudit(), loadLmgAudit(), loadDmrAudit(), loadSniperAudit(), loadSidearmAudit(), loadShotgunAudit(), loadAttachmentNameAudit(), loadRedsecModel()]);
+    await Promise.all([loadFreshnessStatus(), loadCombatCache(), loadAssaultAudit(), loadCarbineAudit(), loadSmgAudit(), loadLmgAudit(), loadDmrAudit(), loadSniperAudit(), loadSidearmAudit(), loadShotgunAudit(), loadAttachmentNameAudit(), loadRedsecModel(), loadSourceVerification()]);
 
     const matched = CURRENT.roster.filter(r => rawForRoster(r)).length;
     if (state.rawWeapons.length) setChip("statsChip", `STATS ${matched}/${CURRENT.roster.length}`, matched >= 60 ? "ok" : "warn");
@@ -3194,12 +3218,29 @@
       level = "warn";
       text = `PARTIALLY VERIFIED — ${assumed.length} ASSUMED MODIFIER${assumed.length === 1 ? "" : "S"}`;
     }
+    // END-TO-END CAP.
+    //
+    // Everything above judges the ALGORITHM: is this the best legal build, is
+    // the armour maths robust, are the names sourced. None of it judges the
+    // FACTS the algorithm consumed. While the source-data audit reports the
+    // end-to-end state as provisional - stale snapshot, or result-moving fields
+    // that are not independently re-derived - no result may present as fully
+    // verified. This can only ever downgrade.
+    const sv = state.sourceVerification;
+    if (level === "ok" && sv && sv.endToEndStatus !== "VERIFIED") {
+      level = "warn";
+      text = `${text} — SOURCE DATA ${sv.endToEndStatus}`;
+    }
+    const sourceNote = sv
+      ? ` Source data: ${sv.endToEndStatus}. ${(sv.reasons || []).join("; ")}.`
+      : " Source-data verification state unavailable.";
+
     chip.textContent = text;
     chip.className = `confidence-chip ${level}`;
     const assumedNote = assumed.length
       ? ` Build contains ${assumed.map(a => `${a.id} (${a.fields.join(", ") || "assumed"})`).join("; ")}: upstream marks these modifier fields as assumed rather than measured, so they are stripped before any calculation. The attachment's verified modifiers are used in full; its behaviour is simply not completely characterised.`
       : "";
-    chip.title = (names.total ? `${names.verified}/${names.total} attachment names carried verbatim from trusted BF6 source data. ${names.exact ?? 0} confirmed against the live in-game string.` : "") + assumedNote;
+    chip.title = (names.total ? `${names.verified}/${names.total} attachment names carried verbatim from trusted BF6 source data. ${names.exact ?? 0} confirmed against the live in-game string.` : "") + assumedNote + sourceNote;
 
     const legend = $("nameLegend");
     if (legend) {

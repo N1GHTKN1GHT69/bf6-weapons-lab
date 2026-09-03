@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-03T04:30:36.446Z",
+ "generatedAt": "2026-09-03T11:03:30.476Z",
  "cases": 336,
  "errors": [],
  "env": {
@@ -35,7 +35,8 @@
    "sniperAudit": "runtime-pass",
    "sidearmAudit": "runtime-pass",
    "shotgunAudit": "runtime-pass",
-   "nameAudit": "loaded"
+   "nameAudit": "loaded",
+   "sourceVerification": "loaded"
   }
  },
  "report": [

@@ -16,6 +16,8 @@ import { writeFile, mkdir, readFile } from 'node:fs/promises';
 import { bootLab } from './lab-harness.mjs';
 
 const audit = JSON.parse(await readFile('data/attachment-name-audit.json', 'utf8'));
+let sourceVerification = null;
+try { sourceVerification = JSON.parse(await readFile('data/source-verification.json', 'utf8')); } catch {}
 const { diag, window: win } = await bootLab();
 const errors = [];
 
@@ -24,6 +26,10 @@ for (const r of audit.attachments) byId.set(`${r.internalType}:${r.attachmentId}
 const exactCount = audit.counts?.GAME_VERIFIED_EXACT ?? 0;
 
 if (audit.affectsOptimizer !== false) errors.push('naming audit does not declare affectsOptimizer:false');
+if (!sourceVerification) errors.push('data/source-verification.json missing - run scripts/audit-source-data.mjs');
+else if (!['VERIFIED', 'PROVISIONAL'].includes(sourceVerification.endToEndStatus)) {
+  errors.push(`unrecognised endToEndStatus "${sourceVerification.endToEndStatus}"`);
+}
 
 const roster = (win.BF6_CURRENT?.roster ?? []).filter(w => w.cls !== 'Secondary');
 const modes = [
@@ -60,6 +66,18 @@ for (const m of modes) {
     for (const cls of grid.match(/class="fx ([a-z]*)"/g) || []) {
       const kind = cls.replace(/class="fx |"/g, '');
       if (!['up', 'down', 'none'].includes(kind)) errors.push(`${rw.id}: unknown effect-chip class "${kind}"`);
+    }
+
+    // END-TO-END: while the source-data audit reports the facts as provisional,
+    // no result may present as fully verified, however well-validated the
+    // algorithm that produced it is.
+    if (sourceVerification && sourceVerification.endToEndStatus !== 'VERIFIED') {
+      if (/^VERIFIED$/i.test(r.confidenceChip.trim())) {
+        errors.push(`${rw.id}: chip reads "${r.confidenceChip}" while source data is ${sourceVerification.endToEndStatus}`);
+      }
+      if (/ROBUST/i.test(r.confidenceChip) && !/SOURCE DATA/i.test(r.confidenceChip)) {
+        errors.push(`${rw.id}: chip claims robustness ("${r.confidenceChip}") without disclosing that source data is ${sourceVerification.endToEndStatus}`);
+      }
     }
 
     // No headline may assert exactness the audit does not support.
