@@ -1,401 +1,359 @@
 # BF6 Weapons Lab — overnight engineering + validation report
 
 Run: 2026-09-02 → 2026-09-03, autonomous. Branch `main`, no pushes.
-Baseline commit `2856164` → final commit at end of this document.
+Baseline `2856164` → rebased onto `origin/main` (`58104e5`) → final `475764d`.
+
+Backup before any of this: tag `overnight-checkpoint-20260903` and a verified
+full-history bundle at `../bf6-weapons-lab-overnight-20260903.bundle`.
 
 ---
 
 ## What this means (plain English)
 
-**The combat maths is in good shape.** I built a way to run the actual
-application headlessly and check its real output — not just read the source —
-and then compared it against maths written independently from the raw data.
-Across **6,916 comparisons** covering every weapon at 26 distances, in both
-armour states, **production and the independent reference agreed every single
-time**. A separate sweep of **17,304 ranking evaluations** found **zero**
-impossible or nonsensical results.
+**Both open problems are now closed, and neither turned out the way I first
+described it.**
 
-**Your KORD question has a definite answer: 12 BTK is correct** for the model as
-implemented, and it does *not* depend on the unresolved spillover mechanic. The
-old "5 shots / 11 BTK" expectation isn't wrong arithmetic — it is what you get
-under the *other* reading of one EA sentence that has never been published
-precisely. Details below.
+**FASTEST KILL now means what it says.** The weapon ranking previously always
+used the balanced 55/45 score; PRIORITY only swapped which attachment build was
+read. It now ranks by trigger-to-kill, with Beam Index breaking only genuine
+ties. **411 of 672** FASTEST KILL winners changed. **BALANCED changed in 0 of
+672** — the default experience is untouched.
 
-**Three real defects were found.** Two I fixed. One I deliberately did not,
-because fixing it changes the headline answer the product gives, and that is your
-call, not mine:
+**The attachment-legality problem was the opposite of what I reported.** I said
+the cache shipped builds using unverified attachment values. It does not. The
+cache builder already strips unverified *fields* and keeps the verified ones —
+it never used a guessed number. The defect was entirely in the live path, which
+threw away the whole attachment whenever *any* field was marked unverified. That
+hid 13 attachments from the on-demand optimizer and left M250 with no legal
+barrel at all. **My earlier report overstated this; the correction is below.**
 
-1. *(fixed)* The weapon-count badge lied. "ALL VERIFIED 55" sat above a result
-   saying "best out of 48", because the badge and the ranking used different
-   filters. Both now come from one rule, and every excluded weapon has a stated
-   reason.
-2. *(fixed)* The REDSEC armour panel didn't show armour damage, which is why
-   "17.1 damage / 80 armour HP / 6 shots" looked like broken arithmetic. It never
-   was — armour has its own damage number (14.39) that simply wasn't on screen.
-3. *(NOT fixed — needs your decision)* **FASTEST KILL does not rank by fastest
-   kill.** The weapon ranking always uses the balanced 55/45 score; PRIORITY only
-   changes which attachment build is read. In **411 of 672** measured cases the
-   recommended weapon is not the fastest killer, worst case by **796 ms**. See
-   *Next recommended action*.
+Consequences: **zero cached builds were invalid, so nothing needed rebuilding**,
+and unifying the two paths changed **0 of 1,344** displayed results. It repaired
+the fallback path without disturbing a single shipped answer.
 
-**What can wait:** everything cosmetic. The ↑green/↓red/neutral colour scheme you
-asked about is already implemented correctly, so I left it alone.
+**One new problem found and fixed along the way.** The app was calling armoured
+REDSEC results "robust to armour uncertainty" while the *winner itself* flipped
+between the two readings of EA's unpublished close-range rule. Robustness was
+being judged per-weapon when AUTO META also picks the weapon. 25 m is correctly
+PROVISIONAL again.
+
+**What can wait:** nothing is now open at HIGH severity. The remaining work is
+external — settling EA's close-range rule and armour spillover needs in-game
+measurement, not code.
 
 ---
 
-## Executive trust status
+## 1. The 6,916 audit count — corrected
 
-| Area | Rating | Basis |
-| --- | --- | --- |
-| **Multiplayer combat model** | **HIGH CONFIDENCE** | 1,404 unarmored cases: production BTK equals `ceil(100 / damage)` in every one. 17,304 ranking evaluations, zero anomalies. Not VERIFIED only because the per-class damage audits are CI-only (they need the upstream simulator checkout, absent locally), so the *damage inputs* were not re-derived here. |
-| **REDSEC unarmored** | **HIGH CONFIDENCE** | Proven to be the Multiplayer path itself, not a copy: winner and BTK match Multiplayer at every distance tested. EA state health damage and ranges are unchanged, so reuse is the correct model. |
-| **REDSEC 2-plate** | **PROVISIONAL** | Armour HP, +10 m shift, post-armour health path and 1.3.3.0 class multipliers are verified. But the winner at 25 m *flips* on an unresolved mechanic (see below). The app already labels this "PROVISIONAL REDSEC RANKING". Correctly provisional, not broken. |
-| **Attachment data** | **PROVISIONAL** | 168 names audited, **0** confirmed against a live in-game string; 94 source-corroborated, 51 unverified, 23 explicit placeholders. The posture is right (nothing invented, everything flagged). Separately, 27 primaries ship builds using attachments whose modifiers upstream marks *assumed*. |
-| **Attachment optimizer** | **VERIFIED** | 156 cases; 87 checked by **true exhaustive enumeration** (50,521,932 combinations, no pruning), the rest by an independent exact solver that reproduced brute force wherever both ran. Optimum score, point spend and build legality matched in **all 156**. |
-| **AUTO META** | **NOT YET TRUSTWORTHY** *(as labelled)* | The maths underneath is clean. The problem is the label: FASTEST KILL does not rank by kill speed. BALANCED is sound and is the default. |
-| **Advanced options** | **VERIFIED** | Executed, not assumed: Player class and Loadout focus each produce 4 distinct loadouts and **exactly 1** combat result — matching the UI's own claim that they change recommendations only. No dead controls. |
+**My report's arithmetic gloss was wrong; the audit was right.** I wrote
+"56 weapons × 26 distances × both armour states", which reads as 2,912 and is
+not what the number counts. 6,916 is a count of **assertions**, not cases, over
+**2,782 distinct cases**:
+
+| Component | Weapons | Distances | Cases | Assertions each | Total |
+| --- | --- | --- | --- | --- | --- |
+| Armoured (REDSEC 2 PLATES) | **53** | 26 | 1,378 | **4** | 5,512 |
+| Unarmoured health path | **54** | 26 | 1,404 | **1** | 1,404 |
+| | | | **2,782** | | **6,916** |
+
+- **53, not 56**, on the armoured side: `kts100mk8`, `interdictor` and `185ksk`
+  have no entry in `data/weapons.json`, and the armoured path needs the raw
+  damage curve. They are skipped with a recorded reason.
+- **54** on the unarmoured side: `kts100mk8` and `185ksk` produce no health
+  damage; `interdictor` does, via the class-audit path.
+- The **4 assertions per armoured case** are `armorDamagePerShot`,
+  `shotsToBreakArmor`, `btk`, and a reference-internal check that the shot-by-shot
+  simulation agrees with the closed form. The unarmoured case asserts
+  `btk == ceil(100 / damage)`.
+
+Verified against the audit's own output: `1378 × 4 + 1404 = 6916`. The audit
+summary now emits these fields explicitly so the figure is self-documenting.
 
 ---
 
-## KORD 6P67 / 25 m / 2 PLATES
+## 2. Did the rebase change anything?
 
-Reproduced exactly from your screenshots by the harness (`BF6_LAB_DIAG.redsecTrace`).
+**No. Zero change to any computed result.**
 
-| Quantity | Value |
+Two upstream commits were integrated: `a2fa8d6` (data-bot atomic cache rebuild)
+and `58104e5` (freshness status). The rebase applied all 7 local commits with
+**no conflicts**.
+
+The upstream diff touches only timestamps, content hashes and `observedCommit`.
+The cache still points at the same upstream commit `fb7a214`, same
+`gameVersion 1.4.2.5`, same 62 modelled weapons.
+
+The three big audits *appeared* to change on 2,688 / 2,756 / 312 lines. That was
+**entirely CRLF-vs-LF**: checkout rewrote the committed copies to CRLF while the
+scripts write LF. With line endings normalised, all three are **byte-identical**.
+`.gitattributes` now pins LF for generated artefacts so this noise can never
+again hide a real change.
+
+---
+
+## 3. FASTEST KILL — before / after
+
+### What changed
+
+`rankWeapons()` now selects a comparator from the active priority:
+
+| PRIORITY | Comparator order |
 | --- | --- |
-| Health damage / shot | **17.13** |
-| Armour damage / shot | **14.3892** = 17.13 × 0.84 |
-| Chest-vs-armour multiplier | **0.84** (automatic weapons, BF6 Update 1.3.3.0) |
-| Armour HP | **80** (2 plates × 40) |
-| Shots to break armour | **6** — `ceil(80 / 14.3892)` = `ceil(5.560)` |
-| Armour left after 5 shots | 8.054 — a 6th shot is unavoidable |
-| Spillover | **none** (implemented policy; unpublished mechanic) |
-| Excess on the breaking shot | 6.335 of 14.3892, discarded |
-| Health shots after break | **6** — `ceil(100 / 17.13)` = `ceil(5.838)` |
-| **Total BTK** | **12** |
-| RPM | 899.999 |
-| Shot interval | 66.667 ms |
-| Firing time | (12 − 1) × 66.667 = **733.334 ms** |
-| Velocity | 724 m/s |
-| Flight time @ 25 m | **36.086 ms** |
-| **Trigger-to-kill** | 733.334 + 36.086 = **769.42 ms** |
+| BALANCED | `metaCost` (55/45 utility) → trigger-to-kill → Beam Index → tie-break tail |
+| FASTEST KILL | **trigger-to-kill** → Beam Index → tie-break tail |
 
-### Is 12 BTK correct?
+Beam Index breaks a FASTEST KILL tie only within **1e-9 ms** — float noise, not a
+tolerance band. The shared deterministic tail is BTK → chest damage → muzzle
+velocity → ADS time, so no comparison ever falls through to input order. No new
+weight, penalty or scoring component was introduced; both keys were already
+computed. **No weapon is hard-coded anywhere in the change.**
 
-**Yes — given the implemented reading of EA's close-range rule, and it is robust
-to the spillover question.**
+### Validation
 
-- Under `spillover = none`: 6 + 6 = **12**.
-- Under `spillover = proportional`: the breaking shot carries 7.54 health damage,
-  leaving 92.46 HP, which still needs `ceil(92.46 / 17.13)` = 6 shots. Still
-  **12**. The unresolved spillover mechanic **does not affect this answer.**
-
-### Where the old "5 shots / 11 BTK" expectation comes from
-
-It is the other reading of one EA sentence, not an arithmetic error.
-
-EA say automatic weapons have their "very close-range maximum damage step"
-*"reduced or removed"* against armour, and publish no table.
-
-- **"removed"** (implemented): the 20.67 step is dropped, so 17.13 applies from
-  0 m → armour damage 14.3892 → **6 shots to break, 12 BTK**.
-- **"reduced"/kept**: the 20.67 step survives the +10 m shift and covers 25 m →
-  armour damage 20.67 × 0.84 = 17.36 → `ceil(80/17.36)` = **5 shots to break,
-  11 BTK**.
-
-"Removed" is implemented because it requires no invented number; "reduced by how
-much" would. That choice is recorded in `data/redsec-model.json` under
-`unresolved`, and the app surfaces it per result as
-*"Close-range armour damage — DERIVED — AFFECTS THIS RESULT"*.
-
-**This is not a cosmetic uncertainty.** At 25 m / 2 PLATES the *winner itself*
-changes with the reading:
-
-| Close-range reading | Spillover | Winner | BTK | TTK |
-| --- | --- | --- | --- | --- |
-| remove | none | **KORD 6P67** | 12 | 769 ms |
-| remove | proportional | **KORD 6P67** | 12 | 769 ms |
-| keep | none | **M250** | 8 | 651 ms |
-| keep | proportional | **M250** | 8 | 651 ms |
-
-Spillover: immaterial. Close-range rule: decisive. The result is correctly
-labelled PROVISIONAL.
-
----
-
-## REDSEC mechanics
-
-| Mechanic | Status | Notes |
+| Check | Before | After |
 | --- | --- | --- |
-| Armour HP | **VERIFIED** | 80 HP, 2 × 40, stated by EA. Gauntlet 40 HP recorded but not exposed. |
-| Health vs armour damage | **VERIFIED (principle)** | Two separate curves; only the armour curve is adjusted. |
-| +10 m range shift | **VERIFIED** | Every drop-off threshold moves outward 10 m. |
-| Chest-vs-armour multipliers | **VERIFIED CURRENT** | 0.84 auto / 0.91 DMR / 0.67 sniper (1.3.3.0). No later change found in 1.4.1.0–1.4.2.5. |
-| Post-armour health | **VERIFIED** | Identical to Multiplayer — proven by execution, not asserted. |
-| Close-range auto step | **DERIVED** | "reduce or remove" is unquantified. Materially changes results. |
-| Armour-break spillover | **UNVERIFIED** | Not addressed by any source. Immaterial for KORD; quantified per result. |
-| Two plates vs one 80 HP pool | **UNRESOLVED, IMMATERIAL** | Identical results under no-spillover. |
-| Sniper sweet-spot under +10 m | **UNVERIFIED** | Any armoured sweet-spot sniper result stays provisional. |
-| Shotguns | **EXCLUDED** | Correctly excluded from cross-class ranking; pellet spread not modelled. |
+| FASTEST KILL cases where winner is not the fastest killer | **411 / 672** (61%), worst gap 796 ms | **0 / 672** |
+| FASTEST KILL ordering violations | not enforced | **0** |
+| BALANCED cases changed | — | **0 / 672** |
+| Meta-sweep anomalies | 0 | **0** |
 
-`data/redsec-model.json` already encodes a **decisive in-game test** to settle
-spillover in a handful of shots (M39 EMR at 40–60 m: 6 shots = no spillover,
-5 = spillover). That remains the single highest-value external input.
+`audit-meta-sweep.mjs` now **fails** on either violation, and `audit-global.mjs`
+gates that PRIORITY selects the comparator and that both comparators read
+trigger-to-impact TTK.
+
+### How many FASTEST KILL winners changed: **411 of 672 (61%)**
+
+Evenly spread across modes — Multiplayer 136, REDSEC unarmored 136,
+REDSEC 2 PLATES 139. By scope: Assault Rifle 84, SMG 84, LMG 71, Carbine 66,
+ALL VERIFIED 61, DMR 23, Sniper 11, Shotgun 11.
+
+Representative cross-class changes:
+
+| Mode / distance | Was | Now | Gain |
+| --- | --- | --- | --- |
+| MP 1 m | RPKM 218 ms | SCW-10 152 ms | −66 ms |
+| MP 25 m | L110 361 ms | TR-7 285 ms | −76 ms |
+| MP 50 m | KORD 6P67 408 ms | TR-7 322 ms | −86 ms |
+| MP 150 m | LMR27 575 ms | M250 485 ms | −90 ms |
+| REDSEC 2 PLATES 1 m | SL9 713 ms | KV9 447 ms | **−266 ms** |
+| REDSEC 2 PLATES 25 m | KORD 6P67 769 ms | KV9 613 ms | −156 ms |
+| REDSEC 2 PLATES 200 m | LMR27 1179 ms | M250 942 ms | −237 ms |
+
+The recorded L110 / KORD 6P67 baselines were validation cases, not required
+outcomes, and both remain the **BALANCED** winners at 25 m.
 
 ---
 
-## Bugs found
+## 4. Attachment legality — root cause
 
-| # | Severity | Issue |
+### Answer: **B — the live legality rules were wrong (too strict).** Not A, C or D.
+
+The two pipelines disagreed about what "assumed" *means*:
+
+| | Wholly assumed (`assumed: true`) | Partially assumed (`assumedFields`) |
 | --- | --- | --- |
-| 1 | **HIGH** | FASTEST KILL does not rank by trigger-to-kill. `rankWeapons()` always sorts by the 55/45 laserbeam utility. 411/672 cases show a non-fastest winner; worst gap 796 ms. **Open — needs your decision.** |
-| 2 | **HIGH** | Two attachment-legality policies disagree. The exhaustive cache admits attachments carrying upstream `assumedFields`; `buildOptions()` rejects them. 27 of 56 primaries ship a cached *winning* build using such a barrel (`heavy_ext` ×78, `cryo` ×32, `heavy` ×9). **M250 has no non-assumed barrel at all**, so its on-demand build throws outright whenever the cache is unavailable. **Open — pinned, not resolved.** |
-| 3 | **MEDIUM** | Count inconsistency: "ALL VERIFIED 55" above "best out of 48". **Fixed.** |
-| 4 | **MEDIUM** | REDSEC armour panel omitted armour damage, making its own shot counts unverifiable on screen. **Fixed.** |
-| 5 | **MEDIUM** | `renderPrimaryBuild()` caught *every* exception and degraded to "EXHAUSTIVE BUILD CACHE PENDING", reporting a code fault as a benign data-freshness state. **Fixed.** |
-| 6 | **LOW** | Confidence chip read "N/M NAMES EXACT" for a count including `SOURCE_CORROBORATED`, which the audit's own definitions say is *not* an exact-name claim. **Fixed.** |
-| 7 | **LOW** | `audit-global`'s ballistics gate matched an inline filter string, so a behaviour-preserving refactor broke it. Gates that match source text are brittle by construction. **Fixed, and largely superseded** by the new execution gates. |
+| `scripts/build-combat-cache.mjs` | exclude option | **strip only the named fields, keep the option and every verified field** |
+| `app.js buildOptions()` | exclude option | **exclude the whole option** ← the defect |
 
-### Investigated and cleared (not bugs)
+**A (stale/invalid cache) — ruled out.** The cache points at the same upstream
+commit, validates, and `stripPartialAssumptions()` removes assumed fields *before
+simulation*. No unverified value ever entered a cached build. My earlier report
+implied otherwise and was wrong.
 
-- **M87A1 showing 75 damage at 31 m** where the raw curve says 60.8 — this is the
-  audited **Slugs** ammo profile, correctly applied from the optimized build.
-- **Shotgun TTK "discontinuities"** at 1→5→9 m — one-shot kills whose TTK *is*
-  projectile flight time; a 400% relative jump is 8 ms. The sweep now requires an
-  absolute move too.
-- **↑green / ↓red / neutral chips** — already correct (`.fx.up`, `.fx.down`,
-  `.fx.none`). No change made.
-- **"Standard Optic", "Variable High", "Extended"** — all already correctly
-  classified `INTERNAL_PLACEHOLDER`, and rendered with a CATEGORY LABEL chip.
+**C (wrong classifications) — ruled out.** The markers are precise. Across the
+whole catalogue: **4 wholly assumed** (correctly excluded by both), **13
+partially assumed**, 91 clean.
 
----
+**D (incomplete source data) — ruled out.** The data names exactly which fields
+are unverified:
 
-## Bugs fixed — cause, fix, verification
-
-**#3 Count inconsistency.** *Cause:* `populateTabs()` counted weapons with a
-class audit that aren't `empirical-current`; `buildRankPool()` additionally
-required cross-class eligibility and exact ballistics. *Fix:* both now derive
-from `rosterScopeExclusion()` / `combatScopeExclusion()`. *Verified:*
-`audit-eligibility-consistency.mjs`, 336 scope cases — advertised count equals
-ranked count everywhere, every exclusion has a recognised reason.
-56 primaries = 48 rankable + Interdictor + 4 shotguns + EF88/BROD 3/VSSM.
-
-**#4 Armour panel.** *Cause:* the headline damage metric is soldier-health
-damage; armour damage existed in the model but never reached the summary.
-*Fix:* the panel now states armour damage/shot, health damage/shot, the
-multiplier in a tooltip, and the spillover rule as explicitly unverified.
-*Verified:* `audit-mode-isolation.mjs` re-derives `ceil(armourHP/armourDmg)`,
-`ceil(100/healthDmg)` and their sum **from the rendered text** at 5 distances.
-
-**#5 Silent render failure.** *Cause:* a blanket `catch` around build rendering.
-*Fix:* faults recorded on `state.lastBuildError`; missing build now reads
-"NO BUILD PRODUCED" instead of a cache-freshness message. *Verified:* every
-primary rendered in both modes, zero silent failures, against a pinned
-expected-empty set (Interdictor only, which is fail-closed by design).
-
-**#6 Name-confidence overstatement.** *Cause:* `verified` counted
-`SOURCE_CORROBORATED` and the chip called it "EXACT". *Fix:* wording is now
-"NAMES SOURCED" and `buildNameConfidence()` tracks `exact` separately.
-*Verified:* `audit-name-honesty.mjs` — 800/800 rendered cards carry a status
-flag; no headline may say EXACT while the audit records 0.
-
----
-
-## Data corrections
-
-**None.** No weapon damage, RPM, range, magazine, velocity, attachment cost,
-effect or compatibility value was changed. One new file was added:
-`data/optimizer-legality-divergence.json` — a recorded baseline of the known
-legality conflict, not gameplay data.
-
----
-
-## Attachment name audit
-
-| Status | Count |
+| Records | Assumed field |
 | --- | --- |
-| `GAME_VERIFIED_EXACT` | **0** |
-| `SOURCE_CORROBORATED` | 94 |
-| `UNVERIFIED` | 51 |
-| `INTERNAL_PLACEHOLDER` | 23 |
-| `MISMATCH` | 0 |
-| **Total** | **168** |
+| 5 muzzles (`comp_brake`, `flash_comp`, `long_supp`, `light_supp`, `compensator`) | `adsRecoilDecayMult` |
+| 3 barrels (`heavy`, `heavy_ext`, `cryo`) | `spreadFiringDecCoefMult`, `spreadFiringDecOffsetMult` |
+| 2 lasers, 2 lights | `hipSpreadDecayBoost` |
+| 1 ergo (`full_auto_vssm`) | `recoilDecreaseFactorOverride` |
 
-Duplicates are handled correctly: 10+ shared-display-name groups exist (five
-`6H64 Vertical` grips, three `Factory Angled`), and identity is the
-`attachmentId`, never the string. Rendering verified by execution: **800 of 800**
-attachment cards carry a name-status flag. Naming remains display-only —
-`affectsOptimizer: false`, enforced by the existing gate.
+### M250 root cause
 
-Remaining examples needing live-game confirmation: every optic tier (`Iron
-Sights`, `Standard Optic`, `Variable Low`, `Variable High`, `Thermal`, `Thermal
-Hybrid`), bare barrel tiers (`Extended`, `Heavy Extended`), and abbreviated
-source strings such as `#01 BUCK`.
+M250's weapon table offers exactly two barrels, `heavy` and `heavy_ext`, and
+**both** are partially assumed. Barrel is a **required** slot (no `none` option).
+Under the live path's all-or-nothing rule the barrel slot emptied and
+`buildOptions()` threw `barrel: no verified point-cost choices` — so M250 could
+not be built at all whenever the exhaustive cache was unavailable. It was
+invisible as a defect in normal use only because the cache is authoritative.
+
+### The fix: one authoritative pipeline
+
+`attachment-legality.js` is now the single implementation, loaded by
+`index.html` for the browser and re-exported by
+`scripts/verified-source-sanitizer.mjs` for the cache builder. Neither side
+carries its own copy — `audit-optimizer-legality.mjs` fails if `app.js`
+re-implements it.
+
+The rule, stated once: wholly-assumed options are excluded; partially-assumed
+options keep every verified field with the unverified ones stripped. A stripped
+field is *absent*, so downstream code uses its own defined default — exactly as
+for an attachment that never had that field. **No unverified number reaches any
+calculation, and none is invented.**
+
+It also subsumes the hand-written VSSM exception: `full_auto_vssm`'s verified
+full-auto / 800 RPM transform now survives generically, because only its assumed
+`recoilDecreaseFactorOverride` is stripped.
+
+### Cached builds invalidated / rebuilt: **0**
+
+Sanitization output is **byte-identical** to the previous implementation across
+`attachments.json`, `ammo.json` and `weapons.json` (15 fields stripped from 13
+records, identical hashes). The cache was never wrong, so no rebuild was required
+— and none was possible locally anyway, since the builder needs the upstream
+simulator checkout.
+
+Confirmed by result: **0 of 1,344** meta-sweep results changed after unification.
+
+### Divergence after the fix
+
+| Metric | Before | After |
+| --- | --- | --- |
+| Primaries whose cached winning build uses a locally-rejected attachment | 27 / 56 | **0 / 56** |
+| Weapons with no legal on-demand build | 1 (M250) | **0** |
+| Weapons optimizable on-demand | 52 | **56** |
+
+The gate now **requires zero** rather than pinning a baseline.
 
 ---
 
-## Optimizer audit
+## 5. Exhaustive optimizer results after the fix
+
+Legalising the 13 partially-assumed records enlarged the search space
+substantially — the largest single case went from 10.3 M to **59.9 M**
+combinations. Every case was still enumerated by true brute force:
 
 | Metric | Value |
 | --- | --- |
-| Cases | 156 (52 weapons × 3 distances) |
-| **True exhaustive** cases | **87** |
-| Combinations brute-forced | **50,521,932** |
-| Exact-solver cases | 69 |
-| Largest single search space | 10,342,080 (DRS-IAR) |
-| Total raw space per distance | 132,898,236 |
+| Cases | 159 (53 weapons × 3 distances) |
+| **True exhaustive cases** | **159 / 159** (`--full`, no pruning) |
+| Exact-solver cases | 0 |
+| **Combinations enumerated** | **2,017,995,552** |
+| Largest single search space | 59,875,200 |
 | **Mismatches** | **0** |
 | Legality violations | 0 |
+| Runtime | 2 m 3 s |
 
-Method: brute force enumerated *every* combination with no pruning for spaces
-≤ 2,000,000. Larger spaces used an independently written top-down memoised exact
-solver, which reproduced brute force on **every** case where both ran — so the
-larger results rest on a validated method, not an unproven shortcut. Nothing here
-is sampling, and nothing sampled is called exhaustive.
-
-Remaining uncertainty: this validates the **on-demand DP** against true optimum
-over the candidate set. It does not re-derive the shipped exhaustive cache, which
-requires the upstream simulator checkout (CI-only). Bug #2 is the live
-consequence of that gap.
+CI now runs `--full`. The 3 skipped weapons are those with no source entry, and
+are reported explicitly rather than hidden — the old `weaponsOptimizable` metric
+counted them as optimized, which was a misleading figure I have corrected.
 
 ---
 
-## META engine audit
+## 6. New defect found and fixed: overstated REDSEC robustness
 
-| Metric | Value |
+`redsecDependencies()` asks whether the **selected weapon's own** numbers move
+under the unpublished mechanics. In AUTO META the engine also *chooses* the
+weapon, so that is the wrong question alone. At 25 m the winner flips between
+readings while each individual weapon looks stable:
+
+| closeRange | spillover | Winner | BTK | TTK |
+| --- | --- | --- | --- | --- |
+| remove | none / proportional | **KV9** | 11 | 613 ms |
+| keep | none / proportional | **TR-7** | 7 | 535 ms |
+
+The chip nonetheless read "REDSEC — ROBUST TO ARMOUR UNCERTAINTY".
+`redsecWinnerStable()` now re-ranks across all four interpretation combinations
+(memoised per scenario), and a ROBUST claim requires the weapon's numbers **and**
+the winner to survive. `audit-mode-isolation.mjs` fails on a ROBUST label with an
+unstable winner, across 9 distances × 2 priorities.
+
+Current labelling: 10 m PROVISIONAL, 25 m PROVISIONAL, 50 m ROBUST, 100 m
+PARTIALLY VERIFIED (assumed modifier disclosed). **The unresolved EA close-range
+interpretation retains PROVISIONAL status wherever it actually bites.**
+
+---
+
+## 7. Re-run matrix
+
+Every combination re-run after both changes. `audit-meta-sweep.mjs`:
+
+| Dimension | Coverage |
 | --- | --- |
-| Modes | 3 (MP, REDSEC unarmored, REDSEC 2 PLATES) |
-| Priorities | 2 |
-| Scopes | 8 |
-| Distances | 28, including 9/21/31/36/54/75/76/83/85/133 m boundaries |
-| Cases | 1,344 |
+| Modes | Multiplayer, REDSEC unarmored, REDSEC 2 PLATES |
+| Priorities | BALANCED, FASTEST KILL |
+| Scopes | ALL VERIFIED + all 7 weapon classes |
+| Distances | 28, including 9/21/31/36/54/75/76/83/85/133 m breakpoints |
+| **Cases** | **1,344** |
 | **Ranking evaluations** | **17,304** |
 | **Anomalies** | **0** |
-| Winner changes across distance | 198 |
-| Distinct winners | 30 |
+| Winner changes across distance | 155 |
+| Distinct winners | 36 (was 30 — the lethal comparator surfaces more weapons) |
 
-Checked for and found none of: impossible BTK, non-finite or negative TTK/damage,
-trigger-TTK below mech-TTK, out-of-order ranking, TTK discontinuity, or any case
-where an armoured target dies faster than an unarmoured one.
+Supporting gates, all re-run: engine cross-check 6,916 assertions / 0 mismatches;
+eligibility 336 scope cases; cache identity 336 queries × 3 orders / 336 distinct
+keys / 0 contamination; name honesty 800/800 cards flagged; advanced options no
+dead controls and no combat leakage.
 
-Cache identity: 336 queries evaluated in **three different orders** including an
-adversarial Multiplayer / 2-PLATE interleave — results order-independent, and all
-336 scenario keys serve exactly one answer.
+**Final suite: 25 passed, 0 failed. Syntax clean.**
 
----
-
-## Test results
-
-**Baseline:** 17 locally runnable gates, **17 passed, 0 failed, 0 warnings.**
-No pre-existing failures. (`reports/overnight/baseline-gates.log`)
-
-**Final:** **25 passed, 0 failed.** Syntax clean across all sources.
-
-New gates added (8), all wired into `BF6 Lightweight Quality Gates`:
-
-| Gate | What it proves |
-| --- | --- |
-| `audit-engine-crosscheck.mjs` | 6,916 production-vs-independent comparisons |
-| `audit-eligibility-consistency.mjs` | 336 scope cases; counts reconcile |
-| `audit-mode-isolation.mjs` | Mode isolation + on-screen armour arithmetic + no silent build failures |
-| `audit-optimizer-exhaustive.mjs` | 156 cases vs true exhaustive enumeration |
-| `audit-optimizer-legality.mjs` | Pins the legality divergence baseline |
-| `audit-meta-sweep.mjs` | 17,304 ranking evaluations, anomaly detection |
-| `audit-name-honesty.mjs` | Nothing on screen overstates name confidence |
-| `audit-cache-identity.mjs` | Order-independence, no scenario-key collisions |
-| `audit-advanced-options.mjs` | No dead controls; advanced options don't touch combat |
-
-**The structural gap these close:** before tonight, *every* local gate read
-`app.js` as text and pattern-matched it. That proves a function exists; it cannot
-prove it computes the right number. `scripts/lab-harness.mjs` boots the real
-`app.js` in a Node vm behind a minimal DOM/fetch shim so audits compare **actual
-production output** against independent references.
+Verified live in the browser at `localhost:8181` after reload: shared policy
+loaded (`attachment-legality-v1`), REDSEC/2 PLATES/25 m/FASTEST KILL → KV9,
+17.36 armour damage, 5 shots to break, 11 BTK, PROVISIONAL; MP BALANCED → L110;
+MP FASTEST → TR-7; M250 builds on-demand at 100/100 points.
 
 ---
 
-## Performance
+## 8. Updated trust status
 
-| Job | Scale | Runtime |
-| --- | --- | --- |
-| Optimizer exhaustive | 50,521,932 combinations enumerated | 4.9 s |
-| Meta sweep | 17,304 ranking evaluations | 7.9 s |
-| Engine cross-check | 6,916 comparisons | ~5 s |
-| Cache identity | 1,008 evaluations | 4.9 s |
-| Full 25-gate suite | — | under 2 minutes |
+| Area | Was | **Now** | Basis |
+| --- | --- | --- | --- |
+| **Multiplayer combat** | HIGH CONFIDENCE | **HIGH CONFIDENCE** | 1,404 unarmoured cases, BTK equals `ceil(100/damage)` in every one; 17,304 ranking evaluations, 0 anomalies. Still not VERIFIED because the per-class *damage audits* are CI-only (they need the upstream checkout), so the damage inputs were not re-derived here. |
+| **REDSEC combat** | PROVISIONAL | **PROVISIONAL** (unarmored: HIGH CONFIDENCE) | Unarmored is proven to be the Multiplayer path itself. Armoured keeps PROVISIONAL: EA's "reduce or remove" close-range rule is unpublished and still flips the winner at some distances. Robustness claims are now honest about that. |
+| **Attachment data** | PROVISIONAL | **PROVISIONAL** | Unchanged and correct: 168 names audited, **0** confirmed against a live in-game string. The legality fix concerned mechanics, not names. |
+| **Attachment optimizer** | VERIFIED | **VERIFIED** | 159/159 cases by true brute force over 2,017,995,552 combinations, 0 mismatches, with the enlarged legal search space; one shared legality policy, 0 divergence, 0 unbuildable weapons. |
+| **AUTO META** | NOT YET TRUSTWORTHY | **HIGH CONFIDENCE** | The label defect is fixed and enforced: FASTEST KILL ranks by kill speed, 0 violations in 672 cases; BALANCED unchanged. Not VERIFIED, because it inherits the attachment-name PROVISIONAL status and the armoured REDSEC uncertainty. |
+| **Advanced options** | VERIFIED | **VERIFIED** | Unchanged: 4 distinct loadouts each, exactly 1 combat result, no dead controls. |
 
-Pruning used: none in the brute-force path (that is the point). The exact solver
-memoises on `(slot index, remaining budget)` and was validated against brute force
-on all 87 overlapping cases before being relied on for the 69 larger ones.
+Per your instruction, nothing is labelled VERIFIED merely because the combat
+model passes. In the UI, AUTO META still never shows a bare "VERIFIED" chip — the
+naming audit records 0 game-verified-exact names, so the best it can read is
+"PARTIALLY VERIFIED — N/M NAMES SOURCED".
 
 ---
 
-## Files changed
-
-- `app.js` — diagnostics surface (`redsecTrace`, `scope`, `render`, `optimizer`),
-  exclusion predicates, armour summary, honest confidence labelling, build-error
-  recording. **No combat, ballistic, ranking or optimizer maths altered.**
-- `styles.css` — one rule for the armour-rule chip.
-- `README.md` — corrected the PRIORITY description to match measured behaviour.
-- `.github/workflows/quality-gates.yml` — runs the 9 engine-execution gates.
-- `scripts/audit-global.mjs` — ballistics gate moved onto the new predicate.
-- **New:** `scripts/lab-harness.mjs`, `scripts/redsec-reference.mjs`, and the 8
-  new audit scripts above.
-- **New data:** `data/optimizer-legality-divergence.json` (baseline record).
-- **New reports:** `reports/overnight/*.json`, `*.csv`, `baseline-gates.log`.
-- `BF6-OVERNIGHT-STATE.md`, this report.
-
-## Checkpoints
+## 9. Commits
 
 | Commit | Scope |
 | --- | --- |
-| `36bf53c` | Harness + REDSEC trace |
-| `248206a` | Eligibility/count consistency |
-| `024414c` | REDSEC UI auditability + mode isolation |
-| `db4d9fc` | Optimizer exhaustive validation + legality conflict |
-| `0fe61fb` | Meta sweep + PRIORITY gap recorded |
-| `7d19565` | Name honesty, cache identity, advanced options, CI wiring |
+| `f6fa005` … `71264b2` | The 7 overnight commits, rebased cleanly onto `origin/main` |
+| `941cf62` | `.gitattributes` — LF for generated artefacts |
+| `84aaf26` | FASTEST KILL ranks by trigger-to-kill |
+| `faa06d3` | One shared attachment legality policy |
+| `475764d` | Armoured robustness must include winner stability |
 
-Nothing pushed. History intact. Working tree clean.
-
-## Blockers
-
-**None.** Two environment limitations, worked around, not blocking:
-
-1. `.upstream/bf6-analyzer` is not checked out locally, so the eight per-class
-   damage audits are CI-only. Their outputs are present and passing as data.
-2. Spillover and the close-range rule cannot be settled without in-game
-   measurement or a published damage-vs-armor table. Both are explicitly modelled
-   as unresolved rather than hidden in a formula.
+Backup: tag `overnight-checkpoint-20260903`, bundle
+`../bf6-weapons-lab-overnight-20260903.bundle` (verified, complete history).
+Nothing pushed. Working tree clean.
 
 ---
 
-## Next recommended action
+## 10. Next recommended action
 
-**Decide what FASTEST KILL should mean, then I implement it in one commit.**
+**Run the in-game spillover test, then settle the close-range rule the same way.**
 
-This is the weakest link in the chain right now — not because the maths is wrong,
-but because the product currently cannot defend its own headline. A control
-labelled *"Lowest kill time, even if it kicks harder"* returns a weapon that is
-not the fastest killer in 61% of cases, by up to 796 ms.
+Every remaining uncertainty in this project is now external. The code side is
+closed: one legality pipeline, an enforced FASTEST KILL contract, 2.0 billion
+combinations of optimizer validation, and honest labelling everywhere. What still
+limits trust is two sentences EA never quantified.
 
-Two defensible answers:
+The spillover test is already specified in `data/redsec-model.json` and takes a
+few minutes: **M39 EMR, Standard ammo, chest only, 40–60 m, full-armour target —
+6 shots to down means no spillover (current model), 5 means spillover.**
 
-- **(A) Make it true** — sort by `triggerTtk` under FASTEST KILL, with Beam Index
-  breaking ties. This is what `README.md` already documents and what the engine
-  already computes (`bestLethal` rows exist). It changes headline winners in
-  ~61% of FASTEST KILL queries, including the L110 / KORD 6P67 results you
-  recorded as the baseline. BALANCED — the default — is untouched.
-- **(B) Relabel it** — keep the ranking and change the control's copy to describe
-  what it does: it optimises the *build* for kill speed within a
-  balanced weapon ranking. Zero maths change, zero winner change.
+The close-range rule matters more, because it still flips the armoured winner at
+some distances. The equivalent test is a **fireMode:auto** weapon against a
+full-armour target at a distance inside its first health tier: count shots to
+break armour and compare against the two predictions the model already computes
+for `remove` versus `keep`. I can generate that per-weapon prediction table on
+request so you only need to fire and count.
 
-**My recommendation: (A).** The tool exists to answer "what actually kills
-fastest here", the engine already computes it, and the README already promises it.
-(B) preserves your recorded baseline but leaves the product unable to answer its
-own most direct question. I did not do (A) tonight only because it changes the
-exact results you asked me to preserve.
-
-After that, in order: resolve the attachment-legality conflict (bug #2 — I
-recommend extending the existing `auditedAssumedException` mechanism to the
-spread-decay barrels, since damage/RPM/BTK are unaffected and it makes M250
-buildable again), then run the M39 EMR in-game test to close out spillover.
+After that, the highest-value code work is promoting attachment names from
+`SOURCE_CORROBORATED` to `GAME_VERIFIED_EXACT` — the only remaining reason
+AUTO META cannot read plain VERIFIED.

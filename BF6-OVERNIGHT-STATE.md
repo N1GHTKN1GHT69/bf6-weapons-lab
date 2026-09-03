@@ -15,33 +15,35 @@ Full findings: `BF6-WEAPONS-LAB-OVERNIGHT-REPORT.md`.
 - Cache identity: 336 queries in 3 orders, order-independent, no key collisions.
 - 8 new gates added and wired into CI. Final: 25/25 pass.
 
-## Important findings
-1. **OPEN (needs decision): FASTEST KILL does not rank by kill speed.**
-   `rankWeapons()` always sorts by the 55/45 laserbeam utility; PRIORITY only
-   changes which cached build row is read. 411/672 cases show a non-fastest
-   winner, worst gap 796 ms. Two viable fixes in the report; recommendation is
-   to make the ranking match the label.
-2. **OPEN (pinned): two attachment-legality policies disagree.** The exhaustive
-   cache admits attachments with upstream `assumedFields`; `buildOptions()`
-   rejects them. 27/56 primaries ship cached winning builds using such barrels;
-   M250 has no non-assumed barrel and throws on-demand. Baseline recorded in
-   `data/optimizer-legality-divergence.json`, gated by `audit-optimizer-legality.mjs`.
-3. KORD 6P67 @25m/2 PLATES = **12 BTK is correct** and is NOT sensitive to
-   spillover. The old 5/11 expectation is the `closeRange=keep` reading.
-   The 25m/2-PLATE **winner** IS sensitive to that unresolved reading
-   (remove -> KORD 6P67, keep -> M250), so the result is correctly PROVISIONAL.
+## Important findings — BOTH RESOLVED
+1. **RESOLVED: FASTEST KILL now ranks by trigger-to-kill.** rankWeapons() selects
+   a comparator per priority. 411/672 winners changed; BALANCED 0/672 changed.
+   Enforced by audit-meta-sweep.mjs (0 violations) and audit-global.mjs.
+2. **RESOLVED: one shared attachment legality policy.** Root cause was the LIVE
+   path, not the cache: buildOptions() treated any `assumedFields` as
+   whole-option assumption, while the cache builder stripped only the named
+   fields. attachment-legality.js is now the single implementation used by both.
+   0/56 divergence, 0 unbuildable weapons, 0 cached builds invalidated (the
+   sanitizer refactor is byte-identical), 0 of 1,344 displayed results changed.
+3. **NEW, fixed:** armoured results claimed robustness while the WINNER flipped
+   between close-range readings. redsecWinnerStable() now gates that claim.
+4. Corrected the 6,916 figure: it is ASSERTIONS (1,378 armoured x 4 + 1,404
+   unarmoured) over 2,782 cases, not 56x26x2.
+5. Rebase onto origin/main changed no results; the apparent diff was CRLF vs LF.
+   .gitattributes now pins LF for generated artefacts.
 
 ## Unresolved assumptions (unchanged, externally blocked)
-- EA's "reduce or remove" close-range armour rule — materially affects results.
-- Armour-break spillover — immaterial for KORD; decisive in-game test already
-  specified in `data/redsec-model.json` (M39 EMR @40-60m: 6 shots = no spillover).
+- EA's "reduce or remove" close-range armour rule — still flips the armoured
+  winner at some distances, so REDSEC 2-PLATE stays PROVISIONAL.
+- Armour-break spillover — decisive in-game test specified in
+  data/redsec-model.json (M39 EMR @40-60m: 6 shots = no spillover).
 - REDSEC treatment of sniper sweet-spot control points.
+- 0 attachment names confirmed against a live in-game string.
 
 ## Blockers
-None. Two worked-around limitations: `.upstream/bf6-analyzer` is absent locally
-so per-class damage audits are CI-only; and the two mechanics above need in-game
-measurement.
+None. Local limitation: `.upstream/bf6-analyzer` is absent, so the per-class
+damage audits and any cache rebuild are CI-only.
 
 ## Next task
-Decide FASTEST KILL semantics (finding 1), then resolve the attachment-legality
-conflict (finding 2).
+In-game measurement: spillover test, then the close-range test for a
+fireMode:auto weapon. Both are external inputs, not code work.
