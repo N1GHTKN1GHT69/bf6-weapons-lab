@@ -1,0 +1,39 @@
+{
+ "schema": 1,
+ "statement": "Direct in-game evidence for exact Battlefield 6 attachment display strings. This is the ONLY route by which a name reaches GAME_VERIFIED_EXACT. Nothing here may be inferred, normalised, tidied or guessed: each record states what was actually read on screen, in which game version, and where the capture is kept. An empty observations list means no name is game-verified, which is the honest state until captures exist.",
+ "evidenceStandard": {
+  "acceptedEvidenceTypes": [
+   "in-game-screenshot",
+   "extracted-string"
+  ],
+  "requiredFields": [
+   "attachmentId",
+   "internalType",
+   "observedName",
+   "gameVersion",
+   "capturedAt",
+   "evidenceType",
+   "reference"
+  ],
+  "rules": [
+   "gameVersion must equal the current live game version, otherwise the observation is recorded but NOT promoted: an exact name from an older patch is not evidence about the current one.",
+   "observedName is transcribed verbatim, including casing, spacing and punctuation. It is never cleaned up.",
+   "If observedName differs from the pinned source string, the observation wins for DISPLAY and the source string is preserved alongside it as a recorded discrepancy. Neither is deleted.",
+   "An attachment the classifier would otherwise treat as a generic tier or category label (every optic tier, bare barrel tiers) additionally requires acknowledgesTierAmbiguity: true. That flag is the recorder affirming they read the name of this specific catalogue entry, not the name of one member of a category the entry stands for. Without it, a category label could be silently converted into a fake product name.",
+   "reference must point at a retained capture (file path or durable URL). A description alone is not evidence."
+  ]
+ },
+ "exampleRecord": {
+  "attachmentId": "50mw_violet",
+  "internalType": "laser",
+  "observedName": "<verbatim string read on screen>",
+  "gameVersion": "1.4.2.5",
+  "capturedAt": "2026-09-04",
+  "evidenceType": "in-game-screenshot",
+  "capturedBy": "<who recorded it>",
+  "reference": "reference-data/attachment-audit/<capture>.png",
+  "weaponContext": "<weapon the attachment screen was opened from>",
+  "acknowledgesTierAmbiguity": false
+ },
+ "observations": []
+}

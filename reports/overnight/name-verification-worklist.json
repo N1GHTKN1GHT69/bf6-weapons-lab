@@ -1,0 +1,2960 @@
+{
+ "summary": {
+  "generatedAt": "2026-09-03T11:07:15.197Z",
+  "liveGameVersion": "1.4.2.5",
+  "totalAuditedNames": 168,
+  "gameVerifiedExact": 0,
+  "needingCapture": 168,
+  "needingCaptureAndRecommended": 52,
+  "scenariosSampled": 384,
+  "coverageIfTopNCaptured": [
+   {
+    "captures": 10,
+    "sharePercentOfRecommendedAppearances": 64
+   },
+   {
+    "captures": 20,
+    "sharePercentOfRecommendedAppearances": 82
+   },
+   {
+    "captures": 30,
+    "sharePercentOfRecommendedAppearances": 91
+   }
+  ],
+  "top20": [
+   {
+    "name": "50 MW Violet",
+    "slot": "laser",
+    "status": "SOURCE_CORROBORATED",
+    "appearances": 344,
+    "captureOn": [
+     "nvo228e",
+     "m123k",
+     "l110"
+    ]
+   },
+   {
+    "name": "Single-Port Brake",
+    "slot": "muzzle",
+    "status": "SOURCE_CORROBORATED",
+    "appearances": 269,
+    "captureOn": [
+     "nvo228e",
+     "l110",
+     "kord6p67"
+    ]
+   },
+   {
+    "name": "Standard",
+    "slot": "ammo",
+    "status": "INTERNAL_PLACEHOLDER",
+    "appearances": 257,
+    "captureOn": [
+     "nvo228e",
+     "m123k",
+     "l110"
+    ]
+   },
+   {
+    "name": "Low-Profile Stubby",
+    "slot": "grip",
+    "status": "SOURCE_CORROBORATED",
+    "appearances": 186,
+    "captureOn": [
+     "nvo228e",
+     "m123k",
+     "l110"
+    ]
+   },
+   {
+    "name": "Extended",
+    "slot": "barrel",
+    "status": "INTERNAL_PLACEHOLDER",
+    "appearances": 171,
+    "captureOn": [
+     "sv98",
+     "m2010esr",
+     "lmr27"
+    ]
+   },
+   {
+    "name": "Variable High",
+    "slot": "sight",
+    "status": "INTERNAL_PLACEHOLDER",
+    "appearances": 131,
+    "captureOn": [
+     "m2010esr",
+     "lmr27",
+     "sor556"
+    ]
+   },
+   {
+    "name": "Heavy Extended",
+    "slot": "barrel",
+    "status": "INTERNAL_PLACEHOLDER",
+    "appearances": 115,
+    "captureOn": [
+     "m123k",
+     "l110",
+     "sor556"
+    ]
+   },
+   {
+    "name": "Variable Low",
+    "slot": "sight",
+    "status": "INTERNAL_PLACEHOLDER",
+    "appearances": 102,
+    "captureOn": [
+     "kord6p67",
+     "sv98",
+     "sor556"
+    ]
+   },
+   {
+    "name": "Iron Sights",
+    "slot": "sight",
+    "status": "INTERNAL_PLACEHOLDER",
+    "appearances": 92,
+    "captureOn": [
+     "nvo228e",
+     "m123k",
+     "sor556"
+    ]
+   },
+   {
+    "name": "Classic Vertical",
+    "slot": "grip",
+    "status": "SOURCE_CORROBORATED",
+    "appearances": 83,
+    "captureOn": [
+     "sor556",
+     "l85a3",
+     "m277"
+    ]
+   },
+   {
+    "name": "Penetration",
+    "slot": "ammo",
+    "status": "SOURCE_CORROBORATED",
+    "appearances": 74,
+    "captureOn": [
+     "sv98",
+     "m2010esr",
+     "lmr27"
+    ]
+   },
+   {
+    "name": "Standard Optic",
+    "slot": "sight",
+    "status": "INTERNAL_PLACEHOLDER",
+    "appearances": 59,
+    "captureOn": [
+     "l110",
+     "b36a4",
+     "m277"
+    ]
+   },
+   {
+    "name": "10 Rnd",
+    "slot": "mag",
+    "status": "UNVERIFIED",
+    "appearances": 54,
+    "captureOn": [
+     "sv98",
+     "lmr27",
+     "m417a2"
+    ]
+   },
+   {
+    "name": "Improved Mag Catch",
+    "slot": "ergo",
+    "status": "SOURCE_CORROBORATED",
+    "appearances": 53,
+    "captureOn": [
+     "sl9",
+     "tr7",
+     "sg553r"
+    ]
+   },
+   {
+    "name": "15 Rnd",
+    "slot": "mag",
+    "status": "UNVERIFIED",
+    "appearances": 52,
+    "captureOn": [
+     "m277",
+     "miniscout",
+     "tr7"
+    ]
+   },
+   {
+    "name": "20 Fast",
+    "slot": "mag",
+    "status": "UNVERIFIED",
+    "appearances": 41,
+    "captureOn": [
+     "nvo228e",
+     "sor556",
+     "b36a4"
+    ]
+   },
+   {
+    "name": "30 Rnd",
+    "slot": "mag",
+    "status": "UNVERIFIED",
+    "appearances": 40,
+    "captureOn": [
+     "kord6p67",
+     "ak205",
+     "sl9"
+    ]
+   },
+   {
+    "name": "Double-Port Brake",
+    "slot": "muzzle",
+    "status": "SOURCE_CORROBORATED",
+    "appearances": 37,
+    "captureOn": [
+     "m123k",
+     "b36a4",
+     "m417a2"
+    ]
+   },
+   {
+    "name": "Magwell Flare",
+    "slot": "ergo",
+    "status": "SOURCE_CORROBORATED",
+    "appearances": 37,
+    "captureOn": [
+     "l110",
+     "sor556",
+     "ak205"
+    ]
+   },
+   {
+    "name": "50 Rnd",
+    "slot": "mag",
+    "status": "UNVERIFIED",
+    "appearances": 37,
+    "captureOn": [
+     "m250",
+     "usg90"
+    ]
+   }
+  ]
+ },
+ "worklist": [
+  {
+   "attachmentId": "50mw_violet",
+   "internalType": "laser",
+   "currentDisplayName": "50 MW Violet",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 344,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 55,
+   "captureOn": [
+    "nvo228e",
+    "m123k",
+    "l110"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "sp_brake",
+   "internalType": "muzzle",
+   "currentDisplayName": "Single-Port Brake",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 269,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 39,
+   "captureOn": [
+    "nvo228e",
+    "l110",
+    "kord6p67"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "standard",
+   "internalType": "ammo",
+   "currentDisplayName": "Standard",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "generic-tier-label",
+   "appearancesInRecommendedBuilds": 257,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 57,
+   "captureOn": [
+    "nvo228e",
+    "m123k",
+    "l110"
+   ],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "lp_stubby",
+   "internalType": "grip",
+   "currentDisplayName": "Low-Profile Stubby",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 186,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 46,
+   "captureOn": [
+    "nvo228e",
+    "m123k",
+    "l110"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "extended",
+   "internalType": "barrel",
+   "currentDisplayName": "Extended",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "generic-tier-label",
+   "appearancesInRecommendedBuilds": 171,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 43,
+   "captureOn": [
+    "sv98",
+    "m2010esr",
+    "lmr27"
+   ],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "var_high",
+   "internalType": "sight",
+   "currentDisplayName": "Variable High",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "documented-optic-tier",
+   "appearancesInRecommendedBuilds": 131,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 0,
+   "captureOn": [
+    "m2010esr",
+    "lmr27",
+    "sor556"
+   ],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "heavy_ext",
+   "internalType": "barrel",
+   "currentDisplayName": "Heavy Extended",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "generic-tier-label",
+   "appearancesInRecommendedBuilds": 115,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 20,
+   "captureOn": [
+    "m123k",
+    "l110",
+    "sor556"
+   ],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "var_low",
+   "internalType": "sight",
+   "currentDisplayName": "Variable Low",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "documented-optic-tier",
+   "appearancesInRecommendedBuilds": 102,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 0,
+   "captureOn": [
+    "kord6p67",
+    "sv98",
+    "sor556"
+   ],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "iron",
+   "internalType": "sight",
+   "currentDisplayName": "Iron Sights",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "documented-optic-tier",
+   "appearancesInRecommendedBuilds": 92,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 7,
+   "captureOn": [
+    "nvo228e",
+    "m123k",
+    "sor556"
+   ],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "classic_vert",
+   "internalType": "grip",
+   "currentDisplayName": "Classic Vertical",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 83,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 46,
+   "captureOn": [
+    "sor556",
+    "l85a3",
+    "m277"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "penetration",
+   "internalType": "ammo",
+   "currentDisplayName": "Penetration",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 74,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 57,
+   "captureOn": [
+    "sv98",
+    "m2010esr",
+    "lmr27"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "std_optic",
+   "internalType": "sight",
+   "currentDisplayName": "Standard Optic",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "documented-optic-tier",
+   "appearancesInRecommendedBuilds": 59,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 7,
+   "captureOn": [
+    "l110",
+    "b36a4",
+    "m277"
+   ],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "10_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "10 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 54,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 9,
+   "captureOn": [
+    "sv98",
+    "lmr27",
+    "m417a2"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "mag_catch",
+   "internalType": "ergo",
+   "currentDisplayName": "Improved Mag Catch",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 53,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 27,
+   "captureOn": [
+    "sl9",
+    "tr7",
+    "sg553r"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "15_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "15 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 52,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 9,
+   "captureOn": [
+    "m277",
+    "miniscout",
+    "tr7"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "20_fast",
+   "internalType": "mag",
+   "currentDisplayName": "20 Fast",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 41,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 22,
+   "captureOn": [
+    "nvo228e",
+    "sor556",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "30_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "30 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 40,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 32,
+   "captureOn": [
+    "kord6p67",
+    "ak205",
+    "sl9"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "dp_brake",
+   "internalType": "muzzle",
+   "currentDisplayName": "Double-Port Brake",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 37,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 47,
+   "captureOn": [
+    "m123k",
+    "b36a4",
+    "m417a2"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "mag_flare",
+   "internalType": "ergo",
+   "currentDisplayName": "Magwell Flare",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 37,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 12,
+   "captureOn": [
+    "l110",
+    "sor556",
+    "ak205"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "50_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "50 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 37,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 9,
+   "captureOn": [
+    "m250",
+    "usg90"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "heavy",
+   "internalType": "barrel",
+   "currentDisplayName": "Heavy",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "generic-tier-label",
+   "appearancesInRecommendedBuilds": 36,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 22,
+   "captureOn": [
+    "kord6p67",
+    "ak205",
+    "pw7a2"
+   ],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "bipod_sr",
+   "internalType": "grip",
+   "currentDisplayName": "Bipod",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 35,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 7,
+   "captureOn": [
+    "sv98",
+    "m2010esr",
+    "miniscout"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "light",
+   "internalType": "barrel",
+   "currentDisplayName": "Light",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "generic-tier-label",
+   "appearancesInRecommendedBuilds": 27,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 39,
+   "captureOn": [
+    "lmr27",
+    "miniscout",
+    "m2010esr"
+   ],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "buckshot",
+   "internalType": "ammo",
+   "currentDisplayName": "#01 BUCK",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 27,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 4,
+   "captureOn": [
+    "m1014",
+    "m87a1",
+    "185ksk"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "4_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "4 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 26,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 2,
+   "captureOn": [
+    "m1014",
+    "185ksk"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "ads_bolt",
+   "internalType": "ergo",
+   "currentDisplayName": "DLC Bolt",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 21,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 4,
+   "captureOn": [
+    "sv98",
+    "m2010esr",
+    "l115"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "slugs",
+   "internalType": "ammo",
+   "currentDisplayName": "Slugs",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "corroborated-verbatim-source",
+   "appearancesInRecommendedBuilds": 21,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 4,
+   "captureOn": [
+    "m1014",
+    "185ksk"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "30_fast",
+   "internalType": "mag",
+   "currentDisplayName": "30 Fast",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 20,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 25,
+   "captureOn": [
+    "ak205",
+    "pw7a2",
+    "rpkm"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "lp_stubby_sr",
+   "internalType": "grip",
+   "currentDisplayName": "Low-Profile Stubby",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 20,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 5,
+   "captureOn": [
+    "miniscout",
+    "m2010esr"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "full_auto_vssm",
+   "internalType": "ergo",
+   "currentDisplayName": "Folding Stock",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "corroborated-verbatim-source",
+   "appearancesInRecommendedBuilds": 19,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "vssm"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "vssm_suppressed_asm",
+   "internalType": "barrel",
+   "currentDisplayName": "Suppressed",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "generic-tier-label",
+   "appearancesInRecommendedBuilds": 19,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "vssm"
+   ],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "15_fast",
+   "internalType": "mag",
+   "currentDisplayName": "15 Fast",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 18,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 5,
+   "captureOn": [
+    "miniscout"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "4_fast",
+   "internalType": "mag",
+   "currentDisplayName": "4 Fast",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 18,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 2,
+   "captureOn": [
+    "185ksk"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "tp_brake",
+   "internalType": "muzzle",
+   "currentDisplayName": "Triple-Port Brake",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 17,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 3,
+   "captureOn": [
+    "185ksk"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "cryo",
+   "internalType": "barrel",
+   "currentDisplayName": "Cryogenic",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 16,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 19,
+   "captureOn": [
+    "nvo228e",
+    "m417a2",
+    "pw7a2"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "classic_vert_ks18k",
+   "internalType": "grip",
+   "currentDisplayName": "Classic Vertical",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 16,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "185ksk"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "100_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "100 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 15,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 7,
+   "captureOn": [
+    "m123k",
+    "l110"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "6h64_vert_ks18k",
+   "internalType": "grip",
+   "currentDisplayName": "6H64 Vertical",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 15,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "185ksk"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "5_fast",
+   "internalType": "mag",
+   "currentDisplayName": "5 Fast",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 14,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 2,
+   "captureOn": [
+    "m2010esr"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "6h64_vert",
+   "internalType": "grip",
+   "currentDisplayName": "6H64 Vertical",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 12,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 46,
+   "captureOn": [
+    "vssm"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "10_fast",
+   "internalType": "mag",
+   "currentDisplayName": "10 Fast",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 11,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 6,
+   "captureOn": [
+    "miniscout",
+    "vssm",
+    "lmr27"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "17_fast",
+   "internalType": "mag",
+   "currentDisplayName": "17 Fast",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 10,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "kv9"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "5_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "5 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 8,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 4,
+   "captureOn": [
+    "m87a1",
+    "m2010esr",
+    "l115"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "20_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "20 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 7,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 27,
+   "captureOn": [
+    "scw10",
+    "miniscout"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "slant_brake",
+   "internalType": "muzzle",
+   "currentDisplayName": "Slant Brake",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 7,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 2,
+   "captureOn": [
+    "rpkm",
+    "rpk74m"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "fold_vert",
+   "internalType": "grip",
+   "currentDisplayName": "Folding Vertical",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 6,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 49,
+   "captureOn": [
+    "vssm"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "50_fast",
+   "internalType": "mag",
+   "currentDisplayName": "50 Fast",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 6,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "m121a2"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "long_range",
+   "internalType": "ammo",
+   "currentDisplayName": "Long-Range",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 5,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 8,
+   "captureOn": [
+    "vssm"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "23_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "23 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 5,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "kv9"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "thread_prot",
+   "internalType": "muzzle",
+   "currentDisplayName": "Thread Protector",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 4,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "sv98"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "17_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "17 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 2,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 2,
+   "captureOn": [
+    "kv9"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "lp_stubby_ks18k",
+   "internalType": "grip",
+   "currentDisplayName": "Low-Profile Stubby",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 2,
+   "inRecommendedBuilds": true,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "185ksk"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "50mw_green",
+   "internalType": "laser",
+   "currentDisplayName": "50 MW Green",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 61,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "5mw_green",
+   "internalType": "laser",
+   "currentDisplayName": "5 MW Green",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 61,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "5mw_red",
+   "internalType": "laser",
+   "currentDisplayName": "5 MW Red",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 61,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "ads_taclight",
+   "internalType": "light",
+   "currentDisplayName": "Taclight - Aimed",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 61,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "flashlight",
+   "internalType": "light",
+   "currentDisplayName": "Flashlight",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 61,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "cqb_supp",
+   "internalType": "muzzle",
+   "currentDisplayName": "CQB Suppressor",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 57,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "frangible",
+   "internalType": "ammo",
+   "currentDisplayName": "Frangible",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 57,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "120mw_blue",
+   "internalType": "laser",
+   "currentDisplayName": "120 MW Blue",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 55,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "50mw_blue",
+   "internalType": "laser",
+   "currentDisplayName": "50 MW Blue",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 55,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "hip_taclight",
+   "internalType": "light",
+   "currentDisplayName": "Taclight - Hipfire",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 55,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "basic",
+   "internalType": "barrel",
+   "currentDisplayName": "Basic",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "generic-tier-label",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 54,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "flash_hider",
+   "internalType": "muzzle",
+   "currentDisplayName": "Flash Hider",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 54,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "std_supp",
+   "internalType": "muzzle",
+   "currentDisplayName": "Standard Suppressor",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 53,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "hollow_pt",
+   "internalType": "ammo",
+   "currentDisplayName": "Hollow Point",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 52,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "light_supp",
+   "internalType": "muzzle",
+   "currentDisplayName": "Lightened Suppressor",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 51,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "alloy_vert",
+   "internalType": "grip",
+   "currentDisplayName": "Alloy Vertical",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 49,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "canted_stubby",
+   "internalType": "grip",
+   "currentDisplayName": "Canted Stubby",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 49,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "comp_brake",
+   "internalType": "muzzle",
+   "currentDisplayName": "Compensated Brake",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 49,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "fold_stubby",
+   "internalType": "grip",
+   "currentDisplayName": "Folding Stubby",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 49,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "ribbed_stubby",
+   "internalType": "grip",
+   "currentDisplayName": "Ribbed Stubby",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 49,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "ribbed_vert",
+   "internalType": "grip",
+   "currentDisplayName": "Ribbed Vertical",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 49,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "long_supp",
+   "internalType": "muzzle",
+   "currentDisplayName": "Long Suppressor",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 47,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "stipp_stubby",
+   "internalType": "grip",
+   "currentDisplayName": "Stippled Stubby",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 46,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "linear_comp",
+   "internalType": "muzzle",
+   "currentDisplayName": "Linear Comp",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 45,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "compensator",
+   "internalType": "muzzle",
+   "currentDisplayName": "Compensator",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 44,
+   "captureOn": [
+    "ak4d",
+    "b36a4",
+    "brod3"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "flash_comp",
+   "internalType": "muzzle",
+   "currentDisplayName": "Flash Comp",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 40,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "full_angled",
+   "internalType": "grip",
+   "currentDisplayName": "Full Angled",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 37,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "slim_handstop",
+   "internalType": "grip",
+   "currentDisplayName": "Slim Handstop",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 37,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "slim_angled",
+   "internalType": "grip",
+   "currentDisplayName": "Slim Angled",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 35,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "classic_grip_pod",
+   "internalType": "grip",
+   "currentDisplayName": "Classic Grip Pod",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 32,
+   "captureOn": [
+    "ak4d",
+    "b36a4",
+    "brod3"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "ptt_grip_pod",
+   "internalType": "grip",
+   "currentDisplayName": "PTT Grip Pod",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 32,
+   "captureOn": [
+    "ak4d",
+    "b36a4",
+    "brod3"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "qd_grip_pod",
+   "internalType": "grip",
+   "currentDisplayName": "QD Grip Pod",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 32,
+   "captureOn": [
+    "ak4d",
+    "b36a4",
+    "brod3"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "lightweight",
+   "internalType": "ammo",
+   "currentDisplayName": "Lightweight",
+   "status": "UNVERIFIED",
+   "rule": "independent-source-conflict",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 29,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "short",
+   "internalType": "barrel",
+   "currentDisplayName": "Short",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "generic-tier-label",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 29,
+   "captureOn": [
+    "ak4d",
+    "b36a4",
+    "brod3"
+   ],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "bipod",
+   "internalType": "grip",
+   "currentDisplayName": "Bipod",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 28,
+   "captureOn": [
+    "ak4d",
+    "b36a4",
+    "drsiar"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "buffer",
+   "internalType": "ergo",
+   "currentDisplayName": "Aftermarket Buffer",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 28,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "match_trigger",
+   "internalType": "ergo",
+   "currentDisplayName": "Match Trigger",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 26,
+   "captureOn": [
+    "ak205",
+    "ak4d",
+    "b36a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "adj_angled",
+   "internalType": "grip",
+   "currentDisplayName": "Adjustable Angled",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 23,
+   "captureOn": [
+    "ak4d",
+    "b36a4",
+    "drsiar"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "36_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "36 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 21,
+   "captureOn": [
+    "ak205",
+    "b36a4",
+    "brod3"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "40_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "40 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 18,
+   "captureOn": [
+    "ak205",
+    "b36a4",
+    "brod3"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "synthetic",
+   "internalType": "ammo",
+   "currentDisplayName": "Synthetic",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 18,
+   "captureOn": [
+    "ak205",
+    "b36a4",
+    "drsiar"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "40_fast",
+   "internalType": "mag",
+   "currentDisplayName": "40 Fast",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 15,
+   "captureOn": [
+    "ak205",
+    "b36a4",
+    "brod3"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "subsonic",
+   "internalType": "ammo",
+   "currentDisplayName": "Subsonic",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 15,
+   "captureOn": [
+    "cz3a1",
+    "es57",
+    "ggh22"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "subsonic_hp",
+   "internalType": "ammo",
+   "currentDisplayName": "Sub HP",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 15,
+   "captureOn": [
+    "cz3a1",
+    "es57",
+    "ggh22"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "cmpct_handstop",
+   "internalType": "grip",
+   "currentDisplayName": "Compact Handstop",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 11,
+   "captureOn": [
+    "cz3a1",
+    "grtbc",
+    "kv9"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "rail_cover",
+   "internalType": "ergo",
+   "currentDisplayName": "Rail Cover",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 11,
+   "captureOn": [
+    "brod3",
+    "drsiar",
+    "kts100"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "combo_green",
+   "internalType": "laser",
+   "currentDisplayName": "Combo Green",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 10,
+   "captureOn": [
+    "es57",
+    "ggh22",
+    "grtbc"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "range_finder",
+   "internalType": "light",
+   "currentDisplayName": "Range Finder",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 10,
+   "captureOn": [
+    "grtcps",
+    "l115",
+    "lmr27"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "45_fast",
+   "internalType": "mag",
+   "currentDisplayName": "45 Fast",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 9,
+   "captureOn": [
+    "ak205",
+    "b36a4",
+    "drsiar"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "45_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "45 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 9,
+   "captureOn": [
+    "ak205",
+    "b36a4",
+    "drsiar"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "combo_red",
+   "internalType": "laser",
+   "currentDisplayName": "Combo Red",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 9,
+   "captureOn": [
+    "es57",
+    "ggh22",
+    "grtbc"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "underslung_mount",
+   "internalType": "grip",
+   "currentDisplayName": "Underslung Mount",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 9,
+   "captureOn": [
+    "ak205",
+    "b36a4",
+    "l85a3"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "slim_angled_smg",
+   "internalType": "grip",
+   "currentDisplayName": "Slim Angled",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 8,
+   "captureOn": [
+    "cz3a1",
+    "kv9",
+    "pp19"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "25_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "25 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 6,
+   "captureOn": [
+    "m277",
+    "m39emr",
+    "m417a2"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "burst_training",
+   "internalType": "ergo",
+   "currentDisplayName": "Burst Training",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 6,
+   "captureOn": [
+    "cz3a1",
+    "kord6p67",
+    "kv9"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "60_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "60 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 5,
+   "captureOn": [
+    "drsiar",
+    "kts100",
+    "rpk74m"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "7_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "14 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 5,
+   "captureOn": [
+    "db12",
+    "l115",
+    "m45a1"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "classic_grip_pod_sr",
+   "internalType": "grip",
+   "currentDisplayName": "Classic Grip Pod",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 5,
+   "captureOn": [
+    "l115",
+    "m2010esr",
+    "miniscout"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "fast_deploy",
+   "internalType": "ergo",
+   "currentDisplayName": "Speed Holster",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 5,
+   "captureOn": [
+    "ggh22",
+    "m357trait",
+    "m44"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "full_angled_sr",
+   "internalType": "grip",
+   "currentDisplayName": "Full Angled",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 5,
+   "captureOn": [
+    "l115",
+    "m2010esr",
+    "miniscout"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "qd_grip_pod_sr",
+   "internalType": "grip",
+   "currentDisplayName": "QD Grip Pod",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 5,
+   "captureOn": [
+    "l115",
+    "m2010esr",
+    "miniscout"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "slim_angled_sr",
+   "internalType": "grip",
+   "currentDisplayName": "Slim Angled",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 5,
+   "captureOn": [
+    "l115",
+    "m2010esr",
+    "miniscout"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "buckshot_00",
+   "internalType": "ammo",
+   "currentDisplayName": "#00 BUCK",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 4,
+   "captureOn": [
+    "db12",
+    "ks18k",
+    "m1014"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "flechette",
+   "internalType": "ammo",
+   "currentDisplayName": "Flechette",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 4,
+   "captureOn": [
+    "db12",
+    "ks18k",
+    "m1014"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "25_fast",
+   "internalType": "mag",
+   "currentDisplayName": "25 Fast",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 3,
+   "captureOn": [
+    "m277",
+    "tr7",
+    "umg40"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "6_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "6 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 3,
+   "captureOn": [
+    "m1014",
+    "m44",
+    "m87a1"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "8_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "8 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 3,
+   "captureOn": [
+    "ks18k",
+    "m2010esr",
+    "m357trait"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "200_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "200 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 2,
+   "captureOn": [
+    "l110",
+    "m123k"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "35_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "35 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 2,
+   "captureOn": [
+    "cz3a1",
+    "pp19"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "75_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "75 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 2,
+   "captureOn": [
+    "m240l",
+    "rpkm"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "8_fast",
+   "internalType": "mag",
+   "currentDisplayName": "8 Fast",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 2,
+   "captureOn": [
+    "ks18k",
+    "m357trait"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "none",
+   "internalType": "ergo",
+   "currentDisplayName": "None",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "empty-slot-state",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 2,
+   "captureOn": [
+    "brod3",
+    "ef88"
+   ],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "none",
+   "internalType": "grip",
+   "currentDisplayName": "None",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "empty-slot-state",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 2,
+   "captureOn": [
+    "brod3",
+    "ef88"
+   ],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "none",
+   "internalType": "laser",
+   "currentDisplayName": "None",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "empty-slot-state",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 2,
+   "captureOn": [
+    "brod3",
+    "ef88"
+   ],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "none",
+   "internalType": "light",
+   "currentDisplayName": "None",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "empty-slot-state",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 2,
+   "captureOn": [
+    "brod3",
+    "ef88"
+   ],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "none",
+   "internalType": "muzzle",
+   "currentDisplayName": "None",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "empty-slot-state",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 2,
+   "captureOn": [
+    "brod3",
+    "ef88"
+   ],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "11_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "11 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "m45a1"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "21_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "21 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "p18"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "22_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "22 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "ggh22"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "27_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "27 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "kv9"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "35_fast",
+   "internalType": "mag",
+   "currentDisplayName": "35 Fast",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "cz3a1"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "41_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "41 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "sgx"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "42_fast",
+   "internalType": "mag",
+   "currentDisplayName": "42 Fast",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "ef88"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "42_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "42 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "ef88"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "53_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "53 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "pp19"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "60_fast",
+   "internalType": "mag",
+   "currentDisplayName": "60 Fast",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "kts100"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "6h64_vert_db12",
+   "internalType": "grip",
+   "currentDisplayName": "6H64 Vertical",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "db12"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "6h64_vert_svk86",
+   "internalType": "grip",
+   "currentDisplayName": "6H64 Vertical",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "svk86"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "7_fast",
+   "internalType": "mag",
+   "currentDisplayName": "7 Fast",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "l115"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "95_rnd",
+   "internalType": "mag",
+   "currentDisplayName": "95 Rnd",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "rpk74m"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "burst_mode",
+   "internalType": "ergo",
+   "currentDisplayName": "Burst Mode",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "sl9"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "classic_vert_db12",
+   "internalType": "grip",
+   "currentDisplayName": "Classic Vertical",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "db12"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "classic_vert_svk86",
+   "internalType": "grip",
+   "currentDisplayName": "Classic Vertical",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "svk86"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "ext_light",
+   "internalType": "barrel",
+   "currentDisplayName": "Extended Light",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "generic-tier-label",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "ef88"
+   ],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "factory_angled_db12",
+   "internalType": "grip",
+   "currentDisplayName": "Factory Angled",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "db12"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "factory_angled_lmr27",
+   "internalType": "grip",
+   "currentDisplayName": "Factory Angled",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "lmr27"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "factory_angled_sl9",
+   "internalType": "grip",
+   "currentDisplayName": "Factory Angled",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "sl9"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "fast_deploy_10",
+   "internalType": "ergo",
+   "currentDisplayName": "Gunslinger",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "m44"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "full_auto",
+   "internalType": "ergo",
+   "currentDisplayName": "A3 Receiver",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "corroborated-verbatim-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "m16a4"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "grtbc_burst_mode",
+   "internalType": "ergo",
+   "currentDisplayName": "Burst Training",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "grtbc"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "lp_stubby_db12",
+   "internalType": "grip",
+   "currentDisplayName": "Low-Profile Stubby",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "db12"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "lp_stubby_svk86",
+   "internalType": "grip",
+   "currentDisplayName": "Low-Profile Stubby",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "svk86"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "range_pen",
+   "internalType": "ammo",
+   "currentDisplayName": "Range Pen",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "vssm"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "short_light",
+   "internalType": "barrel",
+   "currentDisplayName": "Short Light",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "generic-tier-label",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "ef88"
+   ],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "stipp_stubby_db12",
+   "internalType": "grip",
+   "currentDisplayName": "Stippled Stubby",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "db12"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "stipp_stubby_ks18k",
+   "internalType": "grip",
+   "currentDisplayName": "Stippled Stubby",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "ks18k"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "stipp_stubby_svk86",
+   "internalType": "grip",
+   "currentDisplayName": "Stippled Stubby",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "svk86"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "subsonic_pen",
+   "internalType": "ammo",
+   "currentDisplayName": "Sub Pen",
+   "status": "UNVERIFIED",
+   "rule": "abbreviated-source-string",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "pw7a2"
+   ],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is abbreviated or contested; the in-game string is likely to differ, so this capture may also correct the display name."
+  },
+  {
+   "attachmentId": "vssm_suppressed",
+   "internalType": "barrel",
+   "currentDisplayName": "Suppressed",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "generic-tier-label",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 1,
+   "captureOn": [
+    "vssm"
+   ],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "6h64_vert_vssm",
+   "internalType": "grip",
+   "currentDisplayName": "6H64 Vertical",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 0,
+   "captureOn": [],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "classic_vert_vssm",
+   "internalType": "grip",
+   "currentDisplayName": "Classic Vertical",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 0,
+   "captureOn": [],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "lp_stubby_vssm",
+   "internalType": "grip",
+   "currentDisplayName": "Low-Profile Stubby",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 0,
+   "captureOn": [],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "none",
+   "internalType": "barrel",
+   "currentDisplayName": "None",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "empty-slot-state",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 0,
+   "captureOn": [],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "stipp_stubby_vssm",
+   "internalType": "grip",
+   "currentDisplayName": "Stippled Stubby",
+   "status": "SOURCE_CORROBORATED",
+   "rule": "verbatim-pinned-source",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 0,
+   "captureOn": [],
+   "requiresTierAmbiguityAck": false,
+   "note": "Source string is plausible verbatim; the capture confirms or corrects it."
+  },
+  {
+   "attachmentId": "therm_hyb",
+   "internalType": "sight",
+   "currentDisplayName": "Thermal Hybrid",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "documented-optic-tier",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 0,
+   "captureOn": [],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  },
+  {
+   "attachmentId": "thermal",
+   "internalType": "sight",
+   "currentDisplayName": "Thermal",
+   "status": "INTERNAL_PLACEHOLDER",
+   "rule": "documented-optic-tier",
+   "appearancesInRecommendedBuilds": 0,
+   "inRecommendedBuilds": false,
+   "compatibleWeaponCount": 0,
+   "captureOn": [],
+   "requiresTierAmbiguityAck": true,
+   "note": "Generic tier/category label. A capture must affirm acknowledgesTierAmbiguity:true, i.e. that it names THIS catalogue entry rather than one member of the category it stands for."
+  }
+ ]
+}

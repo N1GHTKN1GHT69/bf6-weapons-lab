@@ -75,6 +75,14 @@
       "gameVersion": "1.4.2.5",
       "verifiedAt": "2026-09-01",
       "pass": true
+    },
+    {
+      "id": "in-game-evidence",
+      "file": "data/attachment-name-evidence.json",
+      "liveGameVersion": "1.4.2.5",
+      "admittedObservations": 0,
+      "rejectedObservations": 0,
+      "rejections": []
     }
   ],
   "statusDefinitions": {

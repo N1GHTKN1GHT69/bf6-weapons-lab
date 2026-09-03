@@ -112,7 +112,53 @@ function collectClassAuditNames(audits) {
   return claims;
 }
 
-function classify({ id, slot, name, auditClaims }) {
+/**
+ * In-game name evidence. This is the only route to GAME_VERIFIED_EXACT.
+ *
+ * An observation is admitted only when it is complete, points at a retained
+ * capture, and was taken on the CURRENT live game version - an exact name from
+ * an older patch is not evidence about this one. Observations that fail those
+ * tests are kept and reported, never silently dropped.
+ */
+function loadEvidence(doc, liveGameVersion) {
+  const admitted = new Map(), rejected = [];
+  if (!doc || doc.schema !== 1 || !Array.isArray(doc.observations)) return { admitted, rejected };
+  const required = ['attachmentId', 'internalType', 'observedName', 'gameVersion', 'capturedAt', 'evidenceType', 'reference'];
+  const types = new Set(doc.evidenceStandard?.acceptedEvidenceTypes ?? []);
+  for (const o of doc.observations) {
+    const missing = required.filter(f => !String(o?.[f] ?? '').trim());
+    if (missing.length) { rejected.push({ o, why: `missing ${missing.join(', ')}` }); continue; }
+    if (!types.has(o.evidenceType)) { rejected.push({ o, why: `evidenceType "${o.evidenceType}" is not an accepted type` }); continue; }
+    if (String(o.gameVersion) !== String(liveGameVersion)) {
+      rejected.push({ o, why: `captured on ${o.gameVersion} but live is ${liveGameVersion}` });
+      continue;
+    }
+    admitted.set(`${o.internalType}:${o.attachmentId}`, o);
+  }
+  return { admitted, rejected };
+}
+
+function classify({ id, slot, name, auditClaims, evidence }) {
+  // Direct in-game evidence outranks every heuristic below, including the
+  // placeholder short-circuits - that is the entire point of capturing it.
+  const obs = evidence?.get(`${slot}:${id}`);
+  if (obs) {
+    const wouldBePlaceholder = slot === 'sight' || GENERIC_TIER_LABELS.has(String(name).trim().toLowerCase());
+    if (wouldBePlaceholder && obs.acknowledgesTierAmbiguity !== true) {
+      return {
+        status: 'UNVERIFIED',
+        verifiedName: null,
+        rule: 'evidence-rejected-tier-ambiguity',
+        notes: [`In-game evidence exists for "${obs.observedName}" but this entry is a generic tier/category label. Promotion requires acknowledgesTierAmbiguity:true, affirming the capture names THIS catalogue entry rather than one member of the category it stands for.`]
+      };
+    }
+    const notes = [`Confirmed against the live game (${obs.gameVersion}) by ${obs.evidenceType}; capture: ${obs.reference}.`];
+    if (String(obs.observedName) !== String(name)) {
+      notes.push(`Recorded discrepancy: the pinned source string is "${name}". The observed in-game string is authoritative for display; the source string is retained, not deleted.`);
+    }
+    return { status: 'GAME_VERIFIED_EXACT', verifiedName: obs.observedName, rule: 'in-game-confirmed', notes };
+  }
+
   const notes = [];
   if (id === 'none') {
     return { status: 'INTERNAL_PLACEHOLDER', verifiedName: null, rule: 'empty-slot-state', notes: ['UI empty-slot state, not a Battlefield 6 attachment.'] };
@@ -195,6 +241,13 @@ async function build() {
   }
   const auditClaims = collectClassAuditNames(audits);
 
+  // In-game evidence, gated against the CURRENT live game version.
+  let freshness = null, evidenceDoc = null;
+  try { freshness = await readJson('data/freshness-status.json'); } catch { /* optional */ }
+  try { evidenceDoc = await readJson('data/attachment-name-evidence.json'); } catch { /* optional */ }
+  const liveGameVersion = freshness?.official?.gameVersion ?? null;
+  const { admitted: evidenceAdmitted, rejected: evidenceRejected } = loadEvidence(evidenceDoc, liveGameVersion);
+
   const upstream = {
     id: 'upstream-dataset',
     repository: manifest.repository,
@@ -252,7 +305,7 @@ async function build() {
   }
 
   const entries = [...records.values()].map(r => {
-    const c = classify({ id: r.attachmentId, slot: r.slot, name: r.currentDisplayName, auditClaims });
+    const c = classify({ id: r.attachmentId, slot: r.slot, name: r.currentDisplayName, auditClaims, evidence: evidenceAdmitted });
     const claims = auditClaims.get(r.attachmentId) ?? [];
     const provenance = [...new Set([upstream.id, ...claims.map(x => x.source)])];
     return {
@@ -297,7 +350,15 @@ async function build() {
     statement: 'Name verification is display-only. It never changes attachment identity, modifiers, point costs, candidate eligibility, budgets or ranking.',
     sources: [
       upstream,
-      ...audits.map(([f, a]) => ({ id: `class-audit:${f}`, file: `data/${f}.json`, gameVersion: a.gameVersion ?? null, verifiedAt: a.verifiedAt ?? null, pass: a.pass === true }))
+      ...audits.map(([f, a]) => ({ id: `class-audit:${f}`, file: `data/${f}.json`, gameVersion: a.gameVersion ?? null, verifiedAt: a.verifiedAt ?? null, pass: a.pass === true })),
+      {
+        id: 'in-game-evidence',
+        file: 'data/attachment-name-evidence.json',
+        liveGameVersion,
+        admittedObservations: evidenceAdmitted.size,
+        rejectedObservations: evidenceRejected.length,
+        rejections: evidenceRejected.map(r => ({ attachmentId: r.o?.attachmentId ?? null, why: r.why }))
+      }
     ],
     statusDefinitions: {
       GAME_VERIFIED_EXACT: 'Strong evidence establishes this is the actual current Battlefield 6 in-game display string. Requires direct current in-game or extracted-string evidence. No entry currently qualifies: this repository holds no in-game string extraction.',
