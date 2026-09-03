@@ -12,7 +12,11 @@
   "ADSRecoilAmount": "polar recoil magnitude, ADS. Maps to our recoil.ads.amount. Sym documents magnitude as NOT randomised (only direction varies).",
   "ADSRecoilDirectionVariation": "direction variation in degrees. Maps to our recoil.ads.dirVar.",
   "ADSRecoilDirectionVariationMultiplier": "per-tier multiplier for direction variation. Maps to our recoil.ads.dirVarMult.",
-  "velocity": "muzzle velocity m/s. Maps to our bulletVel."
+  "velocity": "muzzle velocity m/s. Maps to our bulletVel.",
+  "ADSBaseSpreadInc": "per-shot ADS spread increase. Maps to our spreadDyn.ads.inc.",
+  "ADSBaseSpreadFiringDecCoef": "spread decrease coefficient while firing. Maps to our spreadDyn.ads.firingCoef.",
+  "ADSBaseSpreadFiringDecOffset": "spread decrease offset while firing. Maps to our spreadDyn.ads.firingOffset.",
+  "ADSBaseSpreadDistExp": "spread distance exponent. Maps to our spreadDyn.ads.distExp."
  },
  "weaponCount": 38,
  "values": {
@@ -20,229 +24,381 @@
    "ADSRecoilAmount": 0.6695,
    "ADSRecoilDirectionVariation": 41.4,
    "ADSRecoilDirectionVariationMultiplier": 0.922146,
-   "velocity": 630
+   "velocity": 630,
+   "ADSBaseSpreadInc": 0.36,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "B36A4": {
    "ADSRecoilAmount": 0.6034,
    "ADSRecoilDirectionVariation": 28,
    "ADSRecoilDirectionVariationMultiplier": 0.918362,
-   "velocity": 740
+   "velocity": 740,
+   "ADSBaseSpreadInc": 0.36,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "SOR-556 MK2": {
    "ADSRecoilAmount": 0.5041,
    "ADSRecoilDirectionVariation": 12.7,
    "ADSRecoilDirectionVariationMultiplier": 0.909447,
-   "velocity": 768
+   "velocity": 768,
+   "ADSBaseSpreadInc": 0.36,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "AK4D": {
    "ADSRecoilAmount": 0.7022,
    "ADSRecoilDirectionVariation": 20,
    "ADSRecoilDirectionVariationMultiplier": 0.916278,
-   "velocity": 680
+   "velocity": 680,
+   "ADSBaseSpreadInc": 0.523,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "TR7": {
    "ADSRecoilAmount": 0.9917,
    "ADSRecoilDirectionVariation": 40.8,
    "ADSRecoilDirectionVariationMultiplier": 0.928083,
-   "velocity": 604
+   "velocity": 604,
+   "ADSBaseSpreadInc": 0.523,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "KORD 6P67": {
    "ADSRecoilAmount": 0.4494,
    "ADSRecoilDirectionVariation": 28.9,
    "ADSRecoilDirectionVariationMultiplier": 0.918198,
-   "velocity": 724
+   "velocity": 724,
+   "ADSBaseSpreadInc": 0.28,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "NVO-228E": {
    "ADSRecoilAmount": 0.607,
    "ADSRecoilDirectionVariation": 28.9,
    "ADSRecoilDirectionVariationMultiplier": 0.917129,
-   "velocity": 626
+   "velocity": 626,
+   "ADSBaseSpreadInc": 0.409,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "L85A3": {
    "ADSRecoilAmount": 0.5524,
    "ADSRecoilDirectionVariation": 22.8,
    "ADSRecoilDirectionVariationMultiplier": 0.913643,
-   "velocity": 778
+   "velocity": 778,
+   "ADSBaseSpreadInc": 0.36,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "VCR-2": {
    "ADSRecoilAmount": 0.698,
    "ADSRecoilDirectionVariation": 50.3,
    "ADSRecoilDirectionVariationMultiplier": 0.922964,
-   "velocity": 660
+   "velocity": 660,
+   "ADSBaseSpreadInc": 0.36,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "M16A4": {
    "ADSRecoilAmount": 0.6487,
    "ADSRecoilDirectionVariation": 37.5,
    "ADSRecoilDirectionVariationMultiplier": 0.919722,
-   "velocity": 680
+   "velocity": 680,
+   "ADSBaseSpreadInc": 0.36,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "M4A1": {
    "ADSRecoilAmount": 0.7102,
    "ADSRecoilDirectionVariation": 30.7,
    "ADSRecoilDirectionVariationMultiplier": 0.921205,
-   "velocity": 590
+   "velocity": 590,
+   "ADSBaseSpreadInc": 0.304,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "M277": {
    "ADSRecoilAmount": 0.801,
    "ADSRecoilDirectionVariation": 34.4,
    "ADSRecoilDirectionVariationMultiplier": 0.921523,
-   "velocity": 592
+   "velocity": 592,
+   "ADSBaseSpreadInc": 0.409,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "AK-205": {
    "ADSRecoilAmount": 0.4078,
    "ADSRecoilDirectionVariation": 7.4,
    "ADSRecoilDirectionVariationMultiplier": 0.906545,
-   "velocity": 708
+   "velocity": 708,
+   "ADSBaseSpreadInc": 0.239,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "M417 A2": {
    "ADSRecoilAmount": 0.775,
    "ADSRecoilDirectionVariation": 15.4,
    "ADSRecoilDirectionVariationMultiplier": 0.919032,
-   "velocity": 560
+   "velocity": 560,
+   "ADSBaseSpreadInc": 0.409,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "GRT-BC": {
    "ADSRecoilAmount": 0.6703,
    "ADSRecoilDirectionVariation": 26.1,
    "ADSRecoilDirectionVariationMultiplier": 0.918691,
-   "velocity": 563
+   "velocity": 563,
+   "ADSBaseSpreadInc": 0.304,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "QBZ-192": {
    "ADSRecoilAmount": 0.6358,
    "ADSRecoilDirectionVariation": 19.9,
    "ADSRecoilDirectionVariationMultiplier": 0.916291,
-   "velocity": 608
+   "velocity": 608,
+   "ADSBaseSpreadInc": 0.304,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "SG 553R": {
    "ADSRecoilAmount": 0.6866,
    "ADSRecoilDirectionVariation": 35.8,
    "ADSRecoilDirectionVariationMultiplier": 0.91674,
-   "velocity": 483
+   "velocity": 483,
+   "ADSBaseSpreadInc": 0.36,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "SOR-300SC": {
    "ADSRecoilAmount": 0.6047,
    "ADSRecoilDirectionVariation": 15.8,
    "ADSRecoilDirectionVariationMultiplier": 0.912427,
-   "velocity": 528
+   "velocity": 528,
+   "ADSBaseSpreadInc": 0.36,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "SGX": {
    "ADSRecoilAmount": 0.4966,
    "ADSRecoilDirectionVariation": 31.7,
    "ADSRecoilDirectionVariationMultiplier": 0.915368,
-   "velocity": 378
+   "velocity": 378,
+   "ADSBaseSpreadInc": 0.28,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "PW5A3": {
    "ADSRecoilAmount": 0.4618,
    "ADSRecoilDirectionVariation": 28.3,
    "ADSRecoilDirectionVariationMultiplier": 0.912707,
-   "velocity": 408
+   "velocity": 408,
+   "ADSBaseSpreadInc": 0.28,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "PW7A2": {
    "ADSRecoilAmount": 0.4195,
    "ADSRecoilDirectionVariation": 27.8,
    "ADSRecoilDirectionVariationMultiplier": 0.915065,
-   "velocity": 576
+   "velocity": 576,
+   "ADSBaseSpreadInc": 0.221,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "UMG-40": {
    "ADSRecoilAmount": 0.4857,
    "ADSRecoilDirectionVariation": 13,
    "ADSRecoilDirectionVariationMultiplier": 0.908244,
-   "velocity": 467
+   "velocity": 467,
+   "ADSBaseSpreadInc": 0.304,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "USG-90": {
    "ADSRecoilAmount": 0.4497,
    "ADSRecoilDirectionVariation": 35.5,
    "ADSRecoilDirectionVariationMultiplier": 0.912355,
-   "velocity": 543
+   "velocity": 543,
+   "ADSBaseSpreadInc": 0.239,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "KV9": {
    "ADSRecoilAmount": 0.4577,
    "ADSRecoilDirectionVariation": 50,
    "ADSRecoilDirectionVariationMultiplier": 0.923064,
-   "velocity": 362
+   "velocity": 362,
+   "ADSBaseSpreadInc": 0.28,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "SCW-10": {
    "ADSRecoilAmount": 0.5997,
    "ADSRecoilDirectionVariation": 33.5,
    "ADSRecoilDirectionVariationMultiplier": 0.922931,
-   "velocity": 398
+   "velocity": 398,
+   "ADSBaseSpreadInc": 0.36,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "SL9": {
    "ADSRecoilAmount": 0.4238,
    "ADSRecoilDirectionVariation": 13,
    "ADSRecoilDirectionVariationMultiplier": 0.909421,
-   "velocity": 486
+   "velocity": 486,
+   "ADSBaseSpreadInc": 0.28,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "CZ3A1": {
    "ADSRecoilAmount": 0.5765,
    "ADSRecoilDirectionVariation": 50.8,
    "ADSRecoilDirectionVariationMultiplier": 0.918141,
-   "velocity": 336
+   "velocity": 336,
+   "ADSBaseSpreadInc": 0.28,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "L110": {
    "ADSRecoilAmount": 0.47,
    "ADSRecoilDirectionVariation": 31,
    "ADSRecoilDirectionVariationMultiplier": 0.917792,
-   "velocity": 740
+   "velocity": 740,
+   "ADSBaseSpreadInc": 0.36,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "DRS-IAR": {
    "ADSRecoilAmount": 0.5923,
    "ADSRecoilDirectionVariation": 29.3,
    "ADSRecoilDirectionVariationMultiplier": 0.921469,
-   "velocity": 680
+   "velocity": 680,
+   "ADSBaseSpreadInc": 0.36,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "M/60": {
    "ADSRecoilAmount": 0.6066,
    "ADSRecoilDirectionVariation": 29.9,
    "ADSRecoilDirectionVariationMultiplier": 0.914665,
-   "velocity": 680
+   "velocity": 680,
+   "ADSBaseSpreadInc": 0.523,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "RPKM": {
    "ADSRecoilAmount": 0.5327,
    "ADSRecoilDirectionVariation": 17.5,
    "ADSRecoilDirectionVariationMultiplier": 0.911058,
-   "velocity": 630
+   "velocity": 630,
+   "ADSBaseSpreadInc": 0.409,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "M123K": {
    "ADSRecoilAmount": 0.5154,
    "ADSRecoilDirectionVariation": 47.7,
    "ADSRecoilDirectionVariationMultiplier": 0.920302,
-   "velocity": 630
+   "velocity": 630,
+   "ADSBaseSpreadInc": 0.36,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "M250": {
    "ADSRecoilAmount": 0.6084,
    "ADSRecoilDirectionVariation": 35.9,
    "ADSRecoilDirectionVariationMultiplier": 0.920102,
-   "velocity": 724
+   "velocity": 724,
+   "ADSBaseSpreadInc": 0.409,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "KTS100 MK8": {
    "ADSRecoilAmount": 0.4199,
    "ADSRecoilDirectionVariation": 9.5,
    "ADSRecoilDirectionVariationMultiplier": 0.90525,
-   "velocity": 808
+   "velocity": 808,
+   "ADSBaseSpreadInc": 0.36,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "M240L": {
    "ADSRecoilAmount": 0.6769,
    "ADSRecoilDirectionVariation": 34.5,
    "ADSRecoilDirectionVariationMultiplier": 0.921501,
-   "velocity": 590
+   "velocity": 590,
+   "ADSBaseSpreadInc": 0.523,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "M121 A2": {
    "ADSRecoilAmount": 0.6819,
    "ADSRecoilDirectionVariation": 31.8,
    "ADSRecoilDirectionVariationMultiplier": 0.925433,
-   "velocity": 560
+   "velocity": 560,
+   "ADSBaseSpreadInc": 0.523,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "RPK-74M": {
    "ADSRecoilAmount": 0.3844,
    "ADSRecoilDirectionVariation": 16.1,
    "ADSRecoilDirectionVariationMultiplier": 0.909117,
-   "velocity": 808
+   "velocity": 808,
+   "ADSBaseSpreadInc": 0.28,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   },
   "VZ. 61": {
    "ADSRecoilAmount": 0.4059,
    "ADSRecoilDirectionVariation": 18.4,
    "ADSRecoilDirectionVariationMultiplier": 0.904386,
-   "velocity": 313
+   "velocity": 313,
+   "ADSBaseSpreadInc": 0.209,
+   "ADSBaseSpreadFiringDecCoef": 1.2,
+   "ADSBaseSpreadFiringDecOffset": 2.7,
+   "ADSBaseSpreadDistExp": 0.5
   }
  }
 }

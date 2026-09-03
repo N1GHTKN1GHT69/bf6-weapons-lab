@@ -37,7 +37,11 @@ const FIELDS = [
   { sym: 'ADSRecoilAmount', get: w => w.recoil?.ads?.amount, path: 'recoil.ads.amount' },
   { sym: 'ADSRecoilDirectionVariation', get: w => w.recoil?.ads?.dirVar, path: 'recoil.ads.dirVar' },
   { sym: 'ADSRecoilDirectionVariationMultiplier', get: w => w.recoil?.ads?.dirVarMult, path: 'recoil.ads.dirVarMult' },
-  { sym: 'velocity', get: w => w.bulletVel, path: 'bulletVel' }
+  { sym: 'velocity', get: w => w.bulletVel, path: 'bulletVel' },
+  { sym: 'ADSBaseSpreadInc', get: w => w.spreadDyn?.ads?.inc, path: 'spreadDyn.ads.inc' },
+  { sym: 'ADSBaseSpreadFiringDecCoef', get: w => w.spreadDyn?.ads?.firingCoef, path: 'spreadDyn.ads.firingCoef' },
+  { sym: 'ADSBaseSpreadFiringDecOffset', get: w => w.spreadDyn?.ads?.firingOffset, path: 'spreadDyn.ads.firingOffset' },
+  { sym: 'ADSBaseSpreadDistExp', get: w => w.spreadDyn?.ads?.distExp, path: 'spreadDyn.ads.distExp' }
 ];
 
 const errors = [], conflicts = [], unmatched = [];
