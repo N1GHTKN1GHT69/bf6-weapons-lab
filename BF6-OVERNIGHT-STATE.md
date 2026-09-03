@@ -15,35 +15,44 @@ Full findings: `BF6-WEAPONS-LAB-OVERNIGHT-REPORT.md`.
 - Cache identity: 336 queries in 3 orders, order-independent, no key collisions.
 - 8 new gates added and wired into CI. Final: 25/25 pass.
 
-## Important findings — BOTH RESOLVED
-1. **RESOLVED: FASTEST KILL now ranks by trigger-to-kill.** rankWeapons() selects
-   a comparator per priority. 411/672 winners changed; BALANCED 0/672 changed.
-   Enforced by audit-meta-sweep.mjs (0 violations) and audit-global.mjs.
-2. **RESOLVED: one shared attachment legality policy.** Root cause was the LIVE
-   path, not the cache: buildOptions() treated any `assumedFields` as
-   whole-option assumption, while the cache builder stripped only the named
-   fields. attachment-legality.js is now the single implementation used by both.
-   0/56 divergence, 0 unbuildable weapons, 0 cached builds invalidated (the
-   sanitizer refactor is byte-identical), 0 of 1,344 displayed results changed.
-3. **NEW, fixed:** armoured results claimed robustness while the WINNER flipped
-   between close-range readings. redsecWinnerStable() now gates that claim.
-4. Corrected the 6,916 figure: it is ASSERTIONS (1,378 armoured x 4 + 1,404
-   unarmoured) over 2,782 cases, not 56x26x2.
-5. Rebase onto origin/main changed no results; the apparent diff was CRLF vs LF.
-   .gitattributes now pins LF for generated artefacts.
+## Current state (2026-09-03, post-push)
 
-## Unresolved assumptions (unchanged, externally blocked)
-- EA's "reduce or remove" close-range armour rule — still flips the armoured
-  winner at some distances, so REDSEC 2-PLATE stays PROVISIONAL.
-- Armour-break spillover — decisive in-game test specified in
-  data/redsec-model.json (M39 EMR @40-60m: 6 shots = no spillover).
-- REDSEC treatment of sniper sweet-spot control points.
-- 0 attachment names confirmed against a live in-game string.
+CI: both workflows green. Combat Engine rebuilt the cache from scratch and
+produced a byte-identical result (winners hash 9cbd7a8bd5328d54), independently
+confirming the legality refactor changed nothing.
 
-## Blockers
-None. Local limitation: `.upstream/bf6-analyzer` is absent, so the per-class
-damage audits and any cache rebuild are CI-only.
+## Trust terminology (authoritative)
+- ATTACHMENT OPTIMIZER = VERIFIED
+- META / RANKING ENGINE = HIGH CONFIDENCE
+- AUTO META END-TO-END RESULT = PROVISIONAL (capped by source data)
+- REDSEC 2-PLATE = PROVISIONAL
+Enforced in code: data/source-verification.json drives an end-to-end cap in
+renderConfidence(); audit-name-honesty.mjs fails if a chip overstates.
+
+## Open, blocked on in-game capture
+1. REDSEC close-range rule. Tests: AK4D @11m (1-21m band) and RPKM @5m
+   (EA's published 7.62x39 calibre). Armour break 4 = current model, 3 = change.
+2. Armour-break spillover. Tests: SVK-8.6 @5m (4 = no spillover, 3 = spillover)
+   and M39 EMR @38-50m (6 = no spillover, 5 = spillover). Both semi-auto, so
+   neither can be influenced by the close-range rule.
+3. Attachment exact names: 0/168 game-verified. Evidence path now exists
+   (data/attachment-name-evidence.json) with stale-patch and tier-ambiguity
+   safeguards, both proven. Top 20 captures cover 82% of displayed names;
+   worklist at reports/overnight/name-verification-worklist.csv.
+
+## Open, needs a decision
+4. STALENESS dominates everything: 750/759 fields come from a 1.3.3.0 snapshot
+   against live 1.4.2.5, with 1.4.2.0 and 1.4.2.5 combat deltas unrepresented.
+5. Beam Index inputs (recoilV, recoilVar, spreadMax - 186 fields) drive 45% of
+   the BALANCED ranking and no class audit re-derives them.
+6. 4 weapons have MISSING adsTime and therefore always lose the ADS tie-break.
+
+## Recorded data-integrity notes
+- damageStatus says "verified" for all 62 weapons while BROD 3 / EF88 / VSSM
+  carry provenance.status "estimated". The audit uses the stricter reading.
+- reference-data/attachment-audit/attachment-screenshot-review.json is cited by
+  BROD 3 and EF88 provenance but has never existed in this repository.
 
 ## Next task
-In-game measurement: spillover test, then the close-range test for a
-fireMode:auto weapon. Both are external inputs, not code work.
+In-game capture session: 2 close-range tests, 1-2 spillover tests, top-20
+attachment name screenshots. Then decide the staleness strategy.
