@@ -1,40 +1,47 @@
 # BF6 Weapons Lab — overnight run state
 
-Run started 2026-09-02 (autonomous). Branch `main`. Baseline commit `2856164`.
+Run 2026-09-02 -> 2026-09-03, autonomous. Branch `main`. Baseline commit `2856164`.
+Full findings: `BF6-WEAPONS-LAB-OVERNIGHT-REPORT.md`.
 
-## Baseline (Phase 0) — PRESERVED
-- Working tree was clean at start; no uncommitted work to protect.
-- 17/17 locally runnable gates PASS at baseline. No pre-existing failures.
-  Log: `reports/overnight/baseline-gates.log`
-- `.upstream/bf6-analyzer` is not present locally, so the eight per-class
-  audits (`audit-assault` … `audit-shotgun`) cannot run here. They are CI-only.
-  NOT a regression; recorded as an environment limitation.
+## Completed
+- Phase 0 baseline preserved. 17/17 local gates passed at start, no pre-existing failures.
+- Built `scripts/lab-harness.mjs`: boots the real `app.js` headlessly so audits can
+  compare ACTUAL production output against independent references. Every previous
+  local gate only pattern-matched `app.js` source.
+- REDSEC model cross-validated: 6,916 production-vs-reference comparisons, 0 mismatches.
+- Optimizer validated: 156 cases, 87 by true exhaustive enumeration (50,521,932
+  combinations), 0 mismatches.
+- Meta sweep: 1,344 cases / 17,304 ranking evaluations, 0 anomalies.
+- Cache identity: 336 queries in 3 orders, order-independent, no key collisions.
+- 8 new gates added and wired into CI. Final: 25/25 pass.
 
-## Key findings so far
-1. **Gap closed: production code was never executed by any local gate.** Every
-   gate read `app.js` as text and pattern-matched it. Added
-   `scripts/lab-harness.mjs`, which boots the real `app.js` in a Node vm with a
-   minimal DOM/fetch shim, so audits can compare ACTUAL production output
-   against independent reference maths.
-2. **Harness reproduces the recorded manual sanity test exactly** — REDSEC/AUTO
-   META/ALL VERIFIED/25m: unarmored winner L110 5 BTK 361 ms; 2 PLATES winner
-   KORD 6P67 12 BTK 769 ms; 48 ranked. No drift.
-3. **KORD 6P67 12 BTK is internally correct** under the implemented model, and
-   is NOT sensitive to the unresolved spillover mechanic.
-4. **The 2-PLATE winner at 25m IS sensitive to the unresolved close-range
-   mechanic.** closeRange=remove → KORD 6P67 (12 BTK); closeRange=keep → M250
-   (8 BTK). The old "5 shots to break / 11 BTK" expectation is exactly the
-   `keep` reading, not a bug.
+## Important findings
+1. **OPEN (needs decision): FASTEST KILL does not rank by kill speed.**
+   `rankWeapons()` always sorts by the 55/45 laserbeam utility; PRIORITY only
+   changes which cached build row is read. 411/672 cases show a non-fastest
+   winner, worst gap 796 ms. Two viable fixes in the report; recommendation is
+   to make the ranking match the label.
+2. **OPEN (pinned): two attachment-legality policies disagree.** The exhaustive
+   cache admits attachments with upstream `assumedFields`; `buildOptions()`
+   rejects them. 27/56 primaries ship cached winning builds using such barrels;
+   M250 has no non-assumed barrel and throws on-demand. Baseline recorded in
+   `data/optimizer-legality-divergence.json`, gated by `audit-optimizer-legality.mjs`.
+3. KORD 6P67 @25m/2 PLATES = **12 BTK is correct** and is NOT sensitive to
+   spillover. The old 5/11 expectation is the `closeRange=keep` reading.
+   The 25m/2-PLATE **winner** IS sensitive to that unresolved reading
+   (remove -> KORD 6P67, keep -> M250), so the result is correctly PROVISIONAL.
 
-## Files added/changed
-- `scripts/lab-harness.mjs` (new) — headless production-execution harness.
-- `app.js` — added `BF6_LAB_DIAG.redsecTrace()`, a complete manually
-  reproducible REDSEC audit trail. Diagnostics only; no combat maths changed.
-- `reports/overnight/` — audit logs and machine-readable outputs.
+## Unresolved assumptions (unchanged, externally blocked)
+- EA's "reduce or remove" close-range armour rule — materially affects results.
+- Armour-break spillover — immaterial for KORD; decisive in-game test already
+  specified in `data/redsec-model.json` (M39 EMR @40-60m: 6 shots = no spillover).
+- REDSEC treatment of sniper sweet-spot control points.
 
 ## Blockers
-- None. Offline/no-upstream limitations recorded above, worked around.
+None. Two worked-around limitations: `.upstream/bf6-analyzer` is absent locally
+so per-class damage audits are CI-only; and the two mechanics above need in-game
+measurement.
 
 ## Next task
-Systematic production-vs-independent-reference cross-validation across the
-roster (Phase 1 continued), then optimizer exhaustive validation.
+Decide FASTEST KILL semantics (finding 1), then resolve the attachment-legality
+conflict (finding 2).

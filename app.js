@@ -126,11 +126,12 @@
       CURRENT.roster.find(w => aliasKey(w.name) === aliasKey(raw.name)) || null;
   }
 
-  function setChip(id, text, cls = "") {
+  function setChip(id, text, cls = "", title = "") {
     const el = $(id);
     if (!el) return;
     el.textContent = text;
     el.className = `data-chip ${cls}`.trim();
+    if (title) el.title = title; else el.removeAttribute("title");
   }
 
   async function fetchJson(url, timeoutMs = 9000) {
@@ -647,7 +648,15 @@
         return !!def && audit?.crossClassEligible !== false && def.confidence !== "empirical-current";
       }).length;
       const empirical = primaries.filter(w => auditedDefForRoster(w,rawForRoster(w))?.confidence === "empirical-current").length;
-      setChip("rosterChip", `ROSTER ${CURRENT.roster.length}/${CURRENT.rosterCount} • VERIFIED ${fullyVerified}/${primaries.length}${empirical ? ` • EMPIRICAL ${empirical}` : ""}`, "ok");
+      // This VERIFIED count and the ALL VERIFIED tab count are deliberately
+      // different numbers, so the chip says which one it is. The chip counts
+      // weapons with a verified class model; the tab counts weapons that can
+      // actually be ranked in the current scope, which additionally requires
+      // exact projectile ballistics.
+      setChip("rosterChip",
+        `ROSTER ${CURRENT.roster.length}/${CURRENT.rosterCount} • VERIFIED ${fullyVerified}/${primaries.length}${empirical ? ` • EMPIRICAL ${empirical}` : ""}`,
+        "ok",
+        `${fullyVerified} of ${primaries.length} primaries have a verified class combat model. That is a roster-health figure, not the ranking scope: the ALL VERIFIED tab shows how many can actually be ranked cross-class, which also requires exact projectile ballistics. Hover a weapon-class tab for the exclusions.`);
     } else {
       setChip("rosterChip", `ROSTER ${CURRENT.roster.length}/${CURRENT.rosterCount}`, CURRENT.roster.length === CURRENT.rosterCount ? "ok" : "warn");
     }
