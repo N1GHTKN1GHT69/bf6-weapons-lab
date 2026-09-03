@@ -1,0 +1,423 @@
+{
+ "summary": {
+  "generatedAt": "2026-09-03T03:39:16.109Z",
+  "productionSource": "app.js executed via scripts/lab-harness.mjs",
+  "referenceSource": "scripts/redsec-reference.mjs (data-only, shares no code with app.js)",
+  "weapons": 56,
+  "distances": 26,
+  "armoredCases": 1378,
+  "unarmoredCases": 1404,
+  "totalComparisons": 6916,
+  "mismatches": 0,
+  "anomalies": 0,
+  "skipped": 55,
+  "mismatchSample": [],
+  "anomalySample": [],
+  "skippedSample": [
+   {
+    "id": "kts100mk8",
+    "name": "KTS100 MK8",
+    "reason": "no raw weapon entry in data/weapons.json"
+   },
+   {
+    "id": "interdictor",
+    "name": "Interdictor",
+    "reason": "no raw weapon entry in data/weapons.json"
+   },
+   {
+    "id": "185ksk",
+    "name": "18.5KS-K",
+    "reason": "no raw weapon entry in data/weapons.json"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 1,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 5,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 9,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 10,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 11,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 20,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 21,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 25,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 30,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 31,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 35,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 36,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 37,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 50,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 60,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 74,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 75,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 76,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 83,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 85,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 100,
+    "reason": "no unarmored health damage"
+   },
+   {
+    "id": "kts100mk8",
+    "d": 120,
+    "reason": "no unarmored health damage"
+   }
+  ]
+ },
+ "mismatches": [],
+ "anomalies": [],
+ "skipped": [
+  {
+   "id": "kts100mk8",
+   "name": "KTS100 MK8",
+   "reason": "no raw weapon entry in data/weapons.json"
+  },
+  {
+   "id": "interdictor",
+   "name": "Interdictor",
+   "reason": "no raw weapon entry in data/weapons.json"
+  },
+  {
+   "id": "185ksk",
+   "name": "18.5KS-K",
+   "reason": "no raw weapon entry in data/weapons.json"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 1,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 5,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 9,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 10,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 11,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 20,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 21,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 25,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 30,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 31,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 35,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 36,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 37,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 50,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 60,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 74,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 75,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 76,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 83,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 85,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 100,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 120,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 150,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 200,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 250,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "kts100mk8",
+   "d": 300,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 1,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 5,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 9,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 10,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 11,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 20,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 21,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 25,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 30,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 31,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 35,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 36,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 37,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 50,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 60,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 74,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 75,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 76,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 83,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 85,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 100,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 120,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 150,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 200,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 250,
+   "reason": "no unarmored health damage"
+  },
+  {
+   "id": "185ksk",
+   "d": 300,
+   "reason": "no unarmored health damage"
+  }
+ ]
+}

@@ -1908,17 +1908,37 @@
     return Math.pow(t, 0.55) * Math.pow(b, 0.45);
   }
 
+  /**
+   * Deterministic reason this primary is outside the ranking scope, or null when
+   * it is in scope. Roster-level exclusions only; combat-level exclusions live in
+   * combatScopeExclusion() because they need an evaluated combat row.
+   *
+   * Every exclusion the ranking performs goes through these two functions, so the
+   * count the UI advertises and the count actually ranked are derived from the
+   * same predicate and cannot drift apart.
+   */
+  function rosterScopeExclusion(w, category = state.category) {
+    if (w.cls === "Secondary") return "secondary";
+    if (category !== "__all__" && w.cls !== category) return "out-of-scope-class";
+    const classAudit = auditForClass(w.cls);
+    if (!classAudit) return "no-class-audit";
+    if (auditedDefForRoster(w, rawForRoster(w))?.confidence === "empirical-current") return "empirical-current-not-verified";
+    if (category === "__all__" && classAudit.crossClassEligible === false) return "class-excluded-from-cross-class";
+    return null;
+  }
+
+  /** Deterministic combat-level exclusion reason, or null when rankable. */
+  function combatScopeExclusion(x, category = state.category) {
+    if (!x?.combat) return "no-combat-row";
+    const c = x.combat;
+    if (!Number.isFinite(c.ttk) || !Number.isFinite(c.triggerTtk) || !Number.isFinite(c.damage)) return "incomplete-combat-values";
+    if (category === "__all__" && c.ballisticsExact !== true) return "ballistics-not-exact";
+    return null;
+  }
+
   function buildRankPool(category = state.category, d = state.distance) {
     return CURRENT.roster
-      .filter(w => {
-        if (w.cls === "Secondary") return false;
-        if (category !== "__all__" && w.cls !== category) return false;
-        const classAudit = auditForClass(w.cls);
-        if (!classAudit) return false;
-        if (auditedDefForRoster(w, rawForRoster(w))?.confidence === "empirical-current") return false;
-        if (category === "__all__" && classAudit.crossClassEligible === false) return false;
-        return true;
-      })
+      .filter(w => rosterScopeExclusion(w, category) === null)
       .map(roster => {
         // Rank the build the user is actually being shown. With the default
         // priority this is the historical `best` row; FASTEST KILL ranks the
@@ -1940,8 +1960,36 @@
         const beamIndex = Number(combat?.beamIndex ?? winStats?.beam?.beamIndex ?? fallbackBeamIndex(raw,d));
         return { roster, raw, combat, velocity, ads:Number.isFinite(ads) ? ads : 9999, beamIndex:Number.isFinite(beamIndex)?beamIndex:null };
       })
-      .filter(x => x.combat && Number.isFinite(x.combat.ttk) && Number.isFinite(x.combat.triggerTtk) && Number.isFinite(x.combat.damage))
-      .filter(x => category !== "__all__" || x.combat.ballisticsExact === true);
+      .filter(x => combatScopeExclusion(x, category) === null);
+  }
+
+  /**
+   * The set actually rankable in this scope, with a deterministic reason for
+   * every primary that is not. This is the single source the UI count uses.
+   */
+  function rankScopeReport(category = state.category, d = state.distance) {
+    const included = [], excluded = [];
+    for (const w of CURRENT.roster) {
+      const scopeReason = rosterScopeExclusion(w, category);
+      if (scopeReason) {
+        if (scopeReason !== "secondary" && scopeReason !== "out-of-scope-class") excluded.push({ id: w.id, name: w.name, cls: w.cls, reason: scopeReason });
+        continue;
+      }
+      included.push(w.id);
+    }
+    const pool = buildRankPool(category, d);
+    const ranked = new Set(pool.map(x => x.roster.id));
+    for (const id of included) {
+      if (ranked.has(id)) continue;
+      const w = CURRENT.roster.find(r => r.id === id);
+      const raw = rawForRoster(w);
+      const strategy = rankingStrategy();
+      let combat = raw ? cachedCombat(raw, d, strategy) : null;
+      if (!combat) combat = auditedRosterCombat(w, raw, d);
+      combat = scenarioCombat(raw, d, strategy, combat, raw ? cachedWinningStats(raw, d, strategy) : null);
+      excluded.push({ id: w.id, name: w.name, cls: w.cls, reason: combatScopeExclusion({ combat }, category) || "excluded-by-ranking" });
+    }
+    return { category, distance: d, rankable: ranked.size, excluded, totalPrimaries: CURRENT.roster.filter(w => w.cls !== "Secondary").length };
   }
 
   function rankWeapons(category = state.category, d = state.distance) {
@@ -3365,20 +3413,70 @@
     return CURRENT.roster.filter(w => w.cls !== "Secondary" && (state.category === "__all__" || w.cls === state.category));
   }
 
+  /**
+   * Tab counts.
+   *
+   * In AUTO META a tab's number is the number of weapons that scope can actually
+   * rank, taken from the same predicate the ranking itself uses. It previously
+   * showed a looser "verified" count, so ALL VERIFIED could advertise 55 while
+   * the result underneath said "best out of 48". The two numbers now come from
+   * one function and every excluded weapon carries a deterministic reason,
+   * surfaced on the tab's tooltip.
+   *
+   * BUILD MY GUN deliberately opens the entire catalogue, so there the counts
+   * stay the full roster counts.
+   */
+  function tabScopeCount(category) {
+    if (state.selectionMode === "manual") {
+      const n = category === "__all__"
+        ? CURRENT.roster.filter(w => w.cls !== "Secondary").length
+        : CURRENT.roster.filter(w => w.cls === category).length;
+      return { count: n, excluded: [] };
+    }
+    try {
+      const r = rankScopeReport(category, state.distance);
+      return { count: r.rankable, excluded: r.excluded };
+    } catch (_) {
+      const n = category === "__all__"
+        ? CURRENT.roster.filter(w => w.cls !== "Secondary").length
+        : CURRENT.roster.filter(w => w.cls === category).length;
+      return { count: n, excluded: [] };
+    }
+  }
+
+  const EXCLUSION_LABEL = {
+    "empirical-current-not-verified": "not verified (empirical-current data)",
+    "class-excluded-from-cross-class": "class excluded from cross-class ranking",
+    "ballistics-not-exact": "no verified projectile ballistics",
+    "no-class-audit": "no audited class model",
+    "incomplete-combat-values": "incomplete combat values",
+    "no-combat-row": "no combat row at this distance"
+  };
+
+  function exclusionTitle(excluded) {
+    if (!excluded?.length) return "";
+    const by = new Map();
+    for (const e of excluded) {
+      const k = EXCLUSION_LABEL[e.reason] || e.reason;
+      if (!by.has(k)) by.set(k, []);
+      by.get(k).push(e.name);
+    }
+    return [...by].map(([k, v]) => `${v.join(", ")} — ${k}`).join(" | ");
+  }
+
   function populateTabs() {
     const tabs = $("weaponTabs");
-    const verifiedCount = CURRENT.roster.filter(w => {
-      if (w.cls === "Secondary" || !auditForClass(w.cls)) return false;
-      return auditedDefForRoster(w, rawForRoster(w))?.confidence !== "empirical-current";
-    }).length;
     // BUILD MY GUN opens the whole catalogue; AUTO META's cross-class scope is
     // restricted to classes eligible for verified cross-class ranking.
     const allLabel = state.selectionMode === "manual" ? "ALL" : "ALL VERIFIED";
-    const all = `<button type="button" data-category="__all__" class="${state.category === "__all__" ? "active" : ""}" aria-pressed="${state.category === "__all__"}">${allLabel} <em>${state.selectionMode === "manual" ? CURRENT.roster.filter(w=>w.cls!=="Secondary").length : verifiedCount}</em></button>`;
+    const allScope = tabScopeCount("__all__");
+    const allTitle = exclusionTitle(allScope.excluded);
+    const all = `<button type="button" data-category="__all__" class="${state.category === "__all__" ? "active" : ""}" aria-pressed="${state.category === "__all__"}"${allTitle ? ` title="${escapeHtml(`Excluded: ${allTitle}`)}"` : ""}>${allLabel} <em>${allScope.count}</em></button>`;
     const cats = CURRENT.primaryClasses.map(cls => {
-      const count=CURRENT.roster.filter(w=>w.cls===cls).length;
+      const scope = tabScopeCount(cls);
+      const title = exclusionTitle(scope.excluded);
       const on = cls === state.category;
-      return `<button type="button" data-category="${escapeHtml(cls)}" class="${on ? "active" : ""}" aria-pressed="${on}">${escapeHtml(tabLabel(cls))} <em>${count}</em></button>`;
+      return `<button type="button" data-category="${escapeHtml(cls)}" class="${on ? "active" : ""}" aria-pressed="${on}"${title ? ` title="${escapeHtml(`Excluded: ${title}`)}"` : ""}>${escapeHtml(tabLabel(cls))} <em>${scope.count}</em></button>`;
     }).join("");
     tabs.innerHTML = all + cats;
   }
@@ -3636,6 +3734,25 @@
      * object alone. It calls the production combat path only; it computes
      * nothing of its own beyond restating the formulae it used.
      */
+    /** Eligibility/count reconciliation for one scope. */
+    scope(query = {}) {
+      const keep = { c: state.category, d: state.distance, g: state.gameMode, a: state.targetArmor, m: state.selectionMode, p: state.priority };
+      try {
+        clearScenarioMemo();
+        if (query.gameMode != null) state.gameMode = query.gameMode;
+        if (query.targetArmor != null) state.targetArmor = query.targetArmor;
+        if (state.gameMode !== "redsec") state.targetArmor = "unarmored";
+        if (query.category != null) state.category = query.category;
+        if (query.distance != null) state.distance = Math.max(1, Math.min(300, Math.round(Number(query.distance))));
+        if (query.priority != null) state.priority = query.priority;
+        state.selectionMode = query.mode ?? "auto";
+        return rankScopeReport(state.category, state.distance);
+      } finally {
+        state.category = keep.c; state.distance = keep.d; state.gameMode = keep.g;
+        state.targetArmor = keep.a; state.selectionMode = keep.m; state.priority = keep.p;
+        clearScenarioMemo();
+      }
+    },
     redsecTrace(weaponId, d, armorState = "plates2", priority = "auto") {
       const keep = { g: state.gameMode, a: state.targetArmor, d: state.distance, w: state.weaponId, m: state.selectionMode, p: state.priority };
       try {

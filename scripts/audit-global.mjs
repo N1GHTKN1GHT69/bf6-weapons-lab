@@ -139,7 +139,14 @@ if(!app.includes('function rankingStrategy()')) errors.push('AUTO META ranking c
 if(!app.includes('function flightTimeMs(distanceM, velocityMps, dragPerMeter)')) errors.push('generic projectile flight model missing');
 if(!/a\.combat\.triggerTtk\s*\?\?\s*Infinity/.test(app) || !/b\.combat\.triggerTtk\s*\?\?\s*Infinity/.test(app)) errors.push('AUTO META is not trigger-to-impact TTK first');
 if(app.includes('if (!combat && raw) combat = combatAtDistance(raw, d);')) errors.push('AUTO META still permits raw cadence/damage bypass');
-if(!app.includes('category !== "__all__" || x.combat.ballisticsExact === true')) errors.push('cross-class AUTO does not require verified ballistics');
+// The cross-class verified-ballistics requirement now lives in the single
+// exclusion predicate that both the ranking pool and the advertised scope count
+// read, so the count the UI shows cannot drift from the set actually ranked.
+// Both halves are gated: the rule itself, and the pool actually applying it.
+if(!/category === "__all__" && c\.ballisticsExact !== true/.test(app)) errors.push('cross-class AUTO does not require verified ballistics');
+if(!app.includes('.filter(x => combatScopeExclusion(x, category) === null)')) errors.push('rank pool does not apply the combat exclusion predicate');
+if(!app.includes('function rosterScopeExclusion(w, category = state.category)')) errors.push('roster exclusion predicate missing');
+if(!app.includes('function rankScopeReport(category = state.category, d = state.distance)')) errors.push('scope/count reconciliation missing');
 if(!app.includes('cachedBuild(raw, d, requiredAttachmentId, strategy)')) errors.push('optimized build path bypasses exhaustive cache for required lethal attachments/strategy');
 if(!builder.includes("if (w.cls === 'Sniper Rifle') modified = applyVerifiedSniperLethality(modified);")) errors.push('exhaustive builder does not enforce audited sniper cadence/damage');
 if(!builder.includes('const sniperInterval=Number(w?._sniperAuditDef?.shotIntervalMs);')) errors.push('exhaustive builder can leak raw sniper RPM into TTK');
