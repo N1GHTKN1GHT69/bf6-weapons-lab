@@ -2,7 +2,7 @@
   "schema": 1,
   "class": "Sidearm",
   "gameVersion": "1.4.2.5",
-  "generatedAt": "2026-09-02T19:49:29.267Z",
+  "generatedAt": "2026-09-03T10:53:12.770Z",
   "definition": "Mechanical chest TTK is measured from the first damaging chest hit to the lethal chest hit against 100 HP and excludes projectile flight time. Semi-auto and full-auto sidearms use (BTK-1)*60000/RPM because none of the seven audited base sidearms uses a burst/pump pair cadence.",
   "weaponCountExpected": 7,
   "weaponCountChecked": 7,
