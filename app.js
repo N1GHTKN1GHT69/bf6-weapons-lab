@@ -3629,6 +3629,86 @@
         clearScenarioMemo();
       }
     },
+    /**
+     * Complete, manually reproducible REDSEC audit trail for ONE weapon at ONE
+     * exact distance. Every intermediate value the armoured result depends on is
+     * returned, so a reader can recompute the final BTK/TTK by hand from this
+     * object alone. It calls the production combat path only; it computes
+     * nothing of its own beyond restating the formulae it used.
+     */
+    redsecTrace(weaponId, d, armorState = "plates2", priority = "auto") {
+      const keep = { g: state.gameMode, a: state.targetArmor, d: state.distance, w: state.weaponId, m: state.selectionMode, p: state.priority };
+      try {
+        clearScenarioMemo();
+        state.gameMode = "redsec";
+        state.targetArmor = armorState;
+        state.distance = Math.max(1, Math.min(300, Math.round(Number(d) || 25)));
+        state.selectionMode = "manual";
+        state.weaponId = weaponId;
+        state.priority = priority;
+        const roster = CURRENT.roster.find(w => w.id === weaponId) || null;
+        const raw = state.rawWeapons.find(w => w.id === weaponId) || null;
+        if (!roster && !raw) return { weaponId, error: "unknown weapon id" };
+        const strategy = activeStrategy();
+        const resolved = roster ? resolveDisplayCombat(roster, raw) : null;
+        const c = resolved?.combat ?? null;
+        const am = c?.armorModel ?? null;
+        const stats = raw ? cachedWinningStats(raw, state.distance, strategy) : null;
+        const rpm = Number(stats?.rpm ?? c?.rpm ?? raw?.rpm);
+        const shotIntervalMs = Number.isFinite(rpm) && rpm > 0 ? 60000 / rpm : null;
+        const base = raw ? combatAtDistance(raw, state.distance) : null;
+        return {
+          weaponId, weaponName: roster?.name ?? raw?.name ?? null,
+          weaponClass: roster?.cls ?? raw?.cls ?? null,
+          gameMode: "redsec", armorState, distanceM: state.distance,
+          priority, strategy, scenario: scenarioKey(),
+          fireMode: { declared: raw?.fireMode ?? null, effective: am?.effectiveFireMode ?? c?.effectiveFireMode ?? null },
+          health: {
+            poolHp: 100,
+            baseDamageAt0m: Array.isArray(raw?.dmg) && raw.dmg.length ? Number(raw.dmg[0].d) : null,
+            rawDamageAtDistance: base?.damage ?? null,
+            damageAtDistance: c?.damage ?? null,
+            curve: Array.isArray(raw?.dmg) ? raw.dmg.map(x => ({ r: Number(x.r), d: Number(x.d) })) : null
+          },
+          armor: am ? {
+            totalHp: am.armorTotalHp, plates: am.plates, hpPerPlate: am.hpPerPlate,
+            chestMultiplier: am.armorChestMultiplier,
+            rangeShiftMeters: Number(redsecModel()?.damageVsArmor?.rangeShiftMeters?.value ?? NaN),
+            closeRangePolicy: am.closeRangePolicy,
+            spilloverPolicy: am.spilloverPolicy,
+            curve: armorDamageCurve(raw, am.closeRangePolicy, am.effectiveFireMode),
+            damagePerShot: am.armorDamagePerShot,
+            shotsToBreakArmor: am.shotsToBreakArmor,
+            carriedHealthDamage: am.carriedHealthDamage,
+            healthShotsAfterBreak: am.healthBtk,
+            log: am.log
+          } : null,
+          btk: c?.btk ?? null,
+          timing: {
+            rpm: Number.isFinite(rpm) ? rpm : null,
+            shotIntervalMs,
+            velocityMs: Number(resolved?.displayVelocity ?? stats?.bulletVel ?? raw?.bulletVel ?? NaN) || null,
+            flightMs: Number.isFinite(Number(c?.flightMs)) ? Number(c.flightMs) : null,
+            firingMs: c?.mechTtk ?? c?.ttk ?? null,
+            mechTtk: c?.mechTtk ?? c?.ttk ?? null,
+            triggerTtk: c?.triggerTtk ?? null
+          },
+          formula: {
+            armorDamagePerShot: "healthStepDamageAt(distance, curveShiftedBy +rangeShiftMeters) * pellets * chestMultiplier",
+            shotsToBreakArmor: "ceil(armorTotalHp / armorDamagePerShot)",
+            healthShotsAfterBreak: "ceil(100 / healthDamageAtDistance)   [spillover=none]",
+            btk: "shotsToBreakArmor + healthShotsAfterBreak",
+            firingMs: "(btk - 1) * 60000 / rpm",
+            triggerTtk: "firingMs + flightMs"
+          },
+          confidence: raw ? redsecProvenance(redsecDependencies(raw, state.distance, c)) : null
+        };
+      } finally {
+        state.gameMode = keep.g; state.targetArmor = keep.a; state.distance = keep.d;
+        state.weaponId = keep.w; state.selectionMode = keep.m; state.priority = keep.p;
+        clearScenarioMemo();
+      }
+    },
     snapshot(query = {}) {
       const keep = { category: state.category, weaponId: state.weaponId, selectionMode: state.selectionMode, distance: state.distance, priority: state.priority, context: state.context, classChoice: state.classChoice, gameMode: state.gameMode, targetArmor: state.targetArmor };
       try {
