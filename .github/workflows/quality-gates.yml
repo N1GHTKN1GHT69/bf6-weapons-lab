@@ -18,6 +18,7 @@ on:
       - 'data/optimizer-legality-divergence.json'
       - 'data/source-verification.json'
       - 'data/current-patch-coverage.json'
+      - 'data/live-measurements.json'
       - 'attachment-legality.js'
       - '.github/workflows/**'
 permissions:

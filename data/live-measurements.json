@@ -1,0 +1,82 @@
+{
+ "schema": 1,
+ "statement": "Live-game measurements of production input values. This is the only route by which a recoil/spread field can be promoted above PATCH_RECONCILED_NO_KNOWN_DELTA. Nothing here may be inferred, scaled from another site's display numbers, or estimated: each record states what was actually observed on screen, under a stated capture configuration, with its raw per-trial values retained so the derived number can be recomputed and challenged.",
+ "measurementMethods": {
+  "ratio-v1": {
+   "description": "Calibrated-relative measurement. Peak vertical camera displacement is measured in screen pixels for the subject weapon and for a reference weapon under IDENTICAL capture conditions in the same session. The ratio of displacements equals the ratio of true angular recoil, so the subject value is derived as referenceStoredRecoilV * (subjectMeanPx / referenceMeanPx).",
+   "whyRatioNotAbsolute": "Two reasons. (1) It cancels FOV, ADS FOV, resolution, aspect ratio and optic magnification entirely, because both weapons are projected through the same transform - so the protocol is reproducible on another machine without matching display settings. (2) It measures the quantity the ranking actually depends on: BALANCED winners were verified stable under a uniform scaling of every weapon's recoil from x0.5 to x2.0, so an absolute calibration error common to all weapons cannot change the winner, while a RELATIVE error between weapons can.",
+   "smallAngleValidity": "Screen displacement is proportional to tan(angle). At the magnitudes involved (~0.5 degrees) tan(x) and x agree to five decimal places, so the linear ratio introduces no meaningful error. Displacements must stay near screen centre for this to hold.",
+   "requires": [
+    "referenceWeaponId",
+    "trialsPx",
+    "referenceTrialsPx"
+   ]
+  },
+  "absolute-v1": {
+   "description": "Absolute angular measurement. Peak vertical displacement converted to degrees using the capture's vertical FOV and resolution: angle = atan((px / (heightPx/2)) * tan(vFovDeg/2 * pi/180)) * 180/pi. Only valid if the true ADS vertical FOV is known exactly, including optic magnification.",
+   "requires": [
+    "trialsPx",
+    "vFovDeg",
+    "heightPx"
+   ],
+   "caution": "Prefer ratio-v1. An ADS FOV that is mis-stated by a few degrees biases every derived value, and BF6 ADS FOV depends on optic magnification and the FOV-scaling setting."
+  },
+  "group-v1": {
+   "description": "World-space angular spread from a shot group. Fire N rounds ADS at a wall at a known distance, measure the group RADIUS in metres, and the tool converts: angle = atan(radius / distance). Targets effectiveAdsSpreadDeg.",
+   "whyNotSpreadMax": "spreadMax is a discrete TIER INDEX (only 5, 6, 7, 9 and 11 occur across the whole roster), not a physical quantity. Its mapping to degrees runs through the upstream spread simulation and is confounded by attachments - tier 7 weapons span 0 to 1.24 degrees of effective spread in the shipped cache. Measuring the tier is therefore not possible directly, but effectiveAdsSpreadDeg is what beamIndex actually consumes, so measuring that is both tractable AND more directly useful.",
+   "fovIndependent": "Measured in the world rather than on screen, so FOV, resolution, aspect ratio and optic magnification are irrelevant.",
+   "requires": [
+    "trialsPx (group radius in METRES, one per trial)",
+    "config.distanceToWallM"
+   ]
+  }
+ },
+ "derivationChain": {
+  "note": "Verified against the shipped dataset, not assumed. See BF6-LIVE-MEASUREMENT-PROTOCOL.md for the full trace and the verification counts.",
+  "storedField": "recoilV = recoil.ads.amount * recoil.ads.amountMult ^ recoil.ads.amountExp   [exact on 62/62 weapons]",
+  "withAttachments": "recoil = round3(amount * amountMult ^ (amountExp + SUM of equipped adsRecoilTierMod))   [exact on 238/248 cached rows; the 10 exceptions are bolt-action and burst weapons with special cadence handling, none of which is a measurement target]",
+  "measuringBare": "With NO recoil-affecting attachment equipped the tier sum is 0, so the measured per-shot kick corresponds directly to stored recoilV. This is why the protocol strips attachments rather than correcting for them."
+ },
+ "requiredFields": [
+  "weaponId",
+  "field",
+  "gameVersion",
+  "capturedAt",
+  "method",
+  "config",
+  "trialsPx",
+  "evidenceRef"
+ ],
+ "rules": [
+  "gameVersion must equal the current live game version, otherwise the measurement is recorded but NOT promoted: a value measured on an older patch is not evidence about this one.",
+  "Raw per-trial values are retained. A derived number with no trials behind it is not admissible.",
+  "Minimum trial count is enforced by the ingestion script and derives from the observed spread, not from a fixed guess.",
+  "The equipped attachment configuration is recorded in full. If any attachment carries a non-zero adsRecoilTierMod the tier sum must be stated so it can be backed out; a bare weapon is strongly preferred.",
+  "A measurement never overwrites the historical value. The 1.3.3.0 figure is preserved alongside the live figure and the active value, so the provenance question 'what was it, what changed, why does the Lab use this' stays answerable."
+ ],
+ "exampleRecord": {
+  "weaponId": "l110",
+  "field": "recoilV",
+  "gameVersion": "1.4.2.5",
+  "capturedAt": "2026-09-04",
+  "capturedBy": "<who captured it>",
+  "method": "ratio-v1",
+  "referenceWeaponId": "b36a4",
+  "config": {
+   "attachments": "none equipped (bare weapon)",
+   "recoilTierSum": 0,
+   "stance": "standing, stationary",
+   "aim": "ADS",
+   "firing": "single tap-fired shots, full recoil decay between shots",
+   "noCompensation": true,
+   "distanceToWallM": 25,
+   "resolution": "2560x1440",
+   "vFovDeg": null,
+   "captureFps": 60
+  },
+  "trialsPx": [],
+  "referenceTrialsPx": [],
+  "evidenceRef": "reference-data/live-measurements/<capture>.mp4"
+ },
+ "observations": []
+}
