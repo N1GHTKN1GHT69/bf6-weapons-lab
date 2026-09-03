@@ -38,7 +38,9 @@ for (const d of D) {
   }
 
   // ---- REDSEC 2 PLATES must be auditable on screen ----
-  const ra = diag.render({ gameMode: 'redsec', targetArmor: 'plates2', category: '__all__', distance: d, priority: 'fastest', mode: 'auto' });
+  const raQuery = { gameMode: 'redsec', targetArmor: 'plates2', category: '__all__', distance: d, priority: 'fastest', mode: 'auto' };
+  const ra = diag.render(raQuery);
+  const winnerId = diag.snapshot(raQuery).weaponId;
   const s = strip(ra.armorSummary);
   if (s === '') { errors.push(`REDSEC 2 plates ${d}m: no armour summary rendered`); continue; }
   if (!/armour damage \/ shot/i.test(s)) errors.push(`REDSEC 2 plates ${d}m: armour damage per shot not shown — shot counts are unverifiable on screen`);
@@ -59,7 +61,26 @@ for (const d of D) {
   if (Math.ceil(aHp / aDmg) !== brk) errors.push(`REDSEC 2 plates ${d}m: ceil(${aHp}/${aDmg})=${Math.ceil(aHp / aDmg)} but panel claims ${brk} shots to break`);
   if (Math.ceil(100 / hDmg) !== after) errors.push(`REDSEC 2 plates ${d}m: ceil(100/${hDmg})=${Math.ceil(100 / hDmg)} but panel claims ${after} health shots`);
   if (brk + after !== total) errors.push(`REDSEC 2 plates ${d}m: ${brk}+${after} != ${total} total BTK`);
-  if (!(aDmg <= hDmg + 1e-9)) errors.push(`REDSEC 2 plates ${d}m: armour damage ${aDmg} exceeds health damage ${hDmg} — no current class multiplier is above 1x`);
+  // Armour damage may legitimately EXCEED health damage at some distances: EA
+  // shift armour drop-off thresholds outward by 10 m, so between a health
+  // drop-off and the armour one the armour curve is still on the higher tier.
+  // KV9 at 25 m is the worked example - health 17.13, armour 20.67 x 0.84 =
+  // 17.36. The correct invariant is therefore not a magnitude comparison but
+  // provenance: armour damage must be a real step of this weapon's own health
+  // curve, scaled by its class multiplier, and never an invented number.
+  {
+    const t = diag.redsecTrace(winnerId, d, 'plates2', 'fastest');
+    const mult = Number(t?.armor?.chestMultiplier);
+    const steps = (t?.health?.curve ?? []).map(p => Number(p.d)).filter(Number.isFinite);
+    const pellets = Math.max(1, Number(t?.armor?.pellets) || 1);
+    const perShot = Number(t?.armor?.damagePerShot);
+    if (steps.length && Number.isFinite(mult) && Number.isFinite(perShot)) {
+      const ok = steps.some(step => Math.abs(perShot - step * mult * pellets) <= 1e-6);
+      if (!ok) errors.push(`REDSEC 2 plates ${d}m ${winnerId}: armour damage ${perShot} is not any health-curve step x ${mult} - value is not derived from the weapon's own curve`);
+      const maxStep = Math.max(...steps);
+      if (perShot > maxStep * mult * pellets + 1e-6) errors.push(`REDSEC 2 plates ${d}m ${winnerId}: armour damage ${perShot} exceeds max health step ${maxStep} x ${mult}`);
+    }
+  }
 }
 
 // ---- No stale state across transitions ----

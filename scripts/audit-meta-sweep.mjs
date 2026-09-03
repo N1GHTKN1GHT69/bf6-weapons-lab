@@ -27,7 +27,6 @@ const scopes = ['__all__', ...(win.BF6_CURRENT?.primaryClasses ?? [])];
 const rows = [];
 const anomalies = [];
 const flips = [];
-const fidelity = [];
 let evaluations = 0;
 
 const bad = (kind, o) => anomalies.push({ kind, ...o });
@@ -60,17 +59,29 @@ for (const m of MODES) {
             bad('trigger-ttk-below-mech-ttk', { label, weapon: t.id, triggerTtk: t.triggerTtk, mechTtk: t.mechTtk });
           }
         }
-        // PRIORITY fidelity. rankWeapons() always orders by the 55/45 laserbeam
-        // utility; PRIORITY only selects which cached build row is read. So under
-        // FASTEST KILL the winner is frequently not the fastest killer. That is a
-        // tracked product-truth gap, not an arithmetic fault, so it is measured
-        // here rather than counted as an engine anomaly.
+        // PRIORITY fidelity is now a hard requirement, not a tracked gap: under
+        // FASTEST KILL the winner MUST be the fastest killer in the ranked pool.
+        // Beam Index may only break a genuine trigger-to-kill tie.
         if (priority === 'fastest') {
           const finite = s.top.filter(t => Number.isFinite(Number(t.triggerTtk)));
           if (finite.length) {
             const fastest = finite.reduce((a, b) => Number(b.triggerTtk) < Number(a.triggerTtk) ? b : a);
-            if (fastest.id !== top.id) {
-              fidelity.push({ label, shown: top.id, shownTtk: Math.round(top.triggerTtk), fastest: fastest.id, fastestTtk: Math.round(fastest.triggerTtk), deltaMs: Math.round(top.triggerTtk - fastest.triggerTtk) });
+            if (Number(top.triggerTtk) > Number(fastest.triggerTtk) + 1e-9) {
+              bad('fastest-kill-winner-is-not-fastest', {
+                label, shown: top.id, shownTtk: Math.round(top.triggerTtk),
+                fastest: fastest.id, fastestTtk: Math.round(fastest.triggerTtk),
+                deltaMs: Math.round(top.triggerTtk - fastest.triggerTtk)
+              });
+            }
+            // Ordering must be non-decreasing in trigger-to-kill throughout.
+            for (let i = 1; i < finite.length; i++) {
+              if (Number(finite[i - 1].triggerTtk) > Number(finite[i].triggerTtk) + 1e-9) {
+                bad('fastest-kill-out-of-order', {
+                  label, a: finite[i - 1].id, aTtk: Math.round(finite[i - 1].triggerTtk),
+                  b: finite[i].id, bTtk: Math.round(finite[i].triggerTtk)
+                });
+                break;
+              }
             }
           }
         }
@@ -122,16 +133,15 @@ const summary = {
   winnerChanges: flips.length,
   distinctWinners: [...new Set(rows.map(r => r.winner))].length,
   priorityFidelity: {
-    note: 'FASTEST KILL cases whose winner is not the fastest killer. rankWeapons() always sorts by the 55/45 laserbeam utility; PRIORITY only changes which cached build row is read. Tracked, not auto-corrected: changing it changes headline winners across the product.',
+    note: 'FASTEST KILL must rank by trigger-to-kill, with Beam Index breaking only genuine ties. Violations are counted as anomalies, so this is now enforced rather than tracked.',
     fastestKillCases: rows.filter(r => r.priority === 'fastest').length,
-    winnerNotFastest: fidelity.length,
-    worstDeltaMs: fidelity.reduce((a, f) => Math.max(a, f.deltaMs), 0),
-    examples: fidelity.slice(0, 12)
+    winnerNotFastest: byKind['fastest-kill-winner-is-not-fastest'] || 0,
+    outOfOrder: byKind['fastest-kill-out-of-order'] || 0
   }
 };
 
 await mkdir('reports/overnight', { recursive: true });
-await writeFile('reports/overnight/meta-sweep.json', JSON.stringify({ summary, anomalies, flips, fidelity }, null, 1));
+await writeFile('reports/overnight/meta-sweep.json', JSON.stringify({ summary, anomalies, flips }, null, 1));
 const cols = ['mode', 'priority', 'category', 'd', 'ranked', 'winner', 'winnerName', 'cls', 'btk', 'damage', 'mechTtk', 'triggerTtk', 'beamIndex', 'buildPoints', 'exhaustive'];
 await writeFile('reports/overnight/meta-sweep.csv',
   [cols.join(','), ...rows.map(r => cols.map(c => JSON.stringify(r[c] ?? '')).join(','))].join('\n'));

@@ -606,15 +606,18 @@
   }
 
   /**
-   * Strategy used to pick WHICH cached row each weapon is ranked on.
+   * Strategy for this PRIORITY. It selects two things, and both matter:
    *
-   * Note what this does NOT do: rankWeapons() always orders by the 55/45
-   * laserbeam utility (metaCost) regardless of priority. Choosing FASTEST KILL
-   * swaps each weapon's `best` row for its `bestLethal` row, so the values being
-   * compared change, but the comparator itself does not. The winner under
-   * FASTEST KILL is therefore frequently not the fastest killer - measured at
-   * 411 of 672 sweep cases, worst gap 796 ms. This is a known open decision, not
-   * an oversight to be silently "fixed": see README and the overnight report.
+   *   1. WHICH cached row each weapon is ranked on - `best` for BALANCED,
+   *      `bestLethal` for FASTEST KILL.
+   *   2. WHICH comparator rankWeapons() sorts with - the 55/45 laserbeam
+   *      utility for BALANCED, trigger-to-kill for FASTEST KILL.
+   *
+   * (2) was previously missing: the comparator was always the balanced utility,
+   * so FASTEST KILL returned a non-fastest weapon in 411 of 672 sweep cases
+   * while the control read "Lowest kill time". audit-meta-sweep.mjs now fails if
+   * a FASTEST KILL winner is not the fastest killer, or if the order is not
+   * non-decreasing in trigger-to-kill.
    */
   function rankingStrategy() {
     return PRIORITY_STRATEGY[state.priority] ?? "laserbeam";
@@ -2061,14 +2064,41 @@
       x.laserScore = Number.isFinite(x.metaCost) && x.metaCost > 0 ? 100 * bestReferenceCost / x.metaCost : 0;
       x.metaScore = x.laserScore; // legacy display field; ranking uses metaCost directly.
     }
-    return rankedPool.sort((a,b) =>
-      a.metaCost-b.metaCost ||
-      (a.combat.triggerTtk??Infinity)-(b.combat.triggerTtk??Infinity) ||
-      (a.beamIndex??Infinity)-(b.beamIndex??Infinity) ||
+    // Deterministic tail shared by both comparators. Never reaches a coin flip:
+    // BTK, then chest damage, then velocity, then ADS time.
+    const tieBreak = (a,b) =>
       a.combat.btk-b.combat.btk ||
       b.combat.damage-a.combat.damage ||
-      b.velocity-a.velocity || a.ads-b.ads
-    ).map((x,i)=>({...x,rankScore:Math.max(0,100-i)}));
+      b.velocity-a.velocity || a.ads-b.ads;
+
+    // Two comparators, one per PRIORITY, over the same rows.
+    //
+    //   BALANCED (laserbeam) - unchanged: the 55/45 trigger-to-kill / Beam Index
+    //   utility decides, and trigger-to-kill breaks utility ties.
+    //
+    //   FASTEST KILL (lethal) - trigger-to-kill decides outright, and Beam Index
+    //   breaks only a genuine lethality tie. This is what the control has always
+    //   said it does ("Lowest kill time, even if it kicks harder"); until now
+    //   PRIORITY changed only which cached build row was read, so the ordering
+    //   key stayed the balanced utility and the winner was frequently not the
+    //   fastest killer. No new weight or penalty is introduced here: both values
+    //   are ones the engine already computes.
+    const TTK_TIE_EPSILON_MS = 1e-9; // float noise only, never a tolerance band
+    const ttk = x => Number(x.combat.triggerTtk ?? Infinity);
+    const beam = x => Number(x.beamIndex ?? Infinity);
+    const lethalFirst = (a,b) => {
+      const d = ttk(a)-ttk(b);
+      if (Math.abs(d) > TTK_TIE_EPSILON_MS) return d;
+      return beam(a)-beam(b) || tieBreak(a,b);
+    };
+    const balancedFirst = (a,b) =>
+      a.metaCost-b.metaCost ||
+      ttk(a)-ttk(b) ||
+      beam(a)-beam(b) ||
+      tieBreak(a,b);
+
+    const comparator = rankingStrategy() === "lethal" ? lethalFirst : balancedFirst;
+    return rankedPool.sort(comparator).map((x,i)=>({...x,rankScore:Math.max(0,100-i)}));
   }
 
   function resolveAutoWeapon() {
@@ -3968,6 +3998,7 @@
           armor: am ? {
             totalHp: am.armorTotalHp, plates: am.plates, hpPerPlate: am.hpPerPlate,
             chestMultiplier: am.armorChestMultiplier,
+            pellets: Math.max(1, Number(raw?.pellets) || 1),
             rangeShiftMeters: Number(redsecModel()?.damageVsArmor?.rangeShiftMeters?.value ?? NaN),
             closeRangePolicy: am.closeRangePolicy,
             spilloverPolicy: am.spilloverPolicy,

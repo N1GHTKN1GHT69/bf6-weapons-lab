@@ -42,25 +42,38 @@ invented to support a simpler label.
 - **FASTEST KILL** -> `lethal`: strict trigger-to-kill first, Beam Index only
   breaking lethal ties.
 
-### What PRIORITY actually changes today (verified 2026-09-02)
+### PRIORITY selects the ranking comparator (corrected 2026-09-03)
 
-PRIORITY selects the **attachment build strategy**. It does not change the
-**weapon ranking comparator**: `rankWeapons()` always sorts by the 55/45
-laserbeam utility (`metaCost`), in both priorities. Choosing FASTEST KILL makes
-the engine read each weapon's `bestLethal` cached row instead of its `best` row,
-which changes the numbers being ranked, but the ordering key stays the balanced
-utility.
+PRIORITY selects both the attachment build strategy **and** the weapon ranking
+comparator. `rankWeapons()` builds one pool of rows and sorts it with one of two
+comparators:
 
-Measured consequence: across 672 FASTEST KILL cases in the meta sweep, the
-recommended weapon is **not** the fastest killer in 411 of them (61%), with a
-worst-case gap of 796 ms. See `reports/overnight/meta-sweep.json`
-(`summary.priorityFidelity`).
+| PRIORITY | Comparator order |
+| --- | --- |
+| BALANCED | `metaCost` (55/45 utility) -> trigger-to-kill -> Beam Index -> tie-break tail |
+| FASTEST KILL | trigger-to-kill -> Beam Index -> tie-break tail |
 
-That is a difference between the control's label ("Lowest kill time") and its
-implemented behaviour. Reconciling it - either by ranking strictly on
-trigger-to-kill under FASTEST KILL, or by relabelling the control - changes
-headline winners across the product, so it is recorded as an open decision
-rather than changed silently. See `BF6-WEAPONS-LAB-OVERNIGHT-REPORT.md`.
+Beam Index breaks a FASTEST KILL tie only when trigger-to-kill values are equal
+to within 1e-9 ms, which is float noise, not a tolerance band. The shared
+deterministic tail is BTK, then chest damage, then muzzle velocity, then ADS
+time, so no comparison ever falls through to input order.
+
+No new weight, penalty or scoring component was introduced: both keys are values
+the engine already computed.
+
+**Previously**, `rankWeapons()` sorted by `metaCost` in both priorities, and
+PRIORITY only changed which cached build row was read. FASTEST KILL therefore
+returned a weapon that was not the fastest killer in 411 of 672 measured cases,
+with a worst-case gap of 796 ms - while the control read "Lowest kill time".
+
+Verified after the fix, over the same 1,344-case sweep:
+
+- FASTEST KILL: **0** cases where the winner is not the fastest killer, **0**
+  ordering violations (enforced by `scripts/audit-meta-sweep.mjs`, which now
+  fails on either).
+- BALANCED: **0 of 672** cases changed. The default experience is untouched.
+- 411 of 672 FASTEST KILL winners changed, spread evenly across modes
+  (MP 136, REDSEC unarmored 136, REDSEC 2 PLATES 139).
 
 PRIORITY defaults to each mode's historical strategy (AUTO META balanced, BUILD
 MY GUN fastest kill), so default behaviour is unchanged. The only exposed

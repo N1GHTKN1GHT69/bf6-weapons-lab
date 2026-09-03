@@ -223,69 +223,69 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "MP","balanced","Shotgun",200,4,"185ksk","18.5KS-K","Shotgun",4,32,600,1179,"2.599",100,true
 "MP","balanced","Shotgun",250,4,"185ksk","18.5KS-K","Shotgun",4,32,600,1399,"2.599",100,true
 "MP","balanced","Shotgun",300,4,"185ksk","18.5KS-K","Shotgun",4,32,600,1662,"2.599",100,true
-"MP","fastest","__all__",1,48,"rpkm","RPKM","LMG",3,35.22,217,218,"0.813",100,true
-"MP","fastest","__all__",5,48,"rpkm","RPKM","LMG",3,35.22,217,223,"0.832",100,true
-"MP","fastest","__all__",9,48,"rpkm","RPKM","LMG",3,35.22,217,229,"0.851",100,true
-"MP","fastest","__all__",10,48,"m123k","M123K","LMG",4,26.05,217,230,"1.805",90,true
-"MP","fastest","__all__",15,48,"m123k","M123K","LMG",4,26.05,217,237,"1.868",90,true
-"MP","fastest","__all__",20,48,"m123k","M123K","LMG",4,26.05,217,243,"1.932",95,true
-"MP","fastest","__all__",21,48,"m123k","M123K","LMG",4,26.05,217,245,"1.944",95,true
-"MP","fastest","__all__",25,48,"l110","L110","LMG",5,20.67,333,361,"1.242",100,true
-"MP","fastest","__all__",30,48,"l110","L110","LMG",5,20.67,333,367,"1.278",100,true
-"MP","fastest","__all__",31,48,"l110","L110","LMG",5,20.67,333,368,"1.286",100,true
-"MP","fastest","__all__",35,48,"l110","L110","LMG",5,20.67,333,373,"1.315",100,true
-"MP","fastest","__all__",36,48,"kord6p67","KORD 6P67","Assault Rifle",6,17.13,333,386,"1.127",100,true
-"MP","fastest","__all__",37,48,"kord6p67","KORD 6P67","Assault Rifle",6,17.13,333,388,"1.133",100,true
-"MP","fastest","__all__",40,48,"kord6p67","KORD 6P67","Assault Rifle",6,17.13,333,392,"1.152",100,true
-"MP","fastest","__all__",50,48,"kord6p67","KORD 6P67","Assault Rifle",6,17.13,333,408,"1.212",100,true
+"MP","fastest","__all__",1,48,"scw10","SCW-10","SMG",3,35.22,150,152,"2.828",100,true
+"MP","fastest","__all__",5,48,"scw10","SCW-10","SMG",3,35.22,150,160,"2.924",100,true
+"MP","fastest","__all__",9,48,"scw10","SCW-10","SMG",3,35.22,150,168,"3.020",100,true
+"MP","fastest","__all__",10,48,"tr7","TR-7","Assault Rifle",3,35.22,167,180,"4.472",85,true
+"MP","fastest","__all__",15,48,"tr7","TR-7","Assault Rifle",3,35.22,167,187,"4.640",85,true
+"MP","fastest","__all__",20,48,"tr7","TR-7","Assault Rifle",3,35.22,167,194,"4.808",90,true
+"MP","fastest","__all__",21,48,"tr7","TR-7","Assault Rifle",3,35.22,167,196,"4.841",90,true
+"MP","fastest","__all__",25,48,"tr7","TR-7","Assault Rifle",4,26.05,250,285,"4.975",90,true
+"MP","fastest","__all__",30,48,"tr7","TR-7","Assault Rifle",4,26.05,250,292,"5.143",90,true
+"MP","fastest","__all__",31,48,"tr7","TR-7","Assault Rifle",4,26.05,250,293,"5.177",90,true
+"MP","fastest","__all__",35,48,"tr7","TR-7","Assault Rifle",4,26.05,250,299,"5.311",90,true
+"MP","fastest","__all__",36,48,"tr7","TR-7","Assault Rifle",4,26.05,250,301,"5.344",100,true
+"MP","fastest","__all__",37,48,"tr7","TR-7","Assault Rifle",4,26.05,250,302,"5.378",100,true
+"MP","fastest","__all__",40,48,"tr7","TR-7","Assault Rifle",4,26.05,250,307,"5.478",100,true
+"MP","fastest","__all__",50,48,"tr7","TR-7","Assault Rifle",4,26.05,250,322,"5.814",100,true
 "MP","fastest","__all__",54,48,"sv98","SV-98","Sniper Rifle",1,100,0,67,"1.933",90,true
 "MP","fastest","__all__",60,48,"sv98","SV-98","Sniper Rifle",1,100,0,75,"1.970",90,true
-"MP","fastest","__all__",75,48,"sv98","SV-98","Sniper Rifle",1,100,0,95,"2.063",90,true
+"MP","fastest","__all__",75,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,85,"2.442",95,true
 "MP","fastest","__all__",76,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,86,"2.449",100,true
 "MP","fastest","__all__",83,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,95,"2.500",100,true
 "MP","fastest","__all__",90,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,104,"2.550",100,true
 "MP","fastest","__all__",100,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,117,"2.622",100,true
-"MP","fastest","__all__",120,48,"l115","L115A3","Sniper Rifle",1,100,0,163,"3.199",95,true
+"MP","fastest","__all__",120,48,"psr","PSR","Sniper Rifle",1,100,0,160,"3.398",95,true
 "MP","fastest","__all__",133,48,"l115","L115A3","Sniper Rifle",1,100,0,184,"3.199",95,true
-"MP","fastest","__all__",150,48,"lmr27","LMR27","DMR",4,26.2,400,575,"1.709",100,true
-"MP","fastest","__all__",200,48,"lmr27","LMR27","DMR",4,26.2,400,646,"1.709",100,true
-"MP","fastest","__all__",250,48,"lmr27","LMR27","DMR",4,26.2,400,724,"1.709",100,true
+"MP","fastest","__all__",150,48,"m250","M250","LMG",4,26.05,267,485,"2.833",95,true
+"MP","fastest","__all__",200,48,"m250","M250","LMG",4,26.05,267,587,"2.833",95,true
+"MP","fastest","__all__",250,48,"m250","M250","LMG",4,26.05,267,709,"2.833",95,true
 "MP","fastest","__all__",300,48,"lmr27","LMR27","DMR",4,26.2,400,811,"1.709",100,true
-"MP","fastest","Assault Rifle",1,11,"nvo228e","NVO-228E","Assault Rifle",3,35.22,183,184,"2.670",80,true
-"MP","fastest","Assault Rifle",5,11,"nvo228e","NVO-228E","Assault Rifle",3,35.22,183,189,"2.760",80,true
-"MP","fastest","Assault Rifle",9,11,"sor556","SOR-556 MK2","Assault Rifle",4,26.05,317,327,"0.773",95,true
-"MP","fastest","Assault Rifle",10,11,"sor556","SOR-556 MK2","Assault Rifle",4,26.05,317,328,"0.777",95,true
-"MP","fastest","Assault Rifle",15,11,"sor556","SOR-556 MK2","Assault Rifle",4,26.05,317,333,"0.800",95,true
-"MP","fastest","Assault Rifle",20,11,"sor556","SOR-556 MK2","Assault Rifle",4,26.05,317,339,"0.823",100,true
-"MP","fastest","Assault Rifle",21,11,"sor556","SOR-556 MK2","Assault Rifle",4,26.05,317,340,"0.827",100,true
-"MP","fastest","Assault Rifle",25,11,"b36a4","B36A4","Assault Rifle",5,20.67,333,361,"1.409",95,true
-"MP","fastest","Assault Rifle",30,11,"b36a4","B36A4","Assault Rifle",5,20.67,333,367,"1.449",95,true
-"MP","fastest","Assault Rifle",31,11,"b36a4","B36A4","Assault Rifle",5,20.67,333,368,"1.456",95,true
-"MP","fastest","Assault Rifle",35,11,"b36a4","B36A4","Assault Rifle",5,20.67,333,373,"1.488",95,true
-"MP","fastest","Assault Rifle",36,11,"kord6p67","KORD 6P67","Assault Rifle",6,17.13,333,386,"1.127",100,true
-"MP","fastest","Assault Rifle",37,11,"kord6p67","KORD 6P67","Assault Rifle",6,17.13,333,388,"1.133",100,true
-"MP","fastest","Assault Rifle",40,11,"kord6p67","KORD 6P67","Assault Rifle",6,17.13,333,392,"1.152",100,true
-"MP","fastest","Assault Rifle",50,11,"kord6p67","KORD 6P67","Assault Rifle",6,17.13,333,408,"1.212",100,true
-"MP","fastest","Assault Rifle",54,11,"sor556","SOR-556 MK2","Assault Rifle",5,20.67,422,484,"0.977",100,true
-"MP","fastest","Assault Rifle",60,11,"sor556","SOR-556 MK2","Assault Rifle",5,20.67,422,492,"1.004",100,true
-"MP","fastest","Assault Rifle",75,11,"sor556","SOR-556 MK2","Assault Rifle",5,20.67,422,511,"1.072",100,true
-"MP","fastest","Assault Rifle",76,11,"sor556","SOR-556 MK2","Assault Rifle",6,17.13,528,619,"1.076",95,true
-"MP","fastest","Assault Rifle",83,11,"sor556","SOR-556 MK2","Assault Rifle",6,17.13,528,628,"1.108",95,true
-"MP","fastest","Assault Rifle",90,11,"sor556","SOR-556 MK2","Assault Rifle",6,17.13,528,638,"1.139",95,true
-"MP","fastest","Assault Rifle",100,11,"sor556","SOR-556 MK2","Assault Rifle",6,17.13,528,653,"1.185",95,true
-"MP","fastest","Assault Rifle",120,11,"sor556","SOR-556 MK2","Assault Rifle",6,17.13,528,683,"1.275",95,true
-"MP","fastest","Assault Rifle",133,11,"sor556","SOR-556 MK2","Assault Rifle",6,17.13,528,704,"1.275",95,true
-"MP","fastest","Assault Rifle",150,11,"sor556","SOR-556 MK2","Assault Rifle",6,17.13,528,733,"1.275",95,true
-"MP","fastest","Assault Rifle",200,11,"b36a4","B36A4","Assault Rifle",6,17.13,417,730,"2.155",100,true
-"MP","fastest","Assault Rifle",250,11,"l85a3","L85A3","Assault Rifle",6,17.13,472,883,"1.508",95,true
-"MP","fastest","Assault Rifle",300,11,"l85a3","L85A3","Assault Rifle",6,17.13,472,1018,"1.508",95,true
-"MP","fastest","Carbine",1,9,"ak205","AK-205","Carbine",5,20.67,333,334,"0.596",100,true
-"MP","fastest","Carbine",5,9,"sor300sc","SOR-300SC","Carbine",3,35.22,200,208,"1.984",90,true
-"MP","fastest","Carbine",9,9,"sor300sc","SOR-300SC","Carbine",3,35.22,200,214,"2.047",90,true
-"MP","fastest","Carbine",10,9,"ak205","AK-205","Carbine",6,17.74,417,431,"0.632",100,true
-"MP","fastest","Carbine",15,9,"ak205","AK-205","Carbine",6,17.74,417,439,"0.652",100,true
-"MP","fastest","Carbine",20,9,"ak205","AK-205","Carbine",6,17.74,417,446,"0.671",100,true
-"MP","fastest","Carbine",21,9,"ak205","AK-205","Carbine",6,17.74,417,448,"0.675",100,true
+"MP","fastest","Assault Rifle",1,11,"tr7","TR-7","Assault Rifle",3,35.22,167,168,"4.170",85,true
+"MP","fastest","Assault Rifle",5,11,"tr7","TR-7","Assault Rifle",3,35.22,167,174,"4.304",85,true
+"MP","fastest","Assault Rifle",9,11,"tr7","TR-7","Assault Rifle",3,35.22,167,179,"4.439",85,true
+"MP","fastest","Assault Rifle",10,11,"tr7","TR-7","Assault Rifle",3,35.22,167,180,"4.472",85,true
+"MP","fastest","Assault Rifle",15,11,"tr7","TR-7","Assault Rifle",3,35.22,167,187,"4.640",85,true
+"MP","fastest","Assault Rifle",20,11,"tr7","TR-7","Assault Rifle",3,35.22,167,194,"4.808",90,true
+"MP","fastest","Assault Rifle",21,11,"tr7","TR-7","Assault Rifle",3,35.22,167,196,"4.841",90,true
+"MP","fastest","Assault Rifle",25,11,"tr7","TR-7","Assault Rifle",4,26.05,250,285,"4.975",90,true
+"MP","fastest","Assault Rifle",30,11,"tr7","TR-7","Assault Rifle",4,26.05,250,292,"5.143",90,true
+"MP","fastest","Assault Rifle",31,11,"tr7","TR-7","Assault Rifle",4,26.05,250,293,"5.177",90,true
+"MP","fastest","Assault Rifle",35,11,"tr7","TR-7","Assault Rifle",4,26.05,250,299,"5.311",90,true
+"MP","fastest","Assault Rifle",36,11,"tr7","TR-7","Assault Rifle",4,26.05,250,301,"5.344",100,true
+"MP","fastest","Assault Rifle",37,11,"tr7","TR-7","Assault Rifle",4,26.05,250,302,"5.378",100,true
+"MP","fastest","Assault Rifle",40,11,"tr7","TR-7","Assault Rifle",4,26.05,250,307,"5.478",100,true
+"MP","fastest","Assault Rifle",50,11,"tr7","TR-7","Assault Rifle",4,26.05,250,322,"5.814",100,true
+"MP","fastest","Assault Rifle",54,11,"tr7","TR-7","Assault Rifle",4,26.05,250,329,"5.948",100,true
+"MP","fastest","Assault Rifle",60,11,"tr7","TR-7","Assault Rifle",4,26.05,250,338,"6.149",100,true
+"MP","fastest","Assault Rifle",75,11,"tr7","TR-7","Assault Rifle",4,26.05,250,364,"6.652",100,true
+"MP","fastest","Assault Rifle",76,11,"vcr2","VCR-2","Assault Rifle",6,17.13,333,439,"5.481",100,true
+"MP","fastest","Assault Rifle",83,11,"vcr2","VCR-2","Assault Rifle",6,17.13,333,450,"5.677",100,true
+"MP","fastest","Assault Rifle",90,11,"vcr2","VCR-2","Assault Rifle",6,17.13,333,461,"5.872",100,true
+"MP","fastest","Assault Rifle",100,11,"vcr2","VCR-2","Assault Rifle",6,17.13,333,478,"6.152",100,true
+"MP","fastest","Assault Rifle",120,11,"vcr2","VCR-2","Assault Rifle",6,17.13,333,514,"6.711",100,true
+"MP","fastest","Assault Rifle",133,11,"vcr2","VCR-2","Assault Rifle",6,17.13,333,538,"6.711",100,true
+"MP","fastest","Assault Rifle",150,11,"vcr2","VCR-2","Assault Rifle",6,17.13,333,572,"6.711",100,true
+"MP","fastest","Assault Rifle",200,11,"vcr2","VCR-2","Assault Rifle",6,17.13,333,684,"6.711",100,true
+"MP","fastest","Assault Rifle",250,11,"vcr2","VCR-2","Assault Rifle",6,17.13,333,817,"6.711",100,true
+"MP","fastest","Assault Rifle",300,11,"vcr2","VCR-2","Assault Rifle",6,17.13,333,976,"6.711",100,true
+"MP","fastest","Carbine",1,9,"sg553r","SG 553R","Carbine",3,35.22,167,169,"2.723",85,true
+"MP","fastest","Carbine",5,9,"sg553r","SG 553R","Carbine",3,35.22,167,175,"2.812",85,true
+"MP","fastest","Carbine",9,9,"sg553r","SG 553R","Carbine",3,35.22,167,182,"2.900",85,true
+"MP","fastest","Carbine",10,9,"m277","M277","Carbine",4,26.05,250,264,"2.143",95,true
+"MP","fastest","Carbine",15,9,"m277","M277","Carbine",4,26.05,250,271,"2.212",95,true
+"MP","fastest","Carbine",20,9,"m277","M277","Carbine",4,26.05,250,278,"2.281",100,true
+"MP","fastest","Carbine",21,9,"m277","M277","Carbine",4,26.05,250,279,"2.295",100,true
 "MP","fastest","Carbine",25,9,"m277","M277","Carbine",4,26.05,250,285,"2.350",100,true
 "MP","fastest","Carbine",30,9,"m277","M277","Carbine",4,26.05,250,293,"2.420",100,true
 "MP","fastest","Carbine",31,9,"m277","M277","Carbine",4,26.05,250,294,"2.434",100,true
@@ -294,75 +294,75 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "MP","fastest","Carbine",37,9,"m277","M277","Carbine",4,26.05,250,303,"2.517",100,true
 "MP","fastest","Carbine",40,9,"m277","M277","Carbine",4,26.05,250,308,"2.558",100,true
 "MP","fastest","Carbine",50,9,"m277","M277","Carbine",4,26.05,250,324,"2.696",100,true
-"MP","fastest","Carbine",54,9,"ak205","AK-205","Carbine",7,14.62,500,584,"0.807",100,true
-"MP","fastest","Carbine",60,9,"ak205","AK-205","Carbine",7,14.62,500,594,"0.831",100,true
-"MP","fastest","Carbine",75,9,"ak205","AK-205","Carbine",7,14.62,500,621,"0.891",100,true
-"MP","fastest","Carbine",76,9,"ak205","AK-205","Carbine",8,12.76,583,706,"0.895",100,true
-"MP","fastest","Carbine",83,9,"ak205","AK-205","Carbine",8,12.76,583,719,"0.923",100,true
-"MP","fastest","Carbine",90,9,"ak205","AK-205","Carbine",8,12.76,583,732,"0.951",100,true
-"MP","fastest","Carbine",100,9,"ak205","AK-205","Carbine",8,12.76,583,752,"0.991",100,true
-"MP","fastest","Carbine",120,9,"ak205","AK-205","Carbine",8,12.76,583,794,"1.071",100,true
-"MP","fastest","Carbine",133,9,"ak205","AK-205","Carbine",8,12.76,583,822,"1.071",100,true
-"MP","fastest","Carbine",150,9,"ak205","AK-205","Carbine",8,12.76,583,862,"1.071",100,true
-"MP","fastest","Carbine",200,9,"ak205","AK-205","Carbine",8,12.76,583,992,"1.071",100,true
-"MP","fastest","Carbine",250,9,"ak205","AK-205","Carbine",8,12.76,583,1148,"1.071",100,true
-"MP","fastest","Carbine",300,9,"ak205","AK-205","Carbine",8,12.76,583,1333,"1.071",100,true
-"MP","fastest","SMG",1,10,"sl9","SL9","SMG",4,26.05,267,269,"0.656",90,true
-"MP","fastest","SMG",5,10,"sl9","SL9","SMG",4,26.05,267,275,"0.673",90,true
-"MP","fastest","SMG",9,10,"sl9","SL9","SMG",4,26.05,267,282,"0.690",90,true
-"MP","fastest","SMG",10,10,"sl9","SL9","SMG",5,20.67,356,373,"0.694",90,true
-"MP","fastest","SMG",15,10,"sl9","SL9","SMG",5,20.67,356,381,"0.715",90,true
-"MP","fastest","SMG",20,10,"sl9","SL9","SMG",5,20.67,356,390,"0.737",95,true
-"MP","fastest","SMG",21,10,"sl9","SL9","SMG",5,20.67,356,392,"0.741",95,true
-"MP","fastest","SMG",25,10,"pw7a2","PW7A2","SMG",7,14.62,380,425,"0.880",100,true
-"MP","fastest","SMG",30,10,"pw7a2","PW7A2","SMG",7,14.62,380,435,"0.903",100,true
-"MP","fastest","SMG",31,10,"pw7a2","PW7A2","SMG",7,14.62,380,437,"0.908",100,true
-"MP","fastest","SMG",35,10,"pw7a2","PW7A2","SMG",7,14.62,380,445,"0.927",100,true
-"MP","fastest","SMG",36,10,"pw7a2","PW7A2","SMG",7,14.62,380,447,"0.932",100,true
-"MP","fastest","SMG",37,10,"pw7a2","PW7A2","SMG",7,14.62,380,449,"0.937",100,true
-"MP","fastest","SMG",40,10,"pw7a2","PW7A2","SMG",7,14.62,380,455,"0.951",100,true
-"MP","fastest","SMG",50,10,"pw7a2","PW7A2","SMG",7,14.62,380,475,"0.999",100,true
-"MP","fastest","SMG",54,10,"pw7a2","PW7A2","SMG",7,14.62,380,483,"1.019",100,true
-"MP","fastest","SMG",60,10,"pw7a2","PW7A2","SMG",7,14.62,380,496,"1.047",100,true
-"MP","fastest","SMG",75,10,"pw7a2","PW7A2","SMG",7,14.62,380,529,"1.119",100,true
-"MP","fastest","SMG",76,10,"pw7a2","PW7A2","SMG",8,12.76,443,594,"1.124",100,true
-"MP","fastest","SMG",83,10,"pw7a2","PW7A2","SMG",8,12.76,443,610,"1.158",100,true
-"MP","fastest","SMG",90,10,"pw7a2","PW7A2","SMG",8,12.76,443,627,"1.191",100,true
-"MP","fastest","SMG",100,10,"pw7a2","PW7A2","SMG",8,12.76,443,651,"1.239",100,true
-"MP","fastest","SMG",120,10,"pw7a2","PW7A2","SMG",8,12.76,443,702,"1.335",100,true
-"MP","fastest","SMG",133,10,"pw7a2","PW7A2","SMG",8,12.76,443,737,"1.335",100,true
-"MP","fastest","SMG",150,10,"pw7a2","PW7A2","SMG",8,12.76,443,785,"1.335",100,true
-"MP","fastest","SMG",200,10,"pw7a2","PW7A2","SMG",8,12.76,443,946,"1.335",100,true
-"MP","fastest","SMG",250,10,"pw7a2","PW7A2","SMG",8,12.76,443,1137,"1.335",100,true
-"MP","fastest","SMG",300,10,"sl9","SL9","SMG",8,12.76,622,1496,"1.162",100,true
-"MP","fastest","LMG",1,10,"rpkm","RPKM","LMG",3,35.22,217,218,"0.813",100,true
-"MP","fastest","LMG",5,10,"rpkm","RPKM","LMG",3,35.22,217,223,"0.832",100,true
-"MP","fastest","LMG",9,10,"rpkm","RPKM","LMG",3,35.22,217,229,"0.851",100,true
-"MP","fastest","LMG",10,10,"m123k","M123K","LMG",4,26.05,217,230,"1.805",90,true
-"MP","fastest","LMG",15,10,"m123k","M123K","LMG",4,26.05,217,237,"1.868",90,true
-"MP","fastest","LMG",20,10,"m123k","M123K","LMG",4,26.05,217,243,"1.932",95,true
-"MP","fastest","LMG",21,10,"m123k","M123K","LMG",4,26.05,217,245,"1.944",95,true
-"MP","fastest","LMG",25,10,"l110","L110","LMG",5,20.67,333,361,"1.242",100,true
-"MP","fastest","LMG",30,10,"l110","L110","LMG",5,20.67,333,367,"1.278",100,true
-"MP","fastest","LMG",31,10,"l110","L110","LMG",5,20.67,333,368,"1.286",100,true
-"MP","fastest","LMG",35,10,"l110","L110","LMG",5,20.67,333,373,"1.315",100,true
-"MP","fastest","LMG",36,10,"l110","L110","LMG",5,20.67,333,374,"1.322",100,true
-"MP","fastest","LMG",37,10,"l110","L110","LMG",5,20.67,333,376,"1.330",100,true
-"MP","fastest","LMG",40,10,"l110","L110","LMG",5,20.67,333,379,"1.352",100,true
-"MP","fastest","LMG",50,10,"l110","L110","LMG",5,20.67,333,392,"1.425",100,true
-"MP","fastest","LMG",54,10,"rpk74m","RPK-74M","LMG",6,17.13,438,497,"0.859",100,true
-"MP","fastest","LMG",60,10,"rpk74m","RPK-74M","LMG",6,17.13,438,504,"0.884",100,true
-"MP","fastest","LMG",75,10,"rpk74m","RPK-74M","LMG",6,17.13,438,523,"0.947",100,true
-"MP","fastest","LMG",76,10,"rpk74m","RPK-74M","LMG",7,14.62,525,611,"0.952",100,true
-"MP","fastest","LMG",83,10,"rpk74m","RPK-74M","LMG",7,14.62,525,620,"0.981",100,true
-"MP","fastest","LMG",90,10,"rpk74m","RPK-74M","LMG",7,14.62,525,630,"1.011",100,true
-"MP","fastest","LMG",100,10,"rpk74m","RPK-74M","LMG",7,14.62,525,644,"1.053",100,true
-"MP","fastest","LMG",120,10,"rpk74m","RPK-74M","LMG",7,14.62,525,673,"1.137",100,true
-"MP","fastest","LMG",133,10,"rpk74m","RPK-74M","LMG",7,14.62,525,693,"1.137",100,true
+"MP","fastest","Carbine",54,9,"m277","M277","Carbine",4,26.05,250,330,"2.752",100,true
+"MP","fastest","Carbine",60,9,"m277","M277","Carbine",4,26.05,250,340,"2.835",100,true
+"MP","fastest","Carbine",75,9,"m277","M277","Carbine",4,26.05,250,366,"3.042",100,true
+"MP","fastest","Carbine",76,9,"m277","M277","Carbine",5,20.67,333,451,"3.056",100,true
+"MP","fastest","Carbine",83,9,"m277","M277","Carbine",5,20.67,333,463,"3.153",100,true
+"MP","fastest","Carbine",90,9,"m277","M277","Carbine",5,20.67,333,476,"3.250",100,true
+"MP","fastest","Carbine",100,9,"m277","M277","Carbine",5,20.67,333,495,"3.388",100,true
+"MP","fastest","Carbine",120,9,"m277","M277","Carbine",5,20.67,333,535,"3.665",100,true
+"MP","fastest","Carbine",133,9,"m277","M277","Carbine",5,20.67,333,562,"3.665",100,true
+"MP","fastest","Carbine",150,9,"m277","M277","Carbine",5,20.67,333,600,"3.665",100,true
+"MP","fastest","Carbine",200,9,"m277","M277","Carbine",5,20.67,333,724,"3.665",100,true
+"MP","fastest","Carbine",250,9,"m277","M277","Carbine",5,20.67,333,873,"3.665",100,true
+"MP","fastest","Carbine",300,9,"m277","M277","Carbine",5,20.67,333,1050,"3.665",100,true
+"MP","fastest","SMG",1,10,"scw10","SCW-10","SMG",3,35.22,150,152,"2.828",100,true
+"MP","fastest","SMG",5,10,"scw10","SCW-10","SMG",3,35.22,150,160,"2.924",100,true
+"MP","fastest","SMG",9,10,"scw10","SCW-10","SMG",3,35.22,150,168,"3.020",100,true
+"MP","fastest","SMG",10,10,"kv9","KV9","SMG",5,20.67,222,245,"2.860",100,true
+"MP","fastest","SMG",15,10,"scw10","SCW-10","SMG",4,26.05,225,256,"3.165",100,true
+"MP","fastest","SMG",20,10,"scw10","SCW-10","SMG",4,26.05,225,267,"3.285",100,true
+"MP","fastest","SMG",21,10,"scw10","SCW-10","SMG",4,26.05,225,269,"3.309",100,true
+"MP","fastest","SMG",25,10,"kv9","KV9","SMG",6,17.13,278,336,"3.205",90,true
+"MP","fastest","SMG",30,10,"kv9","KV9","SMG",6,17.13,278,348,"3.320",90,true
+"MP","fastest","SMG",31,10,"kv9","KV9","SMG",6,17.13,278,350,"3.343",90,true
+"MP","fastest","SMG",35,10,"kv9","KV9","SMG",6,17.13,278,360,"3.435",90,true
+"MP","fastest","SMG",36,10,"kv9","KV9","SMG",6,17.13,278,363,"3.458",100,true
+"MP","fastest","SMG",37,10,"kv9","KV9","SMG",7,14.62,333,420,"3.481",100,true
+"MP","fastest","SMG",40,10,"kv9","KV9","SMG",7,14.62,333,428,"3.550",100,true
+"MP","fastest","SMG",50,10,"kv9","KV9","SMG",7,14.62,333,454,"3.781",100,true
+"MP","fastest","SMG",54,10,"kv9","KV9","SMG",7,14.62,333,465,"3.873",100,true
+"MP","fastest","SMG",60,10,"kv9","KV9","SMG",7,14.62,333,481,"4.011",100,true
+"MP","fastest","SMG",75,10,"kv9","KV9","SMG",7,14.62,333,523,"4.356",100,true
+"MP","fastest","SMG",76,10,"kv9","KV9","SMG",8,12.76,389,582,"4.379",100,true
+"MP","fastest","SMG",83,10,"kv9","KV9","SMG",8,12.76,389,602,"4.540",100,true
+"MP","fastest","SMG",90,10,"usg90","USG-90","SMG",8,12.76,467,623,"1.566",65,true
+"MP","fastest","SMG",100,10,"usg90","USG-90","SMG",8,12.76,467,644,"1.622",65,true
+"MP","fastest","SMG",120,10,"usg90","USG-90","SMG",8,12.76,467,687,"1.733",65,true
+"MP","fastest","SMG",133,10,"usg90","USG-90","SMG",8,12.76,467,717,"1.733",65,true
+"MP","fastest","SMG",150,10,"usg90","USG-90","SMG",8,12.76,467,758,"1.733",65,true
+"MP","fastest","SMG",200,10,"usg90","USG-90","SMG",8,12.76,467,894,"1.733",65,true
+"MP","fastest","SMG",250,10,"usg90","USG-90","SMG",8,12.76,467,1056,"1.733",65,true
+"MP","fastest","SMG",300,10,"usg90","USG-90","SMG",8,12.76,467,1250,"1.733",65,true
+"MP","fastest","LMG",1,10,"m121a2","M121 A2","LMG",3,35.22,183,184,"2.364",95,true
+"MP","fastest","LMG",5,10,"m121a2","M121 A2","LMG",3,35.22,183,190,"2.438",95,true
+"MP","fastest","LMG",9,10,"m121a2","M121 A2","LMG",3,35.22,183,196,"2.513",95,true
+"MP","fastest","LMG",10,10,"m121a2","M121 A2","LMG",3,35.22,183,198,"2.531",95,true
+"MP","fastest","LMG",15,10,"m121a2","M121 A2","LMG",3,35.22,183,205,"2.624",95,true
+"MP","fastest","LMG",20,10,"m121a2","M121 A2","LMG",3,35.22,183,213,"2.717",100,true
+"MP","fastest","LMG",21,10,"m121a2","M121 A2","LMG",3,35.22,183,214,"2.736",100,true
+"MP","fastest","LMG",25,10,"m250","M250","LMG",4,26.05,267,296,"1.809",90,true
+"MP","fastest","LMG",30,10,"m250","M250","LMG",4,26.05,267,302,"1.863",90,true
+"MP","fastest","LMG",31,10,"m250","M250","LMG",4,26.05,267,303,"1.874",90,true
+"MP","fastest","LMG",35,10,"m250","M250","LMG",4,26.05,267,308,"1.917",90,true
+"MP","fastest","LMG",36,10,"m250","M250","LMG",4,26.05,267,309,"1.928",100,true
+"MP","fastest","LMG",37,10,"m250","M250","LMG",4,26.05,267,311,"1.939",100,true
+"MP","fastest","LMG",40,10,"m250","M250","LMG",4,26.05,267,314,"1.971",100,true
+"MP","fastest","LMG",50,10,"m250","M250","LMG",4,26.05,267,327,"2.079",100,true
+"MP","fastest","LMG",54,10,"m250","M250","LMG",4,26.05,267,333,"2.122",100,true
+"MP","fastest","LMG",60,10,"m250","M250","LMG",4,26.05,267,341,"2.186",100,true
+"MP","fastest","LMG",75,10,"m250","M250","LMG",4,26.05,267,362,"2.348",100,true
+"MP","fastest","LMG",76,10,"m250","M250","LMG",4,26.05,267,363,"2.359",95,true
+"MP","fastest","LMG",83,10,"m250","M250","LMG",4,26.05,267,373,"2.434",95,true
+"MP","fastest","LMG",90,10,"m250","M250","LMG",4,26.05,267,384,"2.509",95,true
+"MP","fastest","LMG",100,10,"m250","M250","LMG",4,26.05,267,399,"2.617",95,true
+"MP","fastest","LMG",120,10,"m250","M250","LMG",4,26.05,267,432,"2.833",95,true
+"MP","fastest","LMG",133,10,"m250","M250","LMG",4,26.05,267,454,"2.833",95,true
 "MP","fastest","LMG",150,10,"m250","M250","LMG",4,26.05,267,485,"2.833",95,true
-"MP","fastest","LMG",200,10,"l110","L110","LMG",6,17.13,417,730,"1.937",95,true
-"MP","fastest","LMG",250,10,"l110","L110","LMG",6,17.13,417,849,"1.937",95,true
-"MP","fastest","LMG",300,10,"l110","L110","LMG",6,17.13,417,991,"1.937",95,true
+"MP","fastest","LMG",200,10,"m250","M250","LMG",4,26.05,267,587,"2.833",95,true
+"MP","fastest","LMG",250,10,"m250","M250","LMG",4,26.05,267,709,"2.833",95,true
+"MP","fastest","LMG",300,10,"m250","M250","LMG",4,26.05,267,853,"2.833",95,true
 "MP","fastest","DMR",1,6,"vssm","VSSM","DMR",3,35.22,150,153,"1.538",100,true
 "MP","fastest","DMR",5,6,"vssm","VSSM","DMR",3,35.22,150,167,"1.571",100,true
 "MP","fastest","DMR",9,6,"vssm","VSSM","DMR",3,35.22,150,180,"1.605",100,true
@@ -370,13 +370,13 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "MP","fastest","DMR",15,6,"vssm","VSSM","DMR",4,27.48,225,275,"1.655",100,true
 "MP","fastest","DMR",20,6,"vssm","VSSM","DMR",4,27.48,225,292,"1.774",100,true
 "MP","fastest","DMR",21,6,"vssm","VSSM","DMR",4,27.48,225,296,"1.782",100,true
-"MP","fastest","DMR",25,6,"lmr27","LMR27","DMR",4,27.5,400,426,"1.183",100,true
-"MP","fastest","DMR",30,6,"lmr27","LMR27","DMR",4,27.5,400,431,"1.210",100,true
-"MP","fastest","DMR",31,6,"lmr27","LMR27","DMR",4,27.5,400,432,"1.216",100,true
-"MP","fastest","DMR",35,6,"lmr27","LMR27","DMR",4,27.5,400,436,"1.238",100,true
-"MP","fastest","DMR",36,6,"lmr27","LMR27","DMR",4,27.5,400,437,"1.244",100,true
-"MP","fastest","DMR",37,6,"lmr27","LMR27","DMR",4,27.5,400,438,"1.249",100,true
-"MP","fastest","DMR",40,6,"lmr27","LMR27","DMR",4,27.5,400,442,"1.266",100,true
+"MP","fastest","DMR",25,6,"vssm","VSSM","DMR",5,21.56,300,385,"1.817",100,true
+"MP","fastest","DMR",30,6,"vssm","VSSM","DMR",5,21.56,300,402,"1.860",100,true
+"MP","fastest","DMR",31,6,"vssm","VSSM","DMR",5,21.56,300,406,"1.869",100,true
+"MP","fastest","DMR",35,6,"vssm","VSSM","DMR",5,21.56,300,420,"1.903",100,true
+"MP","fastest","DMR",36,6,"vssm","VSSM","DMR",5,21.56,300,423,"1.998",100,true
+"MP","fastest","DMR",37,6,"vssm","VSSM","DMR",5,20.67,300,427,"2.007",100,true
+"MP","fastest","DMR",40,6,"vssm","VSSM","DMR",5,20.67,300,437,"2.034",100,true
 "MP","fastest","DMR",50,6,"lmr27","LMR27","DMR",4,27.5,400,453,"1.321",100,true
 "MP","fastest","DMR",54,6,"lmr27","LMR27","DMR",4,27.5,400,457,"1.343",100,true
 "MP","fastest","DMR",60,6,"lmr27","LMR27","DMR",4,27.5,400,464,"1.376",100,true
@@ -408,12 +408,12 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "MP","fastest","Sniper Rifle",50,5,"miniscout","Mini Scout","Sniper Rifle",2,59.8519,1276,1331,"1.419",90,true
 "MP","fastest","Sniper Rifle",54,5,"sv98","SV-98","Sniper Rifle",1,100,0,67,"1.933",90,true
 "MP","fastest","Sniper Rifle",60,5,"sv98","SV-98","Sniper Rifle",1,100,0,75,"1.970",90,true
-"MP","fastest","Sniper Rifle",75,5,"sv98","SV-98","Sniper Rifle",1,100,0,95,"2.063",90,true
+"MP","fastest","Sniper Rifle",75,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,85,"2.442",95,true
 "MP","fastest","Sniper Rifle",76,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,86,"2.449",100,true
 "MP","fastest","Sniper Rifle",83,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,95,"2.500",100,true
 "MP","fastest","Sniper Rifle",90,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,104,"2.550",100,true
 "MP","fastest","Sniper Rifle",100,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,117,"2.622",100,true
-"MP","fastest","Sniper Rifle",120,5,"l115","L115A3","Sniper Rifle",1,100,0,163,"3.199",95,true
+"MP","fastest","Sniper Rifle",120,5,"psr","PSR","Sniper Rifle",1,100,0,160,"3.398",95,true
 "MP","fastest","Sniper Rifle",133,5,"l115","L115A3","Sniper Rifle",1,100,0,184,"3.199",95,true
 "MP","fastest","Sniper Rifle",150,5,"miniscout","Mini Scout","Sniper Rifle",2,58,1276,1460,"1.744",95,true
 "MP","fastest","Sniper Rifle",200,5,"miniscout","Mini Scout","Sniper Rifle",2,58,1276,1535,"1.744",95,true
@@ -427,10 +427,10 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "MP","fastest","Shotgun",20,4,"db12","DB-12","Shotgun",2,52.8,167,208,"3.079",85,true
 "MP","fastest","Shotgun",21,4,"db12","DB-12","Shotgun",2,52.8,167,211,"3.091",85,true
 "MP","fastest","Shotgun",25,4,"m1014","M1014","Shotgun",2,50,300,352,"2.874",95,true
-"MP","fastest","Shotgun",30,4,"185ksk","18.5KS-K","Shotgun",3,42.9,400,463,"2.067",100,true
-"MP","fastest","Shotgun",31,4,"185ksk","18.5KS-K","Shotgun",3,42.9,400,465,"2.075",100,true
-"MP","fastest","Shotgun",35,4,"185ksk","18.5KS-K","Shotgun",3,42.9,400,474,"2.109",100,true
-"MP","fastest","Shotgun",36,4,"185ksk","18.5KS-K","Shotgun",3,42.9,400,477,"2.230",100,true
+"MP","fastest","Shotgun",30,4,"m1014","M1014","Shotgun",2,50,300,363,"2.931",95,true
+"MP","fastest","Shotgun",31,4,"m1014","M1014","Shotgun",2,50,300,365,"2.942",95,true
+"MP","fastest","Shotgun",35,4,"m1014","M1014","Shotgun",2,50,300,374,"2.988",95,true
+"MP","fastest","Shotgun",36,4,"m1014","M1014","Shotgun",2,50,300,377,"3.167",95,true
 "MP","fastest","Shotgun",37,4,"185ksk","18.5KS-K","Shotgun",3,37.5,400,479,"2.239",100,true
 "MP","fastest","Shotgun",40,4,"185ksk","18.5KS-K","Shotgun",3,37.5,400,486,"2.265",100,true
 "MP","fastest","Shotgun",50,4,"185ksk","18.5KS-K","Shotgun",3,37.5,400,509,"2.354",100,true
@@ -671,69 +671,69 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "RS-UNARM","balanced","Shotgun",200,4,"185ksk","18.5KS-K","Shotgun",4,32,600,1179,"2.599",100,true
 "RS-UNARM","balanced","Shotgun",250,4,"185ksk","18.5KS-K","Shotgun",4,32,600,1399,"2.599",100,true
 "RS-UNARM","balanced","Shotgun",300,4,"185ksk","18.5KS-K","Shotgun",4,32,600,1662,"2.599",100,true
-"RS-UNARM","fastest","__all__",1,48,"rpkm","RPKM","LMG",3,35.22,217,218,"0.813",100,true
-"RS-UNARM","fastest","__all__",5,48,"rpkm","RPKM","LMG",3,35.22,217,223,"0.832",100,true
-"RS-UNARM","fastest","__all__",9,48,"rpkm","RPKM","LMG",3,35.22,217,229,"0.851",100,true
-"RS-UNARM","fastest","__all__",10,48,"m123k","M123K","LMG",4,26.05,217,230,"1.805",90,true
-"RS-UNARM","fastest","__all__",15,48,"m123k","M123K","LMG",4,26.05,217,237,"1.868",90,true
-"RS-UNARM","fastest","__all__",20,48,"m123k","M123K","LMG",4,26.05,217,243,"1.932",95,true
-"RS-UNARM","fastest","__all__",21,48,"m123k","M123K","LMG",4,26.05,217,245,"1.944",95,true
-"RS-UNARM","fastest","__all__",25,48,"l110","L110","LMG",5,20.67,333,361,"1.242",100,true
-"RS-UNARM","fastest","__all__",30,48,"l110","L110","LMG",5,20.67,333,367,"1.278",100,true
-"RS-UNARM","fastest","__all__",31,48,"l110","L110","LMG",5,20.67,333,368,"1.286",100,true
-"RS-UNARM","fastest","__all__",35,48,"l110","L110","LMG",5,20.67,333,373,"1.315",100,true
-"RS-UNARM","fastest","__all__",36,48,"kord6p67","KORD 6P67","Assault Rifle",6,17.13,333,386,"1.127",100,true
-"RS-UNARM","fastest","__all__",37,48,"kord6p67","KORD 6P67","Assault Rifle",6,17.13,333,388,"1.133",100,true
-"RS-UNARM","fastest","__all__",40,48,"kord6p67","KORD 6P67","Assault Rifle",6,17.13,333,392,"1.152",100,true
-"RS-UNARM","fastest","__all__",50,48,"kord6p67","KORD 6P67","Assault Rifle",6,17.13,333,408,"1.212",100,true
+"RS-UNARM","fastest","__all__",1,48,"scw10","SCW-10","SMG",3,35.22,150,152,"2.828",100,true
+"RS-UNARM","fastest","__all__",5,48,"scw10","SCW-10","SMG",3,35.22,150,160,"2.924",100,true
+"RS-UNARM","fastest","__all__",9,48,"scw10","SCW-10","SMG",3,35.22,150,168,"3.020",100,true
+"RS-UNARM","fastest","__all__",10,48,"tr7","TR-7","Assault Rifle",3,35.22,167,180,"4.472",85,true
+"RS-UNARM","fastest","__all__",15,48,"tr7","TR-7","Assault Rifle",3,35.22,167,187,"4.640",85,true
+"RS-UNARM","fastest","__all__",20,48,"tr7","TR-7","Assault Rifle",3,35.22,167,194,"4.808",90,true
+"RS-UNARM","fastest","__all__",21,48,"tr7","TR-7","Assault Rifle",3,35.22,167,196,"4.841",90,true
+"RS-UNARM","fastest","__all__",25,48,"tr7","TR-7","Assault Rifle",4,26.05,250,285,"4.975",90,true
+"RS-UNARM","fastest","__all__",30,48,"tr7","TR-7","Assault Rifle",4,26.05,250,292,"5.143",90,true
+"RS-UNARM","fastest","__all__",31,48,"tr7","TR-7","Assault Rifle",4,26.05,250,293,"5.177",90,true
+"RS-UNARM","fastest","__all__",35,48,"tr7","TR-7","Assault Rifle",4,26.05,250,299,"5.311",90,true
+"RS-UNARM","fastest","__all__",36,48,"tr7","TR-7","Assault Rifle",4,26.05,250,301,"5.344",100,true
+"RS-UNARM","fastest","__all__",37,48,"tr7","TR-7","Assault Rifle",4,26.05,250,302,"5.378",100,true
+"RS-UNARM","fastest","__all__",40,48,"tr7","TR-7","Assault Rifle",4,26.05,250,307,"5.478",100,true
+"RS-UNARM","fastest","__all__",50,48,"tr7","TR-7","Assault Rifle",4,26.05,250,322,"5.814",100,true
 "RS-UNARM","fastest","__all__",54,48,"sv98","SV-98","Sniper Rifle",1,100,0,67,"1.933",90,true
 "RS-UNARM","fastest","__all__",60,48,"sv98","SV-98","Sniper Rifle",1,100,0,75,"1.970",90,true
-"RS-UNARM","fastest","__all__",75,48,"sv98","SV-98","Sniper Rifle",1,100,0,95,"2.063",90,true
+"RS-UNARM","fastest","__all__",75,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,85,"2.442",95,true
 "RS-UNARM","fastest","__all__",76,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,86,"2.449",100,true
 "RS-UNARM","fastest","__all__",83,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,95,"2.500",100,true
 "RS-UNARM","fastest","__all__",90,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,104,"2.550",100,true
 "RS-UNARM","fastest","__all__",100,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,117,"2.622",100,true
-"RS-UNARM","fastest","__all__",120,48,"l115","L115A3","Sniper Rifle",1,100,0,163,"3.199",95,true
+"RS-UNARM","fastest","__all__",120,48,"psr","PSR","Sniper Rifle",1,100,0,160,"3.398",95,true
 "RS-UNARM","fastest","__all__",133,48,"l115","L115A3","Sniper Rifle",1,100,0,184,"3.199",95,true
-"RS-UNARM","fastest","__all__",150,48,"lmr27","LMR27","DMR",4,26.2,400,575,"1.709",100,true
-"RS-UNARM","fastest","__all__",200,48,"lmr27","LMR27","DMR",4,26.2,400,646,"1.709",100,true
-"RS-UNARM","fastest","__all__",250,48,"lmr27","LMR27","DMR",4,26.2,400,724,"1.709",100,true
+"RS-UNARM","fastest","__all__",150,48,"m250","M250","LMG",4,26.05,267,485,"2.833",95,true
+"RS-UNARM","fastest","__all__",200,48,"m250","M250","LMG",4,26.05,267,587,"2.833",95,true
+"RS-UNARM","fastest","__all__",250,48,"m250","M250","LMG",4,26.05,267,709,"2.833",95,true
 "RS-UNARM","fastest","__all__",300,48,"lmr27","LMR27","DMR",4,26.2,400,811,"1.709",100,true
-"RS-UNARM","fastest","Assault Rifle",1,11,"nvo228e","NVO-228E","Assault Rifle",3,35.22,183,184,"2.670",80,true
-"RS-UNARM","fastest","Assault Rifle",5,11,"nvo228e","NVO-228E","Assault Rifle",3,35.22,183,189,"2.760",80,true
-"RS-UNARM","fastest","Assault Rifle",9,11,"sor556","SOR-556 MK2","Assault Rifle",4,26.05,317,327,"0.773",95,true
-"RS-UNARM","fastest","Assault Rifle",10,11,"sor556","SOR-556 MK2","Assault Rifle",4,26.05,317,328,"0.777",95,true
-"RS-UNARM","fastest","Assault Rifle",15,11,"sor556","SOR-556 MK2","Assault Rifle",4,26.05,317,333,"0.800",95,true
-"RS-UNARM","fastest","Assault Rifle",20,11,"sor556","SOR-556 MK2","Assault Rifle",4,26.05,317,339,"0.823",100,true
-"RS-UNARM","fastest","Assault Rifle",21,11,"sor556","SOR-556 MK2","Assault Rifle",4,26.05,317,340,"0.827",100,true
-"RS-UNARM","fastest","Assault Rifle",25,11,"b36a4","B36A4","Assault Rifle",5,20.67,333,361,"1.409",95,true
-"RS-UNARM","fastest","Assault Rifle",30,11,"b36a4","B36A4","Assault Rifle",5,20.67,333,367,"1.449",95,true
-"RS-UNARM","fastest","Assault Rifle",31,11,"b36a4","B36A4","Assault Rifle",5,20.67,333,368,"1.456",95,true
-"RS-UNARM","fastest","Assault Rifle",35,11,"b36a4","B36A4","Assault Rifle",5,20.67,333,373,"1.488",95,true
-"RS-UNARM","fastest","Assault Rifle",36,11,"kord6p67","KORD 6P67","Assault Rifle",6,17.13,333,386,"1.127",100,true
-"RS-UNARM","fastest","Assault Rifle",37,11,"kord6p67","KORD 6P67","Assault Rifle",6,17.13,333,388,"1.133",100,true
-"RS-UNARM","fastest","Assault Rifle",40,11,"kord6p67","KORD 6P67","Assault Rifle",6,17.13,333,392,"1.152",100,true
-"RS-UNARM","fastest","Assault Rifle",50,11,"kord6p67","KORD 6P67","Assault Rifle",6,17.13,333,408,"1.212",100,true
-"RS-UNARM","fastest","Assault Rifle",54,11,"sor556","SOR-556 MK2","Assault Rifle",5,20.67,422,484,"0.977",100,true
-"RS-UNARM","fastest","Assault Rifle",60,11,"sor556","SOR-556 MK2","Assault Rifle",5,20.67,422,492,"1.004",100,true
-"RS-UNARM","fastest","Assault Rifle",75,11,"sor556","SOR-556 MK2","Assault Rifle",5,20.67,422,511,"1.072",100,true
-"RS-UNARM","fastest","Assault Rifle",76,11,"sor556","SOR-556 MK2","Assault Rifle",6,17.13,528,619,"1.076",95,true
-"RS-UNARM","fastest","Assault Rifle",83,11,"sor556","SOR-556 MK2","Assault Rifle",6,17.13,528,628,"1.108",95,true
-"RS-UNARM","fastest","Assault Rifle",90,11,"sor556","SOR-556 MK2","Assault Rifle",6,17.13,528,638,"1.139",95,true
-"RS-UNARM","fastest","Assault Rifle",100,11,"sor556","SOR-556 MK2","Assault Rifle",6,17.13,528,653,"1.185",95,true
-"RS-UNARM","fastest","Assault Rifle",120,11,"sor556","SOR-556 MK2","Assault Rifle",6,17.13,528,683,"1.275",95,true
-"RS-UNARM","fastest","Assault Rifle",133,11,"sor556","SOR-556 MK2","Assault Rifle",6,17.13,528,704,"1.275",95,true
-"RS-UNARM","fastest","Assault Rifle",150,11,"sor556","SOR-556 MK2","Assault Rifle",6,17.13,528,733,"1.275",95,true
-"RS-UNARM","fastest","Assault Rifle",200,11,"b36a4","B36A4","Assault Rifle",6,17.13,417,730,"2.155",100,true
-"RS-UNARM","fastest","Assault Rifle",250,11,"l85a3","L85A3","Assault Rifle",6,17.13,472,883,"1.508",95,true
-"RS-UNARM","fastest","Assault Rifle",300,11,"l85a3","L85A3","Assault Rifle",6,17.13,472,1018,"1.508",95,true
-"RS-UNARM","fastest","Carbine",1,9,"ak205","AK-205","Carbine",5,20.67,333,334,"0.596",100,true
-"RS-UNARM","fastest","Carbine",5,9,"sor300sc","SOR-300SC","Carbine",3,35.22,200,208,"1.984",90,true
-"RS-UNARM","fastest","Carbine",9,9,"sor300sc","SOR-300SC","Carbine",3,35.22,200,214,"2.047",90,true
-"RS-UNARM","fastest","Carbine",10,9,"ak205","AK-205","Carbine",6,17.74,417,431,"0.632",100,true
-"RS-UNARM","fastest","Carbine",15,9,"ak205","AK-205","Carbine",6,17.74,417,439,"0.652",100,true
-"RS-UNARM","fastest","Carbine",20,9,"ak205","AK-205","Carbine",6,17.74,417,446,"0.671",100,true
-"RS-UNARM","fastest","Carbine",21,9,"ak205","AK-205","Carbine",6,17.74,417,448,"0.675",100,true
+"RS-UNARM","fastest","Assault Rifle",1,11,"tr7","TR-7","Assault Rifle",3,35.22,167,168,"4.170",85,true
+"RS-UNARM","fastest","Assault Rifle",5,11,"tr7","TR-7","Assault Rifle",3,35.22,167,174,"4.304",85,true
+"RS-UNARM","fastest","Assault Rifle",9,11,"tr7","TR-7","Assault Rifle",3,35.22,167,179,"4.439",85,true
+"RS-UNARM","fastest","Assault Rifle",10,11,"tr7","TR-7","Assault Rifle",3,35.22,167,180,"4.472",85,true
+"RS-UNARM","fastest","Assault Rifle",15,11,"tr7","TR-7","Assault Rifle",3,35.22,167,187,"4.640",85,true
+"RS-UNARM","fastest","Assault Rifle",20,11,"tr7","TR-7","Assault Rifle",3,35.22,167,194,"4.808",90,true
+"RS-UNARM","fastest","Assault Rifle",21,11,"tr7","TR-7","Assault Rifle",3,35.22,167,196,"4.841",90,true
+"RS-UNARM","fastest","Assault Rifle",25,11,"tr7","TR-7","Assault Rifle",4,26.05,250,285,"4.975",90,true
+"RS-UNARM","fastest","Assault Rifle",30,11,"tr7","TR-7","Assault Rifle",4,26.05,250,292,"5.143",90,true
+"RS-UNARM","fastest","Assault Rifle",31,11,"tr7","TR-7","Assault Rifle",4,26.05,250,293,"5.177",90,true
+"RS-UNARM","fastest","Assault Rifle",35,11,"tr7","TR-7","Assault Rifle",4,26.05,250,299,"5.311",90,true
+"RS-UNARM","fastest","Assault Rifle",36,11,"tr7","TR-7","Assault Rifle",4,26.05,250,301,"5.344",100,true
+"RS-UNARM","fastest","Assault Rifle",37,11,"tr7","TR-7","Assault Rifle",4,26.05,250,302,"5.378",100,true
+"RS-UNARM","fastest","Assault Rifle",40,11,"tr7","TR-7","Assault Rifle",4,26.05,250,307,"5.478",100,true
+"RS-UNARM","fastest","Assault Rifle",50,11,"tr7","TR-7","Assault Rifle",4,26.05,250,322,"5.814",100,true
+"RS-UNARM","fastest","Assault Rifle",54,11,"tr7","TR-7","Assault Rifle",4,26.05,250,329,"5.948",100,true
+"RS-UNARM","fastest","Assault Rifle",60,11,"tr7","TR-7","Assault Rifle",4,26.05,250,338,"6.149",100,true
+"RS-UNARM","fastest","Assault Rifle",75,11,"tr7","TR-7","Assault Rifle",4,26.05,250,364,"6.652",100,true
+"RS-UNARM","fastest","Assault Rifle",76,11,"vcr2","VCR-2","Assault Rifle",6,17.13,333,439,"5.481",100,true
+"RS-UNARM","fastest","Assault Rifle",83,11,"vcr2","VCR-2","Assault Rifle",6,17.13,333,450,"5.677",100,true
+"RS-UNARM","fastest","Assault Rifle",90,11,"vcr2","VCR-2","Assault Rifle",6,17.13,333,461,"5.872",100,true
+"RS-UNARM","fastest","Assault Rifle",100,11,"vcr2","VCR-2","Assault Rifle",6,17.13,333,478,"6.152",100,true
+"RS-UNARM","fastest","Assault Rifle",120,11,"vcr2","VCR-2","Assault Rifle",6,17.13,333,514,"6.711",100,true
+"RS-UNARM","fastest","Assault Rifle",133,11,"vcr2","VCR-2","Assault Rifle",6,17.13,333,538,"6.711",100,true
+"RS-UNARM","fastest","Assault Rifle",150,11,"vcr2","VCR-2","Assault Rifle",6,17.13,333,572,"6.711",100,true
+"RS-UNARM","fastest","Assault Rifle",200,11,"vcr2","VCR-2","Assault Rifle",6,17.13,333,684,"6.711",100,true
+"RS-UNARM","fastest","Assault Rifle",250,11,"vcr2","VCR-2","Assault Rifle",6,17.13,333,817,"6.711",100,true
+"RS-UNARM","fastest","Assault Rifle",300,11,"vcr2","VCR-2","Assault Rifle",6,17.13,333,976,"6.711",100,true
+"RS-UNARM","fastest","Carbine",1,9,"sg553r","SG 553R","Carbine",3,35.22,167,169,"2.723",85,true
+"RS-UNARM","fastest","Carbine",5,9,"sg553r","SG 553R","Carbine",3,35.22,167,175,"2.812",85,true
+"RS-UNARM","fastest","Carbine",9,9,"sg553r","SG 553R","Carbine",3,35.22,167,182,"2.900",85,true
+"RS-UNARM","fastest","Carbine",10,9,"m277","M277","Carbine",4,26.05,250,264,"2.143",95,true
+"RS-UNARM","fastest","Carbine",15,9,"m277","M277","Carbine",4,26.05,250,271,"2.212",95,true
+"RS-UNARM","fastest","Carbine",20,9,"m277","M277","Carbine",4,26.05,250,278,"2.281",100,true
+"RS-UNARM","fastest","Carbine",21,9,"m277","M277","Carbine",4,26.05,250,279,"2.295",100,true
 "RS-UNARM","fastest","Carbine",25,9,"m277","M277","Carbine",4,26.05,250,285,"2.350",100,true
 "RS-UNARM","fastest","Carbine",30,9,"m277","M277","Carbine",4,26.05,250,293,"2.420",100,true
 "RS-UNARM","fastest","Carbine",31,9,"m277","M277","Carbine",4,26.05,250,294,"2.434",100,true
@@ -742,75 +742,75 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "RS-UNARM","fastest","Carbine",37,9,"m277","M277","Carbine",4,26.05,250,303,"2.517",100,true
 "RS-UNARM","fastest","Carbine",40,9,"m277","M277","Carbine",4,26.05,250,308,"2.558",100,true
 "RS-UNARM","fastest","Carbine",50,9,"m277","M277","Carbine",4,26.05,250,324,"2.696",100,true
-"RS-UNARM","fastest","Carbine",54,9,"ak205","AK-205","Carbine",7,14.62,500,584,"0.807",100,true
-"RS-UNARM","fastest","Carbine",60,9,"ak205","AK-205","Carbine",7,14.62,500,594,"0.831",100,true
-"RS-UNARM","fastest","Carbine",75,9,"ak205","AK-205","Carbine",7,14.62,500,621,"0.891",100,true
-"RS-UNARM","fastest","Carbine",76,9,"ak205","AK-205","Carbine",8,12.76,583,706,"0.895",100,true
-"RS-UNARM","fastest","Carbine",83,9,"ak205","AK-205","Carbine",8,12.76,583,719,"0.923",100,true
-"RS-UNARM","fastest","Carbine",90,9,"ak205","AK-205","Carbine",8,12.76,583,732,"0.951",100,true
-"RS-UNARM","fastest","Carbine",100,9,"ak205","AK-205","Carbine",8,12.76,583,752,"0.991",100,true
-"RS-UNARM","fastest","Carbine",120,9,"ak205","AK-205","Carbine",8,12.76,583,794,"1.071",100,true
-"RS-UNARM","fastest","Carbine",133,9,"ak205","AK-205","Carbine",8,12.76,583,822,"1.071",100,true
-"RS-UNARM","fastest","Carbine",150,9,"ak205","AK-205","Carbine",8,12.76,583,862,"1.071",100,true
-"RS-UNARM","fastest","Carbine",200,9,"ak205","AK-205","Carbine",8,12.76,583,992,"1.071",100,true
-"RS-UNARM","fastest","Carbine",250,9,"ak205","AK-205","Carbine",8,12.76,583,1148,"1.071",100,true
-"RS-UNARM","fastest","Carbine",300,9,"ak205","AK-205","Carbine",8,12.76,583,1333,"1.071",100,true
-"RS-UNARM","fastest","SMG",1,10,"sl9","SL9","SMG",4,26.05,267,269,"0.656",90,true
-"RS-UNARM","fastest","SMG",5,10,"sl9","SL9","SMG",4,26.05,267,275,"0.673",90,true
-"RS-UNARM","fastest","SMG",9,10,"sl9","SL9","SMG",4,26.05,267,282,"0.690",90,true
-"RS-UNARM","fastest","SMG",10,10,"sl9","SL9","SMG",5,20.67,356,373,"0.694",90,true
-"RS-UNARM","fastest","SMG",15,10,"sl9","SL9","SMG",5,20.67,356,381,"0.715",90,true
-"RS-UNARM","fastest","SMG",20,10,"sl9","SL9","SMG",5,20.67,356,390,"0.737",95,true
-"RS-UNARM","fastest","SMG",21,10,"sl9","SL9","SMG",5,20.67,356,392,"0.741",95,true
-"RS-UNARM","fastest","SMG",25,10,"pw7a2","PW7A2","SMG",7,14.62,380,425,"0.880",100,true
-"RS-UNARM","fastest","SMG",30,10,"pw7a2","PW7A2","SMG",7,14.62,380,435,"0.903",100,true
-"RS-UNARM","fastest","SMG",31,10,"pw7a2","PW7A2","SMG",7,14.62,380,437,"0.908",100,true
-"RS-UNARM","fastest","SMG",35,10,"pw7a2","PW7A2","SMG",7,14.62,380,445,"0.927",100,true
-"RS-UNARM","fastest","SMG",36,10,"pw7a2","PW7A2","SMG",7,14.62,380,447,"0.932",100,true
-"RS-UNARM","fastest","SMG",37,10,"pw7a2","PW7A2","SMG",7,14.62,380,449,"0.937",100,true
-"RS-UNARM","fastest","SMG",40,10,"pw7a2","PW7A2","SMG",7,14.62,380,455,"0.951",100,true
-"RS-UNARM","fastest","SMG",50,10,"pw7a2","PW7A2","SMG",7,14.62,380,475,"0.999",100,true
-"RS-UNARM","fastest","SMG",54,10,"pw7a2","PW7A2","SMG",7,14.62,380,483,"1.019",100,true
-"RS-UNARM","fastest","SMG",60,10,"pw7a2","PW7A2","SMG",7,14.62,380,496,"1.047",100,true
-"RS-UNARM","fastest","SMG",75,10,"pw7a2","PW7A2","SMG",7,14.62,380,529,"1.119",100,true
-"RS-UNARM","fastest","SMG",76,10,"pw7a2","PW7A2","SMG",8,12.76,443,594,"1.124",100,true
-"RS-UNARM","fastest","SMG",83,10,"pw7a2","PW7A2","SMG",8,12.76,443,610,"1.158",100,true
-"RS-UNARM","fastest","SMG",90,10,"pw7a2","PW7A2","SMG",8,12.76,443,627,"1.191",100,true
-"RS-UNARM","fastest","SMG",100,10,"pw7a2","PW7A2","SMG",8,12.76,443,651,"1.239",100,true
-"RS-UNARM","fastest","SMG",120,10,"pw7a2","PW7A2","SMG",8,12.76,443,702,"1.335",100,true
-"RS-UNARM","fastest","SMG",133,10,"pw7a2","PW7A2","SMG",8,12.76,443,737,"1.335",100,true
-"RS-UNARM","fastest","SMG",150,10,"pw7a2","PW7A2","SMG",8,12.76,443,785,"1.335",100,true
-"RS-UNARM","fastest","SMG",200,10,"pw7a2","PW7A2","SMG",8,12.76,443,946,"1.335",100,true
-"RS-UNARM","fastest","SMG",250,10,"pw7a2","PW7A2","SMG",8,12.76,443,1137,"1.335",100,true
-"RS-UNARM","fastest","SMG",300,10,"sl9","SL9","SMG",8,12.76,622,1496,"1.162",100,true
-"RS-UNARM","fastest","LMG",1,10,"rpkm","RPKM","LMG",3,35.22,217,218,"0.813",100,true
-"RS-UNARM","fastest","LMG",5,10,"rpkm","RPKM","LMG",3,35.22,217,223,"0.832",100,true
-"RS-UNARM","fastest","LMG",9,10,"rpkm","RPKM","LMG",3,35.22,217,229,"0.851",100,true
-"RS-UNARM","fastest","LMG",10,10,"m123k","M123K","LMG",4,26.05,217,230,"1.805",90,true
-"RS-UNARM","fastest","LMG",15,10,"m123k","M123K","LMG",4,26.05,217,237,"1.868",90,true
-"RS-UNARM","fastest","LMG",20,10,"m123k","M123K","LMG",4,26.05,217,243,"1.932",95,true
-"RS-UNARM","fastest","LMG",21,10,"m123k","M123K","LMG",4,26.05,217,245,"1.944",95,true
-"RS-UNARM","fastest","LMG",25,10,"l110","L110","LMG",5,20.67,333,361,"1.242",100,true
-"RS-UNARM","fastest","LMG",30,10,"l110","L110","LMG",5,20.67,333,367,"1.278",100,true
-"RS-UNARM","fastest","LMG",31,10,"l110","L110","LMG",5,20.67,333,368,"1.286",100,true
-"RS-UNARM","fastest","LMG",35,10,"l110","L110","LMG",5,20.67,333,373,"1.315",100,true
-"RS-UNARM","fastest","LMG",36,10,"l110","L110","LMG",5,20.67,333,374,"1.322",100,true
-"RS-UNARM","fastest","LMG",37,10,"l110","L110","LMG",5,20.67,333,376,"1.330",100,true
-"RS-UNARM","fastest","LMG",40,10,"l110","L110","LMG",5,20.67,333,379,"1.352",100,true
-"RS-UNARM","fastest","LMG",50,10,"l110","L110","LMG",5,20.67,333,392,"1.425",100,true
-"RS-UNARM","fastest","LMG",54,10,"rpk74m","RPK-74M","LMG",6,17.13,438,497,"0.859",100,true
-"RS-UNARM","fastest","LMG",60,10,"rpk74m","RPK-74M","LMG",6,17.13,438,504,"0.884",100,true
-"RS-UNARM","fastest","LMG",75,10,"rpk74m","RPK-74M","LMG",6,17.13,438,523,"0.947",100,true
-"RS-UNARM","fastest","LMG",76,10,"rpk74m","RPK-74M","LMG",7,14.62,525,611,"0.952",100,true
-"RS-UNARM","fastest","LMG",83,10,"rpk74m","RPK-74M","LMG",7,14.62,525,620,"0.981",100,true
-"RS-UNARM","fastest","LMG",90,10,"rpk74m","RPK-74M","LMG",7,14.62,525,630,"1.011",100,true
-"RS-UNARM","fastest","LMG",100,10,"rpk74m","RPK-74M","LMG",7,14.62,525,644,"1.053",100,true
-"RS-UNARM","fastest","LMG",120,10,"rpk74m","RPK-74M","LMG",7,14.62,525,673,"1.137",100,true
-"RS-UNARM","fastest","LMG",133,10,"rpk74m","RPK-74M","LMG",7,14.62,525,693,"1.137",100,true
+"RS-UNARM","fastest","Carbine",54,9,"m277","M277","Carbine",4,26.05,250,330,"2.752",100,true
+"RS-UNARM","fastest","Carbine",60,9,"m277","M277","Carbine",4,26.05,250,340,"2.835",100,true
+"RS-UNARM","fastest","Carbine",75,9,"m277","M277","Carbine",4,26.05,250,366,"3.042",100,true
+"RS-UNARM","fastest","Carbine",76,9,"m277","M277","Carbine",5,20.67,333,451,"3.056",100,true
+"RS-UNARM","fastest","Carbine",83,9,"m277","M277","Carbine",5,20.67,333,463,"3.153",100,true
+"RS-UNARM","fastest","Carbine",90,9,"m277","M277","Carbine",5,20.67,333,476,"3.250",100,true
+"RS-UNARM","fastest","Carbine",100,9,"m277","M277","Carbine",5,20.67,333,495,"3.388",100,true
+"RS-UNARM","fastest","Carbine",120,9,"m277","M277","Carbine",5,20.67,333,535,"3.665",100,true
+"RS-UNARM","fastest","Carbine",133,9,"m277","M277","Carbine",5,20.67,333,562,"3.665",100,true
+"RS-UNARM","fastest","Carbine",150,9,"m277","M277","Carbine",5,20.67,333,600,"3.665",100,true
+"RS-UNARM","fastest","Carbine",200,9,"m277","M277","Carbine",5,20.67,333,724,"3.665",100,true
+"RS-UNARM","fastest","Carbine",250,9,"m277","M277","Carbine",5,20.67,333,873,"3.665",100,true
+"RS-UNARM","fastest","Carbine",300,9,"m277","M277","Carbine",5,20.67,333,1050,"3.665",100,true
+"RS-UNARM","fastest","SMG",1,10,"scw10","SCW-10","SMG",3,35.22,150,152,"2.828",100,true
+"RS-UNARM","fastest","SMG",5,10,"scw10","SCW-10","SMG",3,35.22,150,160,"2.924",100,true
+"RS-UNARM","fastest","SMG",9,10,"scw10","SCW-10","SMG",3,35.22,150,168,"3.020",100,true
+"RS-UNARM","fastest","SMG",10,10,"kv9","KV9","SMG",5,20.67,222,245,"2.860",100,true
+"RS-UNARM","fastest","SMG",15,10,"scw10","SCW-10","SMG",4,26.05,225,256,"3.165",100,true
+"RS-UNARM","fastest","SMG",20,10,"scw10","SCW-10","SMG",4,26.05,225,267,"3.285",100,true
+"RS-UNARM","fastest","SMG",21,10,"scw10","SCW-10","SMG",4,26.05,225,269,"3.309",100,true
+"RS-UNARM","fastest","SMG",25,10,"kv9","KV9","SMG",6,17.13,278,336,"3.205",90,true
+"RS-UNARM","fastest","SMG",30,10,"kv9","KV9","SMG",6,17.13,278,348,"3.320",90,true
+"RS-UNARM","fastest","SMG",31,10,"kv9","KV9","SMG",6,17.13,278,350,"3.343",90,true
+"RS-UNARM","fastest","SMG",35,10,"kv9","KV9","SMG",6,17.13,278,360,"3.435",90,true
+"RS-UNARM","fastest","SMG",36,10,"kv9","KV9","SMG",6,17.13,278,363,"3.458",100,true
+"RS-UNARM","fastest","SMG",37,10,"kv9","KV9","SMG",7,14.62,333,420,"3.481",100,true
+"RS-UNARM","fastest","SMG",40,10,"kv9","KV9","SMG",7,14.62,333,428,"3.550",100,true
+"RS-UNARM","fastest","SMG",50,10,"kv9","KV9","SMG",7,14.62,333,454,"3.781",100,true
+"RS-UNARM","fastest","SMG",54,10,"kv9","KV9","SMG",7,14.62,333,465,"3.873",100,true
+"RS-UNARM","fastest","SMG",60,10,"kv9","KV9","SMG",7,14.62,333,481,"4.011",100,true
+"RS-UNARM","fastest","SMG",75,10,"kv9","KV9","SMG",7,14.62,333,523,"4.356",100,true
+"RS-UNARM","fastest","SMG",76,10,"kv9","KV9","SMG",8,12.76,389,582,"4.379",100,true
+"RS-UNARM","fastest","SMG",83,10,"kv9","KV9","SMG",8,12.76,389,602,"4.540",100,true
+"RS-UNARM","fastest","SMG",90,10,"usg90","USG-90","SMG",8,12.76,467,623,"1.566",65,true
+"RS-UNARM","fastest","SMG",100,10,"usg90","USG-90","SMG",8,12.76,467,644,"1.622",65,true
+"RS-UNARM","fastest","SMG",120,10,"usg90","USG-90","SMG",8,12.76,467,687,"1.733",65,true
+"RS-UNARM","fastest","SMG",133,10,"usg90","USG-90","SMG",8,12.76,467,717,"1.733",65,true
+"RS-UNARM","fastest","SMG",150,10,"usg90","USG-90","SMG",8,12.76,467,758,"1.733",65,true
+"RS-UNARM","fastest","SMG",200,10,"usg90","USG-90","SMG",8,12.76,467,894,"1.733",65,true
+"RS-UNARM","fastest","SMG",250,10,"usg90","USG-90","SMG",8,12.76,467,1056,"1.733",65,true
+"RS-UNARM","fastest","SMG",300,10,"usg90","USG-90","SMG",8,12.76,467,1250,"1.733",65,true
+"RS-UNARM","fastest","LMG",1,10,"m121a2","M121 A2","LMG",3,35.22,183,184,"2.364",95,true
+"RS-UNARM","fastest","LMG",5,10,"m121a2","M121 A2","LMG",3,35.22,183,190,"2.438",95,true
+"RS-UNARM","fastest","LMG",9,10,"m121a2","M121 A2","LMG",3,35.22,183,196,"2.513",95,true
+"RS-UNARM","fastest","LMG",10,10,"m121a2","M121 A2","LMG",3,35.22,183,198,"2.531",95,true
+"RS-UNARM","fastest","LMG",15,10,"m121a2","M121 A2","LMG",3,35.22,183,205,"2.624",95,true
+"RS-UNARM","fastest","LMG",20,10,"m121a2","M121 A2","LMG",3,35.22,183,213,"2.717",100,true
+"RS-UNARM","fastest","LMG",21,10,"m121a2","M121 A2","LMG",3,35.22,183,214,"2.736",100,true
+"RS-UNARM","fastest","LMG",25,10,"m250","M250","LMG",4,26.05,267,296,"1.809",90,true
+"RS-UNARM","fastest","LMG",30,10,"m250","M250","LMG",4,26.05,267,302,"1.863",90,true
+"RS-UNARM","fastest","LMG",31,10,"m250","M250","LMG",4,26.05,267,303,"1.874",90,true
+"RS-UNARM","fastest","LMG",35,10,"m250","M250","LMG",4,26.05,267,308,"1.917",90,true
+"RS-UNARM","fastest","LMG",36,10,"m250","M250","LMG",4,26.05,267,309,"1.928",100,true
+"RS-UNARM","fastest","LMG",37,10,"m250","M250","LMG",4,26.05,267,311,"1.939",100,true
+"RS-UNARM","fastest","LMG",40,10,"m250","M250","LMG",4,26.05,267,314,"1.971",100,true
+"RS-UNARM","fastest","LMG",50,10,"m250","M250","LMG",4,26.05,267,327,"2.079",100,true
+"RS-UNARM","fastest","LMG",54,10,"m250","M250","LMG",4,26.05,267,333,"2.122",100,true
+"RS-UNARM","fastest","LMG",60,10,"m250","M250","LMG",4,26.05,267,341,"2.186",100,true
+"RS-UNARM","fastest","LMG",75,10,"m250","M250","LMG",4,26.05,267,362,"2.348",100,true
+"RS-UNARM","fastest","LMG",76,10,"m250","M250","LMG",4,26.05,267,363,"2.359",95,true
+"RS-UNARM","fastest","LMG",83,10,"m250","M250","LMG",4,26.05,267,373,"2.434",95,true
+"RS-UNARM","fastest","LMG",90,10,"m250","M250","LMG",4,26.05,267,384,"2.509",95,true
+"RS-UNARM","fastest","LMG",100,10,"m250","M250","LMG",4,26.05,267,399,"2.617",95,true
+"RS-UNARM","fastest","LMG",120,10,"m250","M250","LMG",4,26.05,267,432,"2.833",95,true
+"RS-UNARM","fastest","LMG",133,10,"m250","M250","LMG",4,26.05,267,454,"2.833",95,true
 "RS-UNARM","fastest","LMG",150,10,"m250","M250","LMG",4,26.05,267,485,"2.833",95,true
-"RS-UNARM","fastest","LMG",200,10,"l110","L110","LMG",6,17.13,417,730,"1.937",95,true
-"RS-UNARM","fastest","LMG",250,10,"l110","L110","LMG",6,17.13,417,849,"1.937",95,true
-"RS-UNARM","fastest","LMG",300,10,"l110","L110","LMG",6,17.13,417,991,"1.937",95,true
+"RS-UNARM","fastest","LMG",200,10,"m250","M250","LMG",4,26.05,267,587,"2.833",95,true
+"RS-UNARM","fastest","LMG",250,10,"m250","M250","LMG",4,26.05,267,709,"2.833",95,true
+"RS-UNARM","fastest","LMG",300,10,"m250","M250","LMG",4,26.05,267,853,"2.833",95,true
 "RS-UNARM","fastest","DMR",1,6,"vssm","VSSM","DMR",3,35.22,150,153,"1.538",100,true
 "RS-UNARM","fastest","DMR",5,6,"vssm","VSSM","DMR",3,35.22,150,167,"1.571",100,true
 "RS-UNARM","fastest","DMR",9,6,"vssm","VSSM","DMR",3,35.22,150,180,"1.605",100,true
@@ -818,13 +818,13 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "RS-UNARM","fastest","DMR",15,6,"vssm","VSSM","DMR",4,27.48,225,275,"1.655",100,true
 "RS-UNARM","fastest","DMR",20,6,"vssm","VSSM","DMR",4,27.48,225,292,"1.774",100,true
 "RS-UNARM","fastest","DMR",21,6,"vssm","VSSM","DMR",4,27.48,225,296,"1.782",100,true
-"RS-UNARM","fastest","DMR",25,6,"lmr27","LMR27","DMR",4,27.5,400,426,"1.183",100,true
-"RS-UNARM","fastest","DMR",30,6,"lmr27","LMR27","DMR",4,27.5,400,431,"1.210",100,true
-"RS-UNARM","fastest","DMR",31,6,"lmr27","LMR27","DMR",4,27.5,400,432,"1.216",100,true
-"RS-UNARM","fastest","DMR",35,6,"lmr27","LMR27","DMR",4,27.5,400,436,"1.238",100,true
-"RS-UNARM","fastest","DMR",36,6,"lmr27","LMR27","DMR",4,27.5,400,437,"1.244",100,true
-"RS-UNARM","fastest","DMR",37,6,"lmr27","LMR27","DMR",4,27.5,400,438,"1.249",100,true
-"RS-UNARM","fastest","DMR",40,6,"lmr27","LMR27","DMR",4,27.5,400,442,"1.266",100,true
+"RS-UNARM","fastest","DMR",25,6,"vssm","VSSM","DMR",5,21.56,300,385,"1.817",100,true
+"RS-UNARM","fastest","DMR",30,6,"vssm","VSSM","DMR",5,21.56,300,402,"1.860",100,true
+"RS-UNARM","fastest","DMR",31,6,"vssm","VSSM","DMR",5,21.56,300,406,"1.869",100,true
+"RS-UNARM","fastest","DMR",35,6,"vssm","VSSM","DMR",5,21.56,300,420,"1.903",100,true
+"RS-UNARM","fastest","DMR",36,6,"vssm","VSSM","DMR",5,21.56,300,423,"1.998",100,true
+"RS-UNARM","fastest","DMR",37,6,"vssm","VSSM","DMR",5,20.67,300,427,"2.007",100,true
+"RS-UNARM","fastest","DMR",40,6,"vssm","VSSM","DMR",5,20.67,300,437,"2.034",100,true
 "RS-UNARM","fastest","DMR",50,6,"lmr27","LMR27","DMR",4,27.5,400,453,"1.321",100,true
 "RS-UNARM","fastest","DMR",54,6,"lmr27","LMR27","DMR",4,27.5,400,457,"1.343",100,true
 "RS-UNARM","fastest","DMR",60,6,"lmr27","LMR27","DMR",4,27.5,400,464,"1.376",100,true
@@ -856,12 +856,12 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "RS-UNARM","fastest","Sniper Rifle",50,5,"miniscout","Mini Scout","Sniper Rifle",2,59.8519,1276,1331,"1.419",90,true
 "RS-UNARM","fastest","Sniper Rifle",54,5,"sv98","SV-98","Sniper Rifle",1,100,0,67,"1.933",90,true
 "RS-UNARM","fastest","Sniper Rifle",60,5,"sv98","SV-98","Sniper Rifle",1,100,0,75,"1.970",90,true
-"RS-UNARM","fastest","Sniper Rifle",75,5,"sv98","SV-98","Sniper Rifle",1,100,0,95,"2.063",90,true
+"RS-UNARM","fastest","Sniper Rifle",75,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,85,"2.442",95,true
 "RS-UNARM","fastest","Sniper Rifle",76,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,86,"2.449",100,true
 "RS-UNARM","fastest","Sniper Rifle",83,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,95,"2.500",100,true
 "RS-UNARM","fastest","Sniper Rifle",90,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,104,"2.550",100,true
 "RS-UNARM","fastest","Sniper Rifle",100,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,117,"2.622",100,true
-"RS-UNARM","fastest","Sniper Rifle",120,5,"l115","L115A3","Sniper Rifle",1,100,0,163,"3.199",95,true
+"RS-UNARM","fastest","Sniper Rifle",120,5,"psr","PSR","Sniper Rifle",1,100,0,160,"3.398",95,true
 "RS-UNARM","fastest","Sniper Rifle",133,5,"l115","L115A3","Sniper Rifle",1,100,0,184,"3.199",95,true
 "RS-UNARM","fastest","Sniper Rifle",150,5,"miniscout","Mini Scout","Sniper Rifle",2,58,1276,1460,"1.744",95,true
 "RS-UNARM","fastest","Sniper Rifle",200,5,"miniscout","Mini Scout","Sniper Rifle",2,58,1276,1535,"1.744",95,true
@@ -875,10 +875,10 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "RS-UNARM","fastest","Shotgun",20,4,"db12","DB-12","Shotgun",2,52.8,167,208,"3.079",85,true
 "RS-UNARM","fastest","Shotgun",21,4,"db12","DB-12","Shotgun",2,52.8,167,211,"3.091",85,true
 "RS-UNARM","fastest","Shotgun",25,4,"m1014","M1014","Shotgun",2,50,300,352,"2.874",95,true
-"RS-UNARM","fastest","Shotgun",30,4,"185ksk","18.5KS-K","Shotgun",3,42.9,400,463,"2.067",100,true
-"RS-UNARM","fastest","Shotgun",31,4,"185ksk","18.5KS-K","Shotgun",3,42.9,400,465,"2.075",100,true
-"RS-UNARM","fastest","Shotgun",35,4,"185ksk","18.5KS-K","Shotgun",3,42.9,400,474,"2.109",100,true
-"RS-UNARM","fastest","Shotgun",36,4,"185ksk","18.5KS-K","Shotgun",3,42.9,400,477,"2.230",100,true
+"RS-UNARM","fastest","Shotgun",30,4,"m1014","M1014","Shotgun",2,50,300,363,"2.931",95,true
+"RS-UNARM","fastest","Shotgun",31,4,"m1014","M1014","Shotgun",2,50,300,365,"2.942",95,true
+"RS-UNARM","fastest","Shotgun",35,4,"m1014","M1014","Shotgun",2,50,300,374,"2.988",95,true
+"RS-UNARM","fastest","Shotgun",36,4,"m1014","M1014","Shotgun",2,50,300,377,"3.167",95,true
 "RS-UNARM","fastest","Shotgun",37,4,"185ksk","18.5KS-K","Shotgun",3,37.5,400,479,"2.239",100,true
 "RS-UNARM","fastest","Shotgun",40,4,"185ksk","18.5KS-K","Shotgun",3,37.5,400,486,"2.265",100,true
 "RS-UNARM","fastest","Shotgun",50,4,"185ksk","18.5KS-K","Shotgun",3,37.5,400,509,"2.354",100,true
@@ -1119,24 +1119,24 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "RS-2PLATE","balanced","Shotgun",200,4,"185ksk","18.5KS-K","Shotgun",7,32,1200,1779,"2.599",100,true
 "RS-2PLATE","balanced","Shotgun",250,4,"185ksk","18.5KS-K","Shotgun",7,32,1200,1999,"2.599",100,true
 "RS-2PLATE","balanced","Shotgun",300,4,"185ksk","18.5KS-K","Shotgun",7,32,1200,2262,"2.599",100,true
-"RS-2PLATE","fastest","__all__",1,48,"sl9","SL9","SMG",9,26.05,711,713,"0.656",90,true
-"RS-2PLATE","fastest","__all__",5,48,"sl9","SL9","SMG",9,26.05,711,719,"0.673",90,true
-"RS-2PLATE","fastest","__all__",9,48,"sl9","SL9","SMG",9,26.05,711,726,"0.690",90,true
-"RS-2PLATE","fastest","__all__",10,48,"m16a4","M16A4","Assault Rifle",8,26.05,611,623,"1.501",100,true
-"RS-2PLATE","fastest","__all__",15,48,"m16a4","M16A4","Assault Rifle",8,26.05,611,629,"1.501",100,true
-"RS-2PLATE","fastest","__all__",20,48,"m16a4","M16A4","Assault Rifle",8,26.05,611,635,"1.501",100,true
-"RS-2PLATE","fastest","__all__",21,48,"m16a4","M16A4","Assault Rifle",8,26.05,611,637,"1.501",100,true
-"RS-2PLATE","fastest","__all__",25,48,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,769,"1.061",100,true
-"RS-2PLATE","fastest","__all__",30,48,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,777,"1.212",100,true
-"RS-2PLATE","fastest","__all__",31,48,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,779,"1.212",100,true
-"RS-2PLATE","fastest","__all__",35,48,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,785,"1.121",100,true
-"RS-2PLATE","fastest","__all__",36,48,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,786,"1.212",100,true
-"RS-2PLATE","fastest","__all__",37,48,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,788,"1.133",100,true
-"RS-2PLATE","fastest","__all__",40,48,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,793,"1.212",100,true
-"RS-2PLATE","fastest","__all__",50,48,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,809,"1.212",100,true
-"RS-2PLATE","fastest","__all__",54,48,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,815,"1.236",100,true
-"RS-2PLATE","fastest","__all__",60,48,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,826,"1.212",100,true
-"RS-2PLATE","fastest","__all__",75,48,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,852,"1.363",100,true
+"RS-2PLATE","fastest","__all__",1,48,"kv9","KV9","SMG",9,26.05,444,447,"3.781",90,true
+"RS-2PLATE","fastest","__all__",5,48,"kv9","KV9","SMG",9,26.05,444,456,"2.745",100,true
+"RS-2PLATE","fastest","__all__",9,48,"kv9","KV9","SMG",9,26.05,444,465,"2.837",100,true
+"RS-2PLATE","fastest","__all__",10,48,"tr7","TR-7","Assault Rifle",7,35.22,500,513,"4.472",85,true
+"RS-2PLATE","fastest","__all__",15,48,"tr7","TR-7","Assault Rifle",7,35.22,500,520,"4.640",85,true
+"RS-2PLATE","fastest","__all__",20,48,"tr7","TR-7","Assault Rifle",7,35.22,500,527,"4.808",90,true
+"RS-2PLATE","fastest","__all__",21,48,"tr7","TR-7","Assault Rifle",7,35.22,500,529,"5.814",85,true
+"RS-2PLATE","fastest","__all__",25,48,"kv9","KV9","SMG",11,17.13,556,613,"3.781",100,true
+"RS-2PLATE","fastest","__all__",30,48,"tr7","TR-7","Assault Rifle",8,26.05,583,625,"5.814",85,true
+"RS-2PLATE","fastest","__all__",31,48,"tr7","TR-7","Assault Rifle",8,26.05,583,627,"5.814",85,true
+"RS-2PLATE","fastest","__all__",35,48,"tr7","TR-7","Assault Rifle",8,26.05,583,633,"5.311",90,true
+"RS-2PLATE","fastest","__all__",36,48,"tr7","TR-7","Assault Rifle",8,26.05,583,634,"5.344",100,true
+"RS-2PLATE","fastest","__all__",37,48,"tr7","TR-7","Assault Rifle",8,26.05,583,636,"5.378",100,true
+"RS-2PLATE","fastest","__all__",40,48,"tr7","TR-7","Assault Rifle",8,26.05,583,640,"5.478",100,true
+"RS-2PLATE","fastest","__all__",50,48,"tr7","TR-7","Assault Rifle",8,26.05,583,656,"5.814",100,true
+"RS-2PLATE","fastest","__all__",54,48,"tr7","TR-7","Assault Rifle",8,26.05,583,662,"5.948",100,true
+"RS-2PLATE","fastest","__all__",60,48,"tr7","TR-7","Assault Rifle",8,26.05,583,672,"5.814",90,true
+"RS-2PLATE","fastest","__all__",75,48,"tr7","TR-7","Assault Rifle",8,26.05,583,697,"6.652",100,true
 "RS-2PLATE","fastest","__all__",76,48,"m250","M250","LMG",8,26.05,622,718,"2.359",95,true
 "RS-2PLATE","fastest","__all__",83,48,"m250","M250","LMG",8,26.05,622,729,"2.434",95,true
 "RS-2PLATE","fastest","__all__",90,48,"m250","M250","LMG",8,26.05,622,739,"2.509",95,true
@@ -1144,111 +1144,111 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "RS-2PLATE","fastest","__all__",120,48,"m250","M250","LMG",8,26.05,622,787,"2.833",95,true
 "RS-2PLATE","fastest","__all__",133,48,"m250","M250","LMG",8,26.05,622,809,"2.833",95,true
 "RS-2PLATE","fastest","__all__",150,48,"m250","M250","LMG",8,26.05,622,840,"2.079",100,true
-"RS-2PLATE","fastest","__all__",200,48,"lmr27","LMR27","DMR",8,26.2,933,1179,"1.709",100,true
-"RS-2PLATE","fastest","__all__",250,48,"lmr27","LMR27","DMR",8,26.2,933,1258,"1.709",100,true
-"RS-2PLATE","fastest","__all__",300,48,"lmr27","LMR27","DMR",8,26.2,933,1344,"1.709",100,true
-"RS-2PLATE","fastest","Assault Rifle",1,11,"kord6p67","KORD 6P67","Assault Rifle",11,20.67,667,668,"0.916",100,true
-"RS-2PLATE","fastest","Assault Rifle",5,11,"l85a3","L85A3","Assault Rifle",9,26.05,756,761,"0.910",85,true
-"RS-2PLATE","fastest","Assault Rifle",9,11,"sor556","SOR-556 MK2","Assault Rifle",9,26.05,844,854,"0.773",95,true
-"RS-2PLATE","fastest","Assault Rifle",10,11,"m16a4","M16A4","Assault Rifle",8,26.05,611,623,"1.501",100,true
-"RS-2PLATE","fastest","Assault Rifle",15,11,"m16a4","M16A4","Assault Rifle",8,26.05,611,629,"1.501",100,true
-"RS-2PLATE","fastest","Assault Rifle",20,11,"m16a4","M16A4","Assault Rifle",8,26.05,611,635,"1.501",100,true
-"RS-2PLATE","fastest","Assault Rifle",21,11,"m16a4","M16A4","Assault Rifle",8,26.05,611,637,"1.501",100,true
-"RS-2PLATE","fastest","Assault Rifle",25,11,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,769,"1.061",100,true
-"RS-2PLATE","fastest","Assault Rifle",30,11,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,777,"1.212",100,true
-"RS-2PLATE","fastest","Assault Rifle",31,11,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,779,"1.212",100,true
-"RS-2PLATE","fastest","Assault Rifle",35,11,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,785,"1.121",100,true
-"RS-2PLATE","fastest","Assault Rifle",36,11,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,786,"1.212",100,true
-"RS-2PLATE","fastest","Assault Rifle",37,11,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,788,"1.133",100,true
-"RS-2PLATE","fastest","Assault Rifle",40,11,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,793,"1.212",100,true
-"RS-2PLATE","fastest","Assault Rifle",50,11,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,809,"1.212",100,true
-"RS-2PLATE","fastest","Assault Rifle",54,11,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,815,"1.236",100,true
-"RS-2PLATE","fastest","Assault Rifle",60,11,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,826,"1.212",100,true
-"RS-2PLATE","fastest","Assault Rifle",75,11,"kord6p67","KORD 6P67","Assault Rifle",12,17.13,733,852,"1.363",100,true
-"RS-2PLATE","fastest","Assault Rifle",76,11,"m16a4","M16A4","Assault Rifle",11,17.13,778,880,"2.097",95,true
-"RS-2PLATE","fastest","Assault Rifle",83,11,"kord6p67","KORD 6P67","Assault Rifle",13,14.62,800,933,"1.212",100,true
-"RS-2PLATE","fastest","Assault Rifle",90,11,"l85a3","L85A3","Assault Rifle",12,17.13,1039,1148,"1.144",100,true
-"RS-2PLATE","fastest","Assault Rifle",100,11,"kord6p67","KORD 6P67","Assault Rifle",14,14.62,867,1032,"1.212",100,true
-"RS-2PLATE","fastest","Assault Rifle",120,11,"kord6p67","KORD 6P67","Assault Rifle",14,14.62,867,1073,"1.212",100,true
-"RS-2PLATE","fastest","Assault Rifle",133,11,"sor556","SOR-556 MK2","Assault Rifle",12,17.13,1161,1338,"0.958",100,true
-"RS-2PLATE","fastest","Assault Rifle",150,11,"sor556","SOR-556 MK2","Assault Rifle",12,17.13,1161,1367,"1.275",95,true
-"RS-2PLATE","fastest","Assault Rifle",200,11,"sor556","SOR-556 MK2","Assault Rifle",12,17.13,1161,1463,"1.275",95,true
-"RS-2PLATE","fastest","Assault Rifle",250,11,"m16a4","M16A4","Assault Rifle",12,17.13,856,1326,"2.944",100,true
-"RS-2PLATE","fastest","Assault Rifle",300,11,"b36a4","B36A4","Assault Rifle",12,17.13,917,1490,"2.155",100,true
-"RS-2PLATE","fastest","Carbine",1,9,"ak205","AK-205","Carbine",11,20.67,833,835,"0.596",100,true
-"RS-2PLATE","fastest","Carbine",5,9,"ak205","AK-205","Carbine",11,20.67,833,840,"0.612",100,true
-"RS-2PLATE","fastest","Carbine",9,9,"ak205","AK-205","Carbine",11,20.67,833,846,"0.791",100,true
-"RS-2PLATE","fastest","Carbine",10,9,"ak205","AK-205","Carbine",12,17.74,917,931,"0.791",100,true
-"RS-2PLATE","fastest","Carbine",15,9,"ak205","AK-205","Carbine",12,17.74,917,938,"0.652",100,true
-"RS-2PLATE","fastest","Carbine",20,9,"ak205","AK-205","Carbine",12,17.74,917,946,"0.791",100,true
-"RS-2PLATE","fastest","Carbine",21,9,"ak205","AK-205","Carbine",12,17.74,917,947,"0.791",100,true
-"RS-2PLATE","fastest","Carbine",25,9,"ak205","AK-205","Carbine",13,15.07,1000,1037,"0.691",100,true
-"RS-2PLATE","fastest","Carbine",30,9,"ak205","AK-205","Carbine",13,15.07,1000,1045,"0.711",100,true
-"RS-2PLATE","fastest","Carbine",31,9,"ak205","AK-205","Carbine",13,15.07,1000,1046,"0.791",100,true
-"RS-2PLATE","fastest","Carbine",35,9,"ak205","AK-205","Carbine",14,15.07,1083,1136,"0.731",100,true
-"RS-2PLATE","fastest","Carbine",36,9,"ak205","AK-205","Carbine",14,15.07,1083,1138,"0.735",100,true
-"RS-2PLATE","fastest","Carbine",37,9,"ak205","AK-205","Carbine",14,14.62,1083,1139,"0.739",100,true
-"RS-2PLATE","fastest","Carbine",40,9,"ak205","AK-205","Carbine",14,14.62,1083,1144,"0.791",100,true
-"RS-2PLATE","fastest","Carbine",50,9,"ak205","AK-205","Carbine",14,14.62,1083,1161,"0.791",100,true
-"RS-2PLATE","fastest","Carbine",54,9,"ak205","AK-205","Carbine",14,14.62,1083,1167,"0.791",100,true
-"RS-2PLATE","fastest","Carbine",60,9,"ak205","AK-205","Carbine",14,14.62,1083,1178,"0.791",100,true
-"RS-2PLATE","fastest","Carbine",75,9,"ak205","AK-205","Carbine",14,14.62,1083,1204,"0.791",100,true
-"RS-2PLATE","fastest","Carbine",76,9,"ak205","AK-205","Carbine",15,12.76,1167,1290,"0.895",100,true
-"RS-2PLATE","fastest","Carbine",83,9,"ak205","AK-205","Carbine",15,12.76,1167,1303,"0.791",100,true
+"RS-2PLATE","fastest","__all__",200,48,"m250","M250","LMG",8,26.05,622,942,"2.833",95,true
+"RS-2PLATE","fastest","__all__",250,48,"m250","M250","LMG",8,26.05,622,1064,"2.833",95,true
+"RS-2PLATE","fastest","__all__",300,48,"m250","M250","LMG",8,26.05,622,1209,"2.833",95,true
+"RS-2PLATE","fastest","Assault Rifle",1,11,"tr7","TR-7","Assault Rifle",7,35.22,500,501,"4.170",85,true
+"RS-2PLATE","fastest","Assault Rifle",5,11,"tr7","TR-7","Assault Rifle",7,35.22,500,507,"4.304",85,true
+"RS-2PLATE","fastest","Assault Rifle",9,11,"tr7","TR-7","Assault Rifle",7,35.22,500,512,"5.814",90,true
+"RS-2PLATE","fastest","Assault Rifle",10,11,"tr7","TR-7","Assault Rifle",7,35.22,500,513,"4.472",85,true
+"RS-2PLATE","fastest","Assault Rifle",15,11,"tr7","TR-7","Assault Rifle",7,35.22,500,520,"4.640",85,true
+"RS-2PLATE","fastest","Assault Rifle",20,11,"tr7","TR-7","Assault Rifle",7,35.22,500,527,"4.808",90,true
+"RS-2PLATE","fastest","Assault Rifle",21,11,"tr7","TR-7","Assault Rifle",7,35.22,500,529,"5.814",85,true
+"RS-2PLATE","fastest","Assault Rifle",25,11,"tr7","TR-7","Assault Rifle",8,26.05,583,618,"5.814",85,true
+"RS-2PLATE","fastest","Assault Rifle",30,11,"tr7","TR-7","Assault Rifle",8,26.05,583,625,"5.814",85,true
+"RS-2PLATE","fastest","Assault Rifle",31,11,"tr7","TR-7","Assault Rifle",8,26.05,583,627,"5.814",85,true
+"RS-2PLATE","fastest","Assault Rifle",35,11,"tr7","TR-7","Assault Rifle",8,26.05,583,633,"5.311",90,true
+"RS-2PLATE","fastest","Assault Rifle",36,11,"tr7","TR-7","Assault Rifle",8,26.05,583,634,"5.344",100,true
+"RS-2PLATE","fastest","Assault Rifle",37,11,"tr7","TR-7","Assault Rifle",8,26.05,583,636,"5.378",100,true
+"RS-2PLATE","fastest","Assault Rifle",40,11,"tr7","TR-7","Assault Rifle",8,26.05,583,640,"5.478",100,true
+"RS-2PLATE","fastest","Assault Rifle",50,11,"tr7","TR-7","Assault Rifle",8,26.05,583,656,"5.814",100,true
+"RS-2PLATE","fastest","Assault Rifle",54,11,"tr7","TR-7","Assault Rifle",8,26.05,583,662,"5.948",100,true
+"RS-2PLATE","fastest","Assault Rifle",60,11,"tr7","TR-7","Assault Rifle",8,26.05,583,672,"5.814",90,true
+"RS-2PLATE","fastest","Assault Rifle",75,11,"tr7","TR-7","Assault Rifle",8,26.05,583,697,"6.652",100,true
+"RS-2PLATE","fastest","Assault Rifle",76,11,"vcr2","VCR-2","Assault Rifle",11,17.13,667,772,"4.754",85,true
+"RS-2PLATE","fastest","Assault Rifle",83,11,"vcr2","VCR-2","Assault Rifle",11,17.13,667,783,"4.754",85,true
+"RS-2PLATE","fastest","Assault Rifle",90,11,"vcr2","VCR-2","Assault Rifle",12,17.13,733,862,"5.872",100,true
+"RS-2PLATE","fastest","Assault Rifle",100,11,"vcr2","VCR-2","Assault Rifle",12,17.13,733,878,"6.152",100,true
+"RS-2PLATE","fastest","Assault Rifle",120,11,"vcr2","VCR-2","Assault Rifle",12,17.13,733,914,"6.711",100,true
+"RS-2PLATE","fastest","Assault Rifle",133,11,"vcr2","VCR-2","Assault Rifle",12,17.13,733,939,"6.711",100,true
+"RS-2PLATE","fastest","Assault Rifle",150,11,"vcr2","VCR-2","Assault Rifle",12,17.13,733,972,"6.711",100,true
+"RS-2PLATE","fastest","Assault Rifle",200,11,"vcr2","VCR-2","Assault Rifle",12,17.13,733,1084,"6.711",100,true
+"RS-2PLATE","fastest","Assault Rifle",250,11,"vcr2","VCR-2","Assault Rifle",12,17.13,733,1218,"6.711",100,true
+"RS-2PLATE","fastest","Assault Rifle",300,11,"vcr2","VCR-2","Assault Rifle",12,17.13,733,1377,"6.711",100,true
+"RS-2PLATE","fastest","Carbine",1,9,"sg553r","SG 553R","Carbine",7,35.22,500,502,"3.809",90,true
+"RS-2PLATE","fastest","Carbine",5,9,"sg553r","SG 553R","Carbine",7,35.22,500,508,"3.809",90,true
+"RS-2PLATE","fastest","Carbine",9,9,"sg553r","SG 553R","Carbine",7,35.22,500,515,"2.900",85,true
+"RS-2PLATE","fastest","Carbine",10,9,"sg553r","SG 553R","Carbine",8,26.05,583,600,"3.809",90,true
+"RS-2PLATE","fastest","Carbine",15,9,"sg553r","SG 553R","Carbine",8,26.05,583,609,"3.809",90,true
+"RS-2PLATE","fastest","Carbine",20,9,"sg553r","SG 553R","Carbine",8,26.05,583,618,"3.144",90,true
+"RS-2PLATE","fastest","Carbine",21,9,"sg553r","SG 553R","Carbine",8,26.05,583,619,"3.809",85,true
+"RS-2PLATE","fastest","Carbine",25,9,"m277","M277","Carbine",9,26.05,667,702,"2.696",95,true
+"RS-2PLATE","fastest","Carbine",30,9,"m277","M277","Carbine",9,26.05,667,709,"2.420",100,true
+"RS-2PLATE","fastest","Carbine",31,9,"m277","M277","Carbine",9,26.05,667,711,"2.696",95,true
+"RS-2PLATE","fastest","Carbine",35,9,"m277","M277","Carbine",9,26.05,667,717,"2.696",95,true
+"RS-2PLATE","fastest","Carbine",36,9,"m277","M277","Carbine",9,26.05,667,719,"2.696",95,true
+"RS-2PLATE","fastest","Carbine",37,9,"m277","M277","Carbine",9,26.05,667,720,"2.696",95,true
+"RS-2PLATE","fastest","Carbine",40,9,"m277","M277","Carbine",9,26.05,667,725,"2.696",95,true
+"RS-2PLATE","fastest","Carbine",50,9,"m277","M277","Carbine",9,26.05,667,741,"2.696",100,true
+"RS-2PLATE","fastest","Carbine",54,9,"m277","M277","Carbine",9,26.05,667,747,"2.696",100,true
+"RS-2PLATE","fastest","Carbine",60,9,"m277","M277","Carbine",9,26.05,667,757,"2.696",100,true
+"RS-2PLATE","fastest","Carbine",75,9,"m277","M277","Carbine",9,26.05,667,783,"2.696",100,true
+"RS-2PLATE","fastest","Carbine",76,9,"m277","M277","Carbine",10,20.67,750,868,"3.056",100,true
+"RS-2PLATE","fastest","Carbine",83,9,"m277","M277","Carbine",10,20.67,750,880,"3.153",100,true
 "RS-2PLATE","fastest","Carbine",90,9,"m277","M277","Carbine",10,20.67,750,893,"2.696",100,true
-"RS-2PLATE","fastest","Carbine",100,9,"ak205","AK-205","Carbine",16,12.76,1250,1419,"0.991",100,true
+"RS-2PLATE","fastest","Carbine",100,9,"m277","M277","Carbine",10,20.67,750,912,"3.388",100,true
 "RS-2PLATE","fastest","Carbine",120,9,"m277","M277","Carbine",10,20.67,750,952,"2.696",100,true
-"RS-2PLATE","fastest","Carbine",133,9,"ak205","AK-205","Carbine",16,12.76,1250,1489,"0.791",100,true
-"RS-2PLATE","fastest","Carbine",150,9,"ak205","AK-205","Carbine",16,12.76,1250,1529,"1.071",100,true
-"RS-2PLATE","fastest","Carbine",200,9,"ak205","AK-205","Carbine",16,12.76,1250,1659,"1.071",100,true
-"RS-2PLATE","fastest","Carbine",250,9,"ak205","AK-205","Carbine",16,12.76,1250,1815,"1.071",100,true
-"RS-2PLATE","fastest","Carbine",300,9,"ak205","AK-205","Carbine",16,12.76,1250,2000,"1.071",100,true
-"RS-2PLATE","fastest","SMG",1,10,"sl9","SL9","SMG",9,26.05,711,713,"0.656",90,true
-"RS-2PLATE","fastest","SMG",5,10,"sl9","SL9","SMG",9,26.05,711,719,"0.673",90,true
-"RS-2PLATE","fastest","SMG",9,10,"sl9","SL9","SMG",9,26.05,711,726,"0.690",90,true
-"RS-2PLATE","fastest","SMG",10,10,"pw7a2","PW7A2","SMG",13,17.13,760,778,"0.808",100,true
-"RS-2PLATE","fastest","SMG",15,10,"umg40","UMG-40","SMG",10,21.56,850,876,"0.781",100,true
-"RS-2PLATE","fastest","SMG",20,10,"sl9","SL9","SMG",10,20.67,800,834,"0.737",95,true
-"RS-2PLATE","fastest","SMG",21,10,"sl9","SL9","SMG",10,20.67,800,836,"0.741",95,true
-"RS-2PLATE","fastest","SMG",25,10,"sl9","SL9","SMG",11,17.13,889,932,"0.864",90,true
-"RS-2PLATE","fastest","SMG",30,10,"sl9","SL9","SMG",11,17.13,889,941,"0.864",90,true
-"RS-2PLATE","fastest","SMG",31,10,"sl9","SL9","SMG",11,17.13,889,943,"0.783",95,true
-"RS-2PLATE","fastest","SMG",35,10,"pw7a2","PW7A2","SMG",14,14.62,823,888,"0.927",100,true
-"RS-2PLATE","fastest","SMG",36,10,"pw7a2","PW7A2","SMG",14,14.62,823,890,"0.932",100,true
-"RS-2PLATE","fastest","SMG",37,10,"pw7a2","PW7A2","SMG",14,14.62,823,892,"0.937",100,true
-"RS-2PLATE","fastest","SMG",40,10,"pw7a2","PW7A2","SMG",14,14.62,823,898,"0.999",100,true
-"RS-2PLATE","fastest","SMG",50,10,"pw7a2","PW7A2","SMG",14,14.62,823,918,"0.999",100,true
-"RS-2PLATE","fastest","SMG",54,10,"pw7a2","PW7A2","SMG",14,14.62,823,927,"1.019",100,true
-"RS-2PLATE","fastest","SMG",60,10,"pw7a2","PW7A2","SMG",14,14.62,823,939,"1.047",100,true
-"RS-2PLATE","fastest","SMG",75,10,"pw7a2","PW7A2","SMG",14,14.62,823,972,"0.999",100,true
-"RS-2PLATE","fastest","SMG",76,10,"pw7a2","PW7A2","SMG",15,12.76,887,1038,"0.999",100,true
-"RS-2PLATE","fastest","SMG",83,10,"pw7a2","PW7A2","SMG",15,12.76,887,1054,"0.999",100,true
-"RS-2PLATE","fastest","SMG",90,10,"pw7a2","PW7A2","SMG",16,12.76,950,1134,"0.999",100,true
-"RS-2PLATE","fastest","SMG",100,10,"sl9","SL9","SMG",16,12.76,1333,1531,"0.864",100,true
-"RS-2PLATE","fastest","SMG",120,10,"sl9","SL9","SMG",16,12.76,1333,1579,"0.864",100,true
-"RS-2PLATE","fastest","SMG",133,10,"pw7a2","PW7A2","SMG",16,12.76,950,1244,"0.999",100,true
-"RS-2PLATE","fastest","SMG",150,10,"sl9","SL9","SMG",16,12.76,1333,1658,"0.864",100,true
-"RS-2PLATE","fastest","SMG",200,10,"pw7a2","PW7A2","SMG",16,12.76,950,1453,"1.335",100,true
-"RS-2PLATE","fastest","SMG",250,10,"pw7a2","PW7A2","SMG",16,12.76,950,1644,"1.335",100,true
-"RS-2PLATE","fastest","SMG",300,10,"pw7a2","PW7A2","SMG",16,12.76,950,1871,"1.335",100,true
-"RS-2PLATE","fastest","LMG",1,10,"rpk74m","RPK-74M","LMG",11,20.67,875,876,"0.635",100,true
+"RS-2PLATE","fastest","Carbine",133,9,"m277","M277","Carbine",10,20.67,750,979,"3.665",100,true
+"RS-2PLATE","fastest","Carbine",150,9,"m277","M277","Carbine",10,20.67,750,1017,"3.665",100,true
+"RS-2PLATE","fastest","Carbine",200,9,"m277","M277","Carbine",10,20.67,750,1141,"3.665",100,true
+"RS-2PLATE","fastest","Carbine",250,9,"m277","M277","Carbine",10,20.67,750,1290,"3.665",100,true
+"RS-2PLATE","fastest","Carbine",300,9,"m277","M277","Carbine",10,20.67,750,1467,"3.665",100,true
+"RS-2PLATE","fastest","SMG",1,10,"kv9","KV9","SMG",9,26.05,444,447,"3.781",90,true
+"RS-2PLATE","fastest","SMG",5,10,"kv9","KV9","SMG",9,26.05,444,456,"2.745",100,true
+"RS-2PLATE","fastest","SMG",9,10,"kv9","KV9","SMG",9,26.05,444,465,"2.837",100,true
+"RS-2PLATE","fastest","SMG",10,10,"kv9","KV9","SMG",10,20.67,500,523,"2.860",100,true
+"RS-2PLATE","fastest","SMG",15,10,"kv9","KV9","SMG",10,20.67,500,534,"2.975",100,true
+"RS-2PLATE","fastest","SMG",20,10,"kv9","KV9","SMG",10,20.67,500,546,"3.090",90,true
+"RS-2PLATE","fastest","SMG",21,10,"kv9","KV9","SMG",10,20.67,500,548,"3.113",90,true
+"RS-2PLATE","fastest","SMG",25,10,"kv9","KV9","SMG",11,17.13,556,613,"3.781",100,true
+"RS-2PLATE","fastest","SMG",30,10,"kv9","KV9","SMG",11,17.13,556,626,"3.320",90,true
+"RS-2PLATE","fastest","SMG",31,10,"kv9","KV9","SMG",11,17.13,556,628,"3.781",100,true
+"RS-2PLATE","fastest","SMG",35,10,"kv9","KV9","SMG",12,17.13,611,693,"3.781",100,true
+"RS-2PLATE","fastest","SMG",36,10,"kv9","KV9","SMG",12,17.13,611,696,"3.781",90,true
+"RS-2PLATE","fastest","SMG",37,10,"kv9","KV9","SMG",13,14.62,667,754,"3.481",100,true
+"RS-2PLATE","fastest","SMG",40,10,"kv9","KV9","SMG",13,14.62,667,762,"3.781",90,true
+"RS-2PLATE","fastest","SMG",50,10,"kv9","KV9","SMG",14,14.62,722,843,"3.781",90,true
+"RS-2PLATE","fastest","SMG",54,10,"kv9","KV9","SMG",14,14.62,722,854,"3.873",100,true
+"RS-2PLATE","fastest","SMG",60,10,"kv9","KV9","SMG",14,14.62,722,870,"4.011",100,true
+"RS-2PLATE","fastest","SMG",75,10,"kv9","KV9","SMG",14,14.62,722,912,"4.356",100,true
+"RS-2PLATE","fastest","SMG",76,10,"kv9","KV9","SMG",15,12.76,778,970,"3.781",90,true
+"RS-2PLATE","fastest","SMG",83,10,"kv9","KV9","SMG",15,12.76,778,991,"3.781",90,true
+"RS-2PLATE","fastest","SMG",90,10,"kv9","KV9","SMG",16,12.76,833,1067,"3.781",100,true
+"RS-2PLATE","fastest","SMG",100,10,"kv9","KV9","SMG",16,12.76,833,1098,"4.932",100,true
+"RS-2PLATE","fastest","SMG",120,10,"kv9","KV9","SMG",16,12.76,833,1163,"3.781",100,true
+"RS-2PLATE","fastest","SMG",133,10,"kv9","KV9","SMG",16,12.76,833,1208,"5.392",100,true
+"RS-2PLATE","fastest","SMG",150,10,"kv9","KV9","SMG",16,12.76,833,1270,"5.392",100,true
+"RS-2PLATE","fastest","SMG",200,10,"usg90","USG-90","SMG",16,12.76,1000,1427,"1.733",65,true
+"RS-2PLATE","fastest","SMG",250,10,"usg90","USG-90","SMG",16,12.76,1000,1589,"1.733",65,true
+"RS-2PLATE","fastest","SMG",300,10,"usg90","USG-90","SMG",16,12.76,1000,1783,"1.733",65,true
+"RS-2PLATE","fastest","LMG",1,10,"m121a2","M121 A2","LMG",7,35.22,550,551,"3.275",100,true
 "RS-2PLATE","fastest","LMG",5,10,"m121a2","M121 A2","LMG",7,35.22,550,557,"2.438",95,true
-"RS-2PLATE","fastest","LMG",9,10,"rpk74m","RPK-74M","LMG",11,20.67,875,884,"0.669",100,true
-"RS-2PLATE","fastest","LMG",10,10,"drsiar","DRS-IAR","LMG",9,26.05,622,634,"1.535",100,true
-"RS-2PLATE","fastest","LMG",15,10,"drsiar","DRS-IAR","LMG",9,26.05,622,640,"1.585",100,true
-"RS-2PLATE","fastest","LMG",20,10,"m123k","M123K","LMG",9,26.05,578,604,"1.932",95,true
-"RS-2PLATE","fastest","LMG",21,10,"m123k","M123K","LMG",9,26.05,578,605,"1.944",95,true
+"RS-2PLATE","fastest","LMG",9,10,"m121a2","M121 A2","LMG",7,35.22,550,563,"3.275",100,true
+"RS-2PLATE","fastest","LMG",10,10,"m121a2","M121 A2","LMG",7,35.22,550,565,"3.275",100,true
+"RS-2PLATE","fastest","LMG",15,10,"m121a2","M121 A2","LMG",7,35.22,550,572,"2.624",95,true
+"RS-2PLATE","fastest","LMG",20,10,"m121a2","M121 A2","LMG",7,35.22,550,580,"3.275",95,true
+"RS-2PLATE","fastest","LMG",21,10,"m121a2","M121 A2","LMG",7,35.22,550,581,"2.736",100,true
 "RS-2PLATE","fastest","LMG",25,10,"m250","M250","LMG",8,26.05,622,651,"1.809",90,true
-"RS-2PLATE","fastest","LMG",30,10,"l110","L110","LMG",10,20.67,750,784,"1.278",100,true
-"RS-2PLATE","fastest","LMG",31,10,"l110","L110","LMG",10,20.67,750,785,"1.425",95,true
-"RS-2PLATE","fastest","LMG",35,10,"l110","L110","LMG",10,20.67,750,790,"1.315",100,true
-"RS-2PLATE","fastest","LMG",36,10,"l110","L110","LMG",10,20.67,750,791,"1.322",100,true
-"RS-2PLATE","fastest","LMG",37,10,"l110","L110","LMG",10,20.67,750,793,"1.330",100,true
-"RS-2PLATE","fastest","LMG",40,10,"l110","L110","LMG",10,20.67,750,796,"1.352",100,true
-"RS-2PLATE","fastest","LMG",50,10,"l110","L110","LMG",10,20.67,750,809,"1.425",95,true
-"RS-2PLATE","fastest","LMG",54,10,"l110","L110","LMG",10,20.67,750,814,"1.425",95,true
-"RS-2PLATE","fastest","LMG",60,10,"l110","L110","LMG",10,20.67,750,822,"1.425",95,true
-"RS-2PLATE","fastest","LMG",75,10,"l110","L110","LMG",10,20.67,750,843,"1.608",100,true
+"RS-2PLATE","fastest","LMG",30,10,"m250","M250","LMG",8,26.05,622,657,"1.863",90,true
+"RS-2PLATE","fastest","LMG",31,10,"m250","M250","LMG",8,26.05,622,658,"1.874",90,true
+"RS-2PLATE","fastest","LMG",35,10,"m250","M250","LMG",8,26.05,622,663,"2.079",85,true
+"RS-2PLATE","fastest","LMG",36,10,"m250","M250","LMG",8,26.05,622,665,"1.928",100,true
+"RS-2PLATE","fastest","LMG",37,10,"m250","M250","LMG",8,26.05,622,666,"2.079",85,true
+"RS-2PLATE","fastest","LMG",40,10,"m250","M250","LMG",8,26.05,622,670,"2.079",85,true
+"RS-2PLATE","fastest","LMG",50,10,"m250","M250","LMG",8,26.05,622,683,"2.079",90,true
+"RS-2PLATE","fastest","LMG",54,10,"m250","M250","LMG",8,26.05,622,688,"2.079",90,true
+"RS-2PLATE","fastest","LMG",60,10,"m250","M250","LMG",8,26.05,622,696,"2.079",90,true
+"RS-2PLATE","fastest","LMG",75,10,"m250","M250","LMG",8,26.05,622,717,"2.348",100,true
 "RS-2PLATE","fastest","LMG",76,10,"m250","M250","LMG",8,26.05,622,718,"2.359",95,true
 "RS-2PLATE","fastest","LMG",83,10,"m250","M250","LMG",8,26.05,622,729,"2.434",95,true
 "RS-2PLATE","fastest","LMG",90,10,"m250","M250","LMG",8,26.05,622,739,"2.509",95,true
@@ -1258,7 +1258,7 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "RS-2PLATE","fastest","LMG",150,10,"m250","M250","LMG",8,26.05,622,840,"2.079",100,true
 "RS-2PLATE","fastest","LMG",200,10,"m250","M250","LMG",8,26.05,622,942,"2.833",95,true
 "RS-2PLATE","fastest","LMG",250,10,"m250","M250","LMG",8,26.05,622,1064,"2.833",95,true
-"RS-2PLATE","fastest","LMG",300,10,"l110","L110","LMG",12,17.13,917,1490,"1.937",95,true
+"RS-2PLATE","fastest","LMG",300,10,"m250","M250","LMG",8,26.05,622,1209,"2.833",95,true
 "RS-2PLATE","fastest","DMR",1,6,"vssm","VSSM","DMR",7,35.22,450,453,"1.538",100,true
 "RS-2PLATE","fastest","DMR",5,6,"vssm","VSSM","DMR",7,35.22,450,467,"1.571",100,true
 "RS-2PLATE","fastest","DMR",9,6,"vssm","VSSM","DMR",7,35.22,450,480,"1.605",100,true
@@ -1272,15 +1272,15 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "RS-2PLATE","fastest","DMR",35,6,"vssm","VSSM","DMR",10,21.56,675,795,"1.903",100,true
 "RS-2PLATE","fastest","DMR",36,6,"vssm","VSSM","DMR",10,21.56,675,798,"1.998",100,true
 "RS-2PLATE","fastest","DMR",37,6,"vssm","VSSM","DMR",10,20.67,675,802,"2.007",100,true
-"RS-2PLATE","fastest","DMR",40,6,"lmr27","LMR27","DMR",8,27.5,933,975,"1.266",100,true
-"RS-2PLATE","fastest","DMR",50,6,"lmr27","LMR27","DMR",8,27.5,933,986,"1.321",100,true
-"RS-2PLATE","fastest","DMR",54,6,"lmr27","LMR27","DMR",8,27.5,933,990,"1.343",100,true
-"RS-2PLATE","fastest","DMR",60,6,"lmr27","LMR27","DMR",8,27.5,933,997,"1.376",100,true
-"RS-2PLATE","fastest","DMR",75,6,"lmr27","LMR27","DMR",8,27.5,933,1014,"1.460",100,true
-"RS-2PLATE","fastest","DMR",76,6,"lmr27","LMR27","DMR",8,26.2,933,1015,"1.465",100,true
-"RS-2PLATE","fastest","DMR",83,6,"lmr27","LMR27","DMR",8,26.2,933,1024,"1.504",100,true
-"RS-2PLATE","fastest","DMR",90,6,"lmr27","LMR27","DMR",8,26.2,933,1032,"1.543",100,true
-"RS-2PLATE","fastest","DMR",100,6,"lmr27","LMR27","DMR",8,26.2,933,1044,"1.598",100,true
+"RS-2PLATE","fastest","DMR",40,6,"vssm","VSSM","DMR",10,20.67,675,812,"2.034",100,true
+"RS-2PLATE","fastest","DMR",50,6,"vssm","VSSM","DMR",10,20.67,675,849,"2.123",100,true
+"RS-2PLATE","fastest","DMR",54,6,"vssm","VSSM","DMR",10,20.67,675,863,"2.159",100,true
+"RS-2PLATE","fastest","DMR",60,6,"vssm","VSSM","DMR",10,20.67,675,885,"2.212",100,true
+"RS-2PLATE","fastest","DMR",75,6,"vssm","VSSM","DMR",10,20.67,675,942,"2.346",100,true
+"RS-2PLATE","fastest","DMR",76,6,"vssm","VSSM","DMR",10,20.67,675,946,"2.376",100,true
+"RS-2PLATE","fastest","DMR",83,6,"vssm","VSSM","DMR",10,20.67,675,973,"2.437",100,true
+"RS-2PLATE","fastest","DMR",90,6,"vssm","VSSM","DMR",10,20.67,675,1000,"2.497",100,true
+"RS-2PLATE","fastest","DMR",100,6,"vssm","VSSM","DMR",10,20.67,675,1040,"2.583",100,true
 "RS-2PLATE","fastest","DMR",120,6,"lmr27","LMR27","DMR",8,26.2,933,1069,"1.709",100,true
 "RS-2PLATE","fastest","DMR",133,6,"lmr27","LMR27","DMR",8,26.2,933,1086,"1.709",100,true
 "RS-2PLATE","fastest","DMR",150,6,"lmr27","LMR27","DMR",8,26.2,933,1108,"1.709",100,true
@@ -1302,27 +1302,27 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "RS-2PLATE","fastest","Sniper Rifle",37,5,"miniscout","Mini Scout","Sniper Rifle",4,60.8148,3529,3570,"1.358",90,true
 "RS-2PLATE","fastest","Sniper Rifle",40,5,"miniscout","Mini Scout","Sniper Rifle",4,60.5926,3529,3573,"1.372",90,true
 "RS-2PLATE","fastest","Sniper Rifle",50,5,"miniscout","Mini Scout","Sniper Rifle",4,59.8519,3529,3585,"1.419",90,true
-"RS-2PLATE","fastest","Sniper Rifle",54,5,"miniscout","Mini Scout","Sniper Rifle",4,59.5556,3529,3589,"1.437",90,true
-"RS-2PLATE","fastest","Sniper Rifle",60,5,"miniscout","Mini Scout","Sniper Rifle",4,59.1111,3529,3597,"1.465",90,true
+"RS-2PLATE","fastest","Sniper Rifle",54,5,"sv98","SV-98","Sniper Rifle",3,100,3185,3252,"1.933",90,true
+"RS-2PLATE","fastest","Sniper Rifle",60,5,"sv98","SV-98","Sniper Rifle",3,100,3185,3260,"1.970",90,true
 "RS-2PLATE","fastest","Sniper Rifle",75,5,"m2010esr","M2010 ESR","Sniper Rifle",3,100,2722,2807,"2.442",95,true
 "RS-2PLATE","fastest","Sniper Rifle",76,5,"m2010esr","M2010 ESR","Sniper Rifle",3,100,2722,2809,"2.449",100,true
 "RS-2PLATE","fastest","Sniper Rifle",83,5,"m2010esr","M2010 ESR","Sniper Rifle",3,100,2722,2817,"2.500",100,true
 "RS-2PLATE","fastest","Sniper Rifle",90,5,"m2010esr","M2010 ESR","Sniper Rifle",3,100,2722,2826,"2.550",100,true
-"RS-2PLATE","fastest","Sniper Rifle",100,5,"m2010esr","M2010 ESR","Sniper Rifle",3,100,2722,2839,"2.622",100,true
+"RS-2PLATE","fastest","Sniper Rifle",100,5,"l115","L115A3","Sniper Rifle",3,100,2589,2722,"3.041",95,true
 "RS-2PLATE","fastest","Sniper Rifle",120,5,"l115","L115A3","Sniper Rifle",3,100,2589,2752,"3.199",95,true
 "RS-2PLATE","fastest","Sniper Rifle",133,5,"l115","L115A3","Sniper Rifle",3,100,2589,2773,"3.199",95,true
-"RS-2PLATE","fastest","Sniper Rifle",150,5,"miniscout","Mini Scout","Sniper Rifle",5,58,4706,4890,"1.744",95,true
-"RS-2PLATE","fastest","Sniper Rifle",200,5,"miniscout","Mini Scout","Sniper Rifle",5,58,4706,4965,"1.744",95,true
-"RS-2PLATE","fastest","Sniper Rifle",250,5,"miniscout","Mini Scout","Sniper Rifle",5,58,4706,5047,"1.744",95,true
-"RS-2PLATE","fastest","Sniper Rifle",300,5,"miniscout","Mini Scout","Sniper Rifle",5,58,4706,5139,"1.744",95,true
+"RS-2PLATE","fastest","Sniper Rifle",150,5,"l115","L115A3","Sniper Rifle",4,84.619,3883,4094,"3.199",95,true
+"RS-2PLATE","fastest","Sniper Rifle",200,5,"l115","L115A3","Sniper Rifle",4,62,3883,4180,"3.199",95,true
+"RS-2PLATE","fastest","Sniper Rifle",250,5,"l115","L115A3","Sniper Rifle",4,62,3883,4274,"3.199",95,true
+"RS-2PLATE","fastest","Sniper Rifle",300,5,"l115","L115A3","Sniper Rifle",4,62,3883,4379,"3.199",95,true
 "RS-2PLATE","fastest","Shotgun",1,4,"m1014","M1014","Shotgun",2,115.2,300,302,"2.561",80,true
 "RS-2PLATE","fastest","Shotgun",5,4,"m1014","M1014","Shotgun",2,115.2,300,310,"2.605",80,true
 "RS-2PLATE","fastest","Shotgun",9,4,"m1014","M1014","Shotgun",2,100,300,318,"2.648",100,true
 "RS-2PLATE","fastest","Shotgun",10,4,"185ksk","18.5KS-K","Shotgun",3,80,400,420,"1.754",95,true
 "RS-2PLATE","fastest","Shotgun",15,4,"185ksk","18.5KS-K","Shotgun",3,80,400,431,"2.061",100,true
-"RS-2PLATE","fastest","Shotgun",20,4,"185ksk","18.5KS-K","Shotgun",4,44.8,600,641,"1.831",100,true
-"RS-2PLATE","fastest","Shotgun",21,4,"185ksk","18.5KS-K","Shotgun",4,44.8,600,644,"1.838",100,true
-"RS-2PLATE","fastest","Shotgun",25,4,"185ksk","18.5KS-K","Shotgun",4,42.9,600,652,"2.024",100,true
+"RS-2PLATE","fastest","Shotgun",20,4,"m1014","M1014","Shotgun",3,50,600,641,"2.817",95,true
+"RS-2PLATE","fastest","Shotgun",21,4,"m1014","M1014","Shotgun",3,50,600,644,"2.828",95,true
+"RS-2PLATE","fastest","Shotgun",25,4,"m1014","M1014","Shotgun",3,50,600,652,"2.874",95,true
 "RS-2PLATE","fastest","Shotgun",30,4,"185ksk","18.5KS-K","Shotgun",5,42.9,800,863,"2.067",100,true
 "RS-2PLATE","fastest","Shotgun",31,4,"185ksk","18.5KS-K","Shotgun",5,42.9,800,865,"2.075",100,true
 "RS-2PLATE","fastest","Shotgun",35,4,"185ksk","18.5KS-K","Shotgun",6,42.9,1000,1074,"2.109",100,true

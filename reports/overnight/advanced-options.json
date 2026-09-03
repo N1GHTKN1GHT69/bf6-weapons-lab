@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-03T04:04:12.453Z",
+ "generatedAt": "2026-09-03T04:17:18.850Z",
  "observations": [
   {
    "control": "classChoice",
@@ -28,8 +28,8 @@
   {
    "control": "priority",
    "cases": 14,
-   "casesWhereBuildChanged": 4,
-   "casesWhereWinnerChanged": 2
+   "casesWhereBuildChanged": 11,
+   "casesWhereWinnerChanged": 10
   }
  ],
  "errors": []

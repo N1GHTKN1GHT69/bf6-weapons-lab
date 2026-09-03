@@ -136,8 +136,20 @@ const rankPos=app.indexOf('let combat = raw ? cachedCombat(raw, d, strategy) : n
 const auditPos=app.indexOf('if (!combat) combat = auditedRosterCombat(roster, raw, d);',rankPos);
 if(rankPos<0||auditPos<rankPos) errors.push('AUTO META is not cache-first');
 if(!app.includes('function rankingStrategy()')) errors.push('AUTO META ranking cannot follow the selected priority');
+// PRIORITY must select the ranking COMPARATOR, not only which cached row is read.
+// Before 2026-09-03 the comparator was always the balanced utility, so FASTEST
+// KILL returned a non-fastest weapon in 411 of 672 sweep cases.
+if(!app.includes('const comparator = rankingStrategy() === "lethal" ? lethalFirst : balancedFirst;')) errors.push('PRIORITY does not select the ranking comparator');
+if(!app.includes('const lethalFirst = (a,b) => {')) errors.push('FASTEST KILL lethal-first comparator missing');
+if(!/if \(Math\.abs\(d\) > TTK_TIE_EPSILON_MS\) return d;/.test(app)) errors.push('FASTEST KILL does not rank on trigger-to-kill first');
+if(!app.includes('return beam(a)-beam(b) || tieBreak(a,b);')) errors.push('Beam Index is not confined to breaking a trigger-to-kill tie');
 if(!app.includes('function flightTimeMs(distanceM, velocityMps, dragPerMeter)')) errors.push('generic projectile flight model missing');
-if(!/a\.combat\.triggerTtk\s*\?\?\s*Infinity/.test(app) || !/b\.combat\.triggerTtk\s*\?\?\s*Infinity/.test(app)) errors.push('AUTO META is not trigger-to-impact TTK first');
+// Trigger-to-impact TTK must be the ranking key both comparators read. It is now
+// accessed through one helper rather than inline in the sort, so gate the helper
+// and its use in each comparator - the same invariant, checked in three places.
+if(!app.includes('const ttk = x => Number(x.combat.triggerTtk ?? Infinity);')) errors.push('AUTO META is not trigger-to-impact TTK first');
+if(!app.includes('const d = ttk(a)-ttk(b);')) errors.push('FASTEST KILL comparator does not read trigger-to-impact TTK');
+if(!/a\.metaCost-b\.metaCost\s*\|\|\s*ttk\(a\)-ttk\(b\)/.test(app)) errors.push('BALANCED comparator does not read trigger-to-impact TTK');
 if(app.includes('if (!combat && raw) combat = combatAtDistance(raw, d);')) errors.push('AUTO META still permits raw cadence/damage bypass');
 // The cross-class verified-ballistics requirement now lives in the single
 // exclusion predicate that both the ranking pool and the advertised scope count
