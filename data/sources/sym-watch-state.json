@@ -1,0 +1,14 @@
+{
+ "schema": 1,
+ "purpose": "Watch state for detecting when Sym.gg publishes BF6 data newer than 1.3.3.0. See scripts/watch-sym-source.mjs.",
+ "chunkUrl": "https://sym.gg/ed7002b4-IzVmZyTs.js",
+ "chunkDescription": "Vite route chunk carrying the BF6 \"Patch Notes: Sym Style\" payload. Identified by being the only loaded JS resource containing the string ADSRecoilAmount.",
+ "chunkSha256": "9c8eb51f4a619a11ef5d6284e9e929dd76ae1fcb5b62583802a9950dd31c844e",
+ "chunkBytes": 78373,
+ "knownLatestVersion": "1.3.3.0",
+ "versionsEmbedded": [
+  "1.3.1.0",
+  "1.3.3.0"
+ ],
+ "lastCheckedAt": "2026-09-03T16:47:42.020Z"
+}

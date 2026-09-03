@@ -42,6 +42,20 @@ jobs:
           UPSTREAM_SHA: ${{ steps.upstream.outputs.sha }}
           BF6_REBUILD_RETRY_HOURS: '6'
         run: node scripts/check-freshness.mjs --write
+      # Sym is the upstream PUBLISHER of the numbers this project ingests, and
+      # their BF6 data stops at 1.3.3.0. A 1.4.x publication would resolve the
+      # outstanding high-impact recoil/spread values from a published source, so
+      # it is worth knowing immediately. continue-on-error: an unreachable third
+      # party is not a defect in this repository, and the script exits non-zero
+      # only on the GOOD news case (newer data found).
+      - name: Watch Sym.gg for a newer BF6 dataset
+        id: symwatch
+        continue-on-error: true
+        run: node scripts/watch-sym-source.mjs
+      - name: Flag that Sym published newer BF6 data
+        if: steps.symwatch.outcome == 'failure'
+        run: |
+          echo "::warning title=Sym published newer BF6 data::Re-capture the patch-notes page into data/sources/ and re-run scripts/audit-source-reconciliation.mjs"
       # Patch-delta reconciliation is deliberately NOT part of the hourly no-change
       # path: it only runs when EA published something new or the article changed.
       - name: Reconcile patch deltas (only on an EA change)
