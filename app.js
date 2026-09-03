@@ -602,9 +602,15 @@
   }
 
   /**
-   * Strategy used for WEAPON RANKING. Ranking has always been the laserbeam
-   * meta, so the default "auto" priority keeps that in both modes; only an
-   * explicit choice re-ranks, and then only onto rows the engine already built.
+   * Strategy used to pick WHICH cached row each weapon is ranked on.
+   *
+   * Note what this does NOT do: rankWeapons() always orders by the 55/45
+   * laserbeam utility (metaCost) regardless of priority. Choosing FASTEST KILL
+   * swaps each weapon's `best` row for its `bestLethal` row, so the values being
+   * compared change, but the comparator itself does not. The winner under
+   * FASTEST KILL is therefore frequently not the fastest killer - measured at
+   * 411 of 672 sweep cases, worst gap 796 ms. This is a known open decision, not
+   * an oversight to be silently "fixed": see README and the overnight report.
    */
   function rankingStrategy() {
     return PRIORITY_STRATEGY[state.priority] ?? "laserbeam";
@@ -4020,7 +4026,7 @@
           weaponName: roster?.name ?? null,
           weaponClass: roster?.cls ?? null,
           rankedCount: ranked.length,
-          top: ranked.slice(0, 5).map(x => ({
+          top: ranked.slice(0, Math.max(1, Number(query.topN) || 5)).map(x => ({
             id: x.roster.id, name: x.roster.name, cls: x.roster.cls,
             triggerTtk: x.combat?.triggerTtk ?? null, mechTtk: x.combat?.ttk ?? null,
             btk: x.combat?.btk ?? null, damage: x.combat?.damage ?? null,

@@ -42,6 +42,26 @@ invented to support a simpler label.
 - **FASTEST KILL** -> `lethal`: strict trigger-to-kill first, Beam Index only
   breaking lethal ties.
 
+### What PRIORITY actually changes today (verified 2026-09-02)
+
+PRIORITY selects the **attachment build strategy**. It does not change the
+**weapon ranking comparator**: `rankWeapons()` always sorts by the 55/45
+laserbeam utility (`metaCost`), in both priorities. Choosing FASTEST KILL makes
+the engine read each weapon's `bestLethal` cached row instead of its `best` row,
+which changes the numbers being ranked, but the ordering key stays the balanced
+utility.
+
+Measured consequence: across 672 FASTEST KILL cases in the meta sweep, the
+recommended weapon is **not** the fastest killer in 411 of them (61%), with a
+worst-case gap of 796 ms. See `reports/overnight/meta-sweep.json`
+(`summary.priorityFidelity`).
+
+That is a difference between the control's label ("Lowest kill time") and its
+implemented behaviour. Reconciling it - either by ranking strictly on
+trigger-to-kill under FASTEST KILL, or by relabelling the control - changes
+headline winners across the product, so it is recorded as an open decision
+rather than changed silently. See `BF6-WEAPONS-LAB-OVERNIGHT-REPORT.md`.
+
 PRIORITY defaults to each mode's historical strategy (AUTO META balanced, BUILD
 MY GUN fastest kill), so default behaviour is unchanged. The only exposed
 strategies are the two the engine actually computes: BALANCED and FASTEST KILL.

@@ -1,0 +1,5194 @@
+{
+ "summary": {
+  "generatedAt": "2026-09-03T03:53:25.084Z",
+  "distances": 28,
+  "modes": 3,
+  "priorities": 2,
+  "scopes": 8,
+  "cases": 1344,
+  "rankingEvaluations": 17304,
+  "anomalies": 0,
+  "anomaliesByKind": {},
+  "winnerChanges": 198,
+  "distinctWinners": 30,
+  "priorityFidelity": {
+   "note": "FASTEST KILL cases whose winner is not the fastest killer. rankWeapons() always sorts by the 55/45 laserbeam utility; PRIORITY only changes which cached build row is read. Tracked, not auto-corrected: changing it changes headline winners across the product.",
+   "fastestKillCases": 672,
+   "winnerNotFastest": 411,
+   "worstDeltaMs": 796,
+   "examples": [
+    {
+     "label": "MP/fastest/__all__/1m",
+     "shown": "rpkm",
+     "shownTtk": 218,
+     "fastest": "scw10",
+     "fastestTtk": 152,
+     "deltaMs": 66
+    },
+    {
+     "label": "MP/fastest/__all__/5m",
+     "shown": "rpkm",
+     "shownTtk": 223,
+     "fastest": "scw10",
+     "fastestTtk": 160,
+     "deltaMs": 63
+    },
+    {
+     "label": "MP/fastest/__all__/9m",
+     "shown": "rpkm",
+     "shownTtk": 229,
+     "fastest": "scw10",
+     "fastestTtk": 168,
+     "deltaMs": 60
+    },
+    {
+     "label": "MP/fastest/__all__/10m",
+     "shown": "m123k",
+     "shownTtk": 230,
+     "fastest": "tr7",
+     "fastestTtk": 180,
+     "deltaMs": 49
+    },
+    {
+     "label": "MP/fastest/__all__/15m",
+     "shown": "m123k",
+     "shownTtk": 237,
+     "fastest": "tr7",
+     "fastestTtk": 187,
+     "deltaMs": 49
+    },
+    {
+     "label": "MP/fastest/__all__/20m",
+     "shown": "m123k",
+     "shownTtk": 243,
+     "fastest": "tr7",
+     "fastestTtk": 194,
+     "deltaMs": 49
+    },
+    {
+     "label": "MP/fastest/__all__/21m",
+     "shown": "m123k",
+     "shownTtk": 245,
+     "fastest": "tr7",
+     "fastestTtk": 196,
+     "deltaMs": 49
+    },
+    {
+     "label": "MP/fastest/__all__/25m",
+     "shown": "l110",
+     "shownTtk": 361,
+     "fastest": "tr7",
+     "fastestTtk": 285,
+     "deltaMs": 77
+    },
+    {
+     "label": "MP/fastest/__all__/30m",
+     "shown": "l110",
+     "shownTtk": 367,
+     "fastest": "tr7",
+     "fastestTtk": 292,
+     "deltaMs": 75
+    },
+    {
+     "label": "MP/fastest/__all__/31m",
+     "shown": "l110",
+     "shownTtk": 368,
+     "fastest": "tr7",
+     "fastestTtk": 293,
+     "deltaMs": 75
+    },
+    {
+     "label": "MP/fastest/__all__/35m",
+     "shown": "l110",
+     "shownTtk": 373,
+     "fastest": "tr7",
+     "fastestTtk": 299,
+     "deltaMs": 74
+    },
+    {
+     "label": "MP/fastest/__all__/36m",
+     "shown": "kord6p67",
+     "shownTtk": 386,
+     "fastest": "tr7",
+     "fastestTtk": 301,
+     "deltaMs": 85
+    }
+   ]
+  }
+ },
+ "anomalies": [],
+ "flips": [
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "__all__",
+   "from": 1,
+   "to": 5,
+   "was": "nvo228e",
+   "now": "sor300sc"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "__all__",
+   "from": 9,
+   "to": 10,
+   "was": "sor300sc",
+   "now": "m123k"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "__all__",
+   "from": 21,
+   "to": 25,
+   "was": "m123k",
+   "now": "l110"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "__all__",
+   "from": 35,
+   "to": 36,
+   "was": "l110",
+   "now": "kord6p67"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "__all__",
+   "from": 50,
+   "to": 54,
+   "was": "kord6p67",
+   "now": "sv98"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "__all__",
+   "from": 75,
+   "to": 76,
+   "was": "sv98",
+   "now": "m2010esr"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "__all__",
+   "from": 100,
+   "to": 120,
+   "was": "m2010esr",
+   "now": "l115"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "__all__",
+   "from": 133,
+   "to": 150,
+   "was": "l115",
+   "now": "lmr27"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "Assault Rifle",
+   "from": 9,
+   "to": 10,
+   "was": "nvo228e",
+   "now": "sor556"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "Assault Rifle",
+   "from": 21,
+   "to": 25,
+   "was": "sor556",
+   "now": "b36a4"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "Assault Rifle",
+   "from": 35,
+   "to": 36,
+   "was": "b36a4",
+   "now": "kord6p67"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "Assault Rifle",
+   "from": 50,
+   "to": 54,
+   "was": "kord6p67",
+   "now": "sor556"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "Assault Rifle",
+   "from": 150,
+   "to": 200,
+   "was": "sor556",
+   "now": "b36a4"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "Assault Rifle",
+   "from": 200,
+   "to": 250,
+   "was": "b36a4",
+   "now": "l85a3"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "Carbine",
+   "from": 1,
+   "to": 5,
+   "was": "m417a2",
+   "now": "sor300sc"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "Carbine",
+   "from": 9,
+   "to": 10,
+   "was": "sor300sc",
+   "now": "ak205"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "Carbine",
+   "from": 21,
+   "to": 25,
+   "was": "ak205",
+   "now": "m277"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "Carbine",
+   "from": 50,
+   "to": 54,
+   "was": "m277",
+   "now": "ak205"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "SMG",
+   "from": 21,
+   "to": 25,
+   "was": "sl9",
+   "now": "pw7a2"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "SMG",
+   "from": 250,
+   "to": 300,
+   "was": "pw7a2",
+   "now": "sl9"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "LMG",
+   "from": 9,
+   "to": 10,
+   "was": "rpkm",
+   "now": "m123k"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "LMG",
+   "from": 21,
+   "to": 25,
+   "was": "m123k",
+   "now": "l110"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "LMG",
+   "from": 50,
+   "to": 54,
+   "was": "l110",
+   "now": "rpk74m"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "LMG",
+   "from": 133,
+   "to": 150,
+   "was": "rpk74m",
+   "now": "m250"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "LMG",
+   "from": 150,
+   "to": 200,
+   "was": "m250",
+   "now": "l110"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "DMR",
+   "from": 15,
+   "to": 20,
+   "was": "vssm",
+   "now": "lmr27"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "Sniper Rifle",
+   "from": 50,
+   "to": 54,
+   "was": "miniscout",
+   "now": "sv98"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "Sniper Rifle",
+   "from": 75,
+   "to": 76,
+   "was": "sv98",
+   "now": "m2010esr"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "Sniper Rifle",
+   "from": 100,
+   "to": 120,
+   "was": "m2010esr",
+   "now": "l115"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "Sniper Rifle",
+   "from": 133,
+   "to": 150,
+   "was": "l115",
+   "now": "miniscout"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "Shotgun",
+   "from": 9,
+   "to": 10,
+   "was": "m1014",
+   "now": "m87a1"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "Shotgun",
+   "from": 15,
+   "to": 20,
+   "was": "m87a1",
+   "now": "db12"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "Shotgun",
+   "from": 21,
+   "to": 25,
+   "was": "db12",
+   "now": "m1014"
+  },
+  {
+   "mode": "MP",
+   "priority": "balanced",
+   "category": "Shotgun",
+   "from": 25,
+   "to": 30,
+   "was": "m1014",
+   "now": "185ksk"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "__all__",
+   "from": 9,
+   "to": 10,
+   "was": "rpkm",
+   "now": "m123k"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "__all__",
+   "from": 21,
+   "to": 25,
+   "was": "m123k",
+   "now": "l110"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "__all__",
+   "from": 35,
+   "to": 36,
+   "was": "l110",
+   "now": "kord6p67"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "__all__",
+   "from": 50,
+   "to": 54,
+   "was": "kord6p67",
+   "now": "sv98"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "__all__",
+   "from": 75,
+   "to": 76,
+   "was": "sv98",
+   "now": "m2010esr"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "__all__",
+   "from": 100,
+   "to": 120,
+   "was": "m2010esr",
+   "now": "l115"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "__all__",
+   "from": 133,
+   "to": 150,
+   "was": "l115",
+   "now": "lmr27"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 5,
+   "to": 9,
+   "was": "nvo228e",
+   "now": "sor556"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 21,
+   "to": 25,
+   "was": "sor556",
+   "now": "b36a4"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 35,
+   "to": 36,
+   "was": "b36a4",
+   "now": "kord6p67"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 50,
+   "to": 54,
+   "was": "kord6p67",
+   "now": "sor556"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 150,
+   "to": 200,
+   "was": "sor556",
+   "now": "b36a4"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 200,
+   "to": 250,
+   "was": "b36a4",
+   "now": "l85a3"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "Carbine",
+   "from": 1,
+   "to": 5,
+   "was": "ak205",
+   "now": "sor300sc"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "Carbine",
+   "from": 9,
+   "to": 10,
+   "was": "sor300sc",
+   "now": "ak205"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "Carbine",
+   "from": 21,
+   "to": 25,
+   "was": "ak205",
+   "now": "m277"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "Carbine",
+   "from": 50,
+   "to": 54,
+   "was": "m277",
+   "now": "ak205"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "SMG",
+   "from": 21,
+   "to": 25,
+   "was": "sl9",
+   "now": "pw7a2"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "SMG",
+   "from": 250,
+   "to": 300,
+   "was": "pw7a2",
+   "now": "sl9"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "LMG",
+   "from": 9,
+   "to": 10,
+   "was": "rpkm",
+   "now": "m123k"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "LMG",
+   "from": 21,
+   "to": 25,
+   "was": "m123k",
+   "now": "l110"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "LMG",
+   "from": 50,
+   "to": 54,
+   "was": "l110",
+   "now": "rpk74m"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "LMG",
+   "from": 133,
+   "to": 150,
+   "was": "rpk74m",
+   "now": "m250"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "LMG",
+   "from": 150,
+   "to": 200,
+   "was": "m250",
+   "now": "l110"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "DMR",
+   "from": 21,
+   "to": 25,
+   "was": "vssm",
+   "now": "lmr27"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "Sniper Rifle",
+   "from": 50,
+   "to": 54,
+   "was": "miniscout",
+   "now": "sv98"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "Sniper Rifle",
+   "from": 75,
+   "to": 76,
+   "was": "sv98",
+   "now": "m2010esr"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "Sniper Rifle",
+   "from": 100,
+   "to": 120,
+   "was": "m2010esr",
+   "now": "l115"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "Sniper Rifle",
+   "from": 133,
+   "to": 150,
+   "was": "l115",
+   "now": "miniscout"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "Shotgun",
+   "from": 9,
+   "to": 10,
+   "was": "m1014",
+   "now": "m87a1"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "Shotgun",
+   "from": 15,
+   "to": 20,
+   "was": "m87a1",
+   "now": "db12"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "Shotgun",
+   "from": 21,
+   "to": 25,
+   "was": "db12",
+   "now": "m1014"
+  },
+  {
+   "mode": "MP",
+   "priority": "fastest",
+   "category": "Shotgun",
+   "from": 25,
+   "to": 30,
+   "was": "m1014",
+   "now": "185ksk"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "__all__",
+   "from": 1,
+   "to": 5,
+   "was": "nvo228e",
+   "now": "sor300sc"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "__all__",
+   "from": 9,
+   "to": 10,
+   "was": "sor300sc",
+   "now": "m123k"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "__all__",
+   "from": 21,
+   "to": 25,
+   "was": "m123k",
+   "now": "l110"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "__all__",
+   "from": 35,
+   "to": 36,
+   "was": "l110",
+   "now": "kord6p67"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "__all__",
+   "from": 50,
+   "to": 54,
+   "was": "kord6p67",
+   "now": "sv98"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "__all__",
+   "from": 75,
+   "to": 76,
+   "was": "sv98",
+   "now": "m2010esr"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "__all__",
+   "from": 100,
+   "to": 120,
+   "was": "m2010esr",
+   "now": "l115"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "__all__",
+   "from": 133,
+   "to": 150,
+   "was": "l115",
+   "now": "lmr27"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "Assault Rifle",
+   "from": 9,
+   "to": 10,
+   "was": "nvo228e",
+   "now": "sor556"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "Assault Rifle",
+   "from": 21,
+   "to": 25,
+   "was": "sor556",
+   "now": "b36a4"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "Assault Rifle",
+   "from": 35,
+   "to": 36,
+   "was": "b36a4",
+   "now": "kord6p67"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "Assault Rifle",
+   "from": 50,
+   "to": 54,
+   "was": "kord6p67",
+   "now": "sor556"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "Assault Rifle",
+   "from": 150,
+   "to": 200,
+   "was": "sor556",
+   "now": "b36a4"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "Assault Rifle",
+   "from": 200,
+   "to": 250,
+   "was": "b36a4",
+   "now": "l85a3"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "Carbine",
+   "from": 1,
+   "to": 5,
+   "was": "m417a2",
+   "now": "sor300sc"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "Carbine",
+   "from": 9,
+   "to": 10,
+   "was": "sor300sc",
+   "now": "ak205"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "Carbine",
+   "from": 21,
+   "to": 25,
+   "was": "ak205",
+   "now": "m277"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "Carbine",
+   "from": 50,
+   "to": 54,
+   "was": "m277",
+   "now": "ak205"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "SMG",
+   "from": 21,
+   "to": 25,
+   "was": "sl9",
+   "now": "pw7a2"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "SMG",
+   "from": 250,
+   "to": 300,
+   "was": "pw7a2",
+   "now": "sl9"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "LMG",
+   "from": 9,
+   "to": 10,
+   "was": "rpkm",
+   "now": "m123k"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "LMG",
+   "from": 21,
+   "to": 25,
+   "was": "m123k",
+   "now": "l110"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "LMG",
+   "from": 50,
+   "to": 54,
+   "was": "l110",
+   "now": "rpk74m"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "LMG",
+   "from": 133,
+   "to": 150,
+   "was": "rpk74m",
+   "now": "m250"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "LMG",
+   "from": 150,
+   "to": 200,
+   "was": "m250",
+   "now": "l110"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "DMR",
+   "from": 15,
+   "to": 20,
+   "was": "vssm",
+   "now": "lmr27"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "Sniper Rifle",
+   "from": 50,
+   "to": 54,
+   "was": "miniscout",
+   "now": "sv98"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "Sniper Rifle",
+   "from": 75,
+   "to": 76,
+   "was": "sv98",
+   "now": "m2010esr"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "Sniper Rifle",
+   "from": 100,
+   "to": 120,
+   "was": "m2010esr",
+   "now": "l115"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "Sniper Rifle",
+   "from": 133,
+   "to": 150,
+   "was": "l115",
+   "now": "miniscout"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "Shotgun",
+   "from": 9,
+   "to": 10,
+   "was": "m1014",
+   "now": "m87a1"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "Shotgun",
+   "from": 15,
+   "to": 20,
+   "was": "m87a1",
+   "now": "db12"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "Shotgun",
+   "from": 21,
+   "to": 25,
+   "was": "db12",
+   "now": "m1014"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "balanced",
+   "category": "Shotgun",
+   "from": 25,
+   "to": 30,
+   "was": "m1014",
+   "now": "185ksk"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "__all__",
+   "from": 9,
+   "to": 10,
+   "was": "rpkm",
+   "now": "m123k"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "__all__",
+   "from": 21,
+   "to": 25,
+   "was": "m123k",
+   "now": "l110"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "__all__",
+   "from": 35,
+   "to": 36,
+   "was": "l110",
+   "now": "kord6p67"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "__all__",
+   "from": 50,
+   "to": 54,
+   "was": "kord6p67",
+   "now": "sv98"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "__all__",
+   "from": 75,
+   "to": 76,
+   "was": "sv98",
+   "now": "m2010esr"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "__all__",
+   "from": 100,
+   "to": 120,
+   "was": "m2010esr",
+   "now": "l115"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "__all__",
+   "from": 133,
+   "to": 150,
+   "was": "l115",
+   "now": "lmr27"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 5,
+   "to": 9,
+   "was": "nvo228e",
+   "now": "sor556"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 21,
+   "to": 25,
+   "was": "sor556",
+   "now": "b36a4"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 35,
+   "to": 36,
+   "was": "b36a4",
+   "now": "kord6p67"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 50,
+   "to": 54,
+   "was": "kord6p67",
+   "now": "sor556"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 150,
+   "to": 200,
+   "was": "sor556",
+   "now": "b36a4"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 200,
+   "to": 250,
+   "was": "b36a4",
+   "now": "l85a3"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "Carbine",
+   "from": 1,
+   "to": 5,
+   "was": "ak205",
+   "now": "sor300sc"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "Carbine",
+   "from": 9,
+   "to": 10,
+   "was": "sor300sc",
+   "now": "ak205"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "Carbine",
+   "from": 21,
+   "to": 25,
+   "was": "ak205",
+   "now": "m277"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "Carbine",
+   "from": 50,
+   "to": 54,
+   "was": "m277",
+   "now": "ak205"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "SMG",
+   "from": 21,
+   "to": 25,
+   "was": "sl9",
+   "now": "pw7a2"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "SMG",
+   "from": 250,
+   "to": 300,
+   "was": "pw7a2",
+   "now": "sl9"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "LMG",
+   "from": 9,
+   "to": 10,
+   "was": "rpkm",
+   "now": "m123k"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "LMG",
+   "from": 21,
+   "to": 25,
+   "was": "m123k",
+   "now": "l110"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "LMG",
+   "from": 50,
+   "to": 54,
+   "was": "l110",
+   "now": "rpk74m"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "LMG",
+   "from": 133,
+   "to": 150,
+   "was": "rpk74m",
+   "now": "m250"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "LMG",
+   "from": 150,
+   "to": 200,
+   "was": "m250",
+   "now": "l110"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "DMR",
+   "from": 21,
+   "to": 25,
+   "was": "vssm",
+   "now": "lmr27"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "Sniper Rifle",
+   "from": 50,
+   "to": 54,
+   "was": "miniscout",
+   "now": "sv98"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "Sniper Rifle",
+   "from": 75,
+   "to": 76,
+   "was": "sv98",
+   "now": "m2010esr"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "Sniper Rifle",
+   "from": 100,
+   "to": 120,
+   "was": "m2010esr",
+   "now": "l115"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "Sniper Rifle",
+   "from": 133,
+   "to": 150,
+   "was": "l115",
+   "now": "miniscout"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "Shotgun",
+   "from": 9,
+   "to": 10,
+   "was": "m1014",
+   "now": "m87a1"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "Shotgun",
+   "from": 15,
+   "to": 20,
+   "was": "m87a1",
+   "now": "db12"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "Shotgun",
+   "from": 21,
+   "to": 25,
+   "was": "db12",
+   "now": "m1014"
+  },
+  {
+   "mode": "RS-UNARM",
+   "priority": "fastest",
+   "category": "Shotgun",
+   "from": 25,
+   "to": 30,
+   "was": "m1014",
+   "now": "185ksk"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "__all__",
+   "from": 9,
+   "to": 10,
+   "was": "nvo228e",
+   "now": "m16a4"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "__all__",
+   "from": 21,
+   "to": 25,
+   "was": "m16a4",
+   "now": "kord6p67"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "__all__",
+   "from": 75,
+   "to": 76,
+   "was": "kord6p67",
+   "now": "m250"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "__all__",
+   "from": 200,
+   "to": 250,
+   "was": "m250",
+   "now": "lmr27"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "Assault Rifle",
+   "from": 9,
+   "to": 10,
+   "was": "nvo228e",
+   "now": "m16a4"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "Assault Rifle",
+   "from": 21,
+   "to": 25,
+   "was": "m16a4",
+   "now": "kord6p67"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "Assault Rifle",
+   "from": 133,
+   "to": 150,
+   "was": "kord6p67",
+   "now": "sor556"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "Assault Rifle",
+   "from": 250,
+   "to": 300,
+   "was": "sor556",
+   "now": "b36a4"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "Carbine",
+   "from": 9,
+   "to": 10,
+   "was": "m417a2",
+   "now": "ak205"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "Carbine",
+   "from": 25,
+   "to": 30,
+   "was": "ak205",
+   "now": "m417a2"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "Carbine",
+   "from": 31,
+   "to": 35,
+   "was": "m417a2",
+   "now": "m277"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "Carbine",
+   "from": 37,
+   "to": 40,
+   "was": "m277",
+   "now": "ak205"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "SMG",
+   "from": 31,
+   "to": 35,
+   "was": "sl9",
+   "now": "pw7a2"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "LMG",
+   "from": 5,
+   "to": 9,
+   "was": "rpkm",
+   "now": "m123k"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "LMG",
+   "from": 9,
+   "to": 10,
+   "was": "m123k",
+   "now": "drsiar"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "LMG",
+   "from": 21,
+   "to": 25,
+   "was": "drsiar",
+   "now": "m250"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "LMG",
+   "from": 25,
+   "to": 30,
+   "was": "m250",
+   "now": "l110"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "LMG",
+   "from": 75,
+   "to": 76,
+   "was": "l110",
+   "now": "m250"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "LMG",
+   "from": 250,
+   "to": 300,
+   "was": "m250",
+   "now": "l110"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "DMR",
+   "from": 36,
+   "to": 37,
+   "was": "vssm",
+   "now": "lmr27"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "Sniper Rifle",
+   "from": 60,
+   "to": 75,
+   "was": "miniscout",
+   "now": "m2010esr"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "Sniper Rifle",
+   "from": 100,
+   "to": 120,
+   "was": "m2010esr",
+   "now": "l115"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "Sniper Rifle",
+   "from": 133,
+   "to": 150,
+   "was": "l115",
+   "now": "miniscout"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "balanced",
+   "category": "Shotgun",
+   "from": 9,
+   "to": 10,
+   "was": "m1014",
+   "now": "185ksk"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "__all__",
+   "from": 9,
+   "to": 10,
+   "was": "sl9",
+   "now": "m16a4"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "__all__",
+   "from": 21,
+   "to": 25,
+   "was": "m16a4",
+   "now": "kord6p67"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "__all__",
+   "from": 75,
+   "to": 76,
+   "was": "kord6p67",
+   "now": "m250"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "__all__",
+   "from": 150,
+   "to": 200,
+   "was": "m250",
+   "now": "lmr27"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 1,
+   "to": 5,
+   "was": "kord6p67",
+   "now": "l85a3"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 5,
+   "to": 9,
+   "was": "l85a3",
+   "now": "sor556"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 9,
+   "to": 10,
+   "was": "sor556",
+   "now": "m16a4"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 21,
+   "to": 25,
+   "was": "m16a4",
+   "now": "kord6p67"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 75,
+   "to": 76,
+   "was": "kord6p67",
+   "now": "m16a4"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 76,
+   "to": 83,
+   "was": "m16a4",
+   "now": "kord6p67"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 83,
+   "to": 90,
+   "was": "kord6p67",
+   "now": "l85a3"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 90,
+   "to": 100,
+   "was": "l85a3",
+   "now": "kord6p67"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 120,
+   "to": 133,
+   "was": "kord6p67",
+   "now": "sor556"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 200,
+   "to": 250,
+   "was": "sor556",
+   "now": "m16a4"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "Assault Rifle",
+   "from": 250,
+   "to": 300,
+   "was": "m16a4",
+   "now": "b36a4"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "Carbine",
+   "from": 83,
+   "to": 90,
+   "was": "ak205",
+   "now": "m277"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "Carbine",
+   "from": 90,
+   "to": 100,
+   "was": "m277",
+   "now": "ak205"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "Carbine",
+   "from": 100,
+   "to": 120,
+   "was": "ak205",
+   "now": "m277"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "Carbine",
+   "from": 120,
+   "to": 133,
+   "was": "m277",
+   "now": "ak205"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "SMG",
+   "from": 9,
+   "to": 10,
+   "was": "sl9",
+   "now": "pw7a2"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "SMG",
+   "from": 10,
+   "to": 15,
+   "was": "pw7a2",
+   "now": "umg40"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "SMG",
+   "from": 15,
+   "to": 20,
+   "was": "umg40",
+   "now": "sl9"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "SMG",
+   "from": 31,
+   "to": 35,
+   "was": "sl9",
+   "now": "pw7a2"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "SMG",
+   "from": 90,
+   "to": 100,
+   "was": "pw7a2",
+   "now": "sl9"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "SMG",
+   "from": 120,
+   "to": 133,
+   "was": "sl9",
+   "now": "pw7a2"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "SMG",
+   "from": 133,
+   "to": 150,
+   "was": "pw7a2",
+   "now": "sl9"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "SMG",
+   "from": 150,
+   "to": 200,
+   "was": "sl9",
+   "now": "pw7a2"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "LMG",
+   "from": 1,
+   "to": 5,
+   "was": "rpk74m",
+   "now": "m121a2"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "LMG",
+   "from": 5,
+   "to": 9,
+   "was": "m121a2",
+   "now": "rpk74m"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "LMG",
+   "from": 9,
+   "to": 10,
+   "was": "rpk74m",
+   "now": "drsiar"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "LMG",
+   "from": 15,
+   "to": 20,
+   "was": "drsiar",
+   "now": "m123k"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "LMG",
+   "from": 21,
+   "to": 25,
+   "was": "m123k",
+   "now": "m250"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "LMG",
+   "from": 25,
+   "to": 30,
+   "was": "m250",
+   "now": "l110"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "LMG",
+   "from": 75,
+   "to": 76,
+   "was": "l110",
+   "now": "m250"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "LMG",
+   "from": 250,
+   "to": 300,
+   "was": "m250",
+   "now": "l110"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "DMR",
+   "from": 37,
+   "to": 40,
+   "was": "vssm",
+   "now": "lmr27"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "Sniper Rifle",
+   "from": 60,
+   "to": 75,
+   "was": "miniscout",
+   "now": "m2010esr"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "Sniper Rifle",
+   "from": 100,
+   "to": 120,
+   "was": "m2010esr",
+   "now": "l115"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "Sniper Rifle",
+   "from": 133,
+   "to": 150,
+   "was": "l115",
+   "now": "miniscout"
+  },
+  {
+   "mode": "RS-2PLATE",
+   "priority": "fastest",
+   "category": "Shotgun",
+   "from": 9,
+   "to": 10,
+   "was": "m1014",
+   "now": "185ksk"
+  }
+ ],
+ "fidelity": [
+  {
+   "label": "MP/fastest/__all__/1m",
+   "shown": "rpkm",
+   "shownTtk": 218,
+   "fastest": "scw10",
+   "fastestTtk": 152,
+   "deltaMs": 66
+  },
+  {
+   "label": "MP/fastest/__all__/5m",
+   "shown": "rpkm",
+   "shownTtk": 223,
+   "fastest": "scw10",
+   "fastestTtk": 160,
+   "deltaMs": 63
+  },
+  {
+   "label": "MP/fastest/__all__/9m",
+   "shown": "rpkm",
+   "shownTtk": 229,
+   "fastest": "scw10",
+   "fastestTtk": 168,
+   "deltaMs": 60
+  },
+  {
+   "label": "MP/fastest/__all__/10m",
+   "shown": "m123k",
+   "shownTtk": 230,
+   "fastest": "tr7",
+   "fastestTtk": 180,
+   "deltaMs": 49
+  },
+  {
+   "label": "MP/fastest/__all__/15m",
+   "shown": "m123k",
+   "shownTtk": 237,
+   "fastest": "tr7",
+   "fastestTtk": 187,
+   "deltaMs": 49
+  },
+  {
+   "label": "MP/fastest/__all__/20m",
+   "shown": "m123k",
+   "shownTtk": 243,
+   "fastest": "tr7",
+   "fastestTtk": 194,
+   "deltaMs": 49
+  },
+  {
+   "label": "MP/fastest/__all__/21m",
+   "shown": "m123k",
+   "shownTtk": 245,
+   "fastest": "tr7",
+   "fastestTtk": 196,
+   "deltaMs": 49
+  },
+  {
+   "label": "MP/fastest/__all__/25m",
+   "shown": "l110",
+   "shownTtk": 361,
+   "fastest": "tr7",
+   "fastestTtk": 285,
+   "deltaMs": 77
+  },
+  {
+   "label": "MP/fastest/__all__/30m",
+   "shown": "l110",
+   "shownTtk": 367,
+   "fastest": "tr7",
+   "fastestTtk": 292,
+   "deltaMs": 75
+  },
+  {
+   "label": "MP/fastest/__all__/31m",
+   "shown": "l110",
+   "shownTtk": 368,
+   "fastest": "tr7",
+   "fastestTtk": 293,
+   "deltaMs": 75
+  },
+  {
+   "label": "MP/fastest/__all__/35m",
+   "shown": "l110",
+   "shownTtk": 373,
+   "fastest": "tr7",
+   "fastestTtk": 299,
+   "deltaMs": 74
+  },
+  {
+   "label": "MP/fastest/__all__/36m",
+   "shown": "kord6p67",
+   "shownTtk": 386,
+   "fastest": "tr7",
+   "fastestTtk": 301,
+   "deltaMs": 85
+  },
+  {
+   "label": "MP/fastest/__all__/37m",
+   "shown": "kord6p67",
+   "shownTtk": 388,
+   "fastest": "tr7",
+   "fastestTtk": 302,
+   "deltaMs": 85
+  },
+  {
+   "label": "MP/fastest/__all__/40m",
+   "shown": "kord6p67",
+   "shownTtk": 392,
+   "fastest": "tr7",
+   "fastestTtk": 307,
+   "deltaMs": 85
+  },
+  {
+   "label": "MP/fastest/__all__/50m",
+   "shown": "kord6p67",
+   "shownTtk": 408,
+   "fastest": "tr7",
+   "fastestTtk": 322,
+   "deltaMs": 86
+  },
+  {
+   "label": "MP/fastest/__all__/75m",
+   "shown": "sv98",
+   "shownTtk": 95,
+   "fastest": "m2010esr",
+   "fastestTtk": 85,
+   "deltaMs": 10
+  },
+  {
+   "label": "MP/fastest/__all__/120m",
+   "shown": "l115",
+   "shownTtk": 163,
+   "fastest": "psr",
+   "fastestTtk": 160,
+   "deltaMs": 4
+  },
+  {
+   "label": "MP/fastest/__all__/150m",
+   "shown": "lmr27",
+   "shownTtk": 575,
+   "fastest": "m250",
+   "fastestTtk": 485,
+   "deltaMs": 90
+  },
+  {
+   "label": "MP/fastest/__all__/200m",
+   "shown": "lmr27",
+   "shownTtk": 646,
+   "fastest": "m250",
+   "fastestTtk": 587,
+   "deltaMs": 59
+  },
+  {
+   "label": "MP/fastest/__all__/250m",
+   "shown": "lmr27",
+   "shownTtk": 724,
+   "fastest": "m250",
+   "fastestTtk": 709,
+   "deltaMs": 16
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/1m",
+   "shown": "nvo228e",
+   "shownTtk": 184,
+   "fastest": "tr7",
+   "fastestTtk": 168,
+   "deltaMs": 16
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/5m",
+   "shown": "nvo228e",
+   "shownTtk": 189,
+   "fastest": "tr7",
+   "fastestTtk": 174,
+   "deltaMs": 16
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/9m",
+   "shown": "sor556",
+   "shownTtk": 327,
+   "fastest": "tr7",
+   "fastestTtk": 179,
+   "deltaMs": 147
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/10m",
+   "shown": "sor556",
+   "shownTtk": 328,
+   "fastest": "tr7",
+   "fastestTtk": 180,
+   "deltaMs": 147
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/15m",
+   "shown": "sor556",
+   "shownTtk": 333,
+   "fastest": "tr7",
+   "fastestTtk": 187,
+   "deltaMs": 146
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/20m",
+   "shown": "sor556",
+   "shownTtk": 339,
+   "fastest": "tr7",
+   "fastestTtk": 194,
+   "deltaMs": 144
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/21m",
+   "shown": "sor556",
+   "shownTtk": 340,
+   "fastest": "tr7",
+   "fastestTtk": 196,
+   "deltaMs": 144
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/25m",
+   "shown": "b36a4",
+   "shownTtk": 361,
+   "fastest": "tr7",
+   "fastestTtk": 285,
+   "deltaMs": 77
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/30m",
+   "shown": "b36a4",
+   "shownTtk": 367,
+   "fastest": "tr7",
+   "fastestTtk": 292,
+   "deltaMs": 75
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/31m",
+   "shown": "b36a4",
+   "shownTtk": 368,
+   "fastest": "tr7",
+   "fastestTtk": 293,
+   "deltaMs": 75
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/35m",
+   "shown": "b36a4",
+   "shownTtk": 373,
+   "fastest": "tr7",
+   "fastestTtk": 299,
+   "deltaMs": 74
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/36m",
+   "shown": "kord6p67",
+   "shownTtk": 386,
+   "fastest": "tr7",
+   "fastestTtk": 301,
+   "deltaMs": 85
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/37m",
+   "shown": "kord6p67",
+   "shownTtk": 388,
+   "fastest": "tr7",
+   "fastestTtk": 302,
+   "deltaMs": 85
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/40m",
+   "shown": "kord6p67",
+   "shownTtk": 392,
+   "fastest": "tr7",
+   "fastestTtk": 307,
+   "deltaMs": 85
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/50m",
+   "shown": "kord6p67",
+   "shownTtk": 408,
+   "fastest": "tr7",
+   "fastestTtk": 322,
+   "deltaMs": 86
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/54m",
+   "shown": "sor556",
+   "shownTtk": 484,
+   "fastest": "tr7",
+   "fastestTtk": 329,
+   "deltaMs": 155
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/60m",
+   "shown": "sor556",
+   "shownTtk": 492,
+   "fastest": "tr7",
+   "fastestTtk": 338,
+   "deltaMs": 153
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/75m",
+   "shown": "sor556",
+   "shownTtk": 511,
+   "fastest": "tr7",
+   "fastestTtk": 364,
+   "deltaMs": 148
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/76m",
+   "shown": "sor556",
+   "shownTtk": 619,
+   "fastest": "vcr2",
+   "fastestTtk": 439,
+   "deltaMs": 180
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/83m",
+   "shown": "sor556",
+   "shownTtk": 628,
+   "fastest": "vcr2",
+   "fastestTtk": 450,
+   "deltaMs": 179
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/90m",
+   "shown": "sor556",
+   "shownTtk": 638,
+   "fastest": "vcr2",
+   "fastestTtk": 461,
+   "deltaMs": 177
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/100m",
+   "shown": "sor556",
+   "shownTtk": 653,
+   "fastest": "vcr2",
+   "fastestTtk": 478,
+   "deltaMs": 175
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/120m",
+   "shown": "sor556",
+   "shownTtk": 683,
+   "fastest": "vcr2",
+   "fastestTtk": 514,
+   "deltaMs": 170
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/133m",
+   "shown": "sor556",
+   "shownTtk": 704,
+   "fastest": "vcr2",
+   "fastestTtk": 538,
+   "deltaMs": 166
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/150m",
+   "shown": "sor556",
+   "shownTtk": 733,
+   "fastest": "vcr2",
+   "fastestTtk": 572,
+   "deltaMs": 161
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/200m",
+   "shown": "b36a4",
+   "shownTtk": 730,
+   "fastest": "vcr2",
+   "fastestTtk": 684,
+   "deltaMs": 46
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/250m",
+   "shown": "l85a3",
+   "shownTtk": 883,
+   "fastest": "vcr2",
+   "fastestTtk": 817,
+   "deltaMs": 66
+  },
+  {
+   "label": "MP/fastest/Assault Rifle/300m",
+   "shown": "l85a3",
+   "shownTtk": 1018,
+   "fastest": "vcr2",
+   "fastestTtk": 976,
+   "deltaMs": 42
+  },
+  {
+   "label": "MP/fastest/Carbine/1m",
+   "shown": "ak205",
+   "shownTtk": 334,
+   "fastest": "sg553r",
+   "fastestTtk": 169,
+   "deltaMs": 166
+  },
+  {
+   "label": "MP/fastest/Carbine/5m",
+   "shown": "sor300sc",
+   "shownTtk": 208,
+   "fastest": "sg553r",
+   "fastestTtk": 175,
+   "deltaMs": 32
+  },
+  {
+   "label": "MP/fastest/Carbine/9m",
+   "shown": "sor300sc",
+   "shownTtk": 214,
+   "fastest": "sg553r",
+   "fastestTtk": 182,
+   "deltaMs": 32
+  },
+  {
+   "label": "MP/fastest/Carbine/10m",
+   "shown": "ak205",
+   "shownTtk": 431,
+   "fastest": "m277",
+   "fastestTtk": 264,
+   "deltaMs": 168
+  },
+  {
+   "label": "MP/fastest/Carbine/15m",
+   "shown": "ak205",
+   "shownTtk": 439,
+   "fastest": "m277",
+   "fastestTtk": 271,
+   "deltaMs": 168
+  },
+  {
+   "label": "MP/fastest/Carbine/20m",
+   "shown": "ak205",
+   "shownTtk": 446,
+   "fastest": "m277",
+   "fastestTtk": 278,
+   "deltaMs": 168
+  },
+  {
+   "label": "MP/fastest/Carbine/21m",
+   "shown": "ak205",
+   "shownTtk": 448,
+   "fastest": "m277",
+   "fastestTtk": 279,
+   "deltaMs": 168
+  },
+  {
+   "label": "MP/fastest/Carbine/54m",
+   "shown": "ak205",
+   "shownTtk": 584,
+   "fastest": "m277",
+   "fastestTtk": 330,
+   "deltaMs": 254
+  },
+  {
+   "label": "MP/fastest/Carbine/60m",
+   "shown": "ak205",
+   "shownTtk": 594,
+   "fastest": "m277",
+   "fastestTtk": 340,
+   "deltaMs": 254
+  },
+  {
+   "label": "MP/fastest/Carbine/75m",
+   "shown": "ak205",
+   "shownTtk": 621,
+   "fastest": "m277",
+   "fastestTtk": 366,
+   "deltaMs": 255
+  },
+  {
+   "label": "MP/fastest/Carbine/76m",
+   "shown": "ak205",
+   "shownTtk": 706,
+   "fastest": "m277",
+   "fastestTtk": 451,
+   "deltaMs": 255
+  },
+  {
+   "label": "MP/fastest/Carbine/83m",
+   "shown": "ak205",
+   "shownTtk": 719,
+   "fastest": "m277",
+   "fastestTtk": 463,
+   "deltaMs": 256
+  },
+  {
+   "label": "MP/fastest/Carbine/90m",
+   "shown": "ak205",
+   "shownTtk": 732,
+   "fastest": "m277",
+   "fastestTtk": 476,
+   "deltaMs": 256
+  },
+  {
+   "label": "MP/fastest/Carbine/100m",
+   "shown": "ak205",
+   "shownTtk": 752,
+   "fastest": "m277",
+   "fastestTtk": 495,
+   "deltaMs": 257
+  },
+  {
+   "label": "MP/fastest/Carbine/120m",
+   "shown": "ak205",
+   "shownTtk": 794,
+   "fastest": "m277",
+   "fastestTtk": 535,
+   "deltaMs": 259
+  },
+  {
+   "label": "MP/fastest/Carbine/133m",
+   "shown": "ak205",
+   "shownTtk": 822,
+   "fastest": "m277",
+   "fastestTtk": 562,
+   "deltaMs": 260
+  },
+  {
+   "label": "MP/fastest/Carbine/150m",
+   "shown": "ak205",
+   "shownTtk": 862,
+   "fastest": "m277",
+   "fastestTtk": 600,
+   "deltaMs": 262
+  },
+  {
+   "label": "MP/fastest/Carbine/200m",
+   "shown": "ak205",
+   "shownTtk": 992,
+   "fastest": "m277",
+   "fastestTtk": 724,
+   "deltaMs": 268
+  },
+  {
+   "label": "MP/fastest/Carbine/250m",
+   "shown": "ak205",
+   "shownTtk": 1148,
+   "fastest": "m277",
+   "fastestTtk": 873,
+   "deltaMs": 274
+  },
+  {
+   "label": "MP/fastest/Carbine/300m",
+   "shown": "ak205",
+   "shownTtk": 1333,
+   "fastest": "m277",
+   "fastestTtk": 1050,
+   "deltaMs": 282
+  },
+  {
+   "label": "MP/fastest/SMG/1m",
+   "shown": "sl9",
+   "shownTtk": 269,
+   "fastest": "scw10",
+   "fastestTtk": 152,
+   "deltaMs": 117
+  },
+  {
+   "label": "MP/fastest/SMG/5m",
+   "shown": "sl9",
+   "shownTtk": 275,
+   "fastest": "scw10",
+   "fastestTtk": 160,
+   "deltaMs": 115
+  },
+  {
+   "label": "MP/fastest/SMG/9m",
+   "shown": "sl9",
+   "shownTtk": 282,
+   "fastest": "scw10",
+   "fastestTtk": 168,
+   "deltaMs": 114
+  },
+  {
+   "label": "MP/fastest/SMG/10m",
+   "shown": "sl9",
+   "shownTtk": 373,
+   "fastest": "kv9",
+   "fastestTtk": 245,
+   "deltaMs": 128
+  },
+  {
+   "label": "MP/fastest/SMG/15m",
+   "shown": "sl9",
+   "shownTtk": 381,
+   "fastest": "scw10",
+   "fastestTtk": 256,
+   "deltaMs": 125
+  },
+  {
+   "label": "MP/fastest/SMG/20m",
+   "shown": "sl9",
+   "shownTtk": 390,
+   "fastest": "scw10",
+   "fastestTtk": 267,
+   "deltaMs": 123
+  },
+  {
+   "label": "MP/fastest/SMG/21m",
+   "shown": "sl9",
+   "shownTtk": 392,
+   "fastest": "scw10",
+   "fastestTtk": 269,
+   "deltaMs": 123
+  },
+  {
+   "label": "MP/fastest/SMG/25m",
+   "shown": "pw7a2",
+   "shownTtk": 425,
+   "fastest": "kv9",
+   "fastestTtk": 336,
+   "deltaMs": 90
+  },
+  {
+   "label": "MP/fastest/SMG/30m",
+   "shown": "pw7a2",
+   "shownTtk": 435,
+   "fastest": "kv9",
+   "fastestTtk": 348,
+   "deltaMs": 87
+  },
+  {
+   "label": "MP/fastest/SMG/31m",
+   "shown": "pw7a2",
+   "shownTtk": 437,
+   "fastest": "kv9",
+   "fastestTtk": 350,
+   "deltaMs": 86
+  },
+  {
+   "label": "MP/fastest/SMG/35m",
+   "shown": "pw7a2",
+   "shownTtk": 445,
+   "fastest": "kv9",
+   "fastestTtk": 360,
+   "deltaMs": 84
+  },
+  {
+   "label": "MP/fastest/SMG/36m",
+   "shown": "pw7a2",
+   "shownTtk": 447,
+   "fastest": "kv9",
+   "fastestTtk": 363,
+   "deltaMs": 84
+  },
+  {
+   "label": "MP/fastest/SMG/37m",
+   "shown": "pw7a2",
+   "shownTtk": 449,
+   "fastest": "kv9",
+   "fastestTtk": 420,
+   "deltaMs": 28
+  },
+  {
+   "label": "MP/fastest/SMG/40m",
+   "shown": "pw7a2",
+   "shownTtk": 455,
+   "fastest": "kv9",
+   "fastestTtk": 428,
+   "deltaMs": 27
+  },
+  {
+   "label": "MP/fastest/SMG/50m",
+   "shown": "pw7a2",
+   "shownTtk": 475,
+   "fastest": "kv9",
+   "fastestTtk": 454,
+   "deltaMs": 21
+  },
+  {
+   "label": "MP/fastest/SMG/54m",
+   "shown": "pw7a2",
+   "shownTtk": 483,
+   "fastest": "kv9",
+   "fastestTtk": 465,
+   "deltaMs": 19
+  },
+  {
+   "label": "MP/fastest/SMG/60m",
+   "shown": "pw7a2",
+   "shownTtk": 496,
+   "fastest": "kv9",
+   "fastestTtk": 481,
+   "deltaMs": 15
+  },
+  {
+   "label": "MP/fastest/SMG/75m",
+   "shown": "pw7a2",
+   "shownTtk": 529,
+   "fastest": "kv9",
+   "fastestTtk": 523,
+   "deltaMs": 6
+  },
+  {
+   "label": "MP/fastest/SMG/76m",
+   "shown": "pw7a2",
+   "shownTtk": 594,
+   "fastest": "kv9",
+   "fastestTtk": 582,
+   "deltaMs": 13
+  },
+  {
+   "label": "MP/fastest/SMG/83m",
+   "shown": "pw7a2",
+   "shownTtk": 610,
+   "fastest": "kv9",
+   "fastestTtk": 602,
+   "deltaMs": 8
+  },
+  {
+   "label": "MP/fastest/SMG/90m",
+   "shown": "pw7a2",
+   "shownTtk": 627,
+   "fastest": "usg90",
+   "fastestTtk": 623,
+   "deltaMs": 4
+  },
+  {
+   "label": "MP/fastest/SMG/100m",
+   "shown": "pw7a2",
+   "shownTtk": 651,
+   "fastest": "usg90",
+   "fastestTtk": 644,
+   "deltaMs": 7
+  },
+  {
+   "label": "MP/fastest/SMG/120m",
+   "shown": "pw7a2",
+   "shownTtk": 702,
+   "fastest": "usg90",
+   "fastestTtk": 687,
+   "deltaMs": 15
+  },
+  {
+   "label": "MP/fastest/SMG/133m",
+   "shown": "pw7a2",
+   "shownTtk": 737,
+   "fastest": "usg90",
+   "fastestTtk": 717,
+   "deltaMs": 20
+  },
+  {
+   "label": "MP/fastest/SMG/150m",
+   "shown": "pw7a2",
+   "shownTtk": 785,
+   "fastest": "usg90",
+   "fastestTtk": 758,
+   "deltaMs": 28
+  },
+  {
+   "label": "MP/fastest/SMG/200m",
+   "shown": "pw7a2",
+   "shownTtk": 946,
+   "fastest": "usg90",
+   "fastestTtk": 894,
+   "deltaMs": 52
+  },
+  {
+   "label": "MP/fastest/SMG/250m",
+   "shown": "pw7a2",
+   "shownTtk": 1137,
+   "fastest": "usg90",
+   "fastestTtk": 1056,
+   "deltaMs": 80
+  },
+  {
+   "label": "MP/fastest/SMG/300m",
+   "shown": "sl9",
+   "shownTtk": 1496,
+   "fastest": "usg90",
+   "fastestTtk": 1250,
+   "deltaMs": 247
+  },
+  {
+   "label": "MP/fastest/LMG/1m",
+   "shown": "rpkm",
+   "shownTtk": 218,
+   "fastest": "m121a2",
+   "fastestTtk": 184,
+   "deltaMs": 34
+  },
+  {
+   "label": "MP/fastest/LMG/5m",
+   "shown": "rpkm",
+   "shownTtk": 223,
+   "fastest": "m121a2",
+   "fastestTtk": 190,
+   "deltaMs": 33
+  },
+  {
+   "label": "MP/fastest/LMG/9m",
+   "shown": "rpkm",
+   "shownTtk": 229,
+   "fastest": "m121a2",
+   "fastestTtk": 196,
+   "deltaMs": 33
+  },
+  {
+   "label": "MP/fastest/LMG/10m",
+   "shown": "m123k",
+   "shownTtk": 230,
+   "fastest": "m121a2",
+   "fastestTtk": 198,
+   "deltaMs": 32
+  },
+  {
+   "label": "MP/fastest/LMG/15m",
+   "shown": "m123k",
+   "shownTtk": 237,
+   "fastest": "m121a2",
+   "fastestTtk": 205,
+   "deltaMs": 32
+  },
+  {
+   "label": "MP/fastest/LMG/20m",
+   "shown": "m123k",
+   "shownTtk": 243,
+   "fastest": "m121a2",
+   "fastestTtk": 213,
+   "deltaMs": 31
+  },
+  {
+   "label": "MP/fastest/LMG/21m",
+   "shown": "m123k",
+   "shownTtk": 245,
+   "fastest": "m121a2",
+   "fastestTtk": 214,
+   "deltaMs": 31
+  },
+  {
+   "label": "MP/fastest/LMG/25m",
+   "shown": "l110",
+   "shownTtk": 361,
+   "fastest": "m250",
+   "fastestTtk": 296,
+   "deltaMs": 65
+  },
+  {
+   "label": "MP/fastest/LMG/30m",
+   "shown": "l110",
+   "shownTtk": 367,
+   "fastest": "m250",
+   "fastestTtk": 302,
+   "deltaMs": 65
+  },
+  {
+   "label": "MP/fastest/LMG/31m",
+   "shown": "l110",
+   "shownTtk": 368,
+   "fastest": "m250",
+   "fastestTtk": 303,
+   "deltaMs": 65
+  },
+  {
+   "label": "MP/fastest/LMG/35m",
+   "shown": "l110",
+   "shownTtk": 373,
+   "fastest": "m250",
+   "fastestTtk": 308,
+   "deltaMs": 65
+  },
+  {
+   "label": "MP/fastest/LMG/36m",
+   "shown": "l110",
+   "shownTtk": 374,
+   "fastest": "m250",
+   "fastestTtk": 309,
+   "deltaMs": 65
+  },
+  {
+   "label": "MP/fastest/LMG/37m",
+   "shown": "l110",
+   "shownTtk": 376,
+   "fastest": "m250",
+   "fastestTtk": 311,
+   "deltaMs": 65
+  },
+  {
+   "label": "MP/fastest/LMG/40m",
+   "shown": "l110",
+   "shownTtk": 379,
+   "fastest": "m250",
+   "fastestTtk": 314,
+   "deltaMs": 65
+  },
+  {
+   "label": "MP/fastest/LMG/50m",
+   "shown": "l110",
+   "shownTtk": 392,
+   "fastest": "m250",
+   "fastestTtk": 327,
+   "deltaMs": 65
+  },
+  {
+   "label": "MP/fastest/LMG/54m",
+   "shown": "rpk74m",
+   "shownTtk": 497,
+   "fastest": "m250",
+   "fastestTtk": 333,
+   "deltaMs": 164
+  },
+  {
+   "label": "MP/fastest/LMG/60m",
+   "shown": "rpk74m",
+   "shownTtk": 504,
+   "fastest": "m250",
+   "fastestTtk": 341,
+   "deltaMs": 163
+  },
+  {
+   "label": "MP/fastest/LMG/75m",
+   "shown": "rpk74m",
+   "shownTtk": 523,
+   "fastest": "m250",
+   "fastestTtk": 362,
+   "deltaMs": 161
+  },
+  {
+   "label": "MP/fastest/LMG/76m",
+   "shown": "rpk74m",
+   "shownTtk": 611,
+   "fastest": "m250",
+   "fastestTtk": 363,
+   "deltaMs": 248
+  },
+  {
+   "label": "MP/fastest/LMG/83m",
+   "shown": "rpk74m",
+   "shownTtk": 620,
+   "fastest": "m250",
+   "fastestTtk": 373,
+   "deltaMs": 247
+  },
+  {
+   "label": "MP/fastest/LMG/90m",
+   "shown": "rpk74m",
+   "shownTtk": 630,
+   "fastest": "m250",
+   "fastestTtk": 384,
+   "deltaMs": 246
+  },
+  {
+   "label": "MP/fastest/LMG/100m",
+   "shown": "rpk74m",
+   "shownTtk": 644,
+   "fastest": "m250",
+   "fastestTtk": 399,
+   "deltaMs": 244
+  },
+  {
+   "label": "MP/fastest/LMG/120m",
+   "shown": "rpk74m",
+   "shownTtk": 673,
+   "fastest": "m250",
+   "fastestTtk": 432,
+   "deltaMs": 241
+  },
+  {
+   "label": "MP/fastest/LMG/133m",
+   "shown": "rpk74m",
+   "shownTtk": 693,
+   "fastest": "m250",
+   "fastestTtk": 454,
+   "deltaMs": 239
+  },
+  {
+   "label": "MP/fastest/LMG/200m",
+   "shown": "l110",
+   "shownTtk": 730,
+   "fastest": "m250",
+   "fastestTtk": 587,
+   "deltaMs": 143
+  },
+  {
+   "label": "MP/fastest/LMG/250m",
+   "shown": "l110",
+   "shownTtk": 849,
+   "fastest": "m250",
+   "fastestTtk": 709,
+   "deltaMs": 140
+  },
+  {
+   "label": "MP/fastest/LMG/300m",
+   "shown": "l110",
+   "shownTtk": 991,
+   "fastest": "m250",
+   "fastestTtk": 853,
+   "deltaMs": 137
+  },
+  {
+   "label": "MP/fastest/DMR/25m",
+   "shown": "lmr27",
+   "shownTtk": 426,
+   "fastest": "vssm",
+   "fastestTtk": 385,
+   "deltaMs": 41
+  },
+  {
+   "label": "MP/fastest/DMR/30m",
+   "shown": "lmr27",
+   "shownTtk": 431,
+   "fastest": "vssm",
+   "fastestTtk": 402,
+   "deltaMs": 29
+  },
+  {
+   "label": "MP/fastest/DMR/31m",
+   "shown": "lmr27",
+   "shownTtk": 432,
+   "fastest": "vssm",
+   "fastestTtk": 406,
+   "deltaMs": 26
+  },
+  {
+   "label": "MP/fastest/DMR/35m",
+   "shown": "lmr27",
+   "shownTtk": 436,
+   "fastest": "vssm",
+   "fastestTtk": 420,
+   "deltaMs": 17
+  },
+  {
+   "label": "MP/fastest/DMR/36m",
+   "shown": "lmr27",
+   "shownTtk": 437,
+   "fastest": "vssm",
+   "fastestTtk": 423,
+   "deltaMs": 14
+  },
+  {
+   "label": "MP/fastest/DMR/37m",
+   "shown": "lmr27",
+   "shownTtk": 438,
+   "fastest": "vssm",
+   "fastestTtk": 427,
+   "deltaMs": 12
+  },
+  {
+   "label": "MP/fastest/DMR/40m",
+   "shown": "lmr27",
+   "shownTtk": 442,
+   "fastest": "vssm",
+   "fastestTtk": 437,
+   "deltaMs": 4
+  },
+  {
+   "label": "MP/fastest/Sniper Rifle/75m",
+   "shown": "sv98",
+   "shownTtk": 95,
+   "fastest": "m2010esr",
+   "fastestTtk": 85,
+   "deltaMs": 10
+  },
+  {
+   "label": "MP/fastest/Sniper Rifle/120m",
+   "shown": "l115",
+   "shownTtk": 163,
+   "fastest": "psr",
+   "fastestTtk": 160,
+   "deltaMs": 4
+  },
+  {
+   "label": "MP/fastest/Shotgun/30m",
+   "shown": "185ksk",
+   "shownTtk": 463,
+   "fastest": "m1014",
+   "fastestTtk": 363,
+   "deltaMs": 100
+  },
+  {
+   "label": "MP/fastest/Shotgun/31m",
+   "shown": "185ksk",
+   "shownTtk": 465,
+   "fastest": "m1014",
+   "fastestTtk": 365,
+   "deltaMs": 100
+  },
+  {
+   "label": "MP/fastest/Shotgun/35m",
+   "shown": "185ksk",
+   "shownTtk": 474,
+   "fastest": "m1014",
+   "fastestTtk": 374,
+   "deltaMs": 100
+  },
+  {
+   "label": "MP/fastest/Shotgun/36m",
+   "shown": "185ksk",
+   "shownTtk": 477,
+   "fastest": "m1014",
+   "fastestTtk": 377,
+   "deltaMs": 100
+  },
+  {
+   "label": "RS-UNARM/fastest/__all__/1m",
+   "shown": "rpkm",
+   "shownTtk": 218,
+   "fastest": "scw10",
+   "fastestTtk": 152,
+   "deltaMs": 66
+  },
+  {
+   "label": "RS-UNARM/fastest/__all__/5m",
+   "shown": "rpkm",
+   "shownTtk": 223,
+   "fastest": "scw10",
+   "fastestTtk": 160,
+   "deltaMs": 63
+  },
+  {
+   "label": "RS-UNARM/fastest/__all__/9m",
+   "shown": "rpkm",
+   "shownTtk": 229,
+   "fastest": "scw10",
+   "fastestTtk": 168,
+   "deltaMs": 60
+  },
+  {
+   "label": "RS-UNARM/fastest/__all__/10m",
+   "shown": "m123k",
+   "shownTtk": 230,
+   "fastest": "tr7",
+   "fastestTtk": 180,
+   "deltaMs": 49
+  },
+  {
+   "label": "RS-UNARM/fastest/__all__/15m",
+   "shown": "m123k",
+   "shownTtk": 237,
+   "fastest": "tr7",
+   "fastestTtk": 187,
+   "deltaMs": 49
+  },
+  {
+   "label": "RS-UNARM/fastest/__all__/20m",
+   "shown": "m123k",
+   "shownTtk": 243,
+   "fastest": "tr7",
+   "fastestTtk": 194,
+   "deltaMs": 49
+  },
+  {
+   "label": "RS-UNARM/fastest/__all__/21m",
+   "shown": "m123k",
+   "shownTtk": 245,
+   "fastest": "tr7",
+   "fastestTtk": 196,
+   "deltaMs": 49
+  },
+  {
+   "label": "RS-UNARM/fastest/__all__/25m",
+   "shown": "l110",
+   "shownTtk": 361,
+   "fastest": "tr7",
+   "fastestTtk": 285,
+   "deltaMs": 77
+  },
+  {
+   "label": "RS-UNARM/fastest/__all__/30m",
+   "shown": "l110",
+   "shownTtk": 367,
+   "fastest": "tr7",
+   "fastestTtk": 292,
+   "deltaMs": 75
+  },
+  {
+   "label": "RS-UNARM/fastest/__all__/31m",
+   "shown": "l110",
+   "shownTtk": 368,
+   "fastest": "tr7",
+   "fastestTtk": 293,
+   "deltaMs": 75
+  },
+  {
+   "label": "RS-UNARM/fastest/__all__/35m",
+   "shown": "l110",
+   "shownTtk": 373,
+   "fastest": "tr7",
+   "fastestTtk": 299,
+   "deltaMs": 74
+  },
+  {
+   "label": "RS-UNARM/fastest/__all__/36m",
+   "shown": "kord6p67",
+   "shownTtk": 386,
+   "fastest": "tr7",
+   "fastestTtk": 301,
+   "deltaMs": 85
+  },
+  {
+   "label": "RS-UNARM/fastest/__all__/37m",
+   "shown": "kord6p67",
+   "shownTtk": 388,
+   "fastest": "tr7",
+   "fastestTtk": 302,
+   "deltaMs": 85
+  },
+  {
+   "label": "RS-UNARM/fastest/__all__/40m",
+   "shown": "kord6p67",
+   "shownTtk": 392,
+   "fastest": "tr7",
+   "fastestTtk": 307,
+   "deltaMs": 85
+  },
+  {
+   "label": "RS-UNARM/fastest/__all__/50m",
+   "shown": "kord6p67",
+   "shownTtk": 408,
+   "fastest": "tr7",
+   "fastestTtk": 322,
+   "deltaMs": 86
+  },
+  {
+   "label": "RS-UNARM/fastest/__all__/75m",
+   "shown": "sv98",
+   "shownTtk": 95,
+   "fastest": "m2010esr",
+   "fastestTtk": 85,
+   "deltaMs": 10
+  },
+  {
+   "label": "RS-UNARM/fastest/__all__/120m",
+   "shown": "l115",
+   "shownTtk": 163,
+   "fastest": "psr",
+   "fastestTtk": 160,
+   "deltaMs": 4
+  },
+  {
+   "label": "RS-UNARM/fastest/__all__/150m",
+   "shown": "lmr27",
+   "shownTtk": 575,
+   "fastest": "m250",
+   "fastestTtk": 485,
+   "deltaMs": 90
+  },
+  {
+   "label": "RS-UNARM/fastest/__all__/200m",
+   "shown": "lmr27",
+   "shownTtk": 646,
+   "fastest": "m250",
+   "fastestTtk": 587,
+   "deltaMs": 59
+  },
+  {
+   "label": "RS-UNARM/fastest/__all__/250m",
+   "shown": "lmr27",
+   "shownTtk": 724,
+   "fastest": "m250",
+   "fastestTtk": 709,
+   "deltaMs": 16
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/1m",
+   "shown": "nvo228e",
+   "shownTtk": 184,
+   "fastest": "tr7",
+   "fastestTtk": 168,
+   "deltaMs": 16
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/5m",
+   "shown": "nvo228e",
+   "shownTtk": 189,
+   "fastest": "tr7",
+   "fastestTtk": 174,
+   "deltaMs": 16
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/9m",
+   "shown": "sor556",
+   "shownTtk": 327,
+   "fastest": "tr7",
+   "fastestTtk": 179,
+   "deltaMs": 147
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/10m",
+   "shown": "sor556",
+   "shownTtk": 328,
+   "fastest": "tr7",
+   "fastestTtk": 180,
+   "deltaMs": 147
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/15m",
+   "shown": "sor556",
+   "shownTtk": 333,
+   "fastest": "tr7",
+   "fastestTtk": 187,
+   "deltaMs": 146
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/20m",
+   "shown": "sor556",
+   "shownTtk": 339,
+   "fastest": "tr7",
+   "fastestTtk": 194,
+   "deltaMs": 144
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/21m",
+   "shown": "sor556",
+   "shownTtk": 340,
+   "fastest": "tr7",
+   "fastestTtk": 196,
+   "deltaMs": 144
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/25m",
+   "shown": "b36a4",
+   "shownTtk": 361,
+   "fastest": "tr7",
+   "fastestTtk": 285,
+   "deltaMs": 77
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/30m",
+   "shown": "b36a4",
+   "shownTtk": 367,
+   "fastest": "tr7",
+   "fastestTtk": 292,
+   "deltaMs": 75
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/31m",
+   "shown": "b36a4",
+   "shownTtk": 368,
+   "fastest": "tr7",
+   "fastestTtk": 293,
+   "deltaMs": 75
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/35m",
+   "shown": "b36a4",
+   "shownTtk": 373,
+   "fastest": "tr7",
+   "fastestTtk": 299,
+   "deltaMs": 74
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/36m",
+   "shown": "kord6p67",
+   "shownTtk": 386,
+   "fastest": "tr7",
+   "fastestTtk": 301,
+   "deltaMs": 85
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/37m",
+   "shown": "kord6p67",
+   "shownTtk": 388,
+   "fastest": "tr7",
+   "fastestTtk": 302,
+   "deltaMs": 85
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/40m",
+   "shown": "kord6p67",
+   "shownTtk": 392,
+   "fastest": "tr7",
+   "fastestTtk": 307,
+   "deltaMs": 85
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/50m",
+   "shown": "kord6p67",
+   "shownTtk": 408,
+   "fastest": "tr7",
+   "fastestTtk": 322,
+   "deltaMs": 86
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/54m",
+   "shown": "sor556",
+   "shownTtk": 484,
+   "fastest": "tr7",
+   "fastestTtk": 329,
+   "deltaMs": 155
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/60m",
+   "shown": "sor556",
+   "shownTtk": 492,
+   "fastest": "tr7",
+   "fastestTtk": 338,
+   "deltaMs": 153
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/75m",
+   "shown": "sor556",
+   "shownTtk": 511,
+   "fastest": "tr7",
+   "fastestTtk": 364,
+   "deltaMs": 148
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/76m",
+   "shown": "sor556",
+   "shownTtk": 619,
+   "fastest": "vcr2",
+   "fastestTtk": 439,
+   "deltaMs": 180
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/83m",
+   "shown": "sor556",
+   "shownTtk": 628,
+   "fastest": "vcr2",
+   "fastestTtk": 450,
+   "deltaMs": 179
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/90m",
+   "shown": "sor556",
+   "shownTtk": 638,
+   "fastest": "vcr2",
+   "fastestTtk": 461,
+   "deltaMs": 177
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/100m",
+   "shown": "sor556",
+   "shownTtk": 653,
+   "fastest": "vcr2",
+   "fastestTtk": 478,
+   "deltaMs": 175
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/120m",
+   "shown": "sor556",
+   "shownTtk": 683,
+   "fastest": "vcr2",
+   "fastestTtk": 514,
+   "deltaMs": 170
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/133m",
+   "shown": "sor556",
+   "shownTtk": 704,
+   "fastest": "vcr2",
+   "fastestTtk": 538,
+   "deltaMs": 166
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/150m",
+   "shown": "sor556",
+   "shownTtk": 733,
+   "fastest": "vcr2",
+   "fastestTtk": 572,
+   "deltaMs": 161
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/200m",
+   "shown": "b36a4",
+   "shownTtk": 730,
+   "fastest": "vcr2",
+   "fastestTtk": 684,
+   "deltaMs": 46
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/250m",
+   "shown": "l85a3",
+   "shownTtk": 883,
+   "fastest": "vcr2",
+   "fastestTtk": 817,
+   "deltaMs": 66
+  },
+  {
+   "label": "RS-UNARM/fastest/Assault Rifle/300m",
+   "shown": "l85a3",
+   "shownTtk": 1018,
+   "fastest": "vcr2",
+   "fastestTtk": 976,
+   "deltaMs": 42
+  },
+  {
+   "label": "RS-UNARM/fastest/Carbine/1m",
+   "shown": "ak205",
+   "shownTtk": 334,
+   "fastest": "sg553r",
+   "fastestTtk": 169,
+   "deltaMs": 166
+  },
+  {
+   "label": "RS-UNARM/fastest/Carbine/5m",
+   "shown": "sor300sc",
+   "shownTtk": 208,
+   "fastest": "sg553r",
+   "fastestTtk": 175,
+   "deltaMs": 32
+  },
+  {
+   "label": "RS-UNARM/fastest/Carbine/9m",
+   "shown": "sor300sc",
+   "shownTtk": 214,
+   "fastest": "sg553r",
+   "fastestTtk": 182,
+   "deltaMs": 32
+  },
+  {
+   "label": "RS-UNARM/fastest/Carbine/10m",
+   "shown": "ak205",
+   "shownTtk": 431,
+   "fastest": "m277",
+   "fastestTtk": 264,
+   "deltaMs": 168
+  },
+  {
+   "label": "RS-UNARM/fastest/Carbine/15m",
+   "shown": "ak205",
+   "shownTtk": 439,
+   "fastest": "m277",
+   "fastestTtk": 271,
+   "deltaMs": 168
+  },
+  {
+   "label": "RS-UNARM/fastest/Carbine/20m",
+   "shown": "ak205",
+   "shownTtk": 446,
+   "fastest": "m277",
+   "fastestTtk": 278,
+   "deltaMs": 168
+  },
+  {
+   "label": "RS-UNARM/fastest/Carbine/21m",
+   "shown": "ak205",
+   "shownTtk": 448,
+   "fastest": "m277",
+   "fastestTtk": 279,
+   "deltaMs": 168
+  },
+  {
+   "label": "RS-UNARM/fastest/Carbine/54m",
+   "shown": "ak205",
+   "shownTtk": 584,
+   "fastest": "m277",
+   "fastestTtk": 330,
+   "deltaMs": 254
+  },
+  {
+   "label": "RS-UNARM/fastest/Carbine/60m",
+   "shown": "ak205",
+   "shownTtk": 594,
+   "fastest": "m277",
+   "fastestTtk": 340,
+   "deltaMs": 254
+  },
+  {
+   "label": "RS-UNARM/fastest/Carbine/75m",
+   "shown": "ak205",
+   "shownTtk": 621,
+   "fastest": "m277",
+   "fastestTtk": 366,
+   "deltaMs": 255
+  },
+  {
+   "label": "RS-UNARM/fastest/Carbine/76m",
+   "shown": "ak205",
+   "shownTtk": 706,
+   "fastest": "m277",
+   "fastestTtk": 451,
+   "deltaMs": 255
+  },
+  {
+   "label": "RS-UNARM/fastest/Carbine/83m",
+   "shown": "ak205",
+   "shownTtk": 719,
+   "fastest": "m277",
+   "fastestTtk": 463,
+   "deltaMs": 256
+  },
+  {
+   "label": "RS-UNARM/fastest/Carbine/90m",
+   "shown": "ak205",
+   "shownTtk": 732,
+   "fastest": "m277",
+   "fastestTtk": 476,
+   "deltaMs": 256
+  },
+  {
+   "label": "RS-UNARM/fastest/Carbine/100m",
+   "shown": "ak205",
+   "shownTtk": 752,
+   "fastest": "m277",
+   "fastestTtk": 495,
+   "deltaMs": 257
+  },
+  {
+   "label": "RS-UNARM/fastest/Carbine/120m",
+   "shown": "ak205",
+   "shownTtk": 794,
+   "fastest": "m277",
+   "fastestTtk": 535,
+   "deltaMs": 259
+  },
+  {
+   "label": "RS-UNARM/fastest/Carbine/133m",
+   "shown": "ak205",
+   "shownTtk": 822,
+   "fastest": "m277",
+   "fastestTtk": 562,
+   "deltaMs": 260
+  },
+  {
+   "label": "RS-UNARM/fastest/Carbine/150m",
+   "shown": "ak205",
+   "shownTtk": 862,
+   "fastest": "m277",
+   "fastestTtk": 600,
+   "deltaMs": 262
+  },
+  {
+   "label": "RS-UNARM/fastest/Carbine/200m",
+   "shown": "ak205",
+   "shownTtk": 992,
+   "fastest": "m277",
+   "fastestTtk": 724,
+   "deltaMs": 268
+  },
+  {
+   "label": "RS-UNARM/fastest/Carbine/250m",
+   "shown": "ak205",
+   "shownTtk": 1148,
+   "fastest": "m277",
+   "fastestTtk": 873,
+   "deltaMs": 274
+  },
+  {
+   "label": "RS-UNARM/fastest/Carbine/300m",
+   "shown": "ak205",
+   "shownTtk": 1333,
+   "fastest": "m277",
+   "fastestTtk": 1050,
+   "deltaMs": 282
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/1m",
+   "shown": "sl9",
+   "shownTtk": 269,
+   "fastest": "scw10",
+   "fastestTtk": 152,
+   "deltaMs": 117
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/5m",
+   "shown": "sl9",
+   "shownTtk": 275,
+   "fastest": "scw10",
+   "fastestTtk": 160,
+   "deltaMs": 115
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/9m",
+   "shown": "sl9",
+   "shownTtk": 282,
+   "fastest": "scw10",
+   "fastestTtk": 168,
+   "deltaMs": 114
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/10m",
+   "shown": "sl9",
+   "shownTtk": 373,
+   "fastest": "kv9",
+   "fastestTtk": 245,
+   "deltaMs": 128
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/15m",
+   "shown": "sl9",
+   "shownTtk": 381,
+   "fastest": "scw10",
+   "fastestTtk": 256,
+   "deltaMs": 125
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/20m",
+   "shown": "sl9",
+   "shownTtk": 390,
+   "fastest": "scw10",
+   "fastestTtk": 267,
+   "deltaMs": 123
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/21m",
+   "shown": "sl9",
+   "shownTtk": 392,
+   "fastest": "scw10",
+   "fastestTtk": 269,
+   "deltaMs": 123
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/25m",
+   "shown": "pw7a2",
+   "shownTtk": 425,
+   "fastest": "kv9",
+   "fastestTtk": 336,
+   "deltaMs": 90
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/30m",
+   "shown": "pw7a2",
+   "shownTtk": 435,
+   "fastest": "kv9",
+   "fastestTtk": 348,
+   "deltaMs": 87
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/31m",
+   "shown": "pw7a2",
+   "shownTtk": 437,
+   "fastest": "kv9",
+   "fastestTtk": 350,
+   "deltaMs": 86
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/35m",
+   "shown": "pw7a2",
+   "shownTtk": 445,
+   "fastest": "kv9",
+   "fastestTtk": 360,
+   "deltaMs": 84
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/36m",
+   "shown": "pw7a2",
+   "shownTtk": 447,
+   "fastest": "kv9",
+   "fastestTtk": 363,
+   "deltaMs": 84
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/37m",
+   "shown": "pw7a2",
+   "shownTtk": 449,
+   "fastest": "kv9",
+   "fastestTtk": 420,
+   "deltaMs": 28
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/40m",
+   "shown": "pw7a2",
+   "shownTtk": 455,
+   "fastest": "kv9",
+   "fastestTtk": 428,
+   "deltaMs": 27
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/50m",
+   "shown": "pw7a2",
+   "shownTtk": 475,
+   "fastest": "kv9",
+   "fastestTtk": 454,
+   "deltaMs": 21
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/54m",
+   "shown": "pw7a2",
+   "shownTtk": 483,
+   "fastest": "kv9",
+   "fastestTtk": 465,
+   "deltaMs": 19
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/60m",
+   "shown": "pw7a2",
+   "shownTtk": 496,
+   "fastest": "kv9",
+   "fastestTtk": 481,
+   "deltaMs": 15
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/75m",
+   "shown": "pw7a2",
+   "shownTtk": 529,
+   "fastest": "kv9",
+   "fastestTtk": 523,
+   "deltaMs": 6
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/76m",
+   "shown": "pw7a2",
+   "shownTtk": 594,
+   "fastest": "kv9",
+   "fastestTtk": 582,
+   "deltaMs": 13
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/83m",
+   "shown": "pw7a2",
+   "shownTtk": 610,
+   "fastest": "kv9",
+   "fastestTtk": 602,
+   "deltaMs": 8
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/90m",
+   "shown": "pw7a2",
+   "shownTtk": 627,
+   "fastest": "usg90",
+   "fastestTtk": 623,
+   "deltaMs": 4
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/100m",
+   "shown": "pw7a2",
+   "shownTtk": 651,
+   "fastest": "usg90",
+   "fastestTtk": 644,
+   "deltaMs": 7
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/120m",
+   "shown": "pw7a2",
+   "shownTtk": 702,
+   "fastest": "usg90",
+   "fastestTtk": 687,
+   "deltaMs": 15
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/133m",
+   "shown": "pw7a2",
+   "shownTtk": 737,
+   "fastest": "usg90",
+   "fastestTtk": 717,
+   "deltaMs": 20
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/150m",
+   "shown": "pw7a2",
+   "shownTtk": 785,
+   "fastest": "usg90",
+   "fastestTtk": 758,
+   "deltaMs": 28
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/200m",
+   "shown": "pw7a2",
+   "shownTtk": 946,
+   "fastest": "usg90",
+   "fastestTtk": 894,
+   "deltaMs": 52
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/250m",
+   "shown": "pw7a2",
+   "shownTtk": 1137,
+   "fastest": "usg90",
+   "fastestTtk": 1056,
+   "deltaMs": 80
+  },
+  {
+   "label": "RS-UNARM/fastest/SMG/300m",
+   "shown": "sl9",
+   "shownTtk": 1496,
+   "fastest": "usg90",
+   "fastestTtk": 1250,
+   "deltaMs": 247
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/1m",
+   "shown": "rpkm",
+   "shownTtk": 218,
+   "fastest": "m121a2",
+   "fastestTtk": 184,
+   "deltaMs": 34
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/5m",
+   "shown": "rpkm",
+   "shownTtk": 223,
+   "fastest": "m121a2",
+   "fastestTtk": 190,
+   "deltaMs": 33
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/9m",
+   "shown": "rpkm",
+   "shownTtk": 229,
+   "fastest": "m121a2",
+   "fastestTtk": 196,
+   "deltaMs": 33
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/10m",
+   "shown": "m123k",
+   "shownTtk": 230,
+   "fastest": "m121a2",
+   "fastestTtk": 198,
+   "deltaMs": 32
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/15m",
+   "shown": "m123k",
+   "shownTtk": 237,
+   "fastest": "m121a2",
+   "fastestTtk": 205,
+   "deltaMs": 32
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/20m",
+   "shown": "m123k",
+   "shownTtk": 243,
+   "fastest": "m121a2",
+   "fastestTtk": 213,
+   "deltaMs": 31
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/21m",
+   "shown": "m123k",
+   "shownTtk": 245,
+   "fastest": "m121a2",
+   "fastestTtk": 214,
+   "deltaMs": 31
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/25m",
+   "shown": "l110",
+   "shownTtk": 361,
+   "fastest": "m250",
+   "fastestTtk": 296,
+   "deltaMs": 65
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/30m",
+   "shown": "l110",
+   "shownTtk": 367,
+   "fastest": "m250",
+   "fastestTtk": 302,
+   "deltaMs": 65
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/31m",
+   "shown": "l110",
+   "shownTtk": 368,
+   "fastest": "m250",
+   "fastestTtk": 303,
+   "deltaMs": 65
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/35m",
+   "shown": "l110",
+   "shownTtk": 373,
+   "fastest": "m250",
+   "fastestTtk": 308,
+   "deltaMs": 65
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/36m",
+   "shown": "l110",
+   "shownTtk": 374,
+   "fastest": "m250",
+   "fastestTtk": 309,
+   "deltaMs": 65
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/37m",
+   "shown": "l110",
+   "shownTtk": 376,
+   "fastest": "m250",
+   "fastestTtk": 311,
+   "deltaMs": 65
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/40m",
+   "shown": "l110",
+   "shownTtk": 379,
+   "fastest": "m250",
+   "fastestTtk": 314,
+   "deltaMs": 65
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/50m",
+   "shown": "l110",
+   "shownTtk": 392,
+   "fastest": "m250",
+   "fastestTtk": 327,
+   "deltaMs": 65
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/54m",
+   "shown": "rpk74m",
+   "shownTtk": 497,
+   "fastest": "m250",
+   "fastestTtk": 333,
+   "deltaMs": 164
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/60m",
+   "shown": "rpk74m",
+   "shownTtk": 504,
+   "fastest": "m250",
+   "fastestTtk": 341,
+   "deltaMs": 163
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/75m",
+   "shown": "rpk74m",
+   "shownTtk": 523,
+   "fastest": "m250",
+   "fastestTtk": 362,
+   "deltaMs": 161
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/76m",
+   "shown": "rpk74m",
+   "shownTtk": 611,
+   "fastest": "m250",
+   "fastestTtk": 363,
+   "deltaMs": 248
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/83m",
+   "shown": "rpk74m",
+   "shownTtk": 620,
+   "fastest": "m250",
+   "fastestTtk": 373,
+   "deltaMs": 247
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/90m",
+   "shown": "rpk74m",
+   "shownTtk": 630,
+   "fastest": "m250",
+   "fastestTtk": 384,
+   "deltaMs": 246
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/100m",
+   "shown": "rpk74m",
+   "shownTtk": 644,
+   "fastest": "m250",
+   "fastestTtk": 399,
+   "deltaMs": 244
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/120m",
+   "shown": "rpk74m",
+   "shownTtk": 673,
+   "fastest": "m250",
+   "fastestTtk": 432,
+   "deltaMs": 241
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/133m",
+   "shown": "rpk74m",
+   "shownTtk": 693,
+   "fastest": "m250",
+   "fastestTtk": 454,
+   "deltaMs": 239
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/200m",
+   "shown": "l110",
+   "shownTtk": 730,
+   "fastest": "m250",
+   "fastestTtk": 587,
+   "deltaMs": 143
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/250m",
+   "shown": "l110",
+   "shownTtk": 849,
+   "fastest": "m250",
+   "fastestTtk": 709,
+   "deltaMs": 140
+  },
+  {
+   "label": "RS-UNARM/fastest/LMG/300m",
+   "shown": "l110",
+   "shownTtk": 991,
+   "fastest": "m250",
+   "fastestTtk": 853,
+   "deltaMs": 137
+  },
+  {
+   "label": "RS-UNARM/fastest/DMR/25m",
+   "shown": "lmr27",
+   "shownTtk": 426,
+   "fastest": "vssm",
+   "fastestTtk": 385,
+   "deltaMs": 41
+  },
+  {
+   "label": "RS-UNARM/fastest/DMR/30m",
+   "shown": "lmr27",
+   "shownTtk": 431,
+   "fastest": "vssm",
+   "fastestTtk": 402,
+   "deltaMs": 29
+  },
+  {
+   "label": "RS-UNARM/fastest/DMR/31m",
+   "shown": "lmr27",
+   "shownTtk": 432,
+   "fastest": "vssm",
+   "fastestTtk": 406,
+   "deltaMs": 26
+  },
+  {
+   "label": "RS-UNARM/fastest/DMR/35m",
+   "shown": "lmr27",
+   "shownTtk": 436,
+   "fastest": "vssm",
+   "fastestTtk": 420,
+   "deltaMs": 17
+  },
+  {
+   "label": "RS-UNARM/fastest/DMR/36m",
+   "shown": "lmr27",
+   "shownTtk": 437,
+   "fastest": "vssm",
+   "fastestTtk": 423,
+   "deltaMs": 14
+  },
+  {
+   "label": "RS-UNARM/fastest/DMR/37m",
+   "shown": "lmr27",
+   "shownTtk": 438,
+   "fastest": "vssm",
+   "fastestTtk": 427,
+   "deltaMs": 12
+  },
+  {
+   "label": "RS-UNARM/fastest/DMR/40m",
+   "shown": "lmr27",
+   "shownTtk": 442,
+   "fastest": "vssm",
+   "fastestTtk": 437,
+   "deltaMs": 4
+  },
+  {
+   "label": "RS-UNARM/fastest/Sniper Rifle/75m",
+   "shown": "sv98",
+   "shownTtk": 95,
+   "fastest": "m2010esr",
+   "fastestTtk": 85,
+   "deltaMs": 10
+  },
+  {
+   "label": "RS-UNARM/fastest/Sniper Rifle/120m",
+   "shown": "l115",
+   "shownTtk": 163,
+   "fastest": "psr",
+   "fastestTtk": 160,
+   "deltaMs": 4
+  },
+  {
+   "label": "RS-UNARM/fastest/Shotgun/30m",
+   "shown": "185ksk",
+   "shownTtk": 463,
+   "fastest": "m1014",
+   "fastestTtk": 363,
+   "deltaMs": 100
+  },
+  {
+   "label": "RS-UNARM/fastest/Shotgun/31m",
+   "shown": "185ksk",
+   "shownTtk": 465,
+   "fastest": "m1014",
+   "fastestTtk": 365,
+   "deltaMs": 100
+  },
+  {
+   "label": "RS-UNARM/fastest/Shotgun/35m",
+   "shown": "185ksk",
+   "shownTtk": 474,
+   "fastest": "m1014",
+   "fastestTtk": 374,
+   "deltaMs": 100
+  },
+  {
+   "label": "RS-UNARM/fastest/Shotgun/36m",
+   "shown": "185ksk",
+   "shownTtk": 477,
+   "fastest": "m1014",
+   "fastestTtk": 377,
+   "deltaMs": 100
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/1m",
+   "shown": "sl9",
+   "shownTtk": 713,
+   "fastest": "kv9",
+   "fastestTtk": 447,
+   "deltaMs": 266
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/5m",
+   "shown": "sl9",
+   "shownTtk": 719,
+   "fastest": "kv9",
+   "fastestTtk": 456,
+   "deltaMs": 264
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/9m",
+   "shown": "sl9",
+   "shownTtk": 726,
+   "fastest": "kv9",
+   "fastestTtk": 465,
+   "deltaMs": 262
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/10m",
+   "shown": "m16a4",
+   "shownTtk": 623,
+   "fastest": "tr7",
+   "fastestTtk": 513,
+   "deltaMs": 110
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/15m",
+   "shown": "m16a4",
+   "shownTtk": 629,
+   "fastest": "tr7",
+   "fastestTtk": 520,
+   "deltaMs": 109
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/20m",
+   "shown": "m16a4",
+   "shownTtk": 635,
+   "fastest": "tr7",
+   "fastestTtk": 527,
+   "deltaMs": 108
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/21m",
+   "shown": "m16a4",
+   "shownTtk": 637,
+   "fastest": "tr7",
+   "fastestTtk": 529,
+   "deltaMs": 108
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/25m",
+   "shown": "kord6p67",
+   "shownTtk": 769,
+   "fastest": "kv9",
+   "fastestTtk": 613,
+   "deltaMs": 156
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/30m",
+   "shown": "kord6p67",
+   "shownTtk": 777,
+   "fastest": "tr7",
+   "fastestTtk": 625,
+   "deltaMs": 152
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/31m",
+   "shown": "kord6p67",
+   "shownTtk": 779,
+   "fastest": "tr7",
+   "fastestTtk": 627,
+   "deltaMs": 152
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/35m",
+   "shown": "kord6p67",
+   "shownTtk": 785,
+   "fastest": "tr7",
+   "fastestTtk": 633,
+   "deltaMs": 152
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/36m",
+   "shown": "kord6p67",
+   "shownTtk": 786,
+   "fastest": "tr7",
+   "fastestTtk": 634,
+   "deltaMs": 152
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/37m",
+   "shown": "kord6p67",
+   "shownTtk": 788,
+   "fastest": "tr7",
+   "fastestTtk": 636,
+   "deltaMs": 152
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/40m",
+   "shown": "kord6p67",
+   "shownTtk": 793,
+   "fastest": "tr7",
+   "fastestTtk": 640,
+   "deltaMs": 152
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/50m",
+   "shown": "kord6p67",
+   "shownTtk": 809,
+   "fastest": "tr7",
+   "fastestTtk": 656,
+   "deltaMs": 153
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/54m",
+   "shown": "kord6p67",
+   "shownTtk": 815,
+   "fastest": "tr7",
+   "fastestTtk": 662,
+   "deltaMs": 153
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/60m",
+   "shown": "kord6p67",
+   "shownTtk": 826,
+   "fastest": "tr7",
+   "fastestTtk": 672,
+   "deltaMs": 154
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/75m",
+   "shown": "kord6p67",
+   "shownTtk": 852,
+   "fastest": "tr7",
+   "fastestTtk": 697,
+   "deltaMs": 155
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/200m",
+   "shown": "lmr27",
+   "shownTtk": 1179,
+   "fastest": "m250",
+   "fastestTtk": 942,
+   "deltaMs": 237
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/250m",
+   "shown": "lmr27",
+   "shownTtk": 1258,
+   "fastest": "m250",
+   "fastestTtk": 1064,
+   "deltaMs": 194
+  },
+  {
+   "label": "RS-2PLATE/fastest/__all__/300m",
+   "shown": "lmr27",
+   "shownTtk": 1344,
+   "fastest": "m250",
+   "fastestTtk": 1209,
+   "deltaMs": 136
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/1m",
+   "shown": "kord6p67",
+   "shownTtk": 668,
+   "fastest": "tr7",
+   "fastestTtk": 501,
+   "deltaMs": 167
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/5m",
+   "shown": "l85a3",
+   "shownTtk": 761,
+   "fastest": "tr7",
+   "fastestTtk": 507,
+   "deltaMs": 254
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/9m",
+   "shown": "sor556",
+   "shownTtk": 854,
+   "fastest": "tr7",
+   "fastestTtk": 512,
+   "deltaMs": 342
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/10m",
+   "shown": "m16a4",
+   "shownTtk": 623,
+   "fastest": "tr7",
+   "fastestTtk": 513,
+   "deltaMs": 110
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/15m",
+   "shown": "m16a4",
+   "shownTtk": 629,
+   "fastest": "tr7",
+   "fastestTtk": 520,
+   "deltaMs": 109
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/20m",
+   "shown": "m16a4",
+   "shownTtk": 635,
+   "fastest": "tr7",
+   "fastestTtk": 527,
+   "deltaMs": 108
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/21m",
+   "shown": "m16a4",
+   "shownTtk": 637,
+   "fastest": "tr7",
+   "fastestTtk": 529,
+   "deltaMs": 108
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/25m",
+   "shown": "kord6p67",
+   "shownTtk": 769,
+   "fastest": "tr7",
+   "fastestTtk": 618,
+   "deltaMs": 151
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/30m",
+   "shown": "kord6p67",
+   "shownTtk": 777,
+   "fastest": "tr7",
+   "fastestTtk": 625,
+   "deltaMs": 152
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/31m",
+   "shown": "kord6p67",
+   "shownTtk": 779,
+   "fastest": "tr7",
+   "fastestTtk": 627,
+   "deltaMs": 152
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/35m",
+   "shown": "kord6p67",
+   "shownTtk": 785,
+   "fastest": "tr7",
+   "fastestTtk": 633,
+   "deltaMs": 152
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/36m",
+   "shown": "kord6p67",
+   "shownTtk": 786,
+   "fastest": "tr7",
+   "fastestTtk": 634,
+   "deltaMs": 152
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/37m",
+   "shown": "kord6p67",
+   "shownTtk": 788,
+   "fastest": "tr7",
+   "fastestTtk": 636,
+   "deltaMs": 152
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/40m",
+   "shown": "kord6p67",
+   "shownTtk": 793,
+   "fastest": "tr7",
+   "fastestTtk": 640,
+   "deltaMs": 152
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/50m",
+   "shown": "kord6p67",
+   "shownTtk": 809,
+   "fastest": "tr7",
+   "fastestTtk": 656,
+   "deltaMs": 153
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/54m",
+   "shown": "kord6p67",
+   "shownTtk": 815,
+   "fastest": "tr7",
+   "fastestTtk": 662,
+   "deltaMs": 153
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/60m",
+   "shown": "kord6p67",
+   "shownTtk": 826,
+   "fastest": "tr7",
+   "fastestTtk": 672,
+   "deltaMs": 154
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/75m",
+   "shown": "kord6p67",
+   "shownTtk": 852,
+   "fastest": "tr7",
+   "fastestTtk": 697,
+   "deltaMs": 155
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/76m",
+   "shown": "m16a4",
+   "shownTtk": 880,
+   "fastest": "vcr2",
+   "fastestTtk": 772,
+   "deltaMs": 108
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/83m",
+   "shown": "kord6p67",
+   "shownTtk": 933,
+   "fastest": "vcr2",
+   "fastestTtk": 783,
+   "deltaMs": 150
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/90m",
+   "shown": "l85a3",
+   "shownTtk": 1148,
+   "fastest": "vcr2",
+   "fastestTtk": 862,
+   "deltaMs": 286
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/100m",
+   "shown": "kord6p67",
+   "shownTtk": 1032,
+   "fastest": "vcr2",
+   "fastestTtk": 878,
+   "deltaMs": 154
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/120m",
+   "shown": "kord6p67",
+   "shownTtk": 1073,
+   "fastest": "vcr2",
+   "fastestTtk": 914,
+   "deltaMs": 159
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/133m",
+   "shown": "sor556",
+   "shownTtk": 1338,
+   "fastest": "vcr2",
+   "fastestTtk": 939,
+   "deltaMs": 399
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/150m",
+   "shown": "sor556",
+   "shownTtk": 1367,
+   "fastest": "vcr2",
+   "fastestTtk": 972,
+   "deltaMs": 394
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/200m",
+   "shown": "sor556",
+   "shownTtk": 1463,
+   "fastest": "vcr2",
+   "fastestTtk": 1084,
+   "deltaMs": 378
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/250m",
+   "shown": "m16a4",
+   "shownTtk": 1326,
+   "fastest": "vcr2",
+   "fastestTtk": 1218,
+   "deltaMs": 108
+  },
+  {
+   "label": "RS-2PLATE/fastest/Assault Rifle/300m",
+   "shown": "b36a4",
+   "shownTtk": 1490,
+   "fastest": "vcr2",
+   "fastestTtk": 1377,
+   "deltaMs": 114
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/1m",
+   "shown": "ak205",
+   "shownTtk": 835,
+   "fastest": "sg553r",
+   "fastestTtk": 502,
+   "deltaMs": 333
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/5m",
+   "shown": "ak205",
+   "shownTtk": 840,
+   "fastest": "sg553r",
+   "fastestTtk": 508,
+   "deltaMs": 332
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/9m",
+   "shown": "ak205",
+   "shownTtk": 846,
+   "fastest": "sg553r",
+   "fastestTtk": 515,
+   "deltaMs": 331
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/10m",
+   "shown": "ak205",
+   "shownTtk": 931,
+   "fastest": "sg553r",
+   "fastestTtk": 600,
+   "deltaMs": 331
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/15m",
+   "shown": "ak205",
+   "shownTtk": 938,
+   "fastest": "sg553r",
+   "fastestTtk": 609,
+   "deltaMs": 330
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/20m",
+   "shown": "ak205",
+   "shownTtk": 946,
+   "fastest": "sg553r",
+   "fastestTtk": 618,
+   "deltaMs": 328
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/21m",
+   "shown": "ak205",
+   "shownTtk": 947,
+   "fastest": "sg553r",
+   "fastestTtk": 619,
+   "deltaMs": 328
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/25m",
+   "shown": "ak205",
+   "shownTtk": 1037,
+   "fastest": "m277",
+   "fastestTtk": 702,
+   "deltaMs": 335
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/30m",
+   "shown": "ak205",
+   "shownTtk": 1045,
+   "fastest": "m277",
+   "fastestTtk": 709,
+   "deltaMs": 335
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/31m",
+   "shown": "ak205",
+   "shownTtk": 1046,
+   "fastest": "m277",
+   "fastestTtk": 711,
+   "deltaMs": 335
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/35m",
+   "shown": "ak205",
+   "shownTtk": 1136,
+   "fastest": "m277",
+   "fastestTtk": 717,
+   "deltaMs": 419
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/36m",
+   "shown": "ak205",
+   "shownTtk": 1138,
+   "fastest": "m277",
+   "fastestTtk": 719,
+   "deltaMs": 419
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/37m",
+   "shown": "ak205",
+   "shownTtk": 1139,
+   "fastest": "m277",
+   "fastestTtk": 720,
+   "deltaMs": 419
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/40m",
+   "shown": "ak205",
+   "shownTtk": 1144,
+   "fastest": "m277",
+   "fastestTtk": 725,
+   "deltaMs": 419
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/50m",
+   "shown": "ak205",
+   "shownTtk": 1161,
+   "fastest": "m277",
+   "fastestTtk": 741,
+   "deltaMs": 420
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/54m",
+   "shown": "ak205",
+   "shownTtk": 1167,
+   "fastest": "m277",
+   "fastestTtk": 747,
+   "deltaMs": 420
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/60m",
+   "shown": "ak205",
+   "shownTtk": 1178,
+   "fastest": "m277",
+   "fastestTtk": 757,
+   "deltaMs": 421
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/75m",
+   "shown": "ak205",
+   "shownTtk": 1204,
+   "fastest": "m277",
+   "fastestTtk": 783,
+   "deltaMs": 422
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/76m",
+   "shown": "ak205",
+   "shownTtk": 1290,
+   "fastest": "m277",
+   "fastestTtk": 868,
+   "deltaMs": 422
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/83m",
+   "shown": "ak205",
+   "shownTtk": 1303,
+   "fastest": "m277",
+   "fastestTtk": 880,
+   "deltaMs": 423
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/100m",
+   "shown": "ak205",
+   "shownTtk": 1419,
+   "fastest": "m277",
+   "fastestTtk": 912,
+   "deltaMs": 507
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/133m",
+   "shown": "ak205",
+   "shownTtk": 1489,
+   "fastest": "m277",
+   "fastestTtk": 979,
+   "deltaMs": 510
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/150m",
+   "shown": "ak205",
+   "shownTtk": 1529,
+   "fastest": "m277",
+   "fastestTtk": 1017,
+   "deltaMs": 512
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/200m",
+   "shown": "ak205",
+   "shownTtk": 1659,
+   "fastest": "m277",
+   "fastestTtk": 1141,
+   "deltaMs": 518
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/250m",
+   "shown": "ak205",
+   "shownTtk": 1815,
+   "fastest": "m277",
+   "fastestTtk": 1290,
+   "deltaMs": 524
+  },
+  {
+   "label": "RS-2PLATE/fastest/Carbine/300m",
+   "shown": "ak205",
+   "shownTtk": 2000,
+   "fastest": "m277",
+   "fastestTtk": 1467,
+   "deltaMs": 532
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/1m",
+   "shown": "sl9",
+   "shownTtk": 713,
+   "fastest": "kv9",
+   "fastestTtk": 447,
+   "deltaMs": 266
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/5m",
+   "shown": "sl9",
+   "shownTtk": 719,
+   "fastest": "kv9",
+   "fastestTtk": 456,
+   "deltaMs": 264
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/9m",
+   "shown": "sl9",
+   "shownTtk": 726,
+   "fastest": "kv9",
+   "fastestTtk": 465,
+   "deltaMs": 262
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/10m",
+   "shown": "pw7a2",
+   "shownTtk": 778,
+   "fastest": "kv9",
+   "fastestTtk": 523,
+   "deltaMs": 255
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/15m",
+   "shown": "umg40",
+   "shownTtk": 876,
+   "fastest": "kv9",
+   "fastestTtk": 534,
+   "deltaMs": 342
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/20m",
+   "shown": "sl9",
+   "shownTtk": 834,
+   "fastest": "kv9",
+   "fastestTtk": 546,
+   "deltaMs": 288
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/21m",
+   "shown": "sl9",
+   "shownTtk": 836,
+   "fastest": "kv9",
+   "fastestTtk": 548,
+   "deltaMs": 288
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/25m",
+   "shown": "sl9",
+   "shownTtk": 932,
+   "fastest": "kv9",
+   "fastestTtk": 613,
+   "deltaMs": 319
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/30m",
+   "shown": "sl9",
+   "shownTtk": 941,
+   "fastest": "kv9",
+   "fastestTtk": 626,
+   "deltaMs": 315
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/31m",
+   "shown": "sl9",
+   "shownTtk": 943,
+   "fastest": "kv9",
+   "fastestTtk": 628,
+   "deltaMs": 315
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/35m",
+   "shown": "pw7a2",
+   "shownTtk": 888,
+   "fastest": "kv9",
+   "fastestTtk": 693,
+   "deltaMs": 194
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/36m",
+   "shown": "pw7a2",
+   "shownTtk": 890,
+   "fastest": "kv9",
+   "fastestTtk": 696,
+   "deltaMs": 194
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/37m",
+   "shown": "pw7a2",
+   "shownTtk": 892,
+   "fastest": "kv9",
+   "fastestTtk": 754,
+   "deltaMs": 138
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/40m",
+   "shown": "pw7a2",
+   "shownTtk": 898,
+   "fastest": "kv9",
+   "fastestTtk": 762,
+   "deltaMs": 136
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/50m",
+   "shown": "pw7a2",
+   "shownTtk": 918,
+   "fastest": "kv9",
+   "fastestTtk": 843,
+   "deltaMs": 75
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/54m",
+   "shown": "pw7a2",
+   "shownTtk": 927,
+   "fastest": "kv9",
+   "fastestTtk": 854,
+   "deltaMs": 73
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/60m",
+   "shown": "pw7a2",
+   "shownTtk": 939,
+   "fastest": "kv9",
+   "fastestTtk": 870,
+   "deltaMs": 69
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/75m",
+   "shown": "pw7a2",
+   "shownTtk": 972,
+   "fastest": "kv9",
+   "fastestTtk": 912,
+   "deltaMs": 60
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/76m",
+   "shown": "pw7a2",
+   "shownTtk": 1038,
+   "fastest": "kv9",
+   "fastestTtk": 970,
+   "deltaMs": 67
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/83m",
+   "shown": "pw7a2",
+   "shownTtk": 1054,
+   "fastest": "kv9",
+   "fastestTtk": 991,
+   "deltaMs": 63
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/90m",
+   "shown": "pw7a2",
+   "shownTtk": 1134,
+   "fastest": "kv9",
+   "fastestTtk": 1067,
+   "deltaMs": 66
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/100m",
+   "shown": "sl9",
+   "shownTtk": 1531,
+   "fastest": "kv9",
+   "fastestTtk": 1098,
+   "deltaMs": 432
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/120m",
+   "shown": "sl9",
+   "shownTtk": 1579,
+   "fastest": "kv9",
+   "fastestTtk": 1163,
+   "deltaMs": 416
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/133m",
+   "shown": "pw7a2",
+   "shownTtk": 1244,
+   "fastest": "kv9",
+   "fastestTtk": 1208,
+   "deltaMs": 36
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/150m",
+   "shown": "sl9",
+   "shownTtk": 1658,
+   "fastest": "kv9",
+   "fastestTtk": 1270,
+   "deltaMs": 389
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/200m",
+   "shown": "pw7a2",
+   "shownTtk": 1453,
+   "fastest": "usg90",
+   "fastestTtk": 1427,
+   "deltaMs": 26
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/250m",
+   "shown": "pw7a2",
+   "shownTtk": 1644,
+   "fastest": "usg90",
+   "fastestTtk": 1589,
+   "deltaMs": 54
+  },
+  {
+   "label": "RS-2PLATE/fastest/SMG/300m",
+   "shown": "pw7a2",
+   "shownTtk": 1871,
+   "fastest": "usg90",
+   "fastestTtk": 1783,
+   "deltaMs": 89
+  },
+  {
+   "label": "RS-2PLATE/fastest/LMG/1m",
+   "shown": "rpk74m",
+   "shownTtk": 876,
+   "fastest": "m121a2",
+   "fastestTtk": 551,
+   "deltaMs": 325
+  },
+  {
+   "label": "RS-2PLATE/fastest/LMG/9m",
+   "shown": "rpk74m",
+   "shownTtk": 884,
+   "fastest": "m121a2",
+   "fastestTtk": 563,
+   "deltaMs": 321
+  },
+  {
+   "label": "RS-2PLATE/fastest/LMG/10m",
+   "shown": "drsiar",
+   "shownTtk": 634,
+   "fastest": "m121a2",
+   "fastestTtk": 565,
+   "deltaMs": 70
+  },
+  {
+   "label": "RS-2PLATE/fastest/LMG/15m",
+   "shown": "drsiar",
+   "shownTtk": 640,
+   "fastest": "m121a2",
+   "fastestTtk": 572,
+   "deltaMs": 68
+  },
+  {
+   "label": "RS-2PLATE/fastest/LMG/20m",
+   "shown": "m123k",
+   "shownTtk": 604,
+   "fastest": "m121a2",
+   "fastestTtk": 580,
+   "deltaMs": 25
+  },
+  {
+   "label": "RS-2PLATE/fastest/LMG/21m",
+   "shown": "m123k",
+   "shownTtk": 605,
+   "fastest": "m121a2",
+   "fastestTtk": 581,
+   "deltaMs": 24
+  },
+  {
+   "label": "RS-2PLATE/fastest/LMG/30m",
+   "shown": "l110",
+   "shownTtk": 784,
+   "fastest": "m250",
+   "fastestTtk": 657,
+   "deltaMs": 127
+  },
+  {
+   "label": "RS-2PLATE/fastest/LMG/31m",
+   "shown": "l110",
+   "shownTtk": 785,
+   "fastest": "m250",
+   "fastestTtk": 658,
+   "deltaMs": 127
+  },
+  {
+   "label": "RS-2PLATE/fastest/LMG/35m",
+   "shown": "l110",
+   "shownTtk": 790,
+   "fastest": "m250",
+   "fastestTtk": 663,
+   "deltaMs": 127
+  },
+  {
+   "label": "RS-2PLATE/fastest/LMG/36m",
+   "shown": "l110",
+   "shownTtk": 791,
+   "fastest": "m250",
+   "fastestTtk": 665,
+   "deltaMs": 127
+  },
+  {
+   "label": "RS-2PLATE/fastest/LMG/37m",
+   "shown": "l110",
+   "shownTtk": 793,
+   "fastest": "m250",
+   "fastestTtk": 666,
+   "deltaMs": 127
+  },
+  {
+   "label": "RS-2PLATE/fastest/LMG/40m",
+   "shown": "l110",
+   "shownTtk": 796,
+   "fastest": "m250",
+   "fastestTtk": 670,
+   "deltaMs": 127
+  },
+  {
+   "label": "RS-2PLATE/fastest/LMG/50m",
+   "shown": "l110",
+   "shownTtk": 809,
+   "fastest": "m250",
+   "fastestTtk": 683,
+   "deltaMs": 126
+  },
+  {
+   "label": "RS-2PLATE/fastest/LMG/54m",
+   "shown": "l110",
+   "shownTtk": 814,
+   "fastest": "m250",
+   "fastestTtk": 688,
+   "deltaMs": 126
+  },
+  {
+   "label": "RS-2PLATE/fastest/LMG/60m",
+   "shown": "l110",
+   "shownTtk": 822,
+   "fastest": "m250",
+   "fastestTtk": 696,
+   "deltaMs": 126
+  },
+  {
+   "label": "RS-2PLATE/fastest/LMG/75m",
+   "shown": "l110",
+   "shownTtk": 843,
+   "fastest": "m250",
+   "fastestTtk": 717,
+   "deltaMs": 126
+  },
+  {
+   "label": "RS-2PLATE/fastest/LMG/300m",
+   "shown": "l110",
+   "shownTtk": 1490,
+   "fastest": "m250",
+   "fastestTtk": 1209,
+   "deltaMs": 282
+  },
+  {
+   "label": "RS-2PLATE/fastest/DMR/40m",
+   "shown": "lmr27",
+   "shownTtk": 975,
+   "fastest": "vssm",
+   "fastestTtk": 812,
+   "deltaMs": 163
+  },
+  {
+   "label": "RS-2PLATE/fastest/DMR/50m",
+   "shown": "lmr27",
+   "shownTtk": 986,
+   "fastest": "vssm",
+   "fastestTtk": 849,
+   "deltaMs": 137
+  },
+  {
+   "label": "RS-2PLATE/fastest/DMR/54m",
+   "shown": "lmr27",
+   "shownTtk": 990,
+   "fastest": "vssm",
+   "fastestTtk": 863,
+   "deltaMs": 127
+  },
+  {
+   "label": "RS-2PLATE/fastest/DMR/60m",
+   "shown": "lmr27",
+   "shownTtk": 997,
+   "fastest": "vssm",
+   "fastestTtk": 885,
+   "deltaMs": 112
+  },
+  {
+   "label": "RS-2PLATE/fastest/DMR/75m",
+   "shown": "lmr27",
+   "shownTtk": 1014,
+   "fastest": "vssm",
+   "fastestTtk": 942,
+   "deltaMs": 72
+  },
+  {
+   "label": "RS-2PLATE/fastest/DMR/76m",
+   "shown": "lmr27",
+   "shownTtk": 1015,
+   "fastest": "vssm",
+   "fastestTtk": 946,
+   "deltaMs": 70
+  },
+  {
+   "label": "RS-2PLATE/fastest/DMR/83m",
+   "shown": "lmr27",
+   "shownTtk": 1024,
+   "fastest": "vssm",
+   "fastestTtk": 973,
+   "deltaMs": 51
+  },
+  {
+   "label": "RS-2PLATE/fastest/DMR/90m",
+   "shown": "lmr27",
+   "shownTtk": 1032,
+   "fastest": "vssm",
+   "fastestTtk": 1000,
+   "deltaMs": 32
+  },
+  {
+   "label": "RS-2PLATE/fastest/DMR/100m",
+   "shown": "lmr27",
+   "shownTtk": 1044,
+   "fastest": "vssm",
+   "fastestTtk": 1040,
+   "deltaMs": 4
+  },
+  {
+   "label": "RS-2PLATE/fastest/Sniper Rifle/54m",
+   "shown": "miniscout",
+   "shownTtk": 3589,
+   "fastest": "sv98",
+   "fastestTtk": 3252,
+   "deltaMs": 337
+  },
+  {
+   "label": "RS-2PLATE/fastest/Sniper Rifle/60m",
+   "shown": "miniscout",
+   "shownTtk": 3597,
+   "fastest": "sv98",
+   "fastestTtk": 3260,
+   "deltaMs": 336
+  },
+  {
+   "label": "RS-2PLATE/fastest/Sniper Rifle/100m",
+   "shown": "m2010esr",
+   "shownTtk": 2839,
+   "fastest": "l115",
+   "fastestTtk": 2722,
+   "deltaMs": 116
+  },
+  {
+   "label": "RS-2PLATE/fastest/Sniper Rifle/150m",
+   "shown": "miniscout",
+   "shownTtk": 4890,
+   "fastest": "l115",
+   "fastestTtk": 4094,
+   "deltaMs": 796
+  },
+  {
+   "label": "RS-2PLATE/fastest/Sniper Rifle/200m",
+   "shown": "miniscout",
+   "shownTtk": 4965,
+   "fastest": "l115",
+   "fastestTtk": 4180,
+   "deltaMs": 785
+  },
+  {
+   "label": "RS-2PLATE/fastest/Sniper Rifle/250m",
+   "shown": "miniscout",
+   "shownTtk": 5047,
+   "fastest": "l115",
+   "fastestTtk": 4274,
+   "deltaMs": 773
+  },
+  {
+   "label": "RS-2PLATE/fastest/Sniper Rifle/300m",
+   "shown": "miniscout",
+   "shownTtk": 5139,
+   "fastest": "l115",
+   "fastestTtk": 4379,
+   "deltaMs": 760
+  },
+  {
+   "label": "RS-2PLATE/fastest/Shotgun/20m",
+   "shown": "185ksk",
+   "shownTtk": 641,
+   "fastest": "m1014",
+   "fastestTtk": 641,
+   "deltaMs": 0
+  },
+  {
+   "label": "RS-2PLATE/fastest/Shotgun/21m",
+   "shown": "185ksk",
+   "shownTtk": 644,
+   "fastest": "m1014",
+   "fastestTtk": 644,
+   "deltaMs": 0
+  },
+  {
+   "label": "RS-2PLATE/fastest/Shotgun/25m",
+   "shown": "185ksk",
+   "shownTtk": 652,
+   "fastest": "m1014",
+   "fastestTtk": 652,
+   "deltaMs": 0
+  }
+ ]
+}
