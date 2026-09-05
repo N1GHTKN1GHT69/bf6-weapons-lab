@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-05T20:47:21.952Z",
+ "generatedAt": "2026-09-05T20:58:48.739Z",
  "source": {
   "name": "sym.gg",
   "url": "https://sym.gg/games/bf6/patch-notes",
@@ -8,7 +8,7 @@
   "deltaRange": "1.3.1.0 (12 MAY 2026) -> 1.3.3.0 (30 JUN 2026)"
  },
  "liveGameVersion": "1.4.2.5",
- "establishes": "FIDELITY of our stored values to the original publisher. NOT currency: Sym has published no BF6 numeric data after 1.3.3.0.",
+ "establishes": "FIDELITY of the pinned BASELINE to the original publisher at 1.3.3.0. NOT currency: values newer than the baseline ride on data/source-overlays.json and are classified by scripts/source-currency.mjs.",
  "weaponsInSource": 38,
  "weaponsMatched": 38,
  "unmatched": [],

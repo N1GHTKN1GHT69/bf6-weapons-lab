@@ -2,10 +2,15 @@
 /**
  * Watch Sym.gg for a newer BF6 dataset.
  *
- * Sym is the upstream publisher of the numbers this project ingests, and their
- * BF6 data currently stops at 1.3.3.0. When they publish a 1.4.x patch-notes
- * page, every one of our outstanding high-impact values becomes resolvable from
- * a published source - so knowing the moment that happens is worth automating.
+ * Sym is the upstream publisher of the numbers this project ingests. Their own
+ * public SITE still stops at 1.3.3.0, and watching it is worth doing - but this
+ * watcher is STRUCTURALLY INCOMPLETE and must never be treated as sufficient.
+ *
+ * Proved the hard way: while this watcher correctly reported "no change" for weeks,
+ * a Sym 1.4.2.0 dump was publicly available the whole time in the SheetOnMyFace
+ * workbook. A watcher on the publisher's own channel cannot see data the publisher
+ * distributes through another. scripts/watch-source-workbook.mjs covers that channel;
+ * both run in .github/workflows/freshness-watch.yml, and neither is alone.
  *
  * How, without a browser: sym.gg is a client-rendered SPA, but the route chunk
  * carrying the BF6 patch-notes payload is a plain static asset, and Vite content-

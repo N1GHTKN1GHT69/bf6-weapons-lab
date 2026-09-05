@@ -614,6 +614,13 @@
    * only the second overstates the coverage. Both are shown, labelled, and this
    * returns null rather than guessing when the source metadata is absent.
    */
+  /** Machine-generated evidence strings are lower-case fragments; this joins them into prose. */
+  function sentence(s) {
+    const t = String(s || "").trim();
+    if (!t) return "";
+    return t.charAt(0).toUpperCase() + t.slice(1) + (/[.!?]$/.test(t) ? "" : ".");
+  }
+
   function numericalSourceUi() {
     const n = state.freshness?.numericalSource;
     if (!n?.gameVersion) return null;
@@ -626,7 +633,7 @@
       bridged,
       liveGameVersion: n.bridgedToLive?.liveGameVersion || null,
       note: bridged
-        ? `Weapon numbers are sourced from ${n.publisherOfRecord || "the publisher"} at game version ${n.gameVersion}. ${n.bridgedToLive?.reason || ""}`.trim()
+        ? `Weapon numbers are sourced from ${n.publisherOfRecord || "the publisher"} at game version ${n.gameVersion}. ${sentence(n.bridgedToLive?.reason)}`.trim()
         : `Weapon numbers are sourced from ${n.publisherOfRecord || "the publisher"} at game version ${n.gameVersion}, and cannot be claimed current for ${n.bridgedToLive?.liveGameVersion || "the live version"}: ${n.bridgedToLive?.reason || "no bridging check is on record"}.`
     };
   }

@@ -12,9 +12,15 @@
  * What this does and does not establish:
  *   DOES     confirm our stored values are faithfully Sym's published 1.3.3.0
  *            numbers, field by field.
- *   DOES NOT make them current for 1.4.2.5. Sym has published no BF6 numeric
- *            data after 1.3.3.0, so this is a FIDELITY check, not a CURRENCY
- *            one, and it deliberately moves no currency classification.
+ *   DOES NOT make them current. This is a FIDELITY check, not a CURRENCY one, and
+ *            it deliberately moves no currency classification.
+ *
+ * CORRECTED 2026-09-05: this file used to state that Sym had published nothing after
+ * 1.3.3.0. That was true of sym.gg's own public site and FALSE of Sym's data, which
+ * reached the public through the SheetOnMyFace workbook at 1.4.2.0 weeks earlier.
+ * Currency now comes from data/source-overlays.json and scripts/source-currency.mjs;
+ * this check keeps its narrow, still-valuable job of proving the mirror faithfully
+ * carries the BASELINE the overlays sit on top of.
  *
  * Refreshing when Sym publishes a newer patch: re-capture the page (it is
  * client-rendered, so a plain fetch returns only the shell - render it, expand
@@ -80,7 +86,7 @@ const report = {
   generatedAt: new Date().toISOString(),
   source: { name: src.source, url: src.sourceUrl, published: src.publishedDate, represents: src.representsGameVersion, deltaRange: src.deltaRange },
   liveGameVersion: freshness.official?.gameVersion ?? null,
-  establishes: 'FIDELITY of our stored values to the original publisher. NOT currency: Sym has published no BF6 numeric data after ' + src.representsGameVersion + '.',
+  establishes: 'FIDELITY of the pinned BASELINE to the original publisher at ' + src.representsGameVersion + '. NOT currency: values newer than the baseline ride on data/source-overlays.json and are classified by scripts/source-currency.mjs.',
   weaponsInSource: Object.keys(src.values).length,
   weaponsMatched: perWeapon.length,
   unmatched,
