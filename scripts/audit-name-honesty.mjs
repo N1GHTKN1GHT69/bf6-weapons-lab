@@ -107,6 +107,42 @@ for (const g of audit.sharedDisplayNames || []) {
   if (new Set(g.attachmentIds).size !== g.attachmentIds.length) errors.push(`duplicate ids under shared name "${g.displayName}"`);
 }
 
+/**
+ * CI TRIGGER REGRESSION.
+ *
+ * data/attachment-name-audit.json matches the Combat Engine's `data/*-audit.json`
+ * path glob, so regenerating a display-only naming artifact used to spawn the whole
+ * 62-weapon matrix. The workflow excludes it - and this checks that the exclusion is
+ * still SOUND, not merely still present:
+ *
+ *   1. the exclusion line exists and comes AFTER the glob it narrows (YAML path
+ *      filters are order-sensitive; a negation placed before its glob does nothing)
+ *   2. no file in the cache pipeline reads the naming artifact at all
+ *
+ * If someone ever makes the cache depend on naming data, (2) fails and the
+ * exclusion must be removed rather than the dependency hidden.
+ */
+const workflow = await readFile('.github/workflows/combat-engine.yml', 'utf8');
+const globIdx = workflow.indexOf("- 'data/*-audit.json'");
+const negIdx = workflow.indexOf("- '!data/attachment-name-audit.json'");
+if (globIdx < 0) errors.push('combat-engine.yml no longer carries the data/*-audit.json path glob; re-check the naming-artifact exclusion');
+else if (negIdx < 0) errors.push('combat-engine.yml no longer excludes data/attachment-name-audit.json, so regenerating a display-only artifact spawns the 62-weapon matrix');
+else if (negIdx < globIdx) errors.push('the attachment-name-audit exclusion appears BEFORE the data/*-audit.json glob it narrows; GitHub path filters are order-sensitive, so it has no effect there');
+
+const CACHE_PIPELINE = [
+  'scripts/build-combat-cache.mjs', 'scripts/merge-combat-cache.mjs',
+  'scripts/validate-combat-cache.mjs', 'scripts/auto-selection-policy.mjs',
+  'scripts/cache-state-signature.mjs', 'scripts/verified-source-sanitizer.mjs',
+  'attachment-legality.js'
+];
+for (const file of CACHE_PIPELINE) {
+  let src;
+  try { src = await readFile(file, 'utf8'); } catch { errors.push(`cache-pipeline file ${file} is missing`); continue; }
+  if (/attachment-name-audit|nameAudit|attachmentDisplay\(|NAME_STATUS_UI/.test(src)) {
+    errors.push(`${file} reads the attachment naming layer. The Combat Engine trigger exclusion for data/attachment-name-audit.json assumes it cannot affect the cache; remove the exclusion or remove the dependency.`);
+  }
+}
+
 await mkdir('reports/overnight', { recursive: true });
 await writeFile('reports/overnight/name-honesty.json', JSON.stringify({
   generatedAt: new Date().toISOString(),
