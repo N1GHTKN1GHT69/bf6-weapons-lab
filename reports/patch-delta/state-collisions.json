@@ -1,0 +1,725 @@
+{
+ "generatedAt": "2026-09-05T21:03:36.194Z",
+ "sourceVersion": "1.4.2.0",
+ "describes": "weapons that exist in more than one state, and the attachments that switch between them - the class of defect the VSSM RPM near-miss belongs to",
+ "sourceRateCollisions": [
+  {
+   "weaponId": "m433",
+   "name": "M433",
+   "fireMode": "auto",
+   "ourRpm": 830.769,
+   "rates": {
+    "RoF": 830.769,
+    "BurstRoF": 830.769,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "b36a4",
+   "name": "B36A4",
+   "fireMode": "auto",
+   "ourRpm": 719.999,
+   "rates": {
+    "RoF": 719.999,
+    "BurstRoF": 719.999,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "sor556",
+   "name": "SOR-556 MK2",
+   "fireMode": "auto",
+   "ourRpm": 568.421,
+   "rates": {
+    "RoF": 568.421,
+    "BurstRoF": 568.421,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "ak4d",
+   "name": "AK4D",
+   "fireMode": "auto",
+   "ourRpm": 514.285,
+   "rates": {
+    "RoF": 514.285,
+    "BurstRoF": 514.285,
+    "SingleRoF": 359.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "tr7",
+   "name": "TR7",
+   "fireMode": "auto",
+   "ourRpm": 719.999,
+   "rates": {
+    "RoF": 719.999,
+    "BurstRoF": 719.999,
+    "SingleRoF": 359.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "kord6p67",
+   "name": "KORD 6P67",
+   "fireMode": "auto",
+   "ourRpm": 899.999,
+   "rates": {
+    "RoF": 899.999,
+    "BurstRoF": 899.999,
+    "SingleRoF": 449.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "nvo228e",
+   "name": "NVO-228E",
+   "fireMode": "auto",
+   "ourRpm": 654.545,
+   "rates": {
+    "RoF": 654.545,
+    "BurstRoF": 654.545,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "l85a3",
+   "name": "L85A3",
+   "fireMode": "auto",
+   "ourRpm": 635.294,
+   "rates": {
+    "RoF": 635.294,
+    "BurstRoF": 635.294,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "vcr2",
+   "name": "VCR-2",
+   "fireMode": "auto",
+   "ourRpm": 899.999,
+   "rates": {
+    "RoF": 899.999,
+    "BurstRoF": 899.999,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "m16a4",
+   "name": "M16A4",
+   "fireMode": "burst",
+   "ourRpm": 771.428,
+   "rates": {
+    "RoF": 771.428,
+    "BurstRoF": 771.428,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "m4a1",
+   "name": "M4A1",
+   "fireMode": "auto",
+   "ourRpm": 899.999,
+   "rates": {
+    "RoF": 899.999,
+    "BurstRoF": 899.999,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "m277",
+   "name": "M277",
+   "fireMode": "auto",
+   "ourRpm": 719.999,
+   "rates": {
+    "RoF": 719.999,
+    "BurstRoF": 719.999,
+    "SingleRoF": 359.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "ak205",
+   "name": "AK-205",
+   "fireMode": "auto",
+   "ourRpm": 719.999,
+   "rates": {
+    "RoF": 719.999,
+    "BurstRoF": 719.999,
+    "SingleRoF": 449.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "m417a2",
+   "name": "M417 A2",
+   "fireMode": "auto",
+   "ourRpm": 654.545,
+   "rates": {
+    "RoF": 654.545,
+    "BurstRoF": 654.545,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "grtbc",
+   "name": "GRT-BC",
+   "fireMode": "auto",
+   "ourRpm": 830.769,
+   "rates": {
+    "RoF": 830.769,
+    "BurstRoF": 830.769,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "qbz192",
+   "name": "QBZ-192",
+   "fireMode": "auto",
+   "ourRpm": 771.428,
+   "rates": {
+    "RoF": 771.428,
+    "BurstRoF": 771.428,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "sg553r",
+   "name": "SG 553R",
+   "fireMode": "auto",
+   "ourRpm": 719.999,
+   "rates": {
+    "RoF": 719.999,
+    "BurstRoF": 719.999,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "sor300sc",
+   "name": "SOR-300SC",
+   "fireMode": "auto",
+   "ourRpm": 599.999,
+   "rates": {
+    "RoF": 599.999,
+    "BurstRoF": 599.999,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "sgx",
+   "name": "SGX",
+   "fireMode": "auto",
+   "ourRpm": 830.769,
+   "rates": {
+    "RoF": 830.769,
+    "BurstRoF": 830.769,
+    "SingleRoF": 449.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "pw5a3",
+   "name": "PW5A3",
+   "fireMode": "auto",
+   "ourRpm": 771.428,
+   "rates": {
+    "RoF": 771.428,
+    "BurstRoF": 771.428,
+    "SingleRoF": 449.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "pw7a2",
+   "name": "PW7A2",
+   "fireMode": "auto",
+   "ourRpm": 947.368,
+   "rates": {
+    "RoF": 947.368,
+    "BurstRoF": 947.368,
+    "SingleRoF": 449.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "umg40",
+   "name": "UMG-40",
+   "fireMode": "auto",
+   "ourRpm": 635.294,
+   "rates": {
+    "RoF": 635.294,
+    "BurstRoF": 635.294,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "usg90",
+   "name": "USG-90",
+   "fireMode": "auto",
+   "ourRpm": 899.999,
+   "rates": {
+    "RoF": 899.999,
+    "BurstRoF": 899.999,
+    "SingleRoF": 449.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "kv9",
+   "name": "KV9",
+   "fireMode": "auto",
+   "ourRpm": 1079.999,
+   "rates": {
+    "RoF": 1079.999,
+    "BurstRoF": 1079.999,
+    "SingleRoF": 449.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "scw10",
+   "name": "SCW-10",
+   "fireMode": "auto",
+   "ourRpm": 799.999,
+   "rates": {
+    "RoF": 799.999,
+    "BurstRoF": 799.999,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "sl9",
+   "name": "SL9",
+   "fireMode": "auto",
+   "ourRpm": 674.999,
+   "rates": {
+    "RoF": 674.999,
+    "BurstRoF": 771.428,
+    "SingleRoF": 449.999
+   },
+   "distinctValues": 3,
+   "weStore": "RoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "cz3a1",
+   "name": "CZ3A1",
+   "fireMode": "auto",
+   "ourRpm": 981.818,
+   "rates": {
+    "RoF": 981.818,
+    "BurstRoF": 981.818,
+    "SingleRoF": 449.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "pp19",
+   "name": "PP-19",
+   "fireMode": "auto",
+   "ourRpm": 719.999,
+   "rates": {
+    "RoF": 719.999,
+    "BurstRoF": 719.999,
+    "SingleRoF": 449.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "l110",
+   "name": "L110",
+   "fireMode": "auto",
+   "ourRpm": 719.999,
+   "rates": {
+    "RoF": 719.999,
+    "BurstRoF": 719.999,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "drsiar",
+   "name": "DRS-IAR",
+   "fireMode": "auto",
+   "ourRpm": 771.428,
+   "rates": {
+    "RoF": 771.428,
+    "BurstRoF": 771.428,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "m60",
+   "name": "M/60",
+   "fireMode": "auto",
+   "ourRpm": 514.285,
+   "rates": {
+    "RoF": 514.285,
+    "BurstRoF": 514.285,
+    "SingleRoF": 359.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "rpkm",
+   "name": "RPKM",
+   "fireMode": "auto",
+   "ourRpm": 553.846,
+   "rates": {
+    "RoF": 553.846,
+    "BurstRoF": 553.846,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "m123k",
+   "name": "M123K",
+   "fireMode": "auto",
+   "ourRpm": 830.769,
+   "rates": {
+    "RoF": 830.769,
+    "BurstRoF": 830.769,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "m250",
+   "name": "M250",
+   "fireMode": "auto",
+   "ourRpm": 674.999,
+   "rates": {
+    "RoF": 674.999,
+    "BurstRoF": 674.999,
+    "SingleRoF": 327.272
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "kts100",
+   "name": "KTS100 MK8",
+   "fireMode": "auto",
+   "ourRpm": 514.285,
+   "rates": {
+    "RoF": 514.285,
+    "BurstRoF": 514.285,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "m240l",
+   "name": "M240L",
+   "fireMode": "auto",
+   "ourRpm": 599.999,
+   "rates": {
+    "RoF": 599.999,
+    "BurstRoF": 599.999,
+    "SingleRoF": 359.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "m121a2",
+   "name": "M121 A2",
+   "fireMode": "auto",
+   "ourRpm": 654.545,
+   "rates": {
+    "RoF": 654.545,
+    "BurstRoF": 654.545,
+    "SingleRoF": 359.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "rpk74m",
+   "name": "RPK-74M",
+   "fireMode": "auto",
+   "ourRpm": 685.714,
+   "rates": {
+    "RoF": 685.714,
+    "BurstRoF": 685.714,
+    "SingleRoF": 449.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "m2010esr",
+   "name": "M2010 ESR",
+   "fireMode": "bolt",
+   "ourRpm": 44.0816018658339,
+   "rates": {
+    "RoF": 44.08160187,
+    "BurstRoF": 299.999,
+    "SingleRoF": 299.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "sv98",
+   "name": "SV-98",
+   "fireMode": "bolt",
+   "ourRpm": 37.67438355865456,
+   "rates": {
+    "RoF": 37.67438356,
+    "BurstRoF": 299.999,
+    "SingleRoF": 299.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "psr",
+   "name": "PSR",
+   "fireMode": "bolt",
+   "ourRpm": 38.11762015220833,
+   "rates": {
+    "RoF": 38.11762015,
+    "BurstRoF": 299.999,
+    "SingleRoF": 299.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "miniscout",
+   "name": "Mini Scout",
+   "fireMode": "bolt",
+   "ourRpm": 51,
+   "rates": {
+    "RoF": 51,
+    "BurstRoF": 299.999,
+    "SingleRoF": 299.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "l115",
+   "name": "L115",
+   "fireMode": "bolt",
+   "ourRpm": 46.349953649969095,
+   "rates": {
+    "RoF": 46.34995365,
+    "BurstRoF": 299.999,
+    "SingleRoF": 299.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "vz61",
+   "name": "VZ. 61",
+   "fireMode": "auto",
+   "ourRpm": 818.181,
+   "rates": {
+    "RoF": 818.181,
+    "BurstRoF": 818.181,
+    "SingleRoF": 449.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "brod3",
+   "name": "BROD 3",
+   "fireMode": "auto",
+   "ourRpm": 830.7692307692307,
+   "rates": {
+    "RoF": 830.769,
+    "BurstRoF": 830.769,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "ef88",
+   "name": "EF88",
+   "fireMode": "auto",
+   "ourRpm": 675,
+   "rates": {
+    "RoF": 674.999,
+    "BurstRoF": 674.999,
+    "SingleRoF": 399.999
+   },
+   "distinctValues": 2,
+   "weStore": "RoF/BurstRoF",
+   "unattributable": false
+  },
+  {
+   "weaponId": "vssm",
+   "name": "VSSM",
+   "fireMode": "semi",
+   "ourRpm": 449.999,
+   "rates": {
+    "RoF": 799.999,
+    "BurstRoF": 799.999,
+    "SingleRoF": 449.999
+   },
+   "distinctValues": 2,
+   "weStore": "SingleRoF",
+   "unattributable": false
+  }
+ ],
+ "unmodelledPublishedStates": [
+  {
+   "weaponId": "sl9",
+   "ourRpm": 674.999,
+   "ourFireMode": "auto",
+   "publishedRoF": 674.999,
+   "publishedBurstRoF": 771.428,
+   "switchingAttachments": [],
+   "modelled": false
+  }
+ ],
+ "attachmentOverrides": [
+  {
+   "slot": "ERGOS",
+   "attachmentId": "full_auto",
+   "name": "A3 Receiver",
+   "keys": {
+    "setsFireModeAuto": true
+   },
+   "assumedFields": [],
+   "weapons": [
+    "m16a4"
+   ]
+  },
+  {
+   "slot": "ERGOS",
+   "attachmentId": "full_auto_vssm",
+   "name": "Folding Stock",
+   "keys": {
+    "autoRpm": 799.999,
+    "setsFireModeAuto": true
+   },
+   "assumedFields": [
+    "recoilDecreaseFactorOverride"
+   ],
+   "weapons": [
+    "vssm"
+   ]
+  }
+ ],
+ "crossCheck": [
+  {
+   "weaponId": "vssm",
+   "attachmentId": "full_auto_vssm",
+   "overrideValue": 799.999,
+   "baseRpm": 449.999,
+   "sourceStatsEqualToOverride": [
+    "RoF",
+    "BurstRoF"
+   ],
+   "sourceStatsEqualToBase": [
+    "SingleRoF"
+   ],
+   "shape": "TWO-STATE-CORRECTLY-SPLIT"
+  }
+ ],
+ "notes": [
+  "sl9: the source publishes a burst cadence (771.428) distinct from its 674.999 automatic cadence, and no catalog attachment switches to it. That second state is not modelled. Not a defect - but if an attachment for it is ever added, its rate must go on the ATTACHMENT, never into the base record."
+ ],
+ "errors": []
+}

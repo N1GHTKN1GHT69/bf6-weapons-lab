@@ -140,7 +140,13 @@ for (const w of weapons) {
     source: w.damageSource ?? '(none)',
     sourceType: estimated ? 'project-derived (donor model)' : dmgFromGameFile ? 'pinned game-file snapshot' : 'in-game reading',
     status: dmgStatus,
-    confidence: estimated ? 'donor/estimated' : (w.damageStatus ?? 'unknown'),
+    // "donor/estimated" is only accurate when a donor model actually produced the
+    // curve. The VSSM carries provenance.status "estimated" for cal/reloadSpeed while
+    // its damage is the in-game curve and it has no donor block at all, so the blanket
+    // label overstated the uncertainty and named a mechanism that does not exist here.
+    confidence: estimated
+      ? (prov?.donor ? 'donor/estimated' : `weapon marked estimated; damage source: ${w.damageStatus ?? 'unknown'}`)
+      : (w.damageStatus ?? 'unknown'),
     reDerivedBy: classPass && def ? `${cls} class audit` : null,
     ...IMPACT.dmg
   });
