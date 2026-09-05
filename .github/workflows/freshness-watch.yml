@@ -42,12 +42,27 @@ jobs:
           UPSTREAM_SHA: ${{ steps.upstream.outputs.sha }}
           BF6_REBUILD_RETRY_HOURS: '6'
         run: node scripts/check-freshness.mjs --write
-      # Sym is the upstream PUBLISHER of the numbers this project ingests, and
-      # their BF6 data stops at 1.3.3.0. A 1.4.x publication would resolve the
-      # outstanding high-impact recoil/spread values from a published source, so
-      # it is worth knowing immediately. continue-on-error: an unreachable third
-      # party is not a defect in this repository, and the script exits non-zero
-      # only on the GOOD news case (newer data found).
+      # TWO source watchers, because one is structurally blind.
+      #
+      # Sym is the upstream PUBLISHER of the numbers this project ingests. Their own
+      # public site stops at 1.3.3.0 - and a 1.4.2.0 Sym dump was publicly available
+      # in the SheetOnMyFace workbook for weeks while that watcher reported "no
+      # change", correctly, because it can only ever see Sym's own channel. So the
+      # workbook (the public CARRIER of the newest dump) is now watched too.
+      #
+      # Both are continue-on-error: an unreachable third party is not a defect in
+      # this repository, and each script exits non-zero ONLY on the good-news case.
+      # The workbook watcher fetches one ~50KB tab and fingerprints only the values
+      # this project models, so formatting, timestamps, unrelated tabs and
+      # spreadsheet float noise cannot spawn the expensive 62-weapon rebuild.
+      - name: Watch the SheetOnMyFace workbook for newer Sym data
+        id: workbookwatch
+        continue-on-error: true
+        run: node scripts/watch-source-workbook.mjs
+      - name: Flag that the workbook carries newer Sym data
+        if: steps.workbookwatch.outcome == 'failure'
+        run: |
+          echo "::warning title=Workbook carries newer Sym data::Re-capture with scripts/capture-sheetonmyface.mjs, re-derive with scripts/build-source-overlay.mjs, re-gate with scripts/audit-source-overlay.mjs, then rerun the Combat Engine."
       - name: Watch Sym.gg for a newer BF6 dataset
         id: symwatch
         continue-on-error: true

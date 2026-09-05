@@ -25,6 +25,7 @@
  */
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { applyOverlays, loadOverlayDoc, readPath, contentSha256 } from './source-overlay.mjs';
+import { MIRROR_FIELDS } from './sym-field-map.mjs';
 
 const errors = [];
 const notes = [];
@@ -92,12 +93,7 @@ for (const e of result.errors) fail(`applier: ${e}`);
 const effective = new Map(result.weapons.map(w => [w.id, w]));
 
 // ------------------------------------------------------- 3/4. derived + invariants
-const MIRRORS = [
-  { path: 'recoilDir', of: 'recoil.ads.dir' },
-  { path: 'recoilVar', of: 'recoil.ads.dirVar' },
-  { path: 'recoilIncAds', of: 'spreadDyn.ads.inc' },
-  { path: 'spreadMax', of: 'spread.adsStand[1]' }
-];
+const MIRRORS = MIRROR_FIELDS;
 const recoilVof = w => readPath(w, 'recoil.ads.amount') * Math.pow(readPath(w, 'recoil.ads.amountMult'), readPath(w, 'recoil.ads.amountExp'));
 
 for (const w of result.weapons) {

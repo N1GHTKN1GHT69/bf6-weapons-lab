@@ -1,0 +1,2644 @@
+{
+ "generatedAt": "2026-09-05T20:33:44.684Z",
+ "before": {
+  "root": "C:/Users/krish/AppData/Local/Temp/claude/C--Users-krish-Documents-bf6-weapons-lab/6e26a732-3fbd-4392-955e-377c64763757/scratchpad/before",
+  "cacheGeneratedAt": "2026-09-03T10:58:58.673Z",
+  "cacheCommit": "fb7a214778e1e4b5a5113f21ec0dd12136123845"
+ },
+ "after": {
+  "root": "C:\\Users\\krish\\Documents\\bf6-weapons-lab",
+  "cacheGeneratedAt": "2026-09-05T20:25:56.623Z",
+  "cacheCommit": "fb7a214778e1e4b5a5113f21ec0dd12136123845"
+ },
+ "coverage": {
+  "distances": "1-300m exhaustive",
+  "modes": [
+   "MULTIPLAYER",
+   "REDSEC-UNARMORED",
+   "REDSEC-2PLATE"
+  ],
+  "priorities": [
+   "balanced",
+   "fastest"
+  ],
+  "scopes": [
+   "__all__",
+   "Assault Rifle",
+   "Carbine",
+   "SMG",
+   "LMG",
+   "DMR",
+   "Sniper Rifle",
+   "Shotgun"
+  ],
+  "rankingCasesPerSide": 14400
+ },
+ "rawStats": {
+  "changedWeapons": [
+   "l115",
+   "brod3",
+   "ef88",
+   "vssm"
+  ],
+  "changeCount": 39,
+  "changes": [
+   {
+    "weaponId": "l115",
+    "path": "bulletVel",
+    "before": 664,
+    "after": 742
+   },
+   {
+    "weaponId": "brod3",
+    "path": "bulletVel",
+    "before": 580,
+    "after": 563
+   },
+   {
+    "weaponId": "brod3",
+    "path": "recoilIncAds",
+    "before": 0.228,
+    "after": 0.304
+   },
+   {
+    "weaponId": "brod3",
+    "path": "spreadDyn.ads.inc",
+    "before": 0.228,
+    "after": 0.304
+   },
+   {
+    "weaponId": "brod3",
+    "path": "spreadDyn.ads.firingCoef",
+    "before": 1.22,
+    "after": 1.2
+   },
+   {
+    "weaponId": "brod3",
+    "path": "spreadDyn.ads.firingOffset",
+    "before": 1.84,
+    "after": 2.7
+   },
+   {
+    "weaponId": "brod3",
+    "path": "spreadDyn.ads.distExp",
+    "before": 0.67,
+    "after": 0.5
+   },
+   {
+    "weaponId": "brod3",
+    "path": "spreadDyn.hip.inc",
+    "before": 0.41,
+    "after": 0.547
+   },
+   {
+    "weaponId": "brod3",
+    "path": "spreadDyn.hip.firingCoef",
+    "before": 0.51,
+    "after": 0.5
+   },
+   {
+    "weaponId": "brod3",
+    "path": "spreadDyn.hip.firingOffset",
+    "before": 3.31,
+    "after": 4.86
+   },
+   {
+    "weaponId": "brod3",
+    "path": "spread.adsMove[0]",
+    "before": 0.35,
+    "after": 0.32
+   },
+   {
+    "weaponId": "ef88",
+    "path": "bulletVel",
+    "before": 670,
+    "after": 724
+   },
+   {
+    "weaponId": "ef88",
+    "path": "recoilV",
+    "before": 0.6720006428699492,
+    "after": 0.7239300740740741
+   },
+   {
+    "weaponId": "ef88",
+    "path": "recoilVar",
+    "before": 20.3,
+    "after": 26.1
+   },
+   {
+    "weaponId": "ef88",
+    "path": "recoilIncAds",
+    "before": 0.3,
+    "after": 0.36
+   },
+   {
+    "weaponId": "ef88",
+    "path": "spreadDyn.ads.inc",
+    "before": 0.3,
+    "after": 0.36
+   },
+   {
+    "weaponId": "ef88",
+    "path": "spreadDyn.ads.idleTime",
+    "before": 0.6,
+    "after": 0.4
+   },
+   {
+    "weaponId": "ef88",
+    "path": "spreadDyn.ads.firingCoef",
+    "before": 1.04,
+    "after": 1.2
+   },
+   {
+    "weaponId": "ef88",
+    "path": "spreadDyn.ads.firingOffset",
+    "before": 2.05,
+    "after": 2.7
+   },
+   {
+    "weaponId": "ef88",
+    "path": "spreadDyn.ads.notFiringOffset",
+    "before": 8,
+    "after": 7.2
+   },
+   {
+    "weaponId": "ef88",
+    "path": "spreadDyn.ads.distExp",
+    "before": 0.67,
+    "after": 0.5
+   },
+   {
+    "weaponId": "ef88",
+    "path": "spreadDyn.hip.inc",
+    "before": 0.54,
+    "after": 0.648
+   },
+   {
+    "weaponId": "ef88",
+    "path": "spreadDyn.hip.firingCoef",
+    "before": 0.43,
+    "after": 0.5
+   },
+   {
+    "weaponId": "ef88",
+    "path": "spreadDyn.hip.firingOffset",
+    "before": 3.69,
+    "after": 4.86
+   },
+   {
+    "weaponId": "ef88",
+    "path": "spreadDyn.hip.notFiringOffset",
+    "before": 14.4,
+    "after": 12.96
+   },
+   {
+    "weaponId": "ef88",
+    "path": "recoil.ads.amount",
+    "before": 0.59065,
+    "after": 0.5965
+   },
+   {
+    "weaponId": "ef88",
+    "path": "recoil.ads.amountMult",
+    "before": 0.9579,
+    "after": 0.9375
+   },
+   {
+    "weaponId": "ef88",
+    "path": "recoil.ads.dirVar",
+    "before": 20.3,
+    "after": 26.1
+   },
+   {
+    "weaponId": "ef88",
+    "path": "recoil.ads.dirVarMult",
+    "before": 0.89864,
+    "after": 0.915366
+   },
+   {
+    "weaponId": "ef88",
+    "path": "recoil.hip.amount",
+    "before": 0.59065,
+    "after": 0.5965
+   },
+   {
+    "weaponId": "ef88",
+    "path": "recoil.hip.amountMult",
+    "before": 0.9579,
+    "after": 0.9375
+   },
+   {
+    "weaponId": "ef88",
+    "path": "recoil.hip.dirVar",
+    "before": 20.3,
+    "after": 26.1
+   },
+   {
+    "weaponId": "ef88",
+    "path": "recoil.hip.dirVarMult",
+    "before": 0.9160025,
+    "after": 0.915366
+   },
+   {
+    "weaponId": "ef88",
+    "path": "spread.adsStand[0]",
+    "before": 0.1,
+    "after": 0.05
+   },
+   {
+    "weaponId": "ef88",
+    "path": "spread.adsMove[0]",
+    "before": 0.25,
+    "after": 0.32
+   },
+   {
+    "weaponId": "ef88",
+    "path": "reloadSpeed",
+    "before": 0.987893,
+    "after": 1
+   },
+   {
+    "weaponId": "vssm",
+    "path": "spread.adsMove[0]",
+    "before": 0.35,
+    "after": 0.32
+   },
+   {
+    "weaponId": "vssm",
+    "path": "spread.hipStand[0]",
+    "before": 3.352,
+    "after": 1.804
+   },
+   {
+    "weaponId": "vssm",
+    "path": "spread.hipMove[0]",
+    "before": 4.19,
+    "after": 2.255
+   }
+  ]
+ },
+ "cachedResults": {
+  "changedWeapons": [
+   "brod3",
+   "ef88",
+   "l115"
+  ],
+  "detail": [
+   {
+    "weaponId": "brod3",
+    "name": "BROD 3",
+    "cls": "Carbine",
+    "fields": {
+     "best.triggerTtk": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 218.7272,
+        "after": 218.7793
+       },
+       {
+        "d": 2,
+        "before": 220.4604,
+        "after": 220.5649
+       },
+       {
+        "d": 3,
+        "before": 222.1997,
+        "after": 222.3567
+       }
+      ]
+     },
+     "best.flightMs": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 1.7272,
+        "after": 1.7793
+       },
+       {
+        "d": 2,
+        "before": 3.4604,
+        "after": 3.5649
+       },
+       {
+        "d": 3,
+        "before": 5.1997,
+        "after": 5.3567
+       }
+      ]
+     },
+     "best.beamIndex": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 2.313664,
+        "after": 2.416727
+       },
+       {
+        "d": 2,
+        "before": 2.332038,
+        "after": 2.436163
+       },
+       {
+        "d": 3,
+        "before": 2.350412,
+        "after": 2.4556
+       }
+      ]
+     },
+     "best.effectiveAdsSpreadDeg": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 0.673,
+        "after": 0.724
+       },
+       {
+        "d": 2,
+        "before": 0.673,
+        "after": 0.724
+       },
+       {
+        "d": 3,
+        "before": 0.673,
+        "after": 0.724
+       }
+      ]
+     },
+     "best.buildId": {
+      "count": 1,
+      "bands": [
+       {
+        "from": 11,
+        "to": 11
+       }
+      ],
+      "bandText": "11m",
+      "samples": [
+       {
+        "d": 11,
+        "before": "b_9a7a9fb8489c0e85",
+        "after": "b_7fc0dda5615235ba"
+       }
+      ]
+     },
+     "best.points": {
+      "count": 1,
+      "bands": [
+       {
+        "from": 11,
+        "to": 11
+       }
+      ],
+      "bandText": "11m",
+      "samples": [
+       {
+        "d": 11,
+        "before": 100,
+        "after": 85
+       }
+      ]
+     },
+     "best.movingAdsMinSpreadDeg": {
+      "count": 1,
+      "bands": [
+       {
+        "from": 11,
+        "to": 11
+       }
+      ],
+      "bandText": "11m",
+      "samples": [
+       {
+        "d": 11,
+        "before": 0.22,
+        "after": 0.32
+       }
+      ]
+     },
+     "bestLethal.triggerTtk": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 218.3817,
+        "after": 218.425
+       },
+       {
+        "d": 2,
+        "before": 219.7683,
+        "after": 219.8549
+       },
+       {
+        "d": 3,
+        "before": 221.1597,
+        "after": 221.2899
+       }
+      ]
+     },
+     "bestLethal.flightMs": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 1.3817,
+        "after": 1.425
+       },
+       {
+        "d": 2,
+        "before": 2.7683,
+        "after": 2.8549
+       },
+       {
+        "d": 3,
+        "before": 4.1597,
+        "after": 4.2899
+       }
+      ]
+     },
+     "bestLethal.beamIndex": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 2.349206,
+        "after": 2.452268
+       },
+       {
+        "d": 2,
+        "before": 2.368122,
+        "after": 2.472247
+       },
+       {
+        "d": 3,
+        "before": 2.387037,
+        "after": 2.492225
+       }
+      ]
+     },
+     "bestLethal.effectiveAdsSpreadDeg": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 0.673,
+        "after": 0.724
+       },
+       {
+        "d": 2,
+        "before": 0.673,
+        "after": 0.724
+       },
+       {
+        "d": 3,
+        "before": 0.673,
+        "after": 0.724
+       }
+      ]
+     }
+    }
+   },
+   {
+    "weaponId": "ef88",
+    "name": "EF88",
+    "cls": "Assault Rifle",
+    "fields": {
+     "best.triggerTtk": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 268.1968,
+        "after": 268.1069
+       },
+       {
+        "d": 2,
+        "before": 269.3979,
+        "after": 269.2177
+       },
+       {
+        "d": 3,
+        "before": 270.6031,
+        "after": 270.3324
+       }
+      ]
+     },
+     "best.flightMs": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 1.1968,
+        "after": 1.1069
+       },
+       {
+        "d": 2,
+        "before": 2.3979,
+        "after": 2.2177
+       },
+       {
+        "d": 3,
+        "before": 3.6031,
+        "after": 3.3324
+       }
+      ]
+     },
+     "best.beamIndex": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 1.323218,
+        "after": 1.08435
+       },
+       {
+        "d": 2,
+        "before": 1.332361,
+        "after": 1.090292
+       },
+       {
+        "d": 3,
+        "before": 1.341504,
+        "after": 1.096235
+       }
+      ]
+     },
+     "best.recoil": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 0.519,
+        "after": 0.559
+       },
+       {
+        "d": 2,
+        "before": 0.519,
+        "after": 0.559
+       },
+       {
+        "d": 3,
+        "before": 0.519,
+        "after": 0.559
+       }
+      ]
+     },
+     "best.effectiveAdsSpreadDeg": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 0.229,
+        "after": 0.05
+       },
+       {
+        "d": 2,
+        "before": 0.229,
+        "after": 0.05
+       },
+       {
+        "d": 3,
+        "before": 0.229,
+        "after": 0.05
+       }
+      ]
+     },
+     "bestLethal.triggerTtk": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 268.1968,
+        "after": 268.1069
+       },
+       {
+        "d": 2,
+        "before": 269.3979,
+        "after": 269.2177
+       },
+       {
+        "d": 3,
+        "before": 270.6031,
+        "after": 270.3324
+       }
+      ]
+     },
+     "bestLethal.flightMs": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 1.1968,
+        "after": 1.1069
+       },
+       {
+        "d": 2,
+        "before": 2.3979,
+        "after": 2.2177
+       },
+       {
+        "d": 3,
+        "before": 3.6031,
+        "after": 3.3324
+       }
+      ]
+     },
+     "bestLethal.beamIndex": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 1.323218,
+        "after": 1.08435
+       },
+       {
+        "d": 2,
+        "before": 1.332361,
+        "after": 1.090292
+       },
+       {
+        "d": 3,
+        "before": 1.341504,
+        "after": 1.096235
+       }
+      ]
+     },
+     "bestLethal.recoil": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 0.519,
+        "after": 0.559
+       },
+       {
+        "d": 2,
+        "before": 0.519,
+        "after": 0.559
+       },
+       {
+        "d": 3,
+        "before": 0.519,
+        "after": 0.559
+       }
+      ]
+     },
+     "bestLethal.effectiveAdsSpreadDeg": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 0.229,
+        "after": 0.05
+       },
+       {
+        "d": 2,
+        "before": 0.229,
+        "after": 0.05
+       },
+       {
+        "d": 3,
+        "before": 0.229,
+        "after": 0.05
+       }
+      ]
+     }
+    }
+   },
+   {
+    "weaponId": "l115",
+    "name": "L115",
+    "cls": "Sniper Rifle",
+    "fields": {
+     "best.triggerTtk": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 1305.5087,
+        "after": 1305.3501
+       },
+       {
+        "d": 2,
+        "before": 1307.0226,
+        "after": 1306.7049
+       },
+       {
+        "d": 3,
+        "before": 1308.5419,
+        "after": 1308.0644
+       }
+      ]
+     },
+     "best.flightMs": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 1.5087,
+        "after": 1.3501
+       },
+       {
+        "d": 2,
+        "before": 3.0226,
+        "after": 2.7049
+       },
+       {
+        "d": 3,
+        "before": 4.5419,
+        "after": 4.0644
+       }
+      ]
+     },
+     "best.buildId": {
+      "count": 16,
+      "bands": [
+       {
+        "from": 93,
+        "to": 99
+       },
+       {
+        "from": 239,
+        "to": 247
+       }
+      ],
+      "bandText": "93-99m, 239-247m",
+      "samples": [
+       {
+        "d": 93,
+        "before": "b_f1a04921b26413aa",
+        "after": "b_8861c31d1d5d317b"
+       },
+       {
+        "d": 94,
+        "before": "b_f1a04921b26413aa",
+        "after": "b_8861c31d1d5d317b"
+       },
+       {
+        "d": 95,
+        "before": "b_f1a04921b26413aa",
+        "after": "b_8861c31d1d5d317b"
+       }
+      ]
+     },
+     "best.points": {
+      "count": 7,
+      "bands": [
+       {
+        "from": 93,
+        "to": 99
+       }
+      ],
+      "bandText": "93-99m",
+      "samples": [
+       {
+        "d": 93,
+        "before": 95,
+        "after": 100
+       },
+       {
+        "d": 94,
+        "before": 95,
+        "after": 100
+       },
+       {
+        "d": 95,
+        "before": 95,
+        "after": 100
+       }
+      ]
+     },
+     "best.beamIndex": {
+      "count": 16,
+      "bands": [
+       {
+        "from": 93,
+        "to": 99
+       },
+       {
+        "from": 239,
+        "to": 247
+       }
+      ],
+      "bandText": "93-99m, 239-247m",
+      "samples": [
+       {
+        "d": 93,
+        "before": 2.817929,
+        "after": 2.741092
+       },
+       {
+        "d": 94,
+        "before": 2.825424,
+        "after": 2.748099
+       },
+       {
+        "d": 95,
+        "before": 2.832918,
+        "after": 2.755106
+       }
+      ]
+     },
+     "best.movingAdsMinSpreadDeg": {
+      "count": 7,
+      "bands": [
+       {
+        "from": 93,
+        "to": 99
+       }
+      ],
+      "bandText": "93-99m",
+      "samples": [
+       {
+        "d": 93,
+        "before": 0.22,
+        "after": 0.13
+       },
+       {
+        "d": 94,
+        "before": 0.22,
+        "after": 0.13
+       },
+       {
+        "d": 95,
+        "before": 0.22,
+        "after": 0.13
+       }
+      ]
+     },
+     "best.recoil": {
+      "count": 9,
+      "bands": [
+       {
+        "from": 239,
+        "to": 247
+       }
+      ],
+      "bandText": "239-247m",
+      "samples": [
+       {
+        "d": 239,
+        "before": 2,
+        "after": 1.88
+       },
+       {
+        "d": 240,
+        "before": 2,
+        "after": 1.88
+       },
+       {
+        "d": 241,
+        "before": 2,
+        "after": 1.88
+       }
+      ]
+     },
+     "bestLethal.triggerTtk": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 1305.206,
+        "after": 1305.0798
+       },
+       {
+        "d": 2,
+        "before": 1306.4145,
+        "after": 1306.1618
+       },
+       {
+        "d": 3,
+        "before": 1307.6253,
+        "after": 1307.246
+       }
+      ]
+     },
+     "bestLethal.flightMs": {
+      "count": 300,
+      "bands": [
+       {
+        "from": 1,
+        "to": 300
+       }
+      ],
+      "bandText": "1-300m",
+      "samples": [
+       {
+        "d": 1,
+        "before": 1.206,
+        "after": 1.0798
+       },
+       {
+        "d": 2,
+        "before": 2.4145,
+        "after": 2.1618
+       },
+       {
+        "d": 3,
+        "before": 3.6253,
+        "after": 3.246
+       }
+      ]
+     }
+    }
+   }
+  ]
+ },
+ "rankings": [
+  {
+   "mode": "MULTIPLAYER",
+   "priority": "balanced",
+   "scope": "__all__",
+   "winnerChanged": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "top3Changed": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "positionMoves": [
+    {
+     "weaponId": "l115",
+     "count": 56,
+     "bandText": "172-180m, 193-199m, 215-227m, 256-265m, 270-281m, 296-300m",
+     "maxMove": 2,
+     "sample": {
+      "d": 174,
+      "before": 47,
+      "after": 45
+     }
+    },
+    {
+     "weaponId": "sg553r",
+     "count": 13,
+     "bandText": "215-227m",
+     "maxMove": 1,
+     "sample": {
+      "d": 215,
+      "before": 43,
+      "after": 44
+     }
+    },
+    {
+     "weaponId": "m417a2",
+     "count": 12,
+     "bandText": "270-281m",
+     "maxMove": 1,
+     "sample": {
+      "d": 270,
+      "before": 41,
+      "after": 42
+     }
+    },
+    {
+     "weaponId": "sgx",
+     "count": 10,
+     "bandText": "256-265m",
+     "maxMove": 1,
+     "sample": {
+      "d": 256,
+      "before": 42,
+      "after": 43
+     }
+    },
+    {
+     "weaponId": "cz3a1",
+     "count": 7,
+     "bandText": "172-178m",
+     "maxMove": 1,
+     "sample": {
+      "d": 172,
+      "before": 46,
+      "after": 47
+     }
+    },
+    {
+     "weaponId": "scw10",
+     "count": 7,
+     "bandText": "174-180m",
+     "maxMove": 1,
+     "sample": {
+      "d": 174,
+      "before": 45,
+      "after": 46
+     }
+    },
+    {
+     "weaponId": "kv9",
+     "count": 7,
+     "bandText": "193-199m",
+     "maxMove": 1,
+     "sample": {
+      "d": 193,
+      "before": 44,
+      "after": 45
+     }
+    },
+    {
+     "weaponId": "m433",
+     "count": 5,
+     "bandText": "296-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 296,
+      "before": 39,
+      "after": 40
+     }
+    }
+   ]
+  },
+  {
+   "mode": "MULTIPLAYER",
+   "priority": "balanced",
+   "scope": "Assault Rifle",
+   "winnerChanged": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "top3Changed": {
+    "count": 58,
+    "bandText": "235-292m",
+    "samples": [
+     {
+      "d": 235,
+      "before": "l85a3>b36a4>sor556",
+      "after": "l85a3>ef88>b36a4"
+     },
+     {
+      "d": 236,
+      "before": "l85a3>b36a4>sor556",
+      "after": "l85a3>ef88>b36a4"
+     },
+     {
+      "d": 237,
+      "before": "l85a3>b36a4>sor556",
+      "after": "l85a3>ef88>b36a4"
+     },
+     {
+      "d": 238,
+      "before": "l85a3>b36a4>sor556",
+      "after": "l85a3>ef88>b36a4"
+     },
+     {
+      "d": 239,
+      "before": "l85a3>b36a4>sor556",
+      "after": "l85a3>ef88>b36a4"
+     }
+    ]
+   },
+   "positionMoves": [
+    {
+     "weaponId": "ef88",
+     "count": 288,
+     "bandText": "1-41m, 54-300m",
+     "maxMove": 6,
+     "sample": {
+      "d": 10,
+      "before": 10,
+      "after": 4
+     }
+    },
+    {
+     "weaponId": "m16a4",
+     "count": 282,
+     "bandText": "1-15m, 22-41m, 54-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 1,
+      "before": 8,
+      "after": 9
+     }
+    },
+    {
+     "weaponId": "b36a4",
+     "count": 202,
+     "bandText": "1-21m, 54-176m, 235-292m",
+     "maxMove": 1,
+     "sample": {
+      "d": 1,
+      "before": 5,
+      "after": 6
+     }
+    },
+    {
+     "weaponId": "kord6p67",
+     "count": 66,
+     "bandText": "235-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 235,
+      "before": 4,
+      "after": 5
+     }
+    },
+    {
+     "weaponId": "sor556",
+     "count": 58,
+     "bandText": "235-292m",
+     "maxMove": 1,
+     "sample": {
+      "d": 235,
+      "before": 3,
+      "after": 4
+     }
+    },
+    {
+     "weaponId": "vcr2",
+     "count": 32,
+     "bandText": "2-33m",
+     "maxMove": 1,
+     "sample": {
+      "d": 2,
+      "before": 7,
+      "after": 8
+     }
+    },
+    {
+     "weaponId": "m433",
+     "count": 23,
+     "bandText": "10-32m",
+     "maxMove": 1,
+     "sample": {
+      "d": 10,
+      "before": 7,
+      "after": 8
+     }
+    },
+    {
+     "weaponId": "ak4d",
+     "count": 21,
+     "bandText": "1-21m",
+     "maxMove": 1,
+     "sample": {
+      "d": 1,
+      "before": 7,
+      "after": 8
+     }
+    },
+    {
+     "weaponId": "tr7",
+     "count": 19,
+     "bandText": "1-19m",
+     "maxMove": 1,
+     "sample": {
+      "d": 1,
+      "before": 6,
+      "after": 7
+     }
+    }
+   ]
+  },
+  {
+   "mode": "MULTIPLAYER",
+   "priority": "balanced",
+   "scope": "Carbine",
+   "winnerChanged": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "top3Changed": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "positionMoves": [
+    {
+     "weaponId": "brod3",
+     "count": 300,
+     "bandText": "1-300m",
+     "maxMove": 2,
+     "sample": {
+      "d": 1,
+      "before": 6,
+      "after": 8
+     }
+    },
+    {
+     "weaponId": "grtbc",
+     "count": 300,
+     "bandText": "1-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 1,
+      "before": 8,
+      "after": 7
+     }
+    },
+    {
+     "weaponId": "sor300sc",
+     "count": 65,
+     "bandText": "236-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 236,
+      "before": 5,
+      "after": 4
+     }
+    },
+    {
+     "weaponId": "m277",
+     "count": 9,
+     "bandText": "1-9m",
+     "maxMove": 1,
+     "sample": {
+      "d": 1,
+      "before": 7,
+      "after": 6
+     }
+    },
+    {
+     "weaponId": "sg553r",
+     "count": 8,
+     "bandText": "14-21m",
+     "maxMove": 1,
+     "sample": {
+      "d": 14,
+      "before": 7,
+      "after": 6
+     }
+    }
+   ]
+  },
+  {
+   "mode": "MULTIPLAYER",
+   "priority": "fastest",
+   "scope": "__all__",
+   "winnerChanged": {
+    "count": 20,
+    "bandText": "101-120m",
+    "samples": [
+     {
+      "d": 101,
+      "before": "psr",
+      "after": "l115"
+     },
+     {
+      "d": 102,
+      "before": "psr",
+      "after": "l115"
+     },
+     {
+      "d": 103,
+      "before": "psr",
+      "after": "l115"
+     },
+     {
+      "d": 104,
+      "before": "psr",
+      "after": "l115"
+     },
+     {
+      "d": 105,
+      "before": "psr",
+      "after": "l115"
+     }
+    ]
+   },
+   "top3Changed": {
+    "count": 21,
+    "bandText": "100-120m",
+    "samples": [
+     {
+      "d": 100,
+      "before": "m2010esr>psr>l115",
+      "after": "m2010esr>l115>psr"
+     },
+     {
+      "d": 101,
+      "before": "psr>l115>m250",
+      "after": "l115>psr>m250"
+     },
+     {
+      "d": 102,
+      "before": "psr>l115>m250",
+      "after": "l115>psr>m250"
+     },
+     {
+      "d": 103,
+      "before": "psr>l115>m250",
+      "after": "l115>psr>m250"
+     },
+     {
+      "d": 104,
+      "before": "psr>l115>m250",
+      "after": "l115>psr>m250"
+     }
+    ]
+   },
+   "positionMoves": [
+    {
+     "weaponId": "psr",
+     "count": 21,
+     "bandText": "100-120m",
+     "maxMove": 1,
+     "sample": {
+      "d": 100,
+      "before": 2,
+      "after": 3
+     }
+    },
+    {
+     "weaponId": "l115",
+     "count": 21,
+     "bandText": "100-120m",
+     "maxMove": 1,
+     "sample": {
+      "d": 100,
+      "before": 3,
+      "after": 2
+     }
+    }
+   ]
+  },
+  {
+   "mode": "MULTIPLAYER",
+   "priority": "fastest",
+   "scope": "Assault Rifle",
+   "winnerChanged": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "top3Changed": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "positionMoves": [
+    {
+     "weaponId": "ef88",
+     "count": 123,
+     "bandText": "74-75m, 127-236m, 290-300m",
+     "maxMove": 2,
+     "sample": {
+      "d": 74,
+      "before": 8,
+      "after": 6
+     }
+    },
+    {
+     "weaponId": "l85a3",
+     "count": 104,
+     "bandText": "133-236m",
+     "maxMove": 1,
+     "sample": {
+      "d": 133,
+      "before": 7,
+      "after": 8
+     }
+    },
+    {
+     "weaponId": "kord6p67",
+     "count": 48,
+     "bandText": "74-75m, 127-172m",
+     "maxMove": 1,
+     "sample": {
+      "d": 74,
+      "before": 7,
+      "after": 8
+     }
+    },
+    {
+     "weaponId": "m433",
+     "count": 11,
+     "bandText": "290-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 290,
+      "before": 6,
+      "after": 7
+     }
+    },
+    {
+     "weaponId": "tr7",
+     "count": 9,
+     "bandText": "292-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 292,
+      "before": 5,
+      "after": 6
+     }
+    },
+    {
+     "weaponId": "ak4d",
+     "count": 2,
+     "bandText": "74-75m",
+     "maxMove": 1,
+     "sample": {
+      "d": 74,
+      "before": 6,
+      "after": 7
+     }
+    }
+   ]
+  },
+  {
+   "mode": "MULTIPLAYER",
+   "priority": "fastest",
+   "scope": "Carbine",
+   "winnerChanged": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "top3Changed": {
+    "count": 264,
+    "bandText": "37-300m",
+    "samples": [
+     {
+      "d": 37,
+      "before": "m277>m4a1>brod3",
+      "after": "m277>m4a1>grtbc"
+     },
+     {
+      "d": 38,
+      "before": "m277>m4a1>brod3",
+      "after": "m277>m4a1>grtbc"
+     },
+     {
+      "d": 39,
+      "before": "m277>m4a1>brod3",
+      "after": "m277>m4a1>grtbc"
+     },
+     {
+      "d": 40,
+      "before": "m277>m4a1>brod3",
+      "after": "m277>m4a1>grtbc"
+     },
+     {
+      "d": 41,
+      "before": "m277>m4a1>brod3",
+      "after": "m277>m4a1>grtbc"
+     }
+    ]
+   },
+   "positionMoves": [
+    {
+     "weaponId": "brod3",
+     "count": 300,
+     "bandText": "1-300m",
+     "maxMove": 2,
+     "sample": {
+      "d": 215,
+      "before": 3,
+      "after": 5
+     }
+    },
+    {
+     "weaponId": "grtbc",
+     "count": 300,
+     "bandText": "1-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 1,
+      "before": 6,
+      "after": 5
+     }
+    },
+    {
+     "weaponId": "qbz192",
+     "count": 86,
+     "bandText": "215-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 215,
+      "before": 4,
+      "after": 3
+     }
+    }
+   ]
+  },
+  {
+   "mode": "MULTIPLAYER",
+   "priority": "fastest",
+   "scope": "Sniper Rifle",
+   "winnerChanged": {
+    "count": 20,
+    "bandText": "101-120m",
+    "samples": [
+     {
+      "d": 101,
+      "before": "psr",
+      "after": "l115"
+     },
+     {
+      "d": 102,
+      "before": "psr",
+      "after": "l115"
+     },
+     {
+      "d": 103,
+      "before": "psr",
+      "after": "l115"
+     },
+     {
+      "d": 104,
+      "before": "psr",
+      "after": "l115"
+     },
+     {
+      "d": 105,
+      "before": "psr",
+      "after": "l115"
+     }
+    ]
+   },
+   "top3Changed": {
+    "count": 21,
+    "bandText": "100-120m",
+    "samples": [
+     {
+      "d": 100,
+      "before": "m2010esr>psr>l115",
+      "after": "m2010esr>l115>psr"
+     },
+     {
+      "d": 101,
+      "before": "psr>l115>miniscout",
+      "after": "l115>psr>miniscout"
+     },
+     {
+      "d": 102,
+      "before": "psr>l115>miniscout",
+      "after": "l115>psr>miniscout"
+     },
+     {
+      "d": 103,
+      "before": "psr>l115>miniscout",
+      "after": "l115>psr>miniscout"
+     },
+     {
+      "d": 104,
+      "before": "psr>l115>miniscout",
+      "after": "l115>psr>miniscout"
+     }
+    ]
+   },
+   "positionMoves": [
+    {
+     "weaponId": "psr",
+     "count": 21,
+     "bandText": "100-120m",
+     "maxMove": 1,
+     "sample": {
+      "d": 100,
+      "before": 2,
+      "after": 3
+     }
+    },
+    {
+     "weaponId": "l115",
+     "count": 21,
+     "bandText": "100-120m",
+     "maxMove": 1,
+     "sample": {
+      "d": 100,
+      "before": 3,
+      "after": 2
+     }
+    }
+   ]
+  },
+  {
+   "mode": "REDSEC-UNARMORED",
+   "priority": "balanced",
+   "scope": "__all__",
+   "winnerChanged": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "top3Changed": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "positionMoves": [
+    {
+     "weaponId": "l115",
+     "count": 56,
+     "bandText": "172-180m, 193-199m, 215-227m, 256-265m, 270-281m, 296-300m",
+     "maxMove": 2,
+     "sample": {
+      "d": 174,
+      "before": 47,
+      "after": 45
+     }
+    },
+    {
+     "weaponId": "sg553r",
+     "count": 13,
+     "bandText": "215-227m",
+     "maxMove": 1,
+     "sample": {
+      "d": 215,
+      "before": 43,
+      "after": 44
+     }
+    },
+    {
+     "weaponId": "m417a2",
+     "count": 12,
+     "bandText": "270-281m",
+     "maxMove": 1,
+     "sample": {
+      "d": 270,
+      "before": 41,
+      "after": 42
+     }
+    },
+    {
+     "weaponId": "sgx",
+     "count": 10,
+     "bandText": "256-265m",
+     "maxMove": 1,
+     "sample": {
+      "d": 256,
+      "before": 42,
+      "after": 43
+     }
+    },
+    {
+     "weaponId": "cz3a1",
+     "count": 7,
+     "bandText": "172-178m",
+     "maxMove": 1,
+     "sample": {
+      "d": 172,
+      "before": 46,
+      "after": 47
+     }
+    },
+    {
+     "weaponId": "scw10",
+     "count": 7,
+     "bandText": "174-180m",
+     "maxMove": 1,
+     "sample": {
+      "d": 174,
+      "before": 45,
+      "after": 46
+     }
+    },
+    {
+     "weaponId": "kv9",
+     "count": 7,
+     "bandText": "193-199m",
+     "maxMove": 1,
+     "sample": {
+      "d": 193,
+      "before": 44,
+      "after": 45
+     }
+    },
+    {
+     "weaponId": "m433",
+     "count": 5,
+     "bandText": "296-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 296,
+      "before": 39,
+      "after": 40
+     }
+    }
+   ]
+  },
+  {
+   "mode": "REDSEC-UNARMORED",
+   "priority": "balanced",
+   "scope": "Assault Rifle",
+   "winnerChanged": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "top3Changed": {
+    "count": 58,
+    "bandText": "235-292m",
+    "samples": [
+     {
+      "d": 235,
+      "before": "l85a3>b36a4>sor556",
+      "after": "l85a3>ef88>b36a4"
+     },
+     {
+      "d": 236,
+      "before": "l85a3>b36a4>sor556",
+      "after": "l85a3>ef88>b36a4"
+     },
+     {
+      "d": 237,
+      "before": "l85a3>b36a4>sor556",
+      "after": "l85a3>ef88>b36a4"
+     },
+     {
+      "d": 238,
+      "before": "l85a3>b36a4>sor556",
+      "after": "l85a3>ef88>b36a4"
+     },
+     {
+      "d": 239,
+      "before": "l85a3>b36a4>sor556",
+      "after": "l85a3>ef88>b36a4"
+     }
+    ]
+   },
+   "positionMoves": [
+    {
+     "weaponId": "ef88",
+     "count": 288,
+     "bandText": "1-41m, 54-300m",
+     "maxMove": 6,
+     "sample": {
+      "d": 10,
+      "before": 10,
+      "after": 4
+     }
+    },
+    {
+     "weaponId": "m16a4",
+     "count": 282,
+     "bandText": "1-15m, 22-41m, 54-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 1,
+      "before": 8,
+      "after": 9
+     }
+    },
+    {
+     "weaponId": "b36a4",
+     "count": 202,
+     "bandText": "1-21m, 54-176m, 235-292m",
+     "maxMove": 1,
+     "sample": {
+      "d": 1,
+      "before": 5,
+      "after": 6
+     }
+    },
+    {
+     "weaponId": "kord6p67",
+     "count": 66,
+     "bandText": "235-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 235,
+      "before": 4,
+      "after": 5
+     }
+    },
+    {
+     "weaponId": "sor556",
+     "count": 58,
+     "bandText": "235-292m",
+     "maxMove": 1,
+     "sample": {
+      "d": 235,
+      "before": 3,
+      "after": 4
+     }
+    },
+    {
+     "weaponId": "vcr2",
+     "count": 32,
+     "bandText": "2-33m",
+     "maxMove": 1,
+     "sample": {
+      "d": 2,
+      "before": 7,
+      "after": 8
+     }
+    },
+    {
+     "weaponId": "m433",
+     "count": 23,
+     "bandText": "10-32m",
+     "maxMove": 1,
+     "sample": {
+      "d": 10,
+      "before": 7,
+      "after": 8
+     }
+    },
+    {
+     "weaponId": "ak4d",
+     "count": 21,
+     "bandText": "1-21m",
+     "maxMove": 1,
+     "sample": {
+      "d": 1,
+      "before": 7,
+      "after": 8
+     }
+    },
+    {
+     "weaponId": "tr7",
+     "count": 19,
+     "bandText": "1-19m",
+     "maxMove": 1,
+     "sample": {
+      "d": 1,
+      "before": 6,
+      "after": 7
+     }
+    }
+   ]
+  },
+  {
+   "mode": "REDSEC-UNARMORED",
+   "priority": "balanced",
+   "scope": "Carbine",
+   "winnerChanged": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "top3Changed": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "positionMoves": [
+    {
+     "weaponId": "brod3",
+     "count": 300,
+     "bandText": "1-300m",
+     "maxMove": 2,
+     "sample": {
+      "d": 1,
+      "before": 6,
+      "after": 8
+     }
+    },
+    {
+     "weaponId": "grtbc",
+     "count": 300,
+     "bandText": "1-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 1,
+      "before": 8,
+      "after": 7
+     }
+    },
+    {
+     "weaponId": "sor300sc",
+     "count": 65,
+     "bandText": "236-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 236,
+      "before": 5,
+      "after": 4
+     }
+    },
+    {
+     "weaponId": "m277",
+     "count": 9,
+     "bandText": "1-9m",
+     "maxMove": 1,
+     "sample": {
+      "d": 1,
+      "before": 7,
+      "after": 6
+     }
+    },
+    {
+     "weaponId": "sg553r",
+     "count": 8,
+     "bandText": "14-21m",
+     "maxMove": 1,
+     "sample": {
+      "d": 14,
+      "before": 7,
+      "after": 6
+     }
+    }
+   ]
+  },
+  {
+   "mode": "REDSEC-UNARMORED",
+   "priority": "fastest",
+   "scope": "__all__",
+   "winnerChanged": {
+    "count": 20,
+    "bandText": "101-120m",
+    "samples": [
+     {
+      "d": 101,
+      "before": "psr",
+      "after": "l115"
+     },
+     {
+      "d": 102,
+      "before": "psr",
+      "after": "l115"
+     },
+     {
+      "d": 103,
+      "before": "psr",
+      "after": "l115"
+     },
+     {
+      "d": 104,
+      "before": "psr",
+      "after": "l115"
+     },
+     {
+      "d": 105,
+      "before": "psr",
+      "after": "l115"
+     }
+    ]
+   },
+   "top3Changed": {
+    "count": 21,
+    "bandText": "100-120m",
+    "samples": [
+     {
+      "d": 100,
+      "before": "m2010esr>psr>l115",
+      "after": "m2010esr>l115>psr"
+     },
+     {
+      "d": 101,
+      "before": "psr>l115>m250",
+      "after": "l115>psr>m250"
+     },
+     {
+      "d": 102,
+      "before": "psr>l115>m250",
+      "after": "l115>psr>m250"
+     },
+     {
+      "d": 103,
+      "before": "psr>l115>m250",
+      "after": "l115>psr>m250"
+     },
+     {
+      "d": 104,
+      "before": "psr>l115>m250",
+      "after": "l115>psr>m250"
+     }
+    ]
+   },
+   "positionMoves": [
+    {
+     "weaponId": "psr",
+     "count": 21,
+     "bandText": "100-120m",
+     "maxMove": 1,
+     "sample": {
+      "d": 100,
+      "before": 2,
+      "after": 3
+     }
+    },
+    {
+     "weaponId": "l115",
+     "count": 21,
+     "bandText": "100-120m",
+     "maxMove": 1,
+     "sample": {
+      "d": 100,
+      "before": 3,
+      "after": 2
+     }
+    }
+   ]
+  },
+  {
+   "mode": "REDSEC-UNARMORED",
+   "priority": "fastest",
+   "scope": "Assault Rifle",
+   "winnerChanged": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "top3Changed": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "positionMoves": [
+    {
+     "weaponId": "ef88",
+     "count": 123,
+     "bandText": "74-75m, 127-236m, 290-300m",
+     "maxMove": 2,
+     "sample": {
+      "d": 74,
+      "before": 8,
+      "after": 6
+     }
+    },
+    {
+     "weaponId": "l85a3",
+     "count": 104,
+     "bandText": "133-236m",
+     "maxMove": 1,
+     "sample": {
+      "d": 133,
+      "before": 7,
+      "after": 8
+     }
+    },
+    {
+     "weaponId": "kord6p67",
+     "count": 48,
+     "bandText": "74-75m, 127-172m",
+     "maxMove": 1,
+     "sample": {
+      "d": 74,
+      "before": 7,
+      "after": 8
+     }
+    },
+    {
+     "weaponId": "m433",
+     "count": 11,
+     "bandText": "290-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 290,
+      "before": 6,
+      "after": 7
+     }
+    },
+    {
+     "weaponId": "tr7",
+     "count": 9,
+     "bandText": "292-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 292,
+      "before": 5,
+      "after": 6
+     }
+    },
+    {
+     "weaponId": "ak4d",
+     "count": 2,
+     "bandText": "74-75m",
+     "maxMove": 1,
+     "sample": {
+      "d": 74,
+      "before": 6,
+      "after": 7
+     }
+    }
+   ]
+  },
+  {
+   "mode": "REDSEC-UNARMORED",
+   "priority": "fastest",
+   "scope": "Carbine",
+   "winnerChanged": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "top3Changed": {
+    "count": 264,
+    "bandText": "37-300m",
+    "samples": [
+     {
+      "d": 37,
+      "before": "m277>m4a1>brod3",
+      "after": "m277>m4a1>grtbc"
+     },
+     {
+      "d": 38,
+      "before": "m277>m4a1>brod3",
+      "after": "m277>m4a1>grtbc"
+     },
+     {
+      "d": 39,
+      "before": "m277>m4a1>brod3",
+      "after": "m277>m4a1>grtbc"
+     },
+     {
+      "d": 40,
+      "before": "m277>m4a1>brod3",
+      "after": "m277>m4a1>grtbc"
+     },
+     {
+      "d": 41,
+      "before": "m277>m4a1>brod3",
+      "after": "m277>m4a1>grtbc"
+     }
+    ]
+   },
+   "positionMoves": [
+    {
+     "weaponId": "brod3",
+     "count": 300,
+     "bandText": "1-300m",
+     "maxMove": 2,
+     "sample": {
+      "d": 215,
+      "before": 3,
+      "after": 5
+     }
+    },
+    {
+     "weaponId": "grtbc",
+     "count": 300,
+     "bandText": "1-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 1,
+      "before": 6,
+      "after": 5
+     }
+    },
+    {
+     "weaponId": "qbz192",
+     "count": 86,
+     "bandText": "215-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 215,
+      "before": 4,
+      "after": 3
+     }
+    }
+   ]
+  },
+  {
+   "mode": "REDSEC-UNARMORED",
+   "priority": "fastest",
+   "scope": "Sniper Rifle",
+   "winnerChanged": {
+    "count": 20,
+    "bandText": "101-120m",
+    "samples": [
+     {
+      "d": 101,
+      "before": "psr",
+      "after": "l115"
+     },
+     {
+      "d": 102,
+      "before": "psr",
+      "after": "l115"
+     },
+     {
+      "d": 103,
+      "before": "psr",
+      "after": "l115"
+     },
+     {
+      "d": 104,
+      "before": "psr",
+      "after": "l115"
+     },
+     {
+      "d": 105,
+      "before": "psr",
+      "after": "l115"
+     }
+    ]
+   },
+   "top3Changed": {
+    "count": 21,
+    "bandText": "100-120m",
+    "samples": [
+     {
+      "d": 100,
+      "before": "m2010esr>psr>l115",
+      "after": "m2010esr>l115>psr"
+     },
+     {
+      "d": 101,
+      "before": "psr>l115>miniscout",
+      "after": "l115>psr>miniscout"
+     },
+     {
+      "d": 102,
+      "before": "psr>l115>miniscout",
+      "after": "l115>psr>miniscout"
+     },
+     {
+      "d": 103,
+      "before": "psr>l115>miniscout",
+      "after": "l115>psr>miniscout"
+     },
+     {
+      "d": 104,
+      "before": "psr>l115>miniscout",
+      "after": "l115>psr>miniscout"
+     }
+    ]
+   },
+   "positionMoves": [
+    {
+     "weaponId": "psr",
+     "count": 21,
+     "bandText": "100-120m",
+     "maxMove": 1,
+     "sample": {
+      "d": 100,
+      "before": 2,
+      "after": 3
+     }
+    },
+    {
+     "weaponId": "l115",
+     "count": 21,
+     "bandText": "100-120m",
+     "maxMove": 1,
+     "sample": {
+      "d": 100,
+      "before": 3,
+      "after": 2
+     }
+    }
+   ]
+  },
+  {
+   "mode": "REDSEC-2PLATE",
+   "priority": "balanced",
+   "scope": "Assault Rifle",
+   "winnerChanged": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "top3Changed": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "positionMoves": [
+    {
+     "weaponId": "ef88",
+     "count": 274,
+     "bandText": "1-49m, 76-300m",
+     "maxMove": 4,
+     "sample": {
+      "d": 9,
+      "before": 9,
+      "after": 5
+     }
+    },
+    {
+     "weaponId": "m16a4",
+     "count": 234,
+     "bandText": "1-9m, 76-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 1,
+      "before": 7,
+      "after": 8
+     }
+    },
+    {
+     "weaponId": "b36a4",
+     "count": 212,
+     "bandText": "1-25m, 76-262m",
+     "maxMove": 1,
+     "sample": {
+      "d": 1,
+      "before": 5,
+      "after": 6
+     }
+    },
+    {
+     "weaponId": "nvo228e",
+     "count": 94,
+     "bandText": "10-23m, 221-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 10,
+      "before": 6,
+      "after": 7
+     }
+    },
+    {
+     "weaponId": "vcr2",
+     "count": 49,
+     "bandText": "1-49m",
+     "maxMove": 1,
+     "sample": {
+      "d": 1,
+      "before": 6,
+      "after": 7
+     }
+    },
+    {
+     "weaponId": "m433",
+     "count": 38,
+     "bandText": "9-46m",
+     "maxMove": 1,
+     "sample": {
+      "d": 9,
+      "before": 8,
+      "after": 9
+     }
+    }
+   ]
+  },
+  {
+   "mode": "REDSEC-2PLATE",
+   "priority": "balanced",
+   "scope": "Carbine",
+   "winnerChanged": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "top3Changed": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "positionMoves": [
+    {
+     "weaponId": "brod3",
+     "count": 300,
+     "bandText": "1-300m",
+     "maxMove": 2,
+     "sample": {
+      "d": 1,
+      "before": 7,
+      "after": 9
+     }
+    },
+    {
+     "weaponId": "grtbc",
+     "count": 300,
+     "bandText": "1-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 1,
+      "before": 9,
+      "after": 8
+     }
+    },
+    {
+     "weaponId": "m277",
+     "count": 8,
+     "bandText": "1-8m",
+     "maxMove": 1,
+     "sample": {
+      "d": 1,
+      "before": 8,
+      "after": 7
+     }
+    }
+   ]
+  },
+  {
+   "mode": "REDSEC-2PLATE",
+   "priority": "fastest",
+   "scope": "Assault Rifle",
+   "winnerChanged": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "top3Changed": {
+    "count": 0,
+    "bandText": "",
+    "samples": []
+   },
+   "positionMoves": [
+    {
+     "weaponId": "l85a3",
+     "count": 64,
+     "bandText": "237-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 237,
+      "before": 7,
+      "after": 8
+     }
+    },
+    {
+     "weaponId": "ef88",
+     "count": 64,
+     "bandText": "237-300m",
+     "maxMove": 2,
+     "sample": {
+      "d": 252,
+      "before": 8,
+      "after": 6
+     }
+    },
+    {
+     "weaponId": "kord6p67",
+     "count": 49,
+     "bandText": "252-300m",
+     "maxMove": 1,
+     "sample": {
+      "d": 252,
+      "before": 6,
+      "after": 7
+     }
+    }
+   ]
+  }
+ ],
+ "unchangedWeapons": [
+  "ak205",
+  "db12",
+  "drsiar",
+  "es57",
+  "ggh22",
+  "grtcps",
+  "ks18k",
+  "kts100",
+  "l110",
+  "lmr27",
+  "m1014",
+  "m121a2",
+  "m123k",
+  "m2010esr",
+  "m240l",
+  "m250",
+  "m357trait",
+  "m39emr",
+  "m44",
+  "m45a1",
+  "m4a1",
+  "m60",
+  "m87a1",
+  "miniscout",
+  "p18",
+  "pp19",
+  "pw5a3",
+  "pw7a2",
+  "rpk74m",
+  "rpkm",
+  "sl9",
+  "sv98",
+  "svdm",
+  "svk86",
+  "umg40",
+  "usg90",
+  "vssm",
+  "vz61"
+ ]
+}

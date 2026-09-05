@@ -19,6 +19,7 @@
  */
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { readPath, contentSha256 } from './source-overlay.mjs';
+import { SYM_FIELD_MAP, MIRROR_FIELDS } from './sym-field-map.mjs';
 
 const CAPTURE = 'data/sources/sheetonmyface-bf6-workbook.json';
 const OVERLAY_OUT = 'data/source-overlays.json';
@@ -26,66 +27,14 @@ const BASE_VERSION = '1.3.3.0';
 const NEW_VERSION = '1.4.2.0';
 
 /**
- * FIELD MAP — sheet stat -> weapons.json path.
- *
- * Every entry is either name-identical (ADSRecoilAmount -> recoil.ads.amount) or
- * structurally unambiguous (ADSStandBaseMin/Max are the two elements of
- * spread.adsStand). The map was validated before use: across the 55 weapons the
- * workbook archives at 1.3.3.0, these pairings agree with our mirror on 4016 of
- * 4060 comparisons, and every disagreement is individually accounted for in the
- * delta report. A pairing that were wrong would disagree everywhere, not in four
- * weapons.
+ * The field map, the mirror-duplicate list and the numeric canonicalisation all
+ * live in scripts/sym-field-map.mjs so this deriver and the freshness watcher
+ * cannot disagree about which source values matter. A watcher blind to a field
+ * this script ingests would be worse than no watcher at all.
  */
-const MAP = [];
-const put = (stat, path, opts = {}) => MAP.push({ stat, path, ...opts });
+const MAP = SYM_FIELD_MAP;
 
-put('velocity', 'bulletVel', { combat: true });
-put('RoF', 'rpm', { combat: true });
-put('MagSize', 'mag', { combat: true });
-put('ReloadSpeed', 'reloadSpeed', { combat: true });
-put('ADSStandBaseMin', 'spread.adsStand[0]', { combat: true });
-put('ADSStandBaseMax', 'spread.adsStand[1]', { combat: true });
-put('ADSStandMoveMin', 'spread.adsMove[0]', { combat: true });
-put('ADSStandMoveMax', 'spread.adsMove[1]', { combat: true });
-put('HIPStandBaseMin', 'spread.hipStand[0]', { combat: true });
-put('HIPStandBaseMax', 'spread.hipStand[1]', { combat: true });
-put('HIPStandMoveMin', 'spread.hipMove[0]', { combat: true });
-put('HIPStandMoveMax', 'spread.hipMove[1]', { combat: true });
-for (const [sheetSuffix, ours] of [
-  ['Inc', 'inc'], ['IdleTime', 'idleTime'], ['IdleDecCoef', 'idleCoef'], ['IdleDecExp', 'idleExp'],
-  ['IdleDecOffset', 'idleOffset'], ['FiringDecCoef', 'firingCoef'], ['FiringDecExp', 'firingExp'],
-  ['FiringDecOffset', 'firingOffset'], ['NotFiringDecCoef', 'notFiringCoef'], ['NotFiringDecExp', 'notFiringExp'],
-  ['NotFiringDecOffset', 'notFiringOffset'], ['DistExp', 'distExp']
-]) {
-  put(`ADSBaseSpread${sheetSuffix}`, `spreadDyn.ads.${ours}`, { combat: true });
-  put(`HIPBaseSpread${sheetSuffix}`, `spreadDyn.hip.${ours}`, { combat: true });
-}
-put('ADSBaseFirstShotMul', 'spreadDyn.ads.firstShotMul', { combat: true });
-put('HIPBaseFirstShotMul', 'spreadDyn.hip.firstShotMul', { combat: true });
-for (const [sheetSuffix, ours] of [
-  ['Direction', 'dir'], ['Amount', 'amount'], ['AmountMultiplier', 'amountMult'],
-  ['AmountMultiplierExponent', 'amountExp'], ['DirectionVariation', 'dirVar'],
-  ['DirectionVariationMultiplier', 'dirVarMult'], ['DirectionVariationMultiplierExponent', 'dirVarExp'],
-  ['DecreaseNorm', 'decNorm'], ['DecreaseExponent', 'decExp'], ['DecreaseTimeExponent', 'decTimeExp'],
-  ['DecreaseOffset', 'decOffset'], ['Duration', 'duration'], ['DecreaseFactor', 'decFactor']
-]) {
-  put(`ADSRecoil${sheetSuffix}`, `recoil.ads.${ours}`, { combat: true });
-  put(`HIPRecoil${sheetSuffix}`, `recoil.hip.${ours}`, { combat: true });
-}
-put('ADSShootingRecoilDecreaseScale', 'recoil.ads.shootingDecScale', { combat: true });
-put('HIPShootingRecoilDecreaseScale', 'recoil.hip.shootingDecScale', { combat: true });
-
-/**
- * MIRROR FIELDS — top-level duplicates of a nested primitive. Verified to hold for
- * all 62 weapons in the current mirror before use, so if the nested value moves the
- * duplicate has to move with it or the record becomes self-inconsistent.
- */
-const MIRRORS = [
-  { path: 'recoilDir', of: 'recoil.ads.dir' },
-  { path: 'recoilVar', of: 'recoil.ads.dirVar' },
-  { path: 'recoilIncAds', of: 'spreadDyn.ads.inc' },
-  { path: 'spreadMax', of: 'spread.adsStand[1]' }
-];
+const MIRRORS = MIRROR_FIELDS;
 
 /**
  * COMPUTED FIELDS — genuine functions of other primitives.

@@ -52,8 +52,13 @@ function makeEl(id = '') {
 export async function bootLab(root = process.cwd()) {
   const read = p => readFile(path.join(root, p), 'utf8');
   // Same script set, same order, as index.html.
+  // source-overlay.js is read optionally so this harness can also boot an OLDER
+  // checkout that predates it - which is exactly what scripts/compare-meta-impact.mjs
+  // needs in order to run the shipped engine on both sides of a change.
   const [legalitySrc, overlaySrc, rosterSrc, classSrc, appSrc] = await Promise.all([
-    read('attachment-legality.js'), read('source-overlay.js'), read('roster-data.js'), read('class-data.js'), read('app.js')
+    read('attachment-legality.js'),
+    read('source-overlay.js').catch(() => null),
+    read('roster-data.js'), read('class-data.js'), read('app.js')
   ]);
 
   const els = new Map();
@@ -101,7 +106,7 @@ export async function bootLab(root = process.cwd()) {
   vm.createContext(sandbox);
 
   vm.runInContext(legalitySrc, sandbox, { filename: 'attachment-legality.js' });
-  vm.runInContext(overlaySrc, sandbox, { filename: 'source-overlay.js' });
+  if (overlaySrc) vm.runInContext(overlaySrc, sandbox, { filename: 'source-overlay.js' });
   vm.runInContext(rosterSrc, sandbox, { filename: 'roster-data.js' });
   vm.runInContext(classSrc, sandbox, { filename: 'class-data.js' });
   vm.runInContext(appSrc, sandbox, { filename: 'app.js' });

@@ -21,8 +21,8 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "MP","balanced","__all__",83,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,95,"2.500",100,true
 "MP","balanced","__all__",90,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,104,"2.550",100,true
 "MP","balanced","__all__",100,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,117,"2.622",100,true
-"MP","balanced","__all__",120,48,"l115","L115A3","Sniper Rifle",1,100,0,163,"3.199",95,true
-"MP","balanced","__all__",133,48,"l115","L115A3","Sniper Rifle",1,100,0,184,"3.199",95,true
+"MP","balanced","__all__",120,48,"l115","L115A3","Sniper Rifle",1,100,0,146,"3.199",95,true
+"MP","balanced","__all__",133,48,"l115","L115A3","Sniper Rifle",1,100,0,164,"3.199",95,true
 "MP","balanced","__all__",150,48,"lmr27","LMR27","DMR",4,26.2,400,575,"1.709",100,true
 "MP","balanced","__all__",200,48,"lmr27","LMR27","DMR",4,26.2,400,646,"1.709",100,true
 "MP","balanced","__all__",250,48,"lmr27","LMR27","DMR",4,26.2,400,724,"1.709",100,true
@@ -189,8 +189,8 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "MP","balanced","Sniper Rifle",83,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,95,"2.500",100,true
 "MP","balanced","Sniper Rifle",90,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,104,"2.550",100,true
 "MP","balanced","Sniper Rifle",100,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,117,"2.622",100,true
-"MP","balanced","Sniper Rifle",120,5,"l115","L115A3","Sniper Rifle",1,100,0,163,"3.199",95,true
-"MP","balanced","Sniper Rifle",133,5,"l115","L115A3","Sniper Rifle",1,100,0,184,"3.199",95,true
+"MP","balanced","Sniper Rifle",120,5,"l115","L115A3","Sniper Rifle",1,100,0,146,"3.199",95,true
+"MP","balanced","Sniper Rifle",133,5,"l115","L115A3","Sniper Rifle",1,100,0,164,"3.199",95,true
 "MP","balanced","Sniper Rifle",150,5,"miniscout","Mini Scout","Sniper Rifle",2,58,1276,1536,"1.563",85,true
 "MP","balanced","Sniper Rifle",200,5,"miniscout","Mini Scout","Sniper Rifle",2,58,1276,1581,"1.653",95,true
 "MP","balanced","Sniper Rifle",250,5,"miniscout","Mini Scout","Sniper Rifle",2,58,1276,1617,"1.744",95,true
@@ -245,8 +245,8 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "MP","fastest","__all__",83,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,95,"2.500",100,true
 "MP","fastest","__all__",90,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,104,"2.550",100,true
 "MP","fastest","__all__",100,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,117,"2.622",100,true
-"MP","fastest","__all__",120,48,"psr","PSR","Sniper Rifle",1,100,0,160,"3.398",95,true
-"MP","fastest","__all__",133,48,"l115","L115A3","Sniper Rifle",1,100,0,184,"3.199",95,true
+"MP","fastest","__all__",120,48,"l115","L115A3","Sniper Rifle",1,100,0,146,"3.199",95,true
+"MP","fastest","__all__",133,48,"l115","L115A3","Sniper Rifle",1,100,0,164,"3.199",95,true
 "MP","fastest","__all__",150,48,"m250","M250","LMG",4,26.05,267,485,"2.833",95,true
 "MP","fastest","__all__",200,48,"m250","M250","LMG",4,26.05,267,587,"2.833",95,true
 "MP","fastest","__all__",250,48,"m250","M250","LMG",4,26.05,267,709,"2.833",95,true
@@ -413,8 +413,8 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "MP","fastest","Sniper Rifle",83,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,95,"2.500",100,true
 "MP","fastest","Sniper Rifle",90,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,104,"2.550",100,true
 "MP","fastest","Sniper Rifle",100,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,117,"2.622",100,true
-"MP","fastest","Sniper Rifle",120,5,"psr","PSR","Sniper Rifle",1,100,0,160,"3.398",95,true
-"MP","fastest","Sniper Rifle",133,5,"l115","L115A3","Sniper Rifle",1,100,0,184,"3.199",95,true
+"MP","fastest","Sniper Rifle",120,5,"l115","L115A3","Sniper Rifle",1,100,0,146,"3.199",95,true
+"MP","fastest","Sniper Rifle",133,5,"l115","L115A3","Sniper Rifle",1,100,0,164,"3.199",95,true
 "MP","fastest","Sniper Rifle",150,5,"miniscout","Mini Scout","Sniper Rifle",2,58,1276,1460,"1.744",95,true
 "MP","fastest","Sniper Rifle",200,5,"miniscout","Mini Scout","Sniper Rifle",2,58,1276,1535,"1.744",95,true
 "MP","fastest","Sniper Rifle",250,5,"miniscout","Mini Scout","Sniper Rifle",2,58,1276,1617,"1.744",95,true
@@ -469,8 +469,8 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "RS-UNARM","balanced","__all__",83,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,95,"2.500",100,true
 "RS-UNARM","balanced","__all__",90,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,104,"2.550",100,true
 "RS-UNARM","balanced","__all__",100,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,117,"2.622",100,true
-"RS-UNARM","balanced","__all__",120,48,"l115","L115A3","Sniper Rifle",1,100,0,163,"3.199",95,true
-"RS-UNARM","balanced","__all__",133,48,"l115","L115A3","Sniper Rifle",1,100,0,184,"3.199",95,true
+"RS-UNARM","balanced","__all__",120,48,"l115","L115A3","Sniper Rifle",1,100,0,146,"3.199",95,true
+"RS-UNARM","balanced","__all__",133,48,"l115","L115A3","Sniper Rifle",1,100,0,164,"3.199",95,true
 "RS-UNARM","balanced","__all__",150,48,"lmr27","LMR27","DMR",4,26.2,400,575,"1.709",100,true
 "RS-UNARM","balanced","__all__",200,48,"lmr27","LMR27","DMR",4,26.2,400,646,"1.709",100,true
 "RS-UNARM","balanced","__all__",250,48,"lmr27","LMR27","DMR",4,26.2,400,724,"1.709",100,true
@@ -637,8 +637,8 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "RS-UNARM","balanced","Sniper Rifle",83,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,95,"2.500",100,true
 "RS-UNARM","balanced","Sniper Rifle",90,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,104,"2.550",100,true
 "RS-UNARM","balanced","Sniper Rifle",100,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,117,"2.622",100,true
-"RS-UNARM","balanced","Sniper Rifle",120,5,"l115","L115A3","Sniper Rifle",1,100,0,163,"3.199",95,true
-"RS-UNARM","balanced","Sniper Rifle",133,5,"l115","L115A3","Sniper Rifle",1,100,0,184,"3.199",95,true
+"RS-UNARM","balanced","Sniper Rifle",120,5,"l115","L115A3","Sniper Rifle",1,100,0,146,"3.199",95,true
+"RS-UNARM","balanced","Sniper Rifle",133,5,"l115","L115A3","Sniper Rifle",1,100,0,164,"3.199",95,true
 "RS-UNARM","balanced","Sniper Rifle",150,5,"miniscout","Mini Scout","Sniper Rifle",2,58,1276,1536,"1.563",85,true
 "RS-UNARM","balanced","Sniper Rifle",200,5,"miniscout","Mini Scout","Sniper Rifle",2,58,1276,1581,"1.653",95,true
 "RS-UNARM","balanced","Sniper Rifle",250,5,"miniscout","Mini Scout","Sniper Rifle",2,58,1276,1617,"1.744",95,true
@@ -693,8 +693,8 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "RS-UNARM","fastest","__all__",83,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,95,"2.500",100,true
 "RS-UNARM","fastest","__all__",90,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,104,"2.550",100,true
 "RS-UNARM","fastest","__all__",100,48,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,117,"2.622",100,true
-"RS-UNARM","fastest","__all__",120,48,"psr","PSR","Sniper Rifle",1,100,0,160,"3.398",95,true
-"RS-UNARM","fastest","__all__",133,48,"l115","L115A3","Sniper Rifle",1,100,0,184,"3.199",95,true
+"RS-UNARM","fastest","__all__",120,48,"l115","L115A3","Sniper Rifle",1,100,0,146,"3.199",95,true
+"RS-UNARM","fastest","__all__",133,48,"l115","L115A3","Sniper Rifle",1,100,0,164,"3.199",95,true
 "RS-UNARM","fastest","__all__",150,48,"m250","M250","LMG",4,26.05,267,485,"2.833",95,true
 "RS-UNARM","fastest","__all__",200,48,"m250","M250","LMG",4,26.05,267,587,"2.833",95,true
 "RS-UNARM","fastest","__all__",250,48,"m250","M250","LMG",4,26.05,267,709,"2.833",95,true
@@ -861,8 +861,8 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "RS-UNARM","fastest","Sniper Rifle",83,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,95,"2.500",100,true
 "RS-UNARM","fastest","Sniper Rifle",90,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,104,"2.550",100,true
 "RS-UNARM","fastest","Sniper Rifle",100,5,"m2010esr","M2010 ESR","Sniper Rifle",1,100,0,117,"2.622",100,true
-"RS-UNARM","fastest","Sniper Rifle",120,5,"psr","PSR","Sniper Rifle",1,100,0,160,"3.398",95,true
-"RS-UNARM","fastest","Sniper Rifle",133,5,"l115","L115A3","Sniper Rifle",1,100,0,184,"3.199",95,true
+"RS-UNARM","fastest","Sniper Rifle",120,5,"l115","L115A3","Sniper Rifle",1,100,0,146,"3.199",95,true
+"RS-UNARM","fastest","Sniper Rifle",133,5,"l115","L115A3","Sniper Rifle",1,100,0,164,"3.199",95,true
 "RS-UNARM","fastest","Sniper Rifle",150,5,"miniscout","Mini Scout","Sniper Rifle",2,58,1276,1460,"1.744",95,true
 "RS-UNARM","fastest","Sniper Rifle",200,5,"miniscout","Mini Scout","Sniper Rifle",2,58,1276,1535,"1.744",95,true
 "RS-UNARM","fastest","Sniper Rifle",250,5,"miniscout","Mini Scout","Sniper Rifle",2,58,1276,1617,"1.744",95,true
@@ -1085,8 +1085,8 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "RS-2PLATE","balanced","Sniper Rifle",83,5,"m2010esr","M2010 ESR","Sniper Rifle",3,100,2722,2849,"2.079",100,true
 "RS-2PLATE","balanced","Sniper Rifle",90,5,"m2010esr","M2010 ESR","Sniper Rifle",3,100,2722,2861,"2.079",100,true
 "RS-2PLATE","balanced","Sniper Rifle",100,5,"m2010esr","M2010 ESR","Sniper Rifle",3,100,2722,2880,"2.079",100,true
-"RS-2PLATE","balanced","Sniper Rifle",120,5,"l115","L115A3","Sniper Rifle",3,100,2589,2814,"2.440",100,true
-"RS-2PLATE","balanced","Sniper Rifle",133,5,"l115","L115A3","Sniper Rifle",3,100,2589,2844,"2.440",100,true
+"RS-2PLATE","balanced","Sniper Rifle",120,5,"l115","L115A3","Sniper Rifle",3,100,2589,2790,"2.440",100,true
+"RS-2PLATE","balanced","Sniper Rifle",133,5,"l115","L115A3","Sniper Rifle",3,100,2589,2817,"2.440",100,true
 "RS-2PLATE","balanced","Sniper Rifle",150,5,"miniscout","Mini Scout","Sniper Rifle",5,58,4706,4965,"1.286",100,true
 "RS-2PLATE","balanced","Sniper Rifle",200,5,"miniscout","Mini Scout","Sniper Rifle",5,58,4706,5087,"1.286",85,true
 "RS-2PLATE","balanced","Sniper Rifle",250,5,"miniscout","Mini Scout","Sniper Rifle",5,58,4706,5232,"1.286",85,true
@@ -1308,13 +1308,13 @@ mode,priority,category,d,ranked,winner,winnerName,cls,btk,damage,mechTtk,trigger
 "RS-2PLATE","fastest","Sniper Rifle",76,5,"m2010esr","M2010 ESR","Sniper Rifle",3,100,2722,2809,"2.449",100,true
 "RS-2PLATE","fastest","Sniper Rifle",83,5,"m2010esr","M2010 ESR","Sniper Rifle",3,100,2722,2817,"2.500",100,true
 "RS-2PLATE","fastest","Sniper Rifle",90,5,"m2010esr","M2010 ESR","Sniper Rifle",3,100,2722,2826,"2.550",100,true
-"RS-2PLATE","fastest","Sniper Rifle",100,5,"l115","L115A3","Sniper Rifle",3,100,2589,2722,"3.041",95,true
-"RS-2PLATE","fastest","Sniper Rifle",120,5,"l115","L115A3","Sniper Rifle",3,100,2589,2752,"3.199",95,true
-"RS-2PLATE","fastest","Sniper Rifle",133,5,"l115","L115A3","Sniper Rifle",3,100,2589,2773,"3.199",95,true
-"RS-2PLATE","fastest","Sniper Rifle",150,5,"l115","L115A3","Sniper Rifle",4,84.619,3883,4094,"3.199",95,true
-"RS-2PLATE","fastest","Sniper Rifle",200,5,"l115","L115A3","Sniper Rifle",4,62,3883,4180,"3.199",95,true
-"RS-2PLATE","fastest","Sniper Rifle",250,5,"l115","L115A3","Sniper Rifle",4,62,3883,4274,"3.199",95,true
-"RS-2PLATE","fastest","Sniper Rifle",300,5,"l115","L115A3","Sniper Rifle",4,62,3883,4379,"3.199",95,true
+"RS-2PLATE","fastest","Sniper Rifle",100,5,"l115","L115A3","Sniper Rifle",3,100,2589,2708,"3.041",95,true
+"RS-2PLATE","fastest","Sniper Rifle",120,5,"l115","L115A3","Sniper Rifle",3,100,2589,2735,"3.199",95,true
+"RS-2PLATE","fastest","Sniper Rifle",133,5,"l115","L115A3","Sniper Rifle",3,100,2589,2753,"3.199",95,true
+"RS-2PLATE","fastest","Sniper Rifle",150,5,"l115","L115A3","Sniper Rifle",4,84.619,3883,4072,"3.199",95,true
+"RS-2PLATE","fastest","Sniper Rifle",200,5,"l115","L115A3","Sniper Rifle",4,62,3883,4149,"3.199",95,true
+"RS-2PLATE","fastest","Sniper Rifle",250,5,"l115","L115A3","Sniper Rifle",4,62,3883,4233,"3.199",95,true
+"RS-2PLATE","fastest","Sniper Rifle",300,5,"l115","L115A3","Sniper Rifle",4,62,3883,4327,"3.199",95,true
 "RS-2PLATE","fastest","Shotgun",1,4,"m1014","M1014","Shotgun",2,115.2,300,302,"2.561",80,true
 "RS-2PLATE","fastest","Shotgun",5,4,"m1014","M1014","Shotgun",2,115.2,300,310,"2.605",80,true
 "RS-2PLATE","fastest","Shotgun",9,4,"m1014","M1014","Shotgun",2,100,300,318,"2.648",100,true

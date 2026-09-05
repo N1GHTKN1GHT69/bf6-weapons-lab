@@ -1,0 +1,10 @@
+{
+ "schema": 1,
+ "purpose": "Watch state for the SheetOnMyFace workbook, the public carrier of Sym's newest BF6 data. See scripts/watch-source-workbook.mjs.",
+ "workbookUrl": "https://docs.google.com/spreadsheets/d/1_jVZuDofvDzwdK6IjhnLGUWCP7UXI2MKpC06EVbYD_Q/edit?usp=sharing",
+ "knownSheetVersion": "1.73",
+ "knownGameVersion": "1.4.2.0",
+ "combatFingerprint": "90184f2a60e3499769e3ad366d3e13e0638a0aa5f5ba9a795a4567b57b1223d1",
+ "combatFields": 3894,
+ "lastCheckedAt": "2026-09-05T20:23:11.638Z"
+}

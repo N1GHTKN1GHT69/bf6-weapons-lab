@@ -1,6 +1,6 @@
 {
  "summary": {
-  "generatedAt": "2026-09-05T20:16:31.624Z",
+  "generatedAt": "2026-09-05T20:38:13.528Z",
   "method": "Scale a stored beam primitive, recompute beamIndex with the exact production formula from build-combat-cache.mjs, re-rank, record winner/top-3 movement. Factors are tolerance probes, not measurements.",
   "priority": "balanced",
   "distancesProbed": [
@@ -22,13 +22,15 @@
   ],
   "weaponsProbed": 53,
   "combinationsProbed": 2544,
-  "entriesWithAnyWinnerFlip": 5,
+  "entriesWithAnyWinnerFlip": 7,
   "weaponsWhoseAccuracyCanDecideAWinner": [
    "l110",
    "b36a4",
    "m250",
    "m240l",
-   "kord6p67"
+   "kord6p67",
+   "l115",
+   "m2010esr"
   ],
   "baselineWinners": [
    {
@@ -95,6 +97,24 @@
     "baselineWins": 1
    },
    {
+    "weapon": "L115A3",
+    "primitive": "recoil",
+    "fields": "recoilV",
+    "winnerFlips": 1,
+    "top3Changes": 2,
+    "priorityScore": 5,
+    "baselineWins": 0
+   },
+   {
+    "weapon": "M2010 ESR",
+    "primitive": "recoil",
+    "fields": "recoilV",
+    "winnerFlips": 1,
+    "top3Changes": 1,
+    "priorityScore": 4,
+    "baselineWins": 1
+   },
+   {
     "weapon": "B36A4",
     "primitive": "recoilVariationDeg",
     "fields": "recoilVar",
@@ -149,15 +169,6 @@
     "baselineWins": 0
    },
    {
-    "weapon": "L115A3",
-    "primitive": "recoil",
-    "fields": "recoilV",
-    "winnerFlips": 0,
-    "top3Changes": 2,
-    "priorityScore": 2,
-    "baselineWins": 0
-   },
-   {
     "weapon": "M16A4",
     "primitive": "recoilVariationDeg",
     "fields": "recoilVar",
@@ -170,15 +181,6 @@
     "weapon": "M16A4",
     "primitive": "effectiveAdsSpreadDeg",
     "fields": "spreadMax",
-    "winnerFlips": 0,
-    "top3Changes": 2,
-    "priorityScore": 2,
-    "baselineWins": 0
-   },
-   {
-    "weapon": "M240L",
-    "primitive": "recoil",
-    "fields": "recoilV",
     "winnerFlips": 0,
     "top3Changes": 2,
     "priorityScore": 2,
@@ -324,6 +326,58 @@
    ]
   },
   {
+   "weapon": "L115A3",
+   "weaponId": "l115",
+   "cls": "Sniper Rifle",
+   "primitive": "recoil",
+   "fields": "recoilV",
+   "currentValue": "recoilV=2",
+   "sourceVersion": "1.3.3.0 (pinned Sym.gg game-file snapshot)",
+   "currentStatus": "MISSING",
+   "plausibleUncertainty": "probe +/-10% and +/-25% of the operative primitive",
+   "scenariosProbed": 16,
+   "top3Changes": 2,
+   "winnerFlips": 1,
+   "optimizedBuildFlips": "not measurable without a cache rebuild (upstream-gated)",
+   "baselineWins": 0,
+   "baselineTop3Appearances": 1,
+   "priorityScore": 5,
+   "flipDetail": [
+    {
+     "distance": 100,
+     "factor": 0.75,
+     "was": "m2010esr",
+     "now": "l115"
+    }
+   ]
+  },
+  {
+   "weapon": "M2010 ESR",
+   "weaponId": "m2010esr",
+   "cls": "Sniper Rifle",
+   "primitive": "recoil",
+   "fields": "recoilV",
+   "currentValue": "recoilV=1.5",
+   "sourceVersion": "1.3.3.0 (pinned Sym.gg game-file snapshot)",
+   "currentStatus": "STALE_NEEDS_RECHECK",
+   "plausibleUncertainty": "probe +/-10% and +/-25% of the operative primitive",
+   "scenariosProbed": 16,
+   "top3Changes": 1,
+   "winnerFlips": 1,
+   "optimizedBuildFlips": "not measurable without a cache rebuild (upstream-gated)",
+   "baselineWins": 1,
+   "baselineTop3Appearances": 1,
+   "priorityScore": 4,
+   "flipDetail": [
+    {
+     "distance": 100,
+     "factor": 1.25,
+     "was": "m2010esr",
+     "now": "l115"
+    }
+   ]
+  },
+  {
    "weapon": "B36A4",
    "weaponId": "b36a4",
    "cls": "Assault Rifle",
@@ -438,25 +492,6 @@
    "flipDetail": []
   },
   {
-   "weapon": "L115A3",
-   "weaponId": "l115",
-   "cls": "Sniper Rifle",
-   "primitive": "recoil",
-   "fields": "recoilV",
-   "currentValue": "recoilV=2",
-   "sourceVersion": "1.3.3.0 (pinned Sym.gg game-file snapshot)",
-   "currentStatus": "MISSING",
-   "plausibleUncertainty": "probe +/-10% and +/-25% of the operative primitive",
-   "scenariosProbed": 16,
-   "top3Changes": 2,
-   "winnerFlips": 0,
-   "optimizedBuildFlips": "not measurable without a cache rebuild (upstream-gated)",
-   "baselineWins": 0,
-   "baselineTop3Appearances": 1,
-   "priorityScore": 2,
-   "flipDetail": []
-  },
-  {
    "weapon": "M16A4",
    "weaponId": "m16a4",
    "cls": "Assault Rifle",
@@ -520,25 +555,6 @@
    "primitive": "recoilVariationDeg",
    "fields": "recoilVar",
    "currentValue": "recoilVar=35.9",
-   "sourceVersion": "1.3.3.0 (pinned Sym.gg game-file snapshot)",
-   "currentStatus": "PATCH_RECONCILED_NO_KNOWN_DELTA",
-   "plausibleUncertainty": "probe +/-10% and +/-25% of the operative primitive",
-   "scenariosProbed": 16,
-   "top3Changes": 2,
-   "winnerFlips": 0,
-   "optimizedBuildFlips": "not measurable without a cache rebuild (upstream-gated)",
-   "baselineWins": 0,
-   "baselineTop3Appearances": 1,
-   "priorityScore": 2,
-   "flipDetail": []
-  },
-  {
-   "weapon": "PSR",
-   "weaponId": "psr",
-   "cls": "Sniper Rifle",
-   "primitive": "recoil",
-   "fields": "recoilV",
-   "currentValue": "recoilV=1.8",
    "sourceVersion": "1.3.3.0 (pinned Sym.gg game-file snapshot)",
    "currentStatus": "PATCH_RECONCILED_NO_KNOWN_DELTA",
    "plausibleUncertainty": "probe +/-10% and +/-25% of the operative primitive",
@@ -650,9 +666,9 @@
    "weapon": "PSR",
    "weaponId": "psr",
    "cls": "Sniper Rifle",
-   "primitive": "recoilVariationDeg",
-   "fields": "recoilVar",
-   "currentValue": "recoilVar=12",
+   "primitive": "recoil",
+   "fields": "recoilV",
+   "currentValue": "recoilV=1.8",
    "sourceVersion": "1.3.3.0 (pinned Sym.gg game-file snapshot)",
    "currentStatus": "PATCH_RECONCILED_NO_KNOWN_DELTA",
    "plausibleUncertainty": "probe +/-10% and +/-25% of the operative primitive",
@@ -864,25 +880,6 @@
    "currentValue": "spreadMax=11",
    "sourceVersion": "1.3.3.0 (pinned Sym.gg game-file snapshot)",
    "currentStatus": "PATCH_RECONCILED_NO_KNOWN_DELTA",
-   "plausibleUncertainty": "probe +/-10% and +/-25% of the operative primitive",
-   "scenariosProbed": 16,
-   "top3Changes": 0,
-   "winnerFlips": 0,
-   "optimizedBuildFlips": "not measurable without a cache rebuild (upstream-gated)",
-   "baselineWins": 1,
-   "baselineTop3Appearances": 1,
-   "priorityScore": 0,
-   "flipDetail": []
-  },
-  {
-   "weapon": "M2010 ESR",
-   "weaponId": "m2010esr",
-   "cls": "Sniper Rifle",
-   "primitive": "recoil",
-   "fields": "recoilV",
-   "currentValue": "recoilV=1.5",
-   "sourceVersion": "1.3.3.0 (pinned Sym.gg game-file snapshot)",
-   "currentStatus": "STALE_NEEDS_RECHECK",
    "plausibleUncertainty": "probe +/-10% and +/-25% of the operative primitive",
    "scenariosProbed": 16,
    "top3Changes": 0,
@@ -2220,6 +2217,25 @@
    "optimizedBuildFlips": "not measurable without a cache rebuild (upstream-gated)",
    "baselineWins": 0,
    "baselineTop3Appearances": 0,
+   "priorityScore": 0,
+   "flipDetail": []
+  },
+  {
+   "weapon": "PSR",
+   "weaponId": "psr",
+   "cls": "Sniper Rifle",
+   "primitive": "recoilVariationDeg",
+   "fields": "recoilVar",
+   "currentValue": "recoilVar=12",
+   "sourceVersion": "1.3.3.0 (pinned Sym.gg game-file snapshot)",
+   "currentStatus": "PATCH_RECONCILED_NO_KNOWN_DELTA",
+   "plausibleUncertainty": "probe +/-10% and +/-25% of the operative primitive",
+   "scenariosProbed": 16,
+   "top3Changes": 0,
+   "winnerFlips": 0,
+   "optimizedBuildFlips": "not measurable without a cache rebuild (upstream-gated)",
+   "baselineWins": 0,
+   "baselineTop3Appearances": 1,
    "priorityScore": 0,
    "flipDetail": []
   },

@@ -80,6 +80,7 @@ jobs:
           node scripts/audit-advanced-options.mjs
           node scripts/audit-source-reconciliation.mjs
           node scripts/audit-source-overlay.mjs
+          node scripts/audit-freshness-watchers.mjs
           node scripts/build-source-overlay.mjs --check
           node scripts/audit-current-patch-coverage.mjs
           node scripts/audit-source-data.mjs

@@ -1,6 +1,6 @@
 {
  "summary": {
-  "generatedAt": "2026-09-05T20:16:39.314Z",
+  "generatedAt": "2026-09-05T20:38:21.048Z",
   "distances": 28,
   "modes": 3,
   "priorities": 2,
@@ -9,8 +9,8 @@
   "rankingEvaluations": 17304,
   "anomalies": 0,
   "anomaliesByKind": {},
-  "winnerChanges": 155,
-  "distinctWinners": 36,
+  "winnerChanges": 151,
+  "distinctWinners": 35,
   "priorityFidelity": {
    "note": "FASTEST KILL must rank by trigger-to-kill, with Beam Index breaking only genuine ties. Violations are counted as anomalies, so this is now enforced rather than tracked.",
    "fastestKillCases": 672,
@@ -360,15 +360,6 @@
    "from": 100,
    "to": 120,
    "was": "m2010esr",
-   "now": "psr"
-  },
-  {
-   "mode": "MP",
-   "priority": "fastest",
-   "category": "__all__",
-   "from": 120,
-   "to": 133,
-   "was": "psr",
    "now": "l115"
   },
   {
@@ -486,15 +477,6 @@
    "from": 100,
    "to": 120,
    "was": "m2010esr",
-   "now": "psr"
-  },
-  {
-   "mode": "MP",
-   "priority": "fastest",
-   "category": "Sniper Rifle",
-   "from": 120,
-   "to": 133,
-   "was": "psr",
    "now": "l115"
   },
   {
@@ -882,15 +864,6 @@
    "from": 100,
    "to": 120,
    "was": "m2010esr",
-   "now": "psr"
-  },
-  {
-   "mode": "RS-UNARM",
-   "priority": "fastest",
-   "category": "__all__",
-   "from": 120,
-   "to": 133,
-   "was": "psr",
    "now": "l115"
   },
   {
@@ -1008,15 +981,6 @@
    "from": 100,
    "to": 120,
    "was": "m2010esr",
-   "now": "psr"
-  },
-  {
-   "mode": "RS-UNARM",
-   "priority": "fastest",
-   "category": "Sniper Rifle",
-   "from": 120,
-   "to": 133,
-   "was": "psr",
    "now": "l115"
   },
   {
