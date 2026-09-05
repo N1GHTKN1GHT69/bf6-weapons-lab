@@ -9,7 +9,7 @@
   },
   "verified": {
     "gameVersion": "1.4.1.5",
-    "verifiedAt": "2026-09-03T10:59:01.034Z",
+    "verifiedAt": "2026-09-05T20:25:58.806Z",
     "upstreamCommit": "fb7a214778e1e4b5a5113f21ec0dd12136123845",
     "basis": "BF6 Weapons Lab class audits, official patch overlays, REDSEC rules and exhaustive combat-cache validation",
     "reconciledThrough": "1.4.1.5",
@@ -34,7 +34,7 @@
   "patchReconciliation": {
     "verifiedCombatVersion": "1.4.1.5",
     "blockedAt": "1.4.2.0",
-    "reconciledAt": "2026-09-05T05:30:25.299Z",
+    "reconciledAt": "2026-09-05T20:25:58.867Z",
     "patches": [
       {
         "version": "1.4.1.0",
