@@ -37,12 +37,13 @@ function compareVersion(a, b) {
   return 0;
 }
 
-const [ledger, weapons, attachments, ammo, app] = await Promise.all([
+const [ledger, weapons, attachments, ammo, app, overlays] = await Promise.all([
   readJson(LEDGER),
   readJson('data/weapons.json'),
   readJson('data/attachments.json'),
   readJson('data/ammo.json'),
-  readFile('app.js', 'utf8')
+  readFile('app.js', 'utf8'),
+  readJson('data/source-overlays.json').catch(() => null)
 ]);
 
 const weaponByKey = new Map();
@@ -81,6 +82,39 @@ function runCheck(check) {
       return hit
         ? { ok: true, evidence: 'explicit verified overlay present in app.js' }
         : { ok: false, evidence: `app.js is missing the overlay token: ${check.token}` };
+    }
+    case 'sourceOverlay': {
+      // A published numeric change that IS represented, carried by a versioned
+      // overlay rather than by editing the pristine upstream mirror. The check is
+      // concrete: the overlay must exist, be enabled, state this patch's version,
+      // and actually carry changes for every weapon the patch named.
+      const ov = (overlays?.overlays ?? []).find(o => o.id === check.overlayId);
+      if (!ov) return { ok: false, evidence: `data/source-overlays.json has no overlay "${check.overlayId}"` };
+      if (ov.enabled === false) return { ok: false, evidence: `overlay ${check.overlayId} is present but disabled` };
+      const covered = new Set((ov.changes ?? []).map(c => c.weaponId));
+      const missing = (check.weaponIds ?? []).filter(id => !covered.has(id));
+      if (missing.length) return { ok: false, evidence: `overlay ${check.overlayId} carries no change for: ${missing.join(', ')}` };
+      return { ok: true, evidence: `overlay ${check.overlayId} (${ov.gameVersion}, ${(ov.changes ?? []).length} changes from ${ov.carrier ?? 'a frozen capture'}) covers ${(check.weaponIds ?? []).join(', ')}` };
+    }
+    case 'mechanicRemoved': {
+      // A patch that REMOVED an effect. The post-patch behaviour is "no effect",
+      // so the model represents the patch correctly precisely when the named
+      // attachments carry none of the named modifier fields. This is the one
+      // situation where absence IS the positive evidence - because the patch is
+      // what tells us absence is the correct post-state. It says nothing about any
+      // other unmodelled effect, and must never be reused to argue one away.
+      const pools = Object.entries(attachments).filter(([, v]) => Array.isArray(v));
+      const offenders = [];
+      for (const id of check.attachmentIds ?? []) {
+        let found = null;
+        for (const [slot, list] of pools) { const hit = list.find(x => x?.id === id); if (hit) { found = { slot, hit }; break; } }
+        if (!found) { offenders.push(`${id} (record missing entirely)`); continue; }
+        const carried = (check.modifierFields ?? []).filter(f => found.hit[f] !== undefined);
+        if (carried.length) offenders.push(`${id} still carries ${carried.join(', ')}`);
+      }
+      return offenders.length
+        ? { ok: false, evidence: `the removed mechanic is still represented: ${offenders.join('; ')}` }
+        : { ok: true, evidence: `${(check.attachmentIds ?? []).join(', ')} carry none of ${(check.modifierFields ?? []).join(', ')} — ${check.reason}` };
     }
     case 'notModelled':
       return { ok: true, evidence: `outside the combat model by design — ${check.reason}` };
@@ -123,8 +157,52 @@ const doc = {
   }))
 };
 
+/**
+ * THE NUMERICAL SOURCE AXIS.
+ *
+ * verifiedCombatVersion answers "which patch's every blocking change is provably
+ * represented" - it stops at the first patch with an unresolved item, so a single
+ * unavailable weapon can hold it back while every number on screen is newer than it.
+ *
+ * That is a real and useful thing to gate on, but it is NOT the same question as
+ * "where do these numbers come from". Reporting only the first would understate the
+ * data; reporting only the second would overstate the coverage. Both ship, labelled.
+ */
+const enabledOverlay = (overlays?.overlays ?? []).find(o => o.enabled !== false) ?? null;
+const numericalSource = enabledOverlay ? {
+  gameVersion: enabledOverlay.gameVersion,
+  publisherOfRecord: enabledOverlay.publisherOfRecord ?? null,
+  carrier: enabledOverlay.carrier ?? null,
+  artifact: enabledOverlay.sourceArtifact ?? null,
+  artifactSha256: enabledOverlay.sourceArtifactSha256 ?? null,
+  changes: (enabledOverlay.changes ?? []).length,
+  weapons: enabledOverlay.weapons ?? [],
+  // Filled in below, once the live version is read from the status file.
+  bridgedToLive: null
+} : null;
+
 if (process.argv.includes('--write')) {
   const status = await readJson(STATUS);
+  if (numericalSource) {
+    const live = status?.official?.gameVersion ?? null;
+    const intervening = ledger.patches.filter(p =>
+      compareVersion(p.version, numericalSource.gameVersion) > 0 &&
+      live && compareVersion(p.version, live) <= 0);
+    const unclassified = intervening.filter(p => p.numericWeaponStatDelta !== false);
+    numericalSource.bridgedToLive = {
+      liveGameVersion: live,
+      current: unclassified.length === 0,
+      interveningPatches: intervening.map(p => p.version),
+      reason: unclassified.length
+        ? `patch(es) ${unclassified.map(p => p.version).join(', ')} carry no recorded numericWeaponStatDelta:false finding, so these numbers cannot be claimed current for ${live}`
+        : intervening.length
+          ? `every patch between ${numericalSource.gameVersion} and ${live} (${intervening.map(p => p.version).join(', ')}) was read in full at first party and changed no numeric weapon statistic`
+          : `no patch shipped between ${numericalSource.gameVersion} and ${live}`
+    };
+    status.numericalSource = numericalSource;
+  } else {
+    delete status.numericalSource;
+  }
   status.verified = { ...(status.verified || {}), gameVersion: verified, reconciledThrough: verified, blockedAt: firstBlocker };
   status.upstream = { ...(status.upstream || {}), declaredGameVersions: [ledger.upstreamDeclaredBaseline] };
   status.patchReconciliation = { verifiedCombatVersion: verified, blockedAt: firstBlocker, reconciledAt: doc.reconciledAt, patches: doc.patches.map(p => ({ version: p.version, status: p.status, unresolved: p.unresolved })) };

@@ -605,11 +605,38 @@
     }
   }
 
+  /**
+   * Where the NUMBERS come from, as distinct from how far patch reconciliation got.
+   *
+   * COMBAT VERIFIED stops at the first patch with an unresolved change, so one
+   * unavailable weapon can hold it at 1.4.1.5 while every value on screen is
+   * sourced from 1.4.2.0. Stating only the first understates the data; stating
+   * only the second overstates the coverage. Both are shown, labelled, and this
+   * returns null rather than guessing when the source metadata is absent.
+   */
+  function numericalSourceUi() {
+    const n = state.freshness?.numericalSource;
+    if (!n?.gameVersion) return null;
+    const bridged = n.bridgedToLive?.current === true;
+    return {
+      gameVersion: n.gameVersion,
+      publisher: n.publisherOfRecord || null,
+      weapons: Array.isArray(n.weapons) ? n.weapons : [],
+      changes: Number(n.changes) || 0,
+      bridged,
+      liveGameVersion: n.bridgedToLive?.liveGameVersion || null,
+      note: bridged
+        ? `Weapon numbers are sourced from ${n.publisherOfRecord || "the publisher"} at game version ${n.gameVersion}. ${n.bridgedToLive?.reason || ""}`.trim()
+        : `Weapon numbers are sourced from ${n.publisherOfRecord || "the publisher"} at game version ${n.gameVersion}, and cannot be claimed current for ${n.bridgedToLive?.liveGameVersion || "the live version"}: ${n.bridgedToLive?.reason || "no bridging check is on record"}.`
+    };
+  }
+
   function freshnessUi() {
     const f = state.freshness;
     const official = f?.official?.gameVersion || CURRENT.liveVersion || "—";
     const verified = f?.verified?.gameVersion || CURRENT.liveVersion || "—";
     const st = f?.state || "unknown";
+    const numeric = numericalSourceUi();
     if (st === "verified") return { cls: "ok", chip: `LIVE ${official} • VERIFIED`, official, verified, state: st, note: "Official BF6 version matches the verified combat model." };
     if (st === "current-no-combat-change-detected") return { cls: "ok", chip: `LIVE ${official} • COMBAT CURRENT`, official, verified, state: st, note: `Official update ${official} detected; no combat-relevant change was found in its changelog. Combat math remains verified through ${verified}.` };
     if (st === "source-update-pending") return { cls: "warn", chip: `SOURCE UPDATE • VERIFYING`, official, verified, state: st, note: "A newer analyzer snapshot is being validated. The site remains on the last known-good combat data until it passes." };
@@ -617,11 +644,17 @@
       const blocked = f?.verified?.blockedAt;
       return {
         cls: "warn",
-        chip: `LIVE ${official} • COMBAT ${verified}`,
-        official, verified, state: st, blockedAt: blocked || null,
-        note: blocked
-          ? `Battlefield ${official} is live. Combat data is reconciled through ${verified}; ${blocked} introduced combat changes that are not represented in the current dataset, so the verified version deliberately stops before it.`
-          : `A newer BF6 update was detected. Combat-relevant changes are not promoted until the full verification pipeline passes.`
+        // The chip carries the source version too when it is newer than the
+        // reconciled one, because "COMBAT 1.4.1.5" alone reads as though the
+        // numbers were 1.4.1.5 numbers, and they are not.
+        chip: numeric && numeric.gameVersion !== verified
+          ? `LIVE ${official} • DATA ${numeric.gameVersion} • COMBAT ${verified}`
+          : `LIVE ${official} • COMBAT ${verified}`,
+        official, verified, state: st, blockedAt: blocked || null, numericalSource: numeric,
+        note: (blocked
+          ? `Battlefield ${official} is live. Patch reconciliation is complete through ${verified}; ${blocked} introduced changes that are not all represented, so the reconciled version deliberately stops before it.`
+          : `A newer BF6 update was detected. Combat-relevant changes are not promoted until the full verification pipeline passes.`)
+          + (numeric ? ` ${numeric.note}` : "")
       };
     }
     return { cls: "warn", chip: `LIVE ${official} • STATUS CHECK`, official, verified, state: st, note: "Freshness status is unavailable or incomplete; verified calculations remain fail-closed." };
@@ -3052,7 +3085,11 @@
   function renderWarnings(roster, raw) {
     const warnings = [];
     const fresh = freshnessUi();
-    if (fresh.state === "verification-pending") warnings.push(`BF6 ${fresh.official} is live, while combat data is reconciled through ${fresh.verified}${fresh.blockedAt ? ` (${fresh.blockedAt} introduced combat changes that are not represented in the current dataset)` : ""}. The site keeps the last known-good calculations rather than relabelling them for the newer patch.`);
+    if (fresh.state === "verification-pending") warnings.push(`BF6 ${fresh.official} is live, while patch reconciliation is complete through ${fresh.verified}${fresh.blockedAt ? ` (${fresh.blockedAt} introduced changes that are not all represented)` : ""}. The site keeps the last known-good calculations rather than relabelling them for the newer patch.`);
+    if (fresh.numericalSource) warnings.push(fresh.numericalSource.note);
+    if (fresh.numericalSource?.weapons?.includes(roster.id)) {
+      warnings.push(`${roster.name}: this weapon's values carry the ${fresh.numericalSource.gameVersion} source overlay, so its numbers are newer than the pinned upstream mirror rather than carried forward from it.`);
+    }
     if (fresh.state === "source-update-pending") warnings.push("A newer analyzer source snapshot was detected and is being verified. The current site stays on the last known-good snapshot until the rebuild passes.");
     if (state.source.weapons === "failed") warnings.push("Weapon stat feed is unavailable. All 63 catalog weapons remain visible, but raw stat/TTK panels are pending.");
     if (state.source.attachments === "failed" || state.source.ammo === "failed") warnings.push("Attachment or ammo feed is unavailable, so the optimizer will not fabricate a point build.");

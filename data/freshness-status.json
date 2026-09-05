@@ -34,7 +34,7 @@
   "patchReconciliation": {
     "verifiedCombatVersion": "1.4.1.5",
     "blockedAt": "1.4.2.0",
-    "reconciledAt": "2026-09-05T20:25:58.867Z",
+    "reconciledAt": "2026-09-05T20:46:07.929Z",
     "patches": [
       {
         "version": "1.4.1.0",
@@ -52,9 +52,7 @@
         "unresolved": [
           "Interdictor Sniper Rifle added; longest-range sniper in Battlefield 6.",
           "Match Grade Ammo on the M2010 ESR and SVK-8.6 no longer applies unintended damage reductions; also now deals intended damage against swimming soldiers.",
-          "An unintended recoil modifier has been removed from VSSM barrel attachments.",
-          "VSSM limb damage multipliers have been adjusted.",
-          "Weapon statistics updates for EF88, BROD and VSSM."
+          "VSSM limb damage multipliers have been adjusted."
         ]
       },
       {
@@ -63,5 +61,27 @@
         "unresolved": []
       }
     ]
+  },
+  "numericalSource": {
+    "gameVersion": "1.4.2.0",
+    "publisherOfRecord": "sym.gg",
+    "carrier": "SheetOnMyFace — Battlefield 6 Interactive Weapon Guide v1.73",
+    "artifact": "data/sources/sheetonmyface-bf6-workbook.json",
+    "artifactSha256": "dfa0ebaa8bdae025440c575fcea53d6bf95b0056d361cd8c0b94d85eb77c66d5",
+    "changes": 39,
+    "weapons": [
+      "brod3",
+      "ef88",
+      "l115",
+      "vssm"
+    ],
+    "bridgedToLive": {
+      "liveGameVersion": "1.4.2.5",
+      "current": true,
+      "interveningPatches": [
+        "1.4.2.5"
+      ],
+      "reason": "every patch between 1.4.2.0 and 1.4.2.5 (1.4.2.5) was read in full at first party and changed no numeric weapon statistic"
+    }
   }
 }

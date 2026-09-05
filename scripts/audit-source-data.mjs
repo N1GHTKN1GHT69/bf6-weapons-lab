@@ -28,14 +28,22 @@
  * game version. A field can be VERIFIED against 1.3.3.0 and still be stale.
  */
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { loadEffectiveWeapons } from './source-overlay.mjs';
+import { attestField, bridgeToLive, loadCapture, CURRENCY_FIELDS } from './source-currency.mjs';
 
 const j = async p => JSON.parse(await readFile(p, 'utf8'));
 
-const [weapons, ammo, ballistics, manifest, freshness, ledger, redsec] = await Promise.all([
-  j('data/weapons.json'), j('data/ammo.json'), j('data/ballistics.json'),
+const [ammo, ballistics, manifest, freshness, ledger, redsec] = await Promise.all([
+  j('data/ammo.json'), j('data/ballistics.json'),
   j('data/source-manifest.json'), j('data/freshness-status.json'),
   j('data/patch-delta-ledger.json'), j('data/redsec-model.json')
 ]);
+
+// The EFFECTIVE dataset - upstream mirror + versioned source overlays - because a
+// coverage report about values the product does not ship would be worthless.
+const weapons = loadEffectiveWeapons('data/weapons.json');
+const capture = loadCapture();
+const overlayDoc = JSON.parse(await readFile('data/source-overlays.json', 'utf8').catch(() => 'null'));
 
 const classAudits = {};
 for (const [cls, path] of Object.entries({
@@ -63,14 +71,16 @@ const BLOCKED_AT = freshness.verified?.blockedAt ?? null;
 const SNAPSHOT_DATE = manifest.upstreamBaseline?.adoptedAsBaseline ?? null;
 const LAST_VERIFIED = freshness.verified?.verifiedAt ?? null;
 
-// Patches whose combat deltas are NOT represented in the pinned snapshot.
-const unrepresentedPatches = (ledger.patches ?? [])
-  .filter(p => p.combatRelevant === true || p.affectsCombat === true)
-  .filter(p => {
-    const v = p.version ?? p.gameVersion;
-    return BLOCKED_AT && cmpVer(v, BLOCKED_AT) >= 0;
-  })
-  .map(p => p.version ?? p.gameVersion);
+// Patches that actually still carry an UNRESOLVED combat delta.
+//
+// This used to be "combat-relevant and at or after the blocking version", which
+// swept in every later patch regardless of its own state - so 1.4.2.5 was listed
+// as unrepresented while the reconciler had it VERIFIED PRESENT. Read the
+// reconciler's per-patch result instead of inferring from the version ordering.
+const reconciledPatches = freshness.patchReconciliation?.patches ?? [];
+const unrepresentedPatches = reconciledPatches.length
+  ? reconciledPatches.filter(p => (p.unresolved ?? []).length > 0).map(p => p.version)
+  : (ledger.patches ?? []).filter(p => p.combatRelevant && BLOCKED_AT && cmpVer(p.version, BLOCKED_AT) >= 0).map(p => p.version);
 
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(Number), pb = String(b).split('.').map(Number);
@@ -305,14 +315,57 @@ const AFFIRMATIVE_UNCHANGED_EVIDENCE = {
   armourRangeShiftM: 'Same targeted changelog reads as armourTotalHp: the +10 m drop-off shift is restated by no later patch and contradicted by none.'
 };
 
+/**
+ * VERSIONED SOURCE ATTESTATION — the only route to CURRENT_PATCH_VERIFIED.
+ *
+ * A field qualifies when BOTH hold:
+ *   1. the frozen source capture publishes this exact value for this weapon at a
+ *      stated game version, AND our shipped value MATCHES it (source coverage
+ *      alone is not attestation - a source can cover a weapon and disagree), and
+ *   2. every patch between that version and the live one carries a recorded
+ *      first-party finding of no numeric weapon-stat change (the "bridge").
+ *
+ * Without step 2 a value attested at 1.4.2.0 is current for 1.4.2.0 and nothing
+ * later, and saying otherwise would be exactly the overstatement the previous
+ * correction pass existed to remove.
+ */
+const OVERLAY_VERSION = overlayDoc?.overlays?.find(o => o.enabled !== false)?.gameVersion ?? null;
+const SOURCE_VERSION = OVERLAY_VERSION ?? (capture ? capture.tabs?.['Sym.gg Data']?.gameVersions?.[0] : null);
+const BRIDGE = SOURCE_VERSION ? bridgeToLive(ledger, SOURCE_VERSION, LIVE_VERSION) : { current: false, intervening: [], reason: 'no versioned source capture present' };
+const weaponById = new Map(weapons.map(w => [w.id, w]));
+const attestationConflicts = [];
+
 for (const r of all) {
   const snapshotBacked = /snapshot|game-file|ballistics|class audit/i.test(r.sourceType || '');
   r.snapshotVersion = snapshotBacked ? SNAPSHOT_VERSION : null;
   r.stale = snapshotBacked && cmpVer(SNAPSHOT_VERSION, LIVE_VERSION) < 0; // kept for backward compatibility only
   r.lastVerified = LAST_VERIFIED;
 
+  // Attest BEFORE the status short-circuits below, so a disagreement between our
+  // value and the source is always surfaced rather than hidden behind PROVISIONAL.
+  const w = weaponById.get(r.weaponId);
+  const att = w && CURRENCY_FIELDS[r.field] ? attestField(capture, w, r.field, SOURCE_VERSION) : null;
+  if (att) {
+    r.sourceAttestation = {
+      gameVersion: att.gameVersion, publisher: att.publisherOfRecord, sourceStat: att.sourceStat,
+      rule: att.rule ?? undefined, sourceValue: att.sourceValue, matches: att.matches,
+      artifact: 'data/sources/sheetonmyface-bf6-workbook.json'
+    };
+    if (!att.matches) attestationConflicts.push({ weaponId: r.weaponId, field: r.field, ours: att.ourValue, source: att.sourceValue, stat: att.sourceStat });
+  }
+
   if (r.status === 'MISSING') { r.currentPatchStatus = CURRENT_PATCH_STATUS.MISSING; r.currencyEvidence = 'field absent from every checked source'; continue; }
   if (r.status === 'PROVISIONAL' || r.status === 'UNVERIFIED') { r.currentPatchStatus = CURRENT_PATCH_STATUS.PROVISIONAL; r.currencyEvidence = 'known uncertainty in the value or mechanic itself, independent of patch currency'; continue; }
+
+  // Versioned source attestation + a verified bridge to live -> CURRENT_PATCH_VERIFIED.
+  // This outranks the "unresolved delta names this field" rule below, and rightly so:
+  // that rule exists because no replacement number was available, and here one is.
+  if (r.sourceAttestation?.matches && BRIDGE.current) {
+    r.currentPatchStatus = CURRENT_PATCH_STATUS.CURRENT_VERIFIED;
+    r.currencyEvidence = `${r.sourceAttestation.publisher ?? 'the source publisher'} publishes this value at game version ${SOURCE_VERSION} (stat ${r.sourceAttestation.sourceStat}${r.sourceAttestation.rule ? `, via ${r.sourceAttestation.rule}` : ''} = ${r.sourceAttestation.sourceValue}); our shipped value matches it. Currency carried to live ${LIVE_VERSION}: ${BRIDGE.reason}. Frozen capture: ${r.sourceAttestation.artifact}.`;
+    r.currencyArtifact = r.sourceAttestation.artifact;
+    continue;
+  }
 
   // A specific unresolved delta names this exact field.
   const namedFields = affectedFields.get(r.weaponId);
@@ -400,6 +453,55 @@ const currentNumericallyVerified = raCurrentVerified + raVerifiedUnchanged;
 
 const affectedWeaponIds = new Set(patchCoverage?.weaponsAffectedByUnresolvedDelta?.map(w => w.weaponId) ?? []);
 
+/**
+ * WHAT IS STOPPING FULL CURRENT VERIFICATION, named per field.
+ *
+ * A single percentage invites the reader to guess what the gap is. This says it:
+ * for every result-affecting field NOT current-verified, which field kind it is,
+ * how many weapons it covers, and the specific reason the versioned source cannot
+ * attest it. Everything here is derived, never asserted.
+ */
+const NOT_PUBLISHED_BY_SOURCE = {
+  dmg: 'the Sym dump publishes ballistics, spread and recoil primitives only - it carries no damage curve at all, so no damage tier can be attested from it.',
+  fireMode: 'not present in the Sym dump. The workbook does carry firing-mode flags, but only on the author\'s hand-maintained "Weapon Data" tab, which demonstrably lags the dump (it still holds the pre-1.4.2.0 velocities).',
+  adsTime: 'not published. The dump\'s DeployTime is weapon deploy time, a different quantity, and using it would be a fabricated mapping.',
+  ammoProfile: 'an attachment-level property; the Sym dump is per-weapon and carries no ammo table.',
+  sweetSpot: 'sniper one-shot windows are a damage-curve property, and the dump carries no damage data.',
+  pellets: 'shotgun-only, and no shotgun appears in the Sym dump at any version.',
+  tacRld: 'reload timings are published as component times (StripReloadTime, ReloadDelay, ...), not as the single tactical-reload figure this schema stores; deriving one would be a modelling choice, not an attestation.',
+  emptyRld: 'same as tacRld: published only as component times.'
+};
+const blockers = {};
+for (const r of resultAffecting) {
+  if (r.currentPatchStatus === S.CURRENT_VERIFIED || r.currentPatchStatus === S.VERIFIED_UNCHANGED) continue;
+  const b = blockers[r.field] ??= {
+    field: r.field, fields: 0, weapons: new Set(), statuses: {},
+    reason: NOT_PUBLISHED_BY_SOURCE[r.field]
+      ?? (CURRENCY_FIELDS[r.field]
+        ? 'the source publishes this field, but this weapon is absent from the dump or the value is otherwise unattested (see the per-row sourceAttestation).'
+        : 'not covered by any versioned source capture this project holds.')
+  };
+  b.fields++; b.weapons.add(r.weaponId ?? r.weapon); (b.statuses[r.currentPatchStatus] ??= 0, b.statuses[r.currentPatchStatus]++);
+}
+const currentVerificationBlockers = Object.values(blockers)
+  .map(b => ({ field: b.field, fields: b.fields, weapons: b.weapons.size, statuses: b.statuses, reason: b.reason }))
+  .sort((a, b) => b.fields - a.fields);
+
+// Weapon-level coverage: a weapon counts as current-verified only when EVERY
+// result-affecting field it has is. Field coverage and weapon coverage answer
+// different questions and are reported separately, never averaged.
+const byWeapon = new Map();
+for (const r of resultAffecting) {
+  if (!r.weaponId) continue;
+  const e = byWeapon.get(r.weaponId) ?? { total: 0, current: 0 };
+  e.total++;
+  if (r.currentPatchStatus === S.CURRENT_VERIFIED || r.currentPatchStatus === S.VERIFIED_UNCHANGED) e.current++;
+  byWeapon.set(r.weaponId, e);
+}
+const weaponsFullyCurrent = [...byWeapon.values()].filter(e => e.current === e.total).length;
+const weaponsPartlyCurrent = [...byWeapon.values()].filter(e => e.current > 0 && e.current < e.total).length;
+const weaponsNoneCurrent = [...byWeapon.values()].filter(e => e.current === 0).length;
+
 const summary = {
   generatedAt: new Date().toISOString(),
   liveGameVersion: LIVE_VERSION,
@@ -423,6 +525,24 @@ const summary = {
     STALE_NEEDS_RECHECK: raStale,
     PROVISIONAL: raProvisional,
     MISSING_UNSUPPORTED: raMissing
+  },
+  versionedSource: SOURCE_VERSION ? {
+    gameVersion: SOURCE_VERSION,
+    publisher: capture?.source?.publisherOfRecord ?? null,
+    carrier: capture?.source?.name ?? null,
+    artifact: 'data/sources/sheetonmyface-bf6-workbook.json',
+    bridgeToLive: BRIDGE,
+    attestedFields: all.filter(r => r.sourceAttestation?.matches).length,
+    attestationConflicts: attestationConflicts.length
+  } : null,
+  currentVerificationBlockers,
+  weaponCoverage: {
+    definition: 'a weapon is fully current only when EVERY result-affecting field it carries is current-verified; this is a different question from field coverage and is never averaged with it',
+    weapons: byWeapon.size,
+    fullyCurrent: weaponsFullyCurrent,
+    partlyCurrent: weaponsPartlyCurrent,
+    noneCurrent: weaponsNoneCurrent,
+    anyCurrentPercent: Math.round(100 * (weaponsFullyCurrent + weaponsPartlyCurrent) / byWeapon.size)
   },
   headline: {
     knownPatchDeltaCoveragePercent: Math.round(100 * knownPatchDeltaCovered / resultAffecting.length),
@@ -500,14 +620,28 @@ console.log(JSON.stringify(summary, null, 1));
 // Any CURRENT_PATCH_VERIFIED claim must name live-version evidence. Today none
 // does, and that is the correct state - but this fails loudly if a future edit
 // promotes a field without the evidence to back it.
+// Gate: CURRENT_PATCH_VERIFIED is a STRUCTURAL claim, not a wording.
+// It requires a matching attestation from a committed, version-stating capture AND
+// a verified bridge across every intervening patch. Checking the prose would let a
+// well-phrased sentence buy a confidence claim; checking the structure will not.
 if (currentVerifiedClaims.length) {
-  const unbacked = currentVerifiedClaims.filter(r => !/1\.4\.2\.5|live[- ]game|in-game measurement|extraction/i.test(r.currencyEvidence || ''));
+  const unbacked = currentVerifiedClaims.filter(r =>
+    !(r.sourceAttestation?.matches === true && r.currencyArtifact && BRIDGE.current));
   if (unbacked.length) {
-    console.error(`
-FAIL: ${unbacked.length} field(s) claim CURRENT_PATCH_VERIFIED without naming live-version evidence`);
+    console.error(`\nFAIL: ${unbacked.length} field(s) claim CURRENT_PATCH_VERIFIED without a matching versioned source attestation bridged to ${LIVE_VERSION}`);
     for (const u of unbacked.slice(0, 10)) console.error(`  ${u.weapon} ${u.field}: ${u.currencyEvidence}`);
     process.exit(1);
   }
+}
+
+// Gate: our value must never CONTRADICT a source we are simultaneously citing.
+// A conflict means the overlay derivation and this audit disagree about what the
+// source says, which is a defect in one of them and must not pass silently.
+if (attestationConflicts.length) {
+  console.error(`\nFAIL: ${attestationConflicts.length} field(s) disagree with the versioned source capture they are compared against`);
+  for (const c of attestationConflicts.slice(0, 12)) console.error(`  ${c.weaponId} ${c.field} (${c.stat}): ours ${c.ours} vs source ${c.source}`);
+  console.error('Either the overlay is incomplete or the field map is wrong. Re-run scripts/build-source-overlay.mjs.');
+  process.exit(1);
 }
 
 // Gate: nothing may claim VERIFIED without a recorded re-derivation.
