@@ -22,6 +22,11 @@
     targetArmor: "unarmored",
     redsecModel: null,
     sourceVerification: null,
+    // The loaded data/source-overlays.json document, and the result of applying
+    // it. Display-facing code reads these to say which game version the numbers
+    // on screen actually come from.
+    sourceOverlay: null,
+    overlayApplication: null,
     freshness: null,
     // One canonical fighting distance in meters. The slider, the preset
     // shortcuts and the custom numeric input all write this single value, and
@@ -53,7 +58,7 @@
     shotgunAudit: null,
     // Display-only attachment naming audit. Never read by the optimizer.
     nameAudit: null,
-    source: { freshness: "loading", redsec: "loading", weapons: "loading", attachments: "loading", ammo: "loading", ballistics: "loading", combat: "loading", assaultAudit: "loading", carbineAudit: "loading", smgAudit: "loading", lmgAudit: "loading", dmrAudit: "loading", sniperAudit: "loading", sidearmAudit: "loading", shotgunAudit: "loading", nameAudit: "loading" }
+    source: { freshness: "loading", redsec: "loading", weapons: "loading", attachments: "loading", ammo: "loading", ballistics: "loading", combat: "loading", assaultAudit: "loading", carbineAudit: "loading", smgAudit: "loading", lmgAudit: "loading", dmrAudit: "loading", sniperAudit: "loading", sidearmAudit: "loading", shotgunAudit: "loading", nameAudit: "loading", sourceOverlays: "loading" }
   };
 
   const CATALOG_KEYS = {
@@ -527,6 +532,63 @@
     }
   }
 
+  /**
+   * Versioned source overlays (data/source-overlays.json).
+   *
+   * data/weapons.json is a byte-identical mirror of the upstream feed and must
+   * stay that way - the manifest hashes it and the Combat Engine re-syncs it.
+   * Values newer than that mirror therefore live in an overlay carrying its own
+   * game version, publisher and per-change provenance, applied here on load.
+   */
+  async function loadSourceOverlays() {
+    try {
+      const doc = await fetchJson("./data/source-overlays.json", 4000);
+      if (doc?.schema === 1 && Array.isArray(doc.overlays)) {
+        state.sourceOverlay = doc;
+        state.source.sourceOverlays = "loaded";
+        return doc;
+      }
+      state.source.sourceOverlays = "invalid";
+      return null;
+    } catch (_) {
+      // No overlay file, or unreachable. The pristine baseline is still a valid
+      // dataset - it is simply older - so this is not a fault, it is a state.
+      state.source.sourceOverlays = "absent";
+      return null;
+    }
+  }
+
+  /**
+   * Apply the overlay document through the ONE shared applier in source-overlay.js
+   * (the same module scripts/build-combat-cache.mjs uses via scripts/source-overlay.mjs,
+   * so the browser and the exhaustive cache can never disagree about the data).
+   *
+   * Fails closed: any change whose declared baseline no longer matches the mirror
+   * is skipped and recorded, never forced.
+   */
+  function applySourceOverlays(baseline, doc) {
+    state.overlayApplication = null;
+    if (!doc) return baseline;
+    const api = window.BF6_SOURCE_OVERLAY;
+    if (!api || typeof api.applyOverlays !== "function") {
+      state.source.sourceOverlays = "applier-missing";
+      return baseline;
+    }
+    const result = api.applyOverlays(baseline, doc);
+    state.overlayApplication = {
+      applied: result.applied.length,
+      errors: result.errors,
+      versions: result.versions
+    };
+    if (result.errors.length) {
+      state.source.sourceOverlays = "conflict";
+      // A conflicting overlay means the baseline moved underneath it. Keep the
+      // partial-but-verified result rather than either forcing the stale values
+      // in or discarding correctly-applied ones; the gate blocks this in CI.
+    }
+    return result.weapons;
+  }
+
   async function loadFreshnessStatus() {
     try {
       const f = await fetchJson("./data/freshness-status.json", 3000);
@@ -654,11 +716,16 @@
 
   async function loadData() {
     // Deliberately independent. One bad source must never erase the catalog or the other data.
-    const [weapons, attachments, ammo, ballistics] = await Promise.all([
-      loadOne("weapons"), loadOne("attachments"), loadOne("ammo"), loadOne("ballistics")
+    const [weapons, attachments, ammo, ballistics, sourceOverlays] = await Promise.all([
+      loadOne("weapons"), loadOne("attachments"), loadOne("ammo"), loadOne("ballistics"), loadSourceOverlays()
     ]);
 
-    state.rawWeapons = Array.isArray(weapons) ? weapons : [];
+    // The weapons feed is a pristine mirror of upstream. Newer verified values
+    // ride on top of it as versioned overlays so the mirror stays byte-identical
+    // and the effective dataset stays reproducible as mirror + overlays.
+    // See source-overlay.js. A failed overlay load leaves the baseline in place;
+    // it never silently half-applies.
+    state.rawWeapons = applySourceOverlays(Array.isArray(weapons) ? weapons : [], sourceOverlays);
     state.attachments = attachments && typeof attachments === "object" ? attachments : null;
     state.ammo = ammo && typeof ammo === "object" ? ammo : null;
     state.ballistics = ballistics && typeof ballistics === "object" ? ballistics : null;
@@ -3912,8 +3979,16 @@
       rosterCount: CURRENT.roster.length,
       primaryCount: CURRENT.roster.filter(w => w.cls !== "Secondary").length,
       classes: CURRENT.primaryClasses.slice(),
-      source: { ...state.source }
+      source: { ...state.source },
+      // Which source overlays the numbers on screen actually carry, and whether
+      // any change failed its baseline check. Exposed so gates can assert the
+      // shipped app really applied what the overlay document declares.
+      overlay: state.overlayApplication
+        ? { ...state.overlayApplication, declared: state.sourceOverlay?.overlays?.map(o => ({ id: o.id, gameVersion: o.gameVersion, changes: o.changes?.length ?? 0, enabled: o.enabled !== false })) ?? [] }
+        : null
     }),
+    /** The effective (baseline + overlay) weapon record, for provenance gates. */
+    rawWeapon: id => state.rawWeapons.find(w => w.id === id) ?? null,
     redsec: {
       model: () => state.redsecModel,
       armorCurve: weaponId => armorDamageCurve(state.rawWeapons.find(w => w.id === weaponId)),

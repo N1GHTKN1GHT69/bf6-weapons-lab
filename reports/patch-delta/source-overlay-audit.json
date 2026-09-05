@@ -1,0 +1,34 @@
+{
+ "generatedAt": "2026-09-05T20:17:31.380Z",
+ "overlayFile": "data/source-overlays.json",
+ "baselineSha256": "bd1c18533a081585edef2d05daf8446967da208e66d2305f535996dab7e00071",
+ "overlays": [
+  {
+   "id": "sym-1.4.2.0",
+   "gameVersion": "1.4.2.0",
+   "enabled": true,
+   "changes": 39,
+   "excluded": 7,
+   "weapons": [
+    "brod3",
+    "ef88",
+    "l115",
+    "vssm"
+   ]
+  }
+ ],
+ "applied": 39,
+ "applierErrors": [],
+ "checks": {
+  "baselineIntegrity": "every `from` matches the pristine mirror",
+  "noHandEnteredValues": "every non-derived `to` is byte-equal to the frozen capture",
+  "derivedReproducible": "every derived `to` recomputed from its rule",
+  "schemaInvariants": "mirror duplicates + recoilV verified on all 62 weapons",
+  "vssmDoubleTransform": "base rpm = SingleRoF, attachment autoRpm = RoF, no overlay may touch vssm.rpm"
+ },
+ "notes": [
+  "schema invariants re-verified on all 62 weapons of the effective dataset",
+  "VSSM two-state model intact: base rpm 449.999 = source SingleRoF, full_auto_vssm.autoRpm 799.999 = source RoF. No double transform possible."
+ ],
+ "errors": []
+}

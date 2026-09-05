@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-03T16:48:11.387Z",
+ "generatedAt": "2026-09-05T20:14:02.146Z",
  "cases": 336,
  "errors": [],
  "env": {
@@ -36,7 +36,23 @@
    "sidearmAudit": "runtime-pass",
    "shotgunAudit": "runtime-pass",
    "nameAudit": "loaded",
+   "sourceOverlays": "loaded",
    "sourceVerification": "loaded"
+  },
+  "overlay": {
+   "applied": 39,
+   "errors": [],
+   "versions": [
+    "1.4.2.0"
+   ],
+   "declared": [
+    {
+     "id": "sym-1.4.2.0",
+     "gameVersion": "1.4.2.0",
+     "changes": 39,
+     "enabled": true
+    }
+   ]
   }
  },
  "report": [

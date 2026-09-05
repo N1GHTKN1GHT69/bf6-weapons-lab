@@ -11,6 +11,11 @@ on:
       - 'scripts/auto-selection-policy.mjs'
       - 'scripts/cache-state-signature.mjs'
       - 'scripts/verified-source-sanitizer.mjs'
+      - 'scripts/source-overlay.mjs'
+      - 'source-overlay.js'
+      # The overlay carries every value newer than the upstream mirror, so it
+      # changes the cache exactly as weapons.json would.
+      - 'data/source-overlays.json'
       - 'attachment-legality.js'
       - 'scripts/list-cache-weapons.mjs'
       - 'data/*-audit.json'
@@ -89,6 +94,8 @@ jobs:
           node scripts/audit-cache-state-dedupe.mjs
           node scripts/audit-cache-state-scale.mjs
           node scripts/audit-partial-assumptions.mjs
+      - name: Gate source overlay integrity and the VSSM two-state model
+        run: node scripts/audit-source-overlay.mjs
       - name: Gate freshness/update fail-closed behavior
         run: node scripts/audit-freshness.mjs
       - name: Gate final cache integration policy

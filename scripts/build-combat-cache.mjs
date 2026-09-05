@@ -6,6 +6,7 @@ import { execFileSync } from 'node:child_process';
 import { scoringStateSignature } from './cache-state-signature.mjs';
 import { stripPartialAssumptions } from './verified-source-sanitizer.mjs';
 import { offerAutoBucketCandidate, selectAnchoredAuto } from './auto-selection-policy.mjs';
+import { applyOverlays, loadOverlayDoc } from './source-overlay.mjs';
 
 const upstream = resolve(process.argv[2] || process.env.BF6_ANALYZER_DIR || '.upstream/bf6-analyzer');
 const outDir = resolve(process.argv[3] || 'data');
@@ -29,7 +30,25 @@ const CACHE_OUT = resolve(argValue('--cache') || process.env.BF6_CACHE_OUT || jo
 const AUDIT_OUT = resolve(argValue('--audit') || process.env.BF6_AUDIT_OUT || join(outDir,'combat-audit.json'));
 
 const json = async p => JSON.parse(await readFile(p, 'utf8'));
-const weapons = await json(join(upstream, 'data/weapons.json'));
+const baselineWeapons = await json(join(upstream, 'data/weapons.json'));
+
+// Versioned source overlays, applied through the SAME module the browser
+// optimizer uses (source-overlay.js) so the exhaustive cache and the on-demand
+// path cannot disagree about the underlying numbers. The upstream mirror is read
+// pristine and never written back; overlays carry anything newer than it.
+// Fails hard on conflict: a cache built from values we cannot account for is
+// worse than no cache.
+const overlayDoc = loadOverlayDoc(join(outDir, 'source-overlays.json'));
+const overlayResult = applyOverlays(baselineWeapons, overlayDoc);
+if (overlayResult.errors.length) {
+  throw new Error('source overlay conflicts (baseline moved under the overlay):\n  ' + overlayResult.errors.join('\n  '));
+}
+const weapons = overlayResult.weapons;
+if (overlayDoc) {
+  console.log(`Source overlays: applied ${overlayResult.applied.length} change(s) for game version(s) ${overlayResult.versions.join(', ')} on top of the upstream mirror.`);
+} else {
+  console.log('Source overlays: none present; using the upstream mirror unmodified.');
+}
 const selectedWeapons = WEAPON_FILTER ? weapons.filter(w => w.id === WEAPON_FILTER) : (CLASS_FILTER ? weapons.filter(w => w.cls === CLASS_FILTER) : weapons);
 if (WEAPON_FILTER && !selectedWeapons.length) throw new Error(`No upstream weapon matched weapon filter: ${WEAPON_FILTER}`);
 if (CLASS_FILTER && !selectedWeapons.length) throw new Error(`No upstream weapons matched class filter: ${CLASS_FILTER}`);

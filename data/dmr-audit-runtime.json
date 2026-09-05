@@ -2,7 +2,7 @@
   "schema": 1,
   "class": "DMR",
   "gameVersion": "1.4.2.5",
-  "generatedAt": "2026-09-03T10:53:12.638Z",
+  "generatedAt": "2026-09-05T20:13:39.956Z",
   "definition": "Mechanical chest TTK is measured from the first damaging chest hit to the lethal chest hit against 100 HP. It deliberately excludes projectile flight time. Because the site uses an exact target-distance slider, DMRs also expose a separate trigger-to-kill metric that adds projectile flight where the ballistic model is verified.",
   "weaponCountExpected": 6,
   "weaponCountChecked": 6,

@@ -17,6 +17,8 @@ on:
       - 'data/freshness-status.json'
       - 'data/optimizer-legality-divergence.json'
       - 'data/source-verification.json'
+      - 'data/source-overlays.json'
+      - 'source-overlay.js'
       - 'data/current-patch-coverage.json'
       - 'data/live-measurements.json'
       - 'data/sources/**'
@@ -44,6 +46,7 @@ jobs:
           node --check class-data.js
           node --check roster-data.js
           node --check sw.js
+          node --check source-overlay.js
           for f in scripts/*.mjs; do node --check "$f"; done
       - name: Fast deterministic gates
         shell: bash
@@ -76,6 +79,8 @@ jobs:
           node scripts/audit-cache-identity.mjs
           node scripts/audit-advanced-options.mjs
           node scripts/audit-source-reconciliation.mjs
+          node scripts/audit-source-overlay.mjs
+          node scripts/build-source-overlay.mjs --check
           node scripts/audit-current-patch-coverage.mjs
           node scripts/audit-source-data.mjs
           node scripts/audit-field-impact.mjs

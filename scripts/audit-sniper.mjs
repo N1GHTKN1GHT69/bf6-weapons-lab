@@ -1,10 +1,14 @@
 #!/usr/bin/env node
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
+import { loadEffectiveWeapons } from './source-overlay.mjs';
 const upstream=resolve(process.argv[2]||process.env.BF6_ANALYZER_DIR||'.upstream/bf6-analyzer');
 const outDir=resolve(process.argv[3]||'data');
 const expectedFile=resolve(process.argv[4]||'data/sniper-audit.json');
-const weapons=JSON.parse(await readFile(join(upstream,'data/weapons.json'),'utf8'));
+// EFFECTIVE dataset: upstream mirror + versioned source overlays, i.e. exactly the
+// numbers the product ships. Auditing the bare mirror would pass against values
+// the app never displays. See scripts/source-overlay.mjs.
+const weapons=loadEffectiveWeapons(join(upstream,'data/weapons.json'), join(outDir,'source-overlays.json'));
 const atts=JSON.parse(await readFile(join(upstream,'data/attachments.json'),'utf8'));
 const ammo=JSON.parse(await readFile(join(upstream,'data/ammo.json'),'utf8'));
 const expected=JSON.parse(await readFile(expectedFile,'utf8'));

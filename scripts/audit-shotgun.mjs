@@ -1,13 +1,17 @@
 #!/usr/bin/env node
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
+import { loadEffectiveWeapons } from './source-overlay.mjs';
 
 const upstream=resolve(process.argv[2]||'.upstream/bf6-analyzer');
 const outDir=resolve(process.argv[3]||'data');
 const baselinePath=resolve(process.argv[4]||'data/shotgun-audit.json');
 const json=async p=>JSON.parse(await readFile(p,'utf8'));
 const baseline=await json(baselinePath);
-const weapons=await json(join(upstream,'data/weapons.json'));
+// EFFECTIVE dataset: upstream mirror + versioned source overlays, i.e. exactly the
+// numbers the product ships. Auditing the bare mirror would pass against values
+// the app never displays. See scripts/source-overlay.mjs.
+const weapons=loadEffectiveWeapons(join(upstream,'data/weapons.json'), join(outDir,'source-overlays.json'));
 const ammo=await json(join(upstream,'data/ammo.json'));
 const errors=[];
 const aliases={m87a1:'m87a1',m1014:'m1014','185ksk':'ks18k',db12:'db12'};

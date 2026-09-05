@@ -1,0 +1,511 @@
+{
+ "schema": 1,
+ "purpose": "Versioned, provenance-carrying patches applied on top of the pristine upstream mirror in data/weapons.json. The mirror is never edited; the effective dataset is always reproducible as mirror + ordered overlays. See source-overlay.js.",
+ "generator": "scripts/build-source-overlay.mjs",
+ "baseline": {
+  "dataset": "data/weapons.json",
+  "sha256": "bd1c18533a081585edef2d05daf8446967da208e66d2305f535996dab7e00071",
+  "mirrorOf": "raymdl/BF6-Weapon-Analyzer",
+  "mirrorCommit": "fb7a214778e1e4b5a5113f21ec0dd12136123845",
+  "representsUpstreamDeclared": "1.3.3.0",
+  "note": "The upstream feed declares a 1.3.3.0 baseline; data/patch-delta-ledger.json shows its content window actually reaches 1.4.1.5. Overlays carry it forward from there."
+ },
+ "overlays": [
+  {
+   "id": "sym-1.4.2.0",
+   "order": 1,
+   "enabled": true,
+   "gameVersion": "1.4.2.0",
+   "publisherOfRecord": "sym.gg",
+   "carrier": "SheetOnMyFace — Battlefield 6 Interactive Weapon Guide v1.73",
+   "carrierUrl": "https://docs.google.com/spreadsheets/d/1_jVZuDofvDzwdK6IjhnLGUWCP7UXI2MKpC06EVbYD_Q/edit?usp=sharing",
+   "sourceArtifact": "data/sources/sheetonmyface-bf6-workbook.json",
+   "sourceArtifactSha256": "dfa0ebaa8bdae025440c575fcea53d6bf95b0056d361cd8c0b94d85eb77c66d5",
+   "confidence": "source-verified-current",
+   "confidenceBasis": [
+    "The workbook's archived 1.3.3.0 rows agree with our mirror on 3630/3630 mapped field comparisons, so its version labelling is faithful to the dataset we already hold.",
+    "Against itself the workbook changes only 1 of 6708 values between 1.3.3.0 and 1.4.2.0, so the 1.4.2.0 tab is a real refresh and not a re-import with different conventions.",
+    "EA update 1.4.2.0 states \"Weapon statistics updates for the EF88, BROD, and VSSM\" - the three weapons carrying most of this overlay.",
+    "Single source. Not independently corroborated by a second publisher: sym.gg is the only outlet that publishes these primitives at all, and its own public site still stops at 1.3.3.0."
+   ],
+   "changeCount": 39,
+   "weapons": [
+    "brod3",
+    "ef88",
+    "l115",
+    "vssm"
+   ],
+   "changes": [
+    {
+     "weaponId": "brod3",
+     "path": "bulletVel",
+     "from": 580,
+     "to": 563,
+     "sourceStat": "velocity",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "brod3",
+     "path": "recoilIncAds",
+     "from": 0.228,
+     "to": 0.304,
+     "sourceStat": null,
+     "evidence": "DERIVED_FROM_INGESTED_PRIMITIVES",
+     "affectsCombat": true,
+     "derived": "mirror of spreadDyn.ads.inc",
+     "dependsOn": [
+      "spreadDyn.ads.inc"
+     ]
+    },
+    {
+     "weaponId": "brod3",
+     "path": "spread.adsMove[0]",
+     "from": 0.35,
+     "to": 0.32,
+     "sourceStat": "ADSStandMoveMin",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "brod3",
+     "path": "spreadDyn.ads.distExp",
+     "from": 0.67,
+     "to": 0.5,
+     "sourceStat": "ADSBaseSpreadDistExp",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "brod3",
+     "path": "spreadDyn.ads.firingCoef",
+     "from": 1.22,
+     "to": 1.2,
+     "sourceStat": "ADSBaseSpreadFiringDecCoef",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "brod3",
+     "path": "spreadDyn.ads.firingOffset",
+     "from": 1.84,
+     "to": 2.7,
+     "sourceStat": "ADSBaseSpreadFiringDecOffset",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "brod3",
+     "path": "spreadDyn.ads.inc",
+     "from": 0.228,
+     "to": 0.304,
+     "sourceStat": "ADSBaseSpreadInc",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "brod3",
+     "path": "spreadDyn.hip.firingCoef",
+     "from": 0.51,
+     "to": 0.5,
+     "sourceStat": "HIPBaseSpreadFiringDecCoef",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "brod3",
+     "path": "spreadDyn.hip.firingOffset",
+     "from": 3.31,
+     "to": 4.86,
+     "sourceStat": "HIPBaseSpreadFiringDecOffset",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "brod3",
+     "path": "spreadDyn.hip.inc",
+     "from": 0.41,
+     "to": 0.547,
+     "sourceStat": "HIPBaseSpreadInc",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "bulletVel",
+     "from": 670,
+     "to": 724,
+     "sourceStat": "velocity",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "recoil.ads.amount",
+     "from": 0.59065,
+     "to": 0.5965,
+     "sourceStat": "ADSRecoilAmount",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "recoil.ads.amountMult",
+     "from": 0.9579,
+     "to": 0.9375,
+     "sourceStat": "ADSRecoilAmountMultiplier",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "recoil.ads.dirVar",
+     "from": 20.3,
+     "to": 26.1,
+     "sourceStat": "ADSRecoilDirectionVariation",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "recoil.ads.dirVarMult",
+     "from": 0.89864,
+     "to": 0.915366,
+     "sourceStat": "ADSRecoilDirectionVariationMultiplier",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "recoil.hip.amount",
+     "from": 0.59065,
+     "to": 0.5965,
+     "sourceStat": "HIPRecoilAmount",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "recoil.hip.amountMult",
+     "from": 0.9579,
+     "to": 0.9375,
+     "sourceStat": "HIPRecoilAmountMultiplier",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "recoil.hip.dirVar",
+     "from": 20.3,
+     "to": 26.1,
+     "sourceStat": "HIPRecoilDirectionVariation",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "recoil.hip.dirVarMult",
+     "from": 0.9160025,
+     "to": 0.915366,
+     "sourceStat": "HIPRecoilDirectionVariationMultiplier",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "recoilIncAds",
+     "from": 0.3,
+     "to": 0.36,
+     "sourceStat": null,
+     "evidence": "DERIVED_FROM_INGESTED_PRIMITIVES",
+     "affectsCombat": true,
+     "derived": "mirror of spreadDyn.ads.inc",
+     "dependsOn": [
+      "spreadDyn.ads.inc"
+     ]
+    },
+    {
+     "weaponId": "ef88",
+     "path": "recoilV",
+     "from": 0.6720006428699492,
+     "to": 0.7239300740740741,
+     "sourceStat": null,
+     "evidence": "DERIVED_FROM_INGESTED_PRIMITIVES",
+     "affectsCombat": true,
+     "derived": "recoilV = recoil.ads.amount * recoil.ads.amountMult ^ recoil.ads.amountExp",
+     "dependsOn": [
+      "recoil.ads.amount",
+      "recoil.ads.amountMult",
+      "recoil.ads.amountExp"
+     ]
+    },
+    {
+     "weaponId": "ef88",
+     "path": "recoilVar",
+     "from": 20.3,
+     "to": 26.1,
+     "sourceStat": null,
+     "evidence": "DERIVED_FROM_INGESTED_PRIMITIVES",
+     "affectsCombat": true,
+     "derived": "mirror of recoil.ads.dirVar",
+     "dependsOn": [
+      "recoil.ads.dirVar"
+     ]
+    },
+    {
+     "weaponId": "ef88",
+     "path": "reloadSpeed",
+     "from": 0.987893,
+     "to": 1,
+     "sourceStat": "ReloadSpeed",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "spread.adsMove[0]",
+     "from": 0.25,
+     "to": 0.32,
+     "sourceStat": "ADSStandMoveMin",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "spread.adsStand[0]",
+     "from": 0.1,
+     "to": 0.05,
+     "sourceStat": "ADSStandBaseMin",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "spreadDyn.ads.distExp",
+     "from": 0.67,
+     "to": 0.5,
+     "sourceStat": "ADSBaseSpreadDistExp",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "spreadDyn.ads.firingCoef",
+     "from": 1.04,
+     "to": 1.2,
+     "sourceStat": "ADSBaseSpreadFiringDecCoef",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "spreadDyn.ads.firingOffset",
+     "from": 2.05,
+     "to": 2.7,
+     "sourceStat": "ADSBaseSpreadFiringDecOffset",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "spreadDyn.ads.idleTime",
+     "from": 0.6,
+     "to": 0.4,
+     "sourceStat": "ADSBaseSpreadIdleTime",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "spreadDyn.ads.inc",
+     "from": 0.3,
+     "to": 0.36,
+     "sourceStat": "ADSBaseSpreadInc",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "spreadDyn.ads.notFiringOffset",
+     "from": 8,
+     "to": 7.2,
+     "sourceStat": "ADSBaseSpreadNotFiringDecOffset",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "spreadDyn.hip.firingCoef",
+     "from": 0.43,
+     "to": 0.5,
+     "sourceStat": "HIPBaseSpreadFiringDecCoef",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "spreadDyn.hip.firingOffset",
+     "from": 3.69,
+     "to": 4.86,
+     "sourceStat": "HIPBaseSpreadFiringDecOffset",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "spreadDyn.hip.inc",
+     "from": 0.54,
+     "to": 0.648,
+     "sourceStat": "HIPBaseSpreadInc",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "ef88",
+     "path": "spreadDyn.hip.notFiringOffset",
+     "from": 14.4,
+     "to": 12.96,
+     "sourceStat": "HIPBaseSpreadNotFiringDecOffset",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "l115",
+     "path": "bulletVel",
+     "from": 664,
+     "to": 742,
+     "sourceStat": "velocity",
+     "evidence": "INGEST_PATCH_DELTA",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "vssm",
+     "path": "spread.adsMove[0]",
+     "from": 0.35,
+     "to": 0.32,
+     "sourceStat": "ADSStandMoveMin",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "vssm",
+     "path": "spread.hipMove[0]",
+     "from": 4.19,
+     "to": 2.255,
+     "sourceStat": "HIPStandMoveMin",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    },
+    {
+     "weaponId": "vssm",
+     "path": "spread.hipStand[0]",
+     "from": 3.352,
+     "to": 1.804,
+     "sourceStat": "HIPStandBaseMin",
+     "evidence": "INGEST_NO_ARCHIVE_ROW",
+     "affectsCombat": true,
+     "derived": null
+    }
+   ],
+   "excluded": [
+    {
+     "weaponId": "ef88",
+     "path": "rpm",
+     "sourceStat": "RoF",
+     "ours": 675,
+     "sheet": 674.999,
+     "verdict": "REPRESENTATION_ONLY",
+     "reason": "The workbook rounds this figure; our mirror carries it exactly. Relative difference -1.48e-4%, far below the 0.00001 display-rounding threshold. Ingesting it would LOSE precision."
+    },
+    {
+     "weaponId": "brod3",
+     "path": "rpm",
+     "sourceStat": "RoF",
+     "ours": 830.7692307692307,
+     "sheet": 830.769,
+     "verdict": "REPRESENTATION_ONLY",
+     "reason": "The workbook rounds this figure; our mirror carries it exactly. Relative difference -2.78e-5%, far below the 0.00001 display-rounding threshold. Ingesting it would LOSE precision."
+    },
+    {
+     "weaponId": "vssm",
+     "path": "rpm",
+     "sourceStat": "RoF",
+     "ours": 449.999,
+     "sheet": 799.999,
+     "verdict": "EXCLUDED",
+     "reason": "DIFFERENT FIRE-MODE STATE, NOT A PATCH DELTA. The workbook publishes three rates: RoF 799.999, BurstRoF 799.999 and SingleRoF 449.999. Our stored rpm 449.999 is SingleRoF exactly, and the catalog attachment full_auto_vssm (\"Folding Stock\", 40 pts, setsFireModeAuto) already carries autoRpm 799.999 - the workbook RoF exactly. Both states are therefore already represented. Writing RoF into the base record would make the semi-auto base fire at the full-auto rate and would double-count the conversion. VSSM is the only weapon in the roster whose RoF and SingleRoF differ, which is what makes this discriminable at all. Corroborated independently by the weapon record’s own provenance note (\"rpm 450 is the in-game semi-auto rate; the datamined table lists 800, which the captures show is the Folding Stock full-auto rate\")."
+    },
+    {
+     "weaponId": "m2010esr",
+     "path": "rpm",
+     "sourceStat": "RoF",
+     "ours": 44.0816018658339,
+     "sheet": 44.08160187,
+     "verdict": "REPRESENTATION_ONLY",
+     "reason": "The workbook rounds this figure; our mirror carries it exactly. Relative difference 9.45e-9%, far below the 0.00001 display-rounding threshold. Ingesting it would LOSE precision."
+    },
+    {
+     "weaponId": "sv98",
+     "path": "rpm",
+     "sourceStat": "RoF",
+     "ours": 37.67438355865456,
+     "sheet": 37.67438356,
+     "verdict": "REPRESENTATION_ONLY",
+     "reason": "The workbook rounds this figure; our mirror carries it exactly. Relative difference 3.57e-9%, far below the 0.00001 display-rounding threshold. Ingesting it would LOSE precision."
+    },
+    {
+     "weaponId": "psr",
+     "path": "rpm",
+     "sourceStat": "RoF",
+     "ours": 38.11762015220833,
+     "sheet": 38.11762015,
+     "verdict": "REPRESENTATION_ONLY",
+     "reason": "The workbook rounds this figure; our mirror carries it exactly. Relative difference -5.79e-9%, far below the 0.00001 display-rounding threshold. Ingesting it would LOSE precision."
+    },
+    {
+     "weaponId": "l115",
+     "path": "rpm",
+     "sourceStat": "RoF",
+     "ours": 46.349953649969095,
+     "sheet": 46.34995365,
+     "verdict": "REPRESENTATION_ONLY",
+     "reason": "The workbook rounds this figure; our mirror carries it exactly. Relative difference 6.67e-11%, far below the 0.00001 display-rounding threshold. Ingesting it would LOSE precision."
+    }
+   ]
+  }
+ ]
+}

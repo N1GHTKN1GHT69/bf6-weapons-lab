@@ -2,7 +2,7 @@
   "schema": 1,
   "class": "SMG",
   "gameVersion": "1.4.2.5",
-  "generatedAt": "2026-09-03T10:53:12.509Z",
+  "generatedAt": "2026-09-05T20:13:39.770Z",
   "definition": "Ideal chest TTK is measured from the first damaging chest hit to the lethal chest hit against 100 HP. ADS time, reaction time, network latency, and projectile flight time are excluded.",
   "weaponCountExpected": 10,
   "weaponCountChecked": 10,
