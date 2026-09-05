@@ -1,8 +1,69 @@
 # BF6 Weapons Lab — session state
 
-Latest pass: 2026-09-03, current-patch (1.4.2.5) source re-derivation.
-Full findings: `BF6-WEAPONS-LAB-PATCH-DELTA-REPORT.md` (this pass) and
-`BF6-WEAPONS-LAB-OVERNIGHT-REPORT.md` (prior session — optimizer/ranking/legality).
+Latest pass: **2026-09-05, Sym 1.4.2.0 ingestion**.
+Full findings: `BF6-WEAPONS-LAB-1420-INGESTION-REPORT.md`.
+How to repeat the pipeline from a cold start: `SOURCE-PIPELINE-RUNBOOK.md`.
+
+## 1.4.2.0 ingestion pass — completed 2026-09-05
+
+- **The blocker is gone.** Sym's 1.4.2.0 data had been publicly available in the
+  SheetOnMyFace workbook the whole time. The old watcher could not see it because it
+  watches sym.gg's own site, which is a different channel. Both are watched now.
+- **39 changes ingested** (35 direct + 4 derived) across EF88, BROD 3, VSSM and L115,
+  as a VERSIONED OVERLAY (`data/source-overlays.json` + `source-overlay.js`) on top of
+  the pristine mirror. `data/weapons.json` is still byte-identical to upstream and must
+  stay that way — the runbook explains why hand-editing it silently fails.
+- **Provenance 3630/3630 exact** against the workbook's own archived 1.3.3.0 rows.
+- **Sheet-internal delta: 6707/6708 identical.** The only 1.3.3.0 → 1.4.2.0 change is
+  L115 velocity 664 → 742. The previous pass's "19 differences on EF88/BROD 3/VSSM" was
+  a framing error — those weapons are not in the archive at all, so their differences
+  were provenance differences, not patch deltas.
+- **VSSM resolved, outcome C.** `RoF` 799.999 is the FULL-AUTO state; our 449.999 is
+  `SingleRoF`; `full_auto_vssm` already carries 799.999. Permanent gate + negative test,
+  plus `audit-state-collisions.mjs` hunting the same shape roster-wide.
+- **CURRENT NUMERICAL VERIFICATION 1% → 51%**, measured from field-level attestation,
+  never set by hand.
+- **1.4.2.5 reconciled from the official changelog**: no numeric weapon-stat change, so
+  1.4.2.0 numbers are current for the live game. Recorded as `numericWeaponStatDelta`.
+- **Ranking impact, exhaustive 1–300 m × 3 modes × 2 priorities × 8 scopes:** L115 beats
+  the PSR at 101–120 m (FASTEST); EF88 enters the AR top 3 at 235–292 m; BROD 3 leaves
+  the Carbine top 3 from 37 m. No BALANCED winner changed. 38/62 weapons unchanged.
+- 30/30 gates pass. Production verified in-browser.
+- Commits: `2f79ac0`, `87c91b2` (CI cache), `13c166b`, `ddfe80e`, `7140c56`, `d0282a1`,
+  `cce12df`.
+
+## Open, blocked on external evidence
+
+1. **Interdictor** — its 128 primitives are captured, but there is no damage curve and
+   no attachment compatibility. Blocks 1.4.2.0 reconciliation.
+2. **Match Grade Ammo** damage fix (M2010 ESR, SVK-8.6) — no numbers at any tier.
+3. **VSSM limb multipliers** — no numbers; the Sym dump carries no damage data.
+4. **Damage curves are current-verified for NO weapon** — this source publishes none.
+   62 result-affecting fields; the single largest coverage gap.
+5. **4 missing `adsTime`** (M16A4, PP-19, RPK-74M, L115) — neutralised in ranking.
+6. **REDSEC close-range / spillover** — deliberately untouched; in-game testing remains
+   the only path.
+7. **SL9 publishes a burst cadence (771.428) we do not model** — no attachment switches
+   to it. Recorded, not a defect.
+
+## Next task
+
+Highest leverage is **a current numerical source for damage curves**. It is the one gap
+that stops any weapon reaching fully-current, and nothing else needs to wait on it.
+After that, the **Interdictor** — its primitives are already captured, so it needs only
+a damage curve and attachment compatibility.
+
+---
+
+# ARCHIVE — prior passes
+
+Pass: 2026-09-03, current-patch (1.4.2.5) source re-derivation.
+Full findings: `BF6-WEAPONS-LAB-PATCH-DELTA-REPORT.md` (that pass) and
+`BF6-WEAPONS-LAB-OVERNIGHT-REPORT.md` (the session before — optimizer/ranking/legality).
+
+> Note, 2026-09-05: the conclusions below about Sym having published nothing after
+> 1.3.3.0 were true of sym.gg's own site and false of Sym's data. Kept verbatim as the
+> historical record; superseded by the pass above.
 
 ## Current-patch pass — completed 2026-09-03
 - Checked all 3 evidence tiers for the 6 blocking combat deltas between the
