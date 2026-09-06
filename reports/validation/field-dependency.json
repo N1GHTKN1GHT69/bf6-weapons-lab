@@ -1,0 +1,1619 @@
+{
+ "generatedAt": "2026-09-06T06:34:17.080Z",
+ "method": "Each field is perturbed to an unmistakably different value on the cache-bypassed path - the path a rebuilt cache would follow - and the weapon's own ranked row and the recommended build are compared before and after.",
+ "limitation": "A perturbation cannot move the exhaustive cache, which holds precomputed rows. Every \"moves\" verdict here therefore describes what a cache REBUILD would produce, which is the dependency that matters for whether a wrong source value can ever reach a user.",
+ "weaponsProbed": [
+  "m433",
+  "m4a1",
+  "sgx",
+  "l110",
+  "m39emr",
+  "m2010esr",
+  "m87a1",
+  "ef88",
+  "brod3",
+  "vssm",
+  "l115"
+ ],
+ "distancesProbed": [
+  10,
+  50,
+  150
+ ],
+ "fields": [
+  {
+   "field": "rpm",
+   "declaredImpact": "TTK, weaponWinner",
+   "weaponsProbed": 11,
+   "movedOnAny": false,
+   "movedOn": [],
+   "inertOn": [
+    "m433",
+    "m4a1",
+    "sgx",
+    "l110",
+    "m39emr",
+    "m2010esr",
+    "m87a1",
+    "ef88",
+    "brod3",
+    "vssm",
+    "l115"
+   ],
+   "verdict": "NO MEASURED EFFECT ON ANY RESULT",
+   "interpretation": "no ranked row moved because the operative value is the class audit's, not the raw field's. 11/11 probed weapons have a passing class audit that pins rpm directly. The raw field is the audit's INPUT: a stale value surfaces as a class-audit failure, not as a silently wrong recommendation.",
+   "shadowedBy": "11/11 probed weapons have a passing class audit that pins rpm directly"
+  },
+  {
+   "field": "bulletVel",
+   "declaredImpact": "TTK, weaponWinner, attachmentWinner",
+   "weaponsProbed": 11,
+   "movedOnAny": true,
+   "movedOn": [
+    "m433",
+    "m4a1",
+    "sgx",
+    "l110",
+    "m2010esr",
+    "l115"
+   ],
+   "inertOn": [
+    "m39emr",
+    "m87a1",
+    "ef88",
+    "brod3",
+    "vssm"
+   ],
+   "verdict": "REACHES RESULTS (on the rebuild path)",
+   "interpretation": "changes a ranked row or the recommended build on 6/11 probed weapons",
+   "shadowedBy": null
+  },
+  {
+   "field": "recoilV",
+   "declaredImpact": "weaponWinner, attachmentWinner (DERIVED from recoil.ads.*)",
+   "weaponsProbed": 11,
+   "movedOnAny": true,
+   "movedOn": [
+    "m433",
+    "m4a1",
+    "sgx",
+    "l110",
+    "m39emr",
+    "m2010esr",
+    "l115"
+   ],
+   "inertOn": [
+    "m87a1",
+    "ef88",
+    "brod3",
+    "vssm"
+   ],
+   "verdict": "REACHES RESULTS (on the rebuild path)",
+   "interpretation": "changes a ranked row or the recommended build on 7/11 probed weapons",
+   "shadowedBy": null
+  },
+  {
+   "field": "recoilVar",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of recoil.ads.dirVar)",
+   "weaponsProbed": 11,
+   "movedOnAny": true,
+   "movedOn": [
+    "m433",
+    "m4a1",
+    "sgx",
+    "l110",
+    "m39emr",
+    "m2010esr",
+    "l115"
+   ],
+   "inertOn": [
+    "m87a1",
+    "ef88",
+    "brod3",
+    "vssm"
+   ],
+   "verdict": "REACHES RESULTS (on the rebuild path)",
+   "interpretation": "changes a ranked row or the recommended build on 7/11 probed weapons",
+   "shadowedBy": null
+  },
+  {
+   "field": "spreadMax",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of spread.adsStand[1])",
+   "weaponsProbed": 11,
+   "movedOnAny": false,
+   "movedOn": [],
+   "inertOn": [
+    "m433",
+    "m4a1",
+    "sgx",
+    "l110",
+    "m39emr",
+    "m2010esr",
+    "m87a1",
+    "ef88",
+    "brod3",
+    "vssm",
+    "l115"
+   ],
+   "verdict": "NO MEASURED EFFECT ON ANY RESULT",
+   "interpretation": "no movement measurable here: feeds the CACHED Beam Index through the upstream effective-spread simulation. The on-demand fallback index uses recoil primitives plus spread.adsStand[0] only, so perturbation cannot observe this field on the path it can reach. Its effect is real but only measurable through a cache rebuild.",
+   "shadowedBy": null,
+   "unobservableBecause": "feeds the CACHED Beam Index through the upstream effective-spread simulation. The on-demand fallback index uses recoil primitives plus spread.adsStand[0] only, so perturbation cannot observe this field on the path it can reach. Its effect is real but only measurable through a cache rebuild."
+  },
+  {
+   "field": "recoilIncAds",
+   "declaredImpact": "weaponWinner (mirror of spreadDyn.ads.inc)",
+   "weaponsProbed": 11,
+   "movedOnAny": true,
+   "movedOn": [
+    "m433",
+    "m4a1",
+    "sgx",
+    "l110",
+    "m39emr",
+    "m2010esr",
+    "l115"
+   ],
+   "inertOn": [
+    "m87a1",
+    "ef88",
+    "brod3",
+    "vssm"
+   ],
+   "verdict": "REACHES RESULTS (on the rebuild path)",
+   "interpretation": "changes a ranked row or the recommended build on 7/11 probed weapons",
+   "shadowedBy": null
+  },
+  {
+   "field": "adsTime",
+   "declaredImpact": "weaponWinner (ranking tie-break only)",
+   "weaponsProbed": 11,
+   "movedOnAny": false,
+   "movedOn": [],
+   "inertOn": [
+    "m433",
+    "m4a1",
+    "sgx",
+    "l110",
+    "m39emr",
+    "m2010esr",
+    "m87a1",
+    "ef88",
+    "brod3",
+    "vssm",
+    "l115"
+   ],
+   "verdict": "NO MEASURED EFFECT ON ANY RESULT",
+   "interpretation": "no ranked row moved because the operative value is the class audit's, not the raw field's. 2/11 probed weapons have a passing class audit that pins adsTime directly. The raw field is the audit's INPUT: a stale value surfaces as a class-audit failure, not as a silently wrong recommendation.",
+   "shadowedBy": "2/11 probed weapons have a passing class audit that pins adsTime directly"
+  },
+  {
+   "field": "mag",
+   "declaredImpact": "nothing - initial trigger-to-kill never spans a reload",
+   "weaponsProbed": 11,
+   "movedOnAny": false,
+   "movedOn": [],
+   "inertOn": [
+    "m433",
+    "m4a1",
+    "sgx",
+    "l110",
+    "m39emr",
+    "m2010esr",
+    "m87a1",
+    "ef88",
+    "brod3",
+    "vssm",
+    "l115"
+   ],
+   "verdict": "NO MEASURED EFFECT ON ANY RESULT",
+   "interpretation": "no ranked row and no recommended build moved on any of the 11 probed weapons. It is either display-only or shadowed by a value the engine prefers - NOT proof the number may be wrong, only that it cannot change a ranking",
+   "shadowedBy": null
+  },
+  {
+   "field": "tacRld",
+   "declaredImpact": "nothing - reload time is displayed, not used in initial TTK",
+   "weaponsProbed": 11,
+   "movedOnAny": false,
+   "movedOn": [],
+   "inertOn": [
+    "m433",
+    "m4a1",
+    "sgx",
+    "l110",
+    "m39emr",
+    "m2010esr",
+    "m87a1",
+    "ef88",
+    "brod3",
+    "vssm",
+    "l115"
+   ],
+   "verdict": "NO MEASURED EFFECT ON ANY RESULT",
+   "interpretation": "no ranked row and no recommended build moved on any of the 11 probed weapons. It is either display-only or shadowed by a value the engine prefers - NOT proof the number may be wrong, only that it cannot change a ranking",
+   "shadowedBy": null
+  },
+  {
+   "field": "emptyRld",
+   "declaredImpact": "nothing - displayed only",
+   "weaponsProbed": 11,
+   "movedOnAny": false,
+   "movedOn": [],
+   "inertOn": [
+    "m433",
+    "m4a1",
+    "sgx",
+    "l110",
+    "m39emr",
+    "m2010esr",
+    "m87a1",
+    "ef88",
+    "brod3",
+    "vssm",
+    "l115"
+   ],
+   "verdict": "NO MEASURED EFFECT ON ANY RESULT",
+   "interpretation": "no ranked row and no recommended build moved on any of the 11 probed weapons. It is either display-only or shadowed by a value the engine prefers - NOT proof the number may be wrong, only that it cannot change a ranking",
+   "shadowedBy": null
+  },
+  {
+   "field": "reloadSpeed",
+   "declaredImpact": "nothing - displayed only",
+   "weaponsProbed": 11,
+   "movedOnAny": false,
+   "movedOn": [],
+   "inertOn": [
+    "m433",
+    "m4a1",
+    "sgx",
+    "l110",
+    "m39emr",
+    "m2010esr",
+    "m87a1",
+    "ef88",
+    "brod3",
+    "vssm",
+    "l115"
+   ],
+   "verdict": "NO MEASURED EFFECT ON ANY RESULT",
+   "interpretation": "no ranked row and no recommended build moved on any of the 11 probed weapons. It is either display-only or shadowed by a value the engine prefers - NOT proof the number may be wrong, only that it cannot change a ranking",
+   "shadowedBy": null
+  },
+  {
+   "field": "recoilDir",
+   "declaredImpact": "display (mirror of recoil.ads.dir)",
+   "weaponsProbed": 11,
+   "movedOnAny": false,
+   "movedOn": [],
+   "inertOn": [
+    "m433",
+    "m4a1",
+    "sgx",
+    "l110",
+    "m39emr",
+    "m2010esr",
+    "m87a1",
+    "ef88",
+    "brod3",
+    "vssm",
+    "l115"
+   ],
+   "verdict": "NO MEASURED EFFECT ON ANY RESULT",
+   "interpretation": "no ranked row and no recommended build moved on any of the 11 probed weapons. It is either display-only or shadowed by a value the engine prefers - NOT proof the number may be wrong, only that it cannot change a ranking",
+   "shadowedBy": null
+  },
+  {
+   "field": "dmg",
+   "declaredImpact": "BTK, TTK, weaponWinner, attachmentWinner",
+   "weaponsProbed": 11,
+   "movedOnAny": false,
+   "movedOn": [],
+   "inertOn": [
+    "m433",
+    "m4a1",
+    "sgx",
+    "l110",
+    "m39emr",
+    "m2010esr",
+    "m87a1",
+    "ef88",
+    "brod3",
+    "vssm",
+    "l115"
+   ],
+   "verdict": "NO MEASURED EFFECT ON ANY RESULT",
+   "interpretation": "no ranked row moved because the operative value is the class audit's, not the raw field's. 11/11 probed weapons have a passing class audit that pins dmg directly. The raw field is the audit's INPUT: a stale value surfaces as a class-audit failure, not as a silently wrong recommendation.",
+   "shadowedBy": "11/11 probed weapons have a passing class audit that pins dmg directly"
+  }
+ ],
+ "perWeapon": [
+  {
+   "weaponId": "m433",
+   "field": "rpm",
+   "declaredImpact": "TTK, weaponWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m433",
+   "field": "bulletVel",
+   "declaredImpact": "TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "m433",
+   "field": "recoilV",
+   "declaredImpact": "weaponWinner, attachmentWinner (DERIVED from recoil.ads.*)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "m433",
+   "field": "recoilVar",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of recoil.ads.dirVar)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "m433",
+   "field": "spreadMax",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of spread.adsStand[1])",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m433",
+   "field": "recoilIncAds",
+   "declaredImpact": "weaponWinner (mirror of spreadDyn.ads.inc)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "m433",
+   "field": "adsTime",
+   "declaredImpact": "weaponWinner (ranking tie-break only)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m433",
+   "field": "mag",
+   "declaredImpact": "nothing - initial trigger-to-kill never spans a reload",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m433",
+   "field": "tacRld",
+   "declaredImpact": "nothing - reload time is displayed, not used in initial TTK",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m433",
+   "field": "emptyRld",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m433",
+   "field": "reloadSpeed",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m433",
+   "field": "recoilDir",
+   "declaredImpact": "display (mirror of recoil.ads.dir)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m433",
+   "field": "dmg",
+   "declaredImpact": "BTK, TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m4a1",
+   "field": "rpm",
+   "declaredImpact": "TTK, weaponWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m4a1",
+   "field": "bulletVel",
+   "declaredImpact": "TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "m4a1",
+   "field": "recoilV",
+   "declaredImpact": "weaponWinner, attachmentWinner (DERIVED from recoil.ads.*)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "m4a1",
+   "field": "recoilVar",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of recoil.ads.dirVar)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "m4a1",
+   "field": "spreadMax",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of spread.adsStand[1])",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m4a1",
+   "field": "recoilIncAds",
+   "declaredImpact": "weaponWinner (mirror of spreadDyn.ads.inc)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "m4a1",
+   "field": "adsTime",
+   "declaredImpact": "weaponWinner (ranking tie-break only)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m4a1",
+   "field": "mag",
+   "declaredImpact": "nothing - initial trigger-to-kill never spans a reload",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m4a1",
+   "field": "tacRld",
+   "declaredImpact": "nothing - reload time is displayed, not used in initial TTK",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m4a1",
+   "field": "emptyRld",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m4a1",
+   "field": "reloadSpeed",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m4a1",
+   "field": "recoilDir",
+   "declaredImpact": "display (mirror of recoil.ads.dir)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m4a1",
+   "field": "dmg",
+   "declaredImpact": "BTK, TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "sgx",
+   "field": "rpm",
+   "declaredImpact": "TTK, weaponWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "sgx",
+   "field": "bulletVel",
+   "declaredImpact": "TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "sgx",
+   "field": "recoilV",
+   "declaredImpact": "weaponWinner, attachmentWinner (DERIVED from recoil.ads.*)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "sgx",
+   "field": "recoilVar",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of recoil.ads.dirVar)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "sgx",
+   "field": "spreadMax",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of spread.adsStand[1])",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "sgx",
+   "field": "recoilIncAds",
+   "declaredImpact": "weaponWinner (mirror of spreadDyn.ads.inc)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "sgx",
+   "field": "adsTime",
+   "declaredImpact": "weaponWinner (ranking tie-break only)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "sgx",
+   "field": "mag",
+   "declaredImpact": "nothing - initial trigger-to-kill never spans a reload",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "sgx",
+   "field": "tacRld",
+   "declaredImpact": "nothing - reload time is displayed, not used in initial TTK",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "sgx",
+   "field": "emptyRld",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "sgx",
+   "field": "reloadSpeed",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "sgx",
+   "field": "recoilDir",
+   "declaredImpact": "display (mirror of recoil.ads.dir)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "sgx",
+   "field": "dmg",
+   "declaredImpact": "BTK, TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "l110",
+   "field": "rpm",
+   "declaredImpact": "TTK, weaponWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "l110",
+   "field": "bulletVel",
+   "declaredImpact": "TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "l110",
+   "field": "recoilV",
+   "declaredImpact": "weaponWinner, attachmentWinner (DERIVED from recoil.ads.*)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "l110",
+   "field": "recoilVar",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of recoil.ads.dirVar)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "l110",
+   "field": "spreadMax",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of spread.adsStand[1])",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "l110",
+   "field": "recoilIncAds",
+   "declaredImpact": "weaponWinner (mirror of spreadDyn.ads.inc)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "l110",
+   "field": "adsTime",
+   "declaredImpact": "weaponWinner (ranking tie-break only)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "l110",
+   "field": "mag",
+   "declaredImpact": "nothing - initial trigger-to-kill never spans a reload",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "l110",
+   "field": "tacRld",
+   "declaredImpact": "nothing - reload time is displayed, not used in initial TTK",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "l110",
+   "field": "emptyRld",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "l110",
+   "field": "reloadSpeed",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "l110",
+   "field": "recoilDir",
+   "declaredImpact": "display (mirror of recoil.ads.dir)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "l110",
+   "field": "dmg",
+   "declaredImpact": "BTK, TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m39emr",
+   "field": "rpm",
+   "declaredImpact": "TTK, weaponWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m39emr",
+   "field": "bulletVel",
+   "declaredImpact": "TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m39emr",
+   "field": "recoilV",
+   "declaredImpact": "weaponWinner, attachmentWinner (DERIVED from recoil.ads.*)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "m39emr",
+   "field": "recoilVar",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of recoil.ads.dirVar)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "m39emr",
+   "field": "spreadMax",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of spread.adsStand[1])",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m39emr",
+   "field": "recoilIncAds",
+   "declaredImpact": "weaponWinner (mirror of spreadDyn.ads.inc)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "m39emr",
+   "field": "adsTime",
+   "declaredImpact": "weaponWinner (ranking tie-break only)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m39emr",
+   "field": "mag",
+   "declaredImpact": "nothing - initial trigger-to-kill never spans a reload",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m39emr",
+   "field": "tacRld",
+   "declaredImpact": "nothing - reload time is displayed, not used in initial TTK",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m39emr",
+   "field": "emptyRld",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m39emr",
+   "field": "reloadSpeed",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m39emr",
+   "field": "recoilDir",
+   "declaredImpact": "display (mirror of recoil.ads.dir)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m39emr",
+   "field": "dmg",
+   "declaredImpact": "BTK, TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m2010esr",
+   "field": "rpm",
+   "declaredImpact": "TTK, weaponWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m2010esr",
+   "field": "bulletVel",
+   "declaredImpact": "TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "m2010esr",
+   "field": "recoilV",
+   "declaredImpact": "weaponWinner, attachmentWinner (DERIVED from recoil.ads.*)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "m2010esr",
+   "field": "recoilVar",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of recoil.ads.dirVar)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "m2010esr",
+   "field": "spreadMax",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of spread.adsStand[1])",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m2010esr",
+   "field": "recoilIncAds",
+   "declaredImpact": "weaponWinner (mirror of spreadDyn.ads.inc)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "m2010esr",
+   "field": "adsTime",
+   "declaredImpact": "weaponWinner (ranking tie-break only)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m2010esr",
+   "field": "mag",
+   "declaredImpact": "nothing - initial trigger-to-kill never spans a reload",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m2010esr",
+   "field": "tacRld",
+   "declaredImpact": "nothing - reload time is displayed, not used in initial TTK",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m2010esr",
+   "field": "emptyRld",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m2010esr",
+   "field": "reloadSpeed",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m2010esr",
+   "field": "recoilDir",
+   "declaredImpact": "display (mirror of recoil.ads.dir)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m2010esr",
+   "field": "dmg",
+   "declaredImpact": "BTK, TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m87a1",
+   "field": "rpm",
+   "declaredImpact": "TTK, weaponWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m87a1",
+   "field": "bulletVel",
+   "declaredImpact": "TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m87a1",
+   "field": "recoilV",
+   "declaredImpact": "weaponWinner, attachmentWinner (DERIVED from recoil.ads.*)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m87a1",
+   "field": "recoilVar",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of recoil.ads.dirVar)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m87a1",
+   "field": "spreadMax",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of spread.adsStand[1])",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m87a1",
+   "field": "recoilIncAds",
+   "declaredImpact": "weaponWinner (mirror of spreadDyn.ads.inc)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m87a1",
+   "field": "adsTime",
+   "declaredImpact": "weaponWinner (ranking tie-break only)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m87a1",
+   "field": "mag",
+   "declaredImpact": "nothing - initial trigger-to-kill never spans a reload",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m87a1",
+   "field": "tacRld",
+   "declaredImpact": "nothing - reload time is displayed, not used in initial TTK",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m87a1",
+   "field": "emptyRld",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m87a1",
+   "field": "reloadSpeed",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m87a1",
+   "field": "recoilDir",
+   "declaredImpact": "display (mirror of recoil.ads.dir)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "m87a1",
+   "field": "dmg",
+   "declaredImpact": "BTK, TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "ef88",
+   "field": "rpm",
+   "declaredImpact": "TTK, weaponWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "ef88",
+   "field": "bulletVel",
+   "declaredImpact": "TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "ef88",
+   "field": "recoilV",
+   "declaredImpact": "weaponWinner, attachmentWinner (DERIVED from recoil.ads.*)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "ef88",
+   "field": "recoilVar",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of recoil.ads.dirVar)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "ef88",
+   "field": "spreadMax",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of spread.adsStand[1])",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "ef88",
+   "field": "recoilIncAds",
+   "declaredImpact": "weaponWinner (mirror of spreadDyn.ads.inc)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "ef88",
+   "field": "adsTime",
+   "declaredImpact": "weaponWinner (ranking tie-break only)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "ef88",
+   "field": "mag",
+   "declaredImpact": "nothing - initial trigger-to-kill never spans a reload",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "ef88",
+   "field": "tacRld",
+   "declaredImpact": "nothing - reload time is displayed, not used in initial TTK",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "ef88",
+   "field": "emptyRld",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "ef88",
+   "field": "reloadSpeed",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "ef88",
+   "field": "recoilDir",
+   "declaredImpact": "display (mirror of recoil.ads.dir)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "ef88",
+   "field": "dmg",
+   "declaredImpact": "BTK, TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "brod3",
+   "field": "rpm",
+   "declaredImpact": "TTK, weaponWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "brod3",
+   "field": "bulletVel",
+   "declaredImpact": "TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "brod3",
+   "field": "recoilV",
+   "declaredImpact": "weaponWinner, attachmentWinner (DERIVED from recoil.ads.*)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "brod3",
+   "field": "recoilVar",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of recoil.ads.dirVar)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "brod3",
+   "field": "spreadMax",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of spread.adsStand[1])",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "brod3",
+   "field": "recoilIncAds",
+   "declaredImpact": "weaponWinner (mirror of spreadDyn.ads.inc)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "brod3",
+   "field": "adsTime",
+   "declaredImpact": "weaponWinner (ranking tie-break only)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "brod3",
+   "field": "mag",
+   "declaredImpact": "nothing - initial trigger-to-kill never spans a reload",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "brod3",
+   "field": "tacRld",
+   "declaredImpact": "nothing - reload time is displayed, not used in initial TTK",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "brod3",
+   "field": "emptyRld",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "brod3",
+   "field": "reloadSpeed",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "brod3",
+   "field": "recoilDir",
+   "declaredImpact": "display (mirror of recoil.ads.dir)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "brod3",
+   "field": "dmg",
+   "declaredImpact": "BTK, TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "vssm",
+   "field": "rpm",
+   "declaredImpact": "TTK, weaponWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "vssm",
+   "field": "bulletVel",
+   "declaredImpact": "TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "vssm",
+   "field": "recoilV",
+   "declaredImpact": "weaponWinner, attachmentWinner (DERIVED from recoil.ads.*)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "vssm",
+   "field": "recoilVar",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of recoil.ads.dirVar)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "vssm",
+   "field": "spreadMax",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of spread.adsStand[1])",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "vssm",
+   "field": "recoilIncAds",
+   "declaredImpact": "weaponWinner (mirror of spreadDyn.ads.inc)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "vssm",
+   "field": "adsTime",
+   "declaredImpact": "weaponWinner (ranking tie-break only)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "vssm",
+   "field": "mag",
+   "declaredImpact": "nothing - initial trigger-to-kill never spans a reload",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "vssm",
+   "field": "tacRld",
+   "declaredImpact": "nothing - reload time is displayed, not used in initial TTK",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "vssm",
+   "field": "emptyRld",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "vssm",
+   "field": "reloadSpeed",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "vssm",
+   "field": "recoilDir",
+   "declaredImpact": "display (mirror of recoil.ads.dir)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "vssm",
+   "field": "dmg",
+   "declaredImpact": "BTK, TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "l115",
+   "field": "rpm",
+   "declaredImpact": "TTK, weaponWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "l115",
+   "field": "bulletVel",
+   "declaredImpact": "TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "l115",
+   "field": "recoilV",
+   "declaredImpact": "weaponWinner, attachmentWinner (DERIVED from recoil.ads.*)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "l115",
+   "field": "recoilVar",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of recoil.ads.dirVar)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "l115",
+   "field": "spreadMax",
+   "declaredImpact": "weaponWinner, attachmentWinner (mirror of spread.adsStand[1])",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "l115",
+   "field": "recoilIncAds",
+   "declaredImpact": "weaponWinner (mirror of spreadDyn.ads.inc)",
+   "movesRankedRow": true,
+   "movesRecommendedBuild": false,
+   "verdict": "REBUILD-ONLY",
+   "error": null
+  },
+  {
+   "weaponId": "l115",
+   "field": "adsTime",
+   "declaredImpact": "weaponWinner (ranking tie-break only)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "l115",
+   "field": "mag",
+   "declaredImpact": "nothing - initial trigger-to-kill never spans a reload",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "l115",
+   "field": "tacRld",
+   "declaredImpact": "nothing - reload time is displayed, not used in initial TTK",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "l115",
+   "field": "emptyRld",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "l115",
+   "field": "reloadSpeed",
+   "declaredImpact": "nothing - displayed only",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "l115",
+   "field": "recoilDir",
+   "declaredImpact": "display (mirror of recoil.ads.dir)",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  },
+  {
+   "weaponId": "l115",
+   "field": "dmg",
+   "declaredImpact": "BTK, TTK, weaponWinner, attachmentWinner",
+   "movesRankedRow": false,
+   "movesRecommendedBuild": false,
+   "verdict": "DISPLAY-ONLY-OR-INERT",
+   "error": null
+  }
+ ],
+ "contradictions": []
+}

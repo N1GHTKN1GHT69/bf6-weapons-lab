@@ -93,6 +93,8 @@ jobs:
           node scripts/audit-state-space.mjs --quick
           node scripts/audit-boundaries.mjs
           node scripts/audit-reproducibility.mjs
+          node scripts/audit-field-dependency.mjs
+          node scripts/audit-uncertainty.mjs
           node scripts/build-source-overlay.mjs --check
           node scripts/audit-current-patch-coverage.mjs
           node scripts/audit-source-data.mjs

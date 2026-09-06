@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-06T06:19:15.964Z",
+ "generatedAt": "2026-09-06T06:34:21.779Z",
  "current": {
   "schema": 1,
   "purpose": "Semantic hashes of every generated artifact, with wall-clock timestamps stripped, so a re-run on another machine can be compared on what it DECIDED rather than on when it ran.",

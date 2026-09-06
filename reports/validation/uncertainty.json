@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-06T06:18:32.609Z",
+ "generatedAt": "2026-09-06T06:34:21.480Z",
  "method": "Each unresolved value is swept across a range the EVIDENCE supplies - never an invented one - and the ranked order is compared across the range. Values with no defensible bound are reported UNKNOWN rather than assigned a fabricated tolerance.",
  "distancesProbed": [
   10,
