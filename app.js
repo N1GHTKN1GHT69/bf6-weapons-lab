@@ -4033,6 +4033,15 @@
     }),
     /** The effective (baseline + overlay) weapon record, for provenance gates. */
     rawWeapon: id => state.rawWeapons.find(w => w.id === id) ?? null,
+    /**
+     * The raw record a ROSTER entry resolves to, through the app's own alias table.
+     * Roster ids and catalog ids are not the same space - the 18.5KS-K is `185ksk` in
+     * the roster and `ks18k` in the catalog, the KTS100 MK8 is `kts100mk8` against
+     * `kts100` - so an audit that assumes they match reports false failures on exactly
+     * those weapons. Returns null for roster-only weapons such as the Interdictor,
+     * which genuinely have no upstream record.
+     */
+    rawForRosterId: id => rawForRoster(CURRENT.roster.find(w => w.id === id) ?? null),
     redsec: {
       model: () => state.redsecModel,
       armorCurve: weaponId => armorDamageCurve(state.rawWeapons.find(w => w.id === weaponId)),

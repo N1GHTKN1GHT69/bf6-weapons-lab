@@ -1,0 +1,37 @@
+{
+ "generatedAt": "2026-09-06T05:49:00.730Z",
+ "manifestGeneratedAt": "2026-09-05T20:25:56.416Z",
+ "upstream": {
+  "repository": "raymdl/BF6-Weapon-Analyzer",
+  "commit": "fb7a214778e1e4b5a5113f21ec0dd12136123845"
+ },
+ "hashRule": "SHA-256 over LF-normalised file text, matching how scripts/sync-from-upstream.mjs produces the manifest on Linux.",
+ "filesChecked": 4,
+ "files": [
+  {
+   "file": "data/weapons.json",
+   "expected": "bd1c18533a081585edef2d05daf8446967da208e66d2305f535996dab7e00071",
+   "actual": "bd1c18533a081585edef2d05daf8446967da208e66d2305f535996dab7e00071",
+   "match": true
+  },
+  {
+   "file": "data/attachments.json",
+   "expected": "5991a62d42f047cd1ac61f0023ed0a0e3ff21705ef14704578d42fd7eb0f94b6",
+   "actual": "5991a62d42f047cd1ac61f0023ed0a0e3ff21705ef14704578d42fd7eb0f94b6",
+   "match": true
+  },
+  {
+   "file": "data/ammo.json",
+   "expected": "6464810803057237907c7edd56897073736638be4fc439ff55e20bf234ae72e0",
+   "actual": "6464810803057237907c7edd56897073736638be4fc439ff55e20bf234ae72e0",
+   "match": true
+  },
+  {
+   "file": "data/ballistics.json",
+   "expected": "7970ecb9b9ba7239afa2eab8c0f1141ea5db1acfc0be69086603783fbe997a8d",
+   "actual": "7970ecb9b9ba7239afa2eab8c0f1141ea5db1acfc0be69086603783fbe997a8d",
+   "match": true
+  }
+ ],
+ "errors": []
+}

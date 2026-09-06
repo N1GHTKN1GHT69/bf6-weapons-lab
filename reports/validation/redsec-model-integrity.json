@@ -1,0 +1,108 @@
+{
+ "generatedAt": "2026-09-06T05:49:00.779Z",
+ "method": "Each encoded REDSEC value is compared against the number quoted in its own first-party evidence text. The prose is not derived from the value, so it is an independent witness - which is what the existing self-consistency checks cannot be.",
+ "modelVerifiedAt": "2026-09-02",
+ "checks": [
+  {
+   "name": "armor.battleRoyale.totalHp arithmetic",
+   "ok": true,
+   "detail": "2 plates x 40 HP = 80, but totalHp is 80"
+  },
+  {
+   "name": "armor.battleRoyale matches its evidence",
+   "ok": true,
+   "detail": "evidence quotes 80, 40 HP but the model encodes totalHp 80 / hpPerPlate 40"
+  },
+  {
+   "name": "armor.gauntlet.totalHp arithmetic",
+   "ok": true,
+   "detail": "1 plates x 40 HP = 40, but totalHp is 40"
+  },
+  {
+   "name": "armor.gauntlet matches its evidence",
+   "ok": true,
+   "detail": "evidence quotes 40 HP but the model encodes totalHp 40 / hpPerPlate 40"
+  },
+  {
+   "name": "chestMultipliers.automaticPrimary matches its evidence",
+   "ok": true,
+   "detail": "model encodes 0.84 but its evidence says damage against armor was reduced to 0.84x"
+  },
+  {
+   "name": "chestMultipliers.automaticPrimary is a reduction",
+   "ok": true,
+   "detail": "evidence describes a reduction from 1x but quotes 0.84x, which is not lower"
+  },
+  {
+   "name": "chestMultipliers.automaticPrimary is in range",
+   "ok": true,
+   "detail": "armour multipliers reduce damage against armour; 0.84 is outside (0, 1]"
+  },
+  {
+   "name": "chestMultipliers.dmr matches its evidence",
+   "ok": true,
+   "detail": "model encodes 0.91 but its evidence says damage against armor was reduced to 0.91x"
+  },
+  {
+   "name": "chestMultipliers.dmr is a reduction",
+   "ok": true,
+   "detail": "evidence describes a reduction from 1x but quotes 0.91x, which is not lower"
+  },
+  {
+   "name": "chestMultipliers.dmr is in range",
+   "ok": true,
+   "detail": "armour multipliers reduce damage against armour; 0.91 is outside (0, 1]"
+  },
+  {
+   "name": "chestMultipliers.sniper matches its evidence",
+   "ok": true,
+   "detail": "model encodes 0.67 but its evidence says damage against armor was reduced to 0.67x"
+  },
+  {
+   "name": "chestMultipliers.sniper is a reduction",
+   "ok": true,
+   "detail": "evidence describes a reduction from 0.8x but quotes 0.67x, which is not lower"
+  },
+  {
+   "name": "chestMultipliers.sniper is in range",
+   "ok": true,
+   "detail": "armour multipliers reduce damage against armour; 0.67 is outside (0, 1]"
+  },
+  {
+   "name": "chestMultipliers.default unchanged case is stated",
+   "ok": true,
+   "detail": "carries no \"reduced ... to Nx\" clause, so it must be an explicitly stated unchanged-1x case; value is 1"
+  },
+  {
+   "name": "rangeShiftMeters matches its evidence",
+   "ok": true,
+   "detail": "model encodes 10 m but the evidence says 10 m"
+  },
+  {
+   "name": "every weapon class has an armour multiplier",
+   "ok": true,
+   "detail": "no bucket covers:  - these would silently fall through"
+  },
+  {
+   "name": "class map",
+   "ok": true,
+   "detail": "Assault Rifle->automaticPrimary, Carbine->automaticPrimary, SMG->automaticPrimary, LMG->automaticPrimary, DMR->dmr, Sniper Rifle->sniper, Shotgun->default, Sidearm->default"
+  },
+  {
+   "name": "close-range rule carries no invented damage number",
+   "ok": true,
+   "detail": "numeric fields present:  - EA published no armour damage values, so any number here would be fabricated"
+  },
+  {
+   "name": "close-range rule is still marked partially-verified",
+   "ok": true,
+   "detail": "confidence is \"partially-verified\"; EA state the rule qualitatively only, so it must not claim to be verified"
+  },
+  {
+   "name": "unresolved mechanics are still recorded",
+   "ok": true,
+   "detail": "the model no longer records any unresolved mechanic, but EA have published neither the close-range reduction amount nor the armour-break spillover rule"
+  }
+ ],
+ "errors": []
+}

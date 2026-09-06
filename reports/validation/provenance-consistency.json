@@ -1,0 +1,87 @@
+{
+ "generatedAt": "2026-09-06T05:49:00.893Z",
+ "describes": "Cross-checks between the patch ledger, the source overlay and the freshness status. Each record is checked against the others rather than against itself.",
+ "checks": [
+  {
+   "name": "1.4.1.0 declared delta is substantiated",
+   "ok": true,
+   "detail": "declares a numeric weapon-stat change but records no change that would produce one"
+  },
+  {
+   "name": "1.4.1.5 bridge vs ingested values",
+   "ok": true,
+   "detail": "claims no numeric weapon-stat change, but carries a sourceOverlay check - numeric values were ingested for this exact patch"
+  },
+  {
+   "name": "1.4.1.5 bridge vs unresolved values",
+   "ok": true,
+   "detail": "claims no numeric weapon-stat change, but carries an unresolved valuesUnpublished item - EA changed a value and no number was obtainable"
+  },
+  {
+   "name": "1.4.1.5 bridge vs new weapons",
+   "ok": true,
+   "detail": "claims no numeric weapon-stat change, but adds a weapon; a new weapon record is numeric weapon data by definition"
+  },
+  {
+   "name": "1.4.1.5 bridge evidence",
+   "ok": true,
+   "detail": "evidence does not state that the official changelog was fetched and read in full: \"Official changelog fetched and read in full. Its only two lines are the 1P86 scope being unusable while operating an und\""
+  },
+  {
+   "name": "1.4.2.0 declared delta is substantiated",
+   "ok": true,
+   "detail": "declares a numeric weapon-stat change but records no change that would produce one"
+  },
+  {
+   "name": "1.4.2.5 bridge vs ingested values",
+   "ok": true,
+   "detail": "claims no numeric weapon-stat change, but carries a sourceOverlay check - numeric values were ingested for this exact patch"
+  },
+  {
+   "name": "1.4.2.5 bridge vs unresolved values",
+   "ok": true,
+   "detail": "claims no numeric weapon-stat change, but carries an unresolved valuesUnpublished item - EA changed a value and no number was obtainable"
+  },
+  {
+   "name": "1.4.2.5 bridge vs new weapons",
+   "ok": true,
+   "detail": "claims no numeric weapon-stat change, but adds a weapon; a new weapon record is numeric weapon data by definition"
+  },
+  {
+   "name": "1.4.2.5 bridge evidence",
+   "ok": true,
+   "detail": "evidence does not state that the official changelog was fetched and read in full: \"Official changelog fetched in full from EA on 2026-09-05 and every line classified. The entire WEAPONS section is one li\""
+  },
+  {
+   "name": "overlay sym-1.4.2.0 version is reconciled",
+   "ok": true,
+   "detail": "ingests values \"at\" 1.4.2.0, which the patch ledger does not contain - the version label is unreconciled"
+  },
+  {
+   "name": "overlay sym-1.4.2.0 artifact exists",
+   "ok": true,
+   "detail": "data/sources/sheetonmyface-bf6-workbook.json"
+  },
+  {
+   "name": "overlay sym-1.4.2.0 artifact hash",
+   "ok": true,
+   "detail": "data/sources/sheetonmyface-bf6-workbook.json does not match the hash recorded in the overlay (dfa0ebaa8bdae025... vs dfa0ebaa8bdae025...)"
+  },
+  {
+   "name": "freshness numerical source matches an enabled overlay",
+   "ok": true,
+   "detail": "freshness advertises numbers sourced at 1.4.2.0, but no enabled overlay carries that version"
+  },
+  {
+   "name": "freshness numerical source change count matches",
+   "ok": true,
+   "detail": "freshness advertises 39 changes at 1.4.2.0; the overlay carries a different number"
+  },
+  {
+   "name": "advertised bridge is supported by the ledger",
+   "ok": true,
+   "detail": "the UI reports 1.4.2.0 numbers as current for 1.4.2.5, but  carry no no-change finding"
+  }
+ ],
+ "errors": []
+}

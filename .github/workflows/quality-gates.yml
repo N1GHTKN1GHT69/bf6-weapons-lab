@@ -18,6 +18,7 @@ on:
       - 'data/optimizer-legality-divergence.json'
       - 'data/source-verification.json'
       - 'data/source-overlays.json'
+      - 'data/ranking-policy.json'
       - 'source-overlay.js'
       - 'data/current-patch-coverage.json'
       - 'data/live-measurements.json'
@@ -82,6 +83,13 @@ jobs:
           node scripts/audit-source-overlay.mjs
           node scripts/audit-freshness-watchers.mjs
           node scripts/audit-state-collisions.mjs
+          node scripts/audit-source-integrity.mjs
+          node scripts/audit-redsec-model-integrity.mjs
+          node scripts/audit-ranking-policy-pin.mjs
+          node scripts/audit-provenance-consistency.mjs
+          node scripts/audit-cache-recompute.mjs
+          node scripts/audit-invariants.mjs
+          node scripts/audit-state-space.mjs --quick
           node scripts/build-source-overlay.mjs --check
           node scripts/audit-current-patch-coverage.mjs
           node scripts/audit-source-data.mjs

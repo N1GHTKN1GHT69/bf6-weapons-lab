@@ -1,0 +1,146 @@
+{
+ "generatedAt": "2026-09-06T05:49:14.433Z",
+ "scope": "BALANCED ranking only. FASTEST KILL is ordered by trigger-to-kill with no preference weights and is reported here only to confirm that.",
+ "model": {
+  "metaCost": "triggerTtk^0.55 * beamIndex^0.45 * (offPace ? 1.35 : 1)",
+  "beamIndex": "recoil*(1.00+0.35t) + unpredictable*(1.25+0.75t) + effSpread*(2.00+2.50t) + moving*(0.35+0.65t)",
+  "rangeT": "min(1, distance/120)",
+  "unpredictable": "recoil * sin(min(90, recoilVariationDeg))"
+ },
+ "weights": [
+  {
+   "component": "triggerTtk",
+   "weight": "^0.55",
+   "kind": "PREFERENCE",
+   "represents": "how much lethality speed matters relative to controllability",
+   "source": "project choice; the cache records it as \"pool-stable 55/45 percentage utility\""
+  },
+  {
+   "component": "beamIndex",
+   "weight": "^0.45",
+   "kind": "PREFERENCE",
+   "represents": "how much controllability matters relative to lethality speed",
+   "source": "project choice, the complement of the above"
+  },
+  {
+   "component": "off-pace penalty",
+   "weight": "x1.35",
+   "kind": "PREFERENCE",
+   "represents": "a cliff applied to weapons slower than 1.25x the fastest trigger-to-kill + 10 ms",
+   "source": "project choice; not a game mechanic"
+  },
+  {
+   "component": "off-pace threshold",
+   "weight": "1.25x + 10ms",
+   "kind": "PREFERENCE",
+   "represents": "where that cliff begins",
+   "source": "project choice"
+  },
+  {
+   "component": "rangeT normalisation",
+   "weight": "min(1, d/120)",
+   "kind": "PREFERENCE",
+   "represents": "the distance at which range-sensitivity saturates",
+   "source": "project choice; 120 m is not a published breakpoint"
+  },
+  {
+   "component": "recoil (recoilV)",
+   "weight": "1.00 + 0.35t",
+   "kind": "MECHANICAL input, PREFERENCE coefficient",
+   "represents": "transformed vertical recoil amount",
+   "source": "value from the source feed; coefficient a project choice"
+  },
+  {
+   "component": "unpredictableRecoil",
+   "weight": "1.25 + 0.75t",
+   "kind": "DERIVED input, PREFERENCE coefficient",
+   "represents": "recoil x sin(direction variation) - the non-repeatable component",
+   "source": "derived from two source values; coefficient a project choice"
+  },
+  {
+   "component": "effectiveAdsSpreadDeg",
+   "weight": "2.00 + 2.50t",
+   "kind": "MECHANICAL input, PREFERENCE coefficient",
+   "represents": "simulated aimed spread after 8 shots",
+   "source": "upstream spread simulation; coefficient a project choice"
+  },
+  {
+   "component": "movingAdsMinSpreadDeg",
+   "weight": "0.35 + 0.65t",
+   "kind": "MECHANICAL input, PREFERENCE coefficient",
+   "represents": "minimum aimed spread while moving",
+   "source": "upstream tier table; coefficient a project choice"
+  }
+ ],
+ "measurement": {
+  "samples": 496,
+  "describes": "share of the Beam Index contributed by each term, measured over cached winning builds across the roster and distance range",
+  "contribution": {
+   "recoil": {
+    "meanShareOfBeamIndex": 0.437,
+    "minShare": 0.0974,
+    "maxShare": 0.8994
+   },
+   "unpredictable": {
+    "meanShareOfBeamIndex": 0.1838,
+    "minShare": 0.063,
+    "maxShare": 0.4106
+   },
+   "effSpread": {
+    "meanShareOfBeamIndex": 0.2723,
+    "minShare": 0,
+    "maxShare": 0.7327
+   },
+   "moving": {
+    "meanShareOfBeamIndex": 0.1069,
+    "minShare": 0.0146,
+    "maxShare": 0.2989
+   }
+  },
+  "correlations": {
+   "recoil vs unpredictable": 0.8023,
+   "recoil vs effSpread": -0.2346,
+   "recoil vs moving": -0.0497,
+   "unpredictable vs effSpread": 0.1459,
+   "unpredictable vs moving": 0.0506,
+   "effSpread vs moving": 0.3054
+  },
+  "recoilEffectiveCoefficient": {
+   "min": 1.0905,
+   "max": 2.8999,
+   "mean": 1.8354
+  }
+ },
+ "findings": [
+  {
+   "id": "recoil-enters-twice",
+   "severity": "design question, not a defect",
+   "finding": "recoilV enters the Beam Index through two terms. Its effective total coefficient ranges 1.09x to 2.90x depending on the weapon's recoil direction variation and the distance. A high-variation weapon is therefore penalised for the same recoil value roughly 2.66x more than a low-variation one.",
+   "correlation": 0.8023,
+   "interpretation": "The two terms are not redundant - one is magnitude, the other lateral scatter - but they are strongly correlated by construction, since unpredictable is recoil multiplied by a factor in [0,1]. The consequence is that recoilV is the most heavily weighted primitive in BALANCED, which is worth stating explicitly because recoilV is also among the values with the weakest current verification.",
+   "recommendation": "Document the intent. If the intent is that magnitude and scatter are separately meaningful, the current form is right and only the documentation is missing. Do not change the coefficients to reduce the correlation - that would alter what BALANCED means to satisfy a statistic."
+  },
+  {
+   "id": "effspread-dominates",
+   "severity": "informational",
+   "finding": "effectiveAdsSpreadDeg carries the largest coefficient (2.00-4.50) and contributes a mean 27.2% of the Beam Index, ranging 0.0%-73.3%.",
+   "interpretation": "Aimed spread is the dominant controllability term at range, by design. This is stated so the dominance is a known property rather than a surprise.",
+   "recommendation": "No change. Recorded so that any future spread-model change is understood to be the highest-leverage edit available to the ranking."
+  },
+  {
+   "id": "offpace-cliff",
+   "severity": "design question",
+   "finding": "The 1.35x off-pace penalty is a discontinuity: a weapon 1.24x slower than the fastest is unpenalised, one 1.26x slower is penalised 35%. Two weapons either side of the threshold can swap order on a fraction of a millisecond.",
+   "interpretation": "A cliff is a legitimate product choice - it encodes \"too slow to matter\" - but it makes rankings near the boundary fragile in a way a smooth penalty would not.",
+   "recommendation": "Report near-threshold cases in the sensitivity work rather than smoothing the cliff. Changing it would redefine BALANCED, which this audit is explicitly not authorised to do."
+  },
+  {
+   "id": "fastest-kill-is-objective",
+   "severity": "confirmation",
+   "finding": "FASTEST KILL orders by trigger-to-kill outright and consults Beam Index only on an exact tie (epsilon 1e-9 ms, float noise only).",
+   "interpretation": "It carries no preference weighting at all, which is what the control promises the user.",
+   "recommendation": "No change. This is the property that keeps one of the two priorities fully objective."
+  }
+ ],
+ "changesMade": "NONE. This audit deliberately makes no change to any weight. Altering what BALANCED means is a product decision, and nothing here demonstrates mathematically erroneous behaviour - only choices that were undocumented."
+}

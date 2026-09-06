@@ -1,0 +1,87 @@
+{
+ "generatedAt": "2026-09-06T05:49:00.836Z",
+ "current": {
+  "schema": 1,
+  "purpose": "Every constant that decides what BALANCED means. None is a game mechanic; all are product decisions about how to weigh real mechanics against each other. Pinned so a change is a reviewed diff rather than a silent drift that only surfaces after the next cache rebuild.",
+  "note": "FASTEST KILL is deliberately absent: it orders by trigger-to-kill outright and consults Beam Index only to break an exact tie, so it carries no preference weighting to pin.",
+  "baseWeights": {
+   "short": {
+    "ads": 6,
+    "move": 3,
+    "recoil": 2,
+    "recoilVar": 1.4,
+    "velocity": 0.4,
+    "hip": 5.5,
+    "reload": 4,
+    "capacity": 0.12,
+    "visual": 2.5,
+    "sprint": 4.5
+   },
+   "medium": {
+    "ads": 3.5,
+    "move": 4,
+    "recoil": 5.5,
+    "recoilVar": 4,
+    "velocity": 2.5,
+    "hip": 1.2,
+    "reload": 2.5,
+    "capacity": 0.16,
+    "visual": 3.5,
+    "sprint": 2
+   },
+   "long": {
+    "ads": 1.5,
+    "move": 4.5,
+    "recoil": 6,
+    "recoilVar": 6,
+    "velocity": 6.5,
+    "hip": 0,
+    "reload": 1.5,
+    "capacity": 0.1,
+    "visual": 4.5,
+    "sprint": 0.8
+   }
+  },
+  "constants": {
+   "utilityExponents": [
+    0.55,
+    0.45
+   ],
+   "offPacePenalty": [
+    1.35
+   ],
+   "offPaceThreshold": [
+    1.25,
+    10
+   ],
+   "beamCoefficientsBuilder": [
+    1,
+    0.35,
+    1.25,
+    0.75,
+    2,
+    2.5,
+    0.35,
+    0.65
+   ],
+   "beamCoefficientsBrowserFallback": [
+    0.35,
+    1.25,
+    0.75,
+    1.25,
+    1.75,
+    0.35,
+    0.65
+   ],
+   "rangeTDivisorBuilder": [
+    120
+   ],
+   "rangeTDivisorBrowser": [
+    120
+   ]
+  },
+  "fingerprint": "38129bda9cb1b4badfc449e2a3bc1f81e0206fdf46a4368f544acf98b82834b7"
+ },
+ "pinnedFingerprint": "38129bda9cb1b4badfc449e2a3bc1f81e0206fdf46a4368f544acf98b82834b7",
+ "errors": []
+}

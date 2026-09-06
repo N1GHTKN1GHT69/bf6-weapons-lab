@@ -1,0 +1,231 @@
+{
+ "generatedAt": "2026-09-06T05:49:01.046Z",
+ "method": "Each cached row re-derived with scripts/reference-engine.mjs, which re-implements the math from documented mechanics and imports nothing from the cache builder or app.js. Attachment costs are checked against the LIVE catalog, not the cache's own copy.",
+ "sharedAssumptions": [
+  "Beam Index weighting (the 1.00/0.35, 1.25/0.75, 2.00/2.50, 0.35/0.65 range coefficients) is a project ranking policy, not a game mechanic. Re-deriving it proves the arithmetic, not the model.",
+  "The 120 m rangeT normalisation is likewise a project choice.",
+  "Chest damage assumes 100 HP and no headshot/limb variation; low-body uses the audited limb multiplier.",
+  "Attachment-modified per-shot damage is taken from the cache row, because attachment damage transforms live in the upstream simulator and are not re-derived here.",
+  "The drag constant and the projectile model form dv/dt = -k*v^2 come from the upstream ballistics documentation; only the closed-form solution is re-derived."
+ ],
+ "cacheGeneratedAt": "2026-09-05T20:25:56.623Z",
+ "weapons": 62,
+ "rowsChecked": 37200,
+ "valuesChecked": 378535,
+ "buildsChecked": 296,
+ "toleranceMs": 1,
+ "limbMultipliersResolved": {
+  "ak205": [
+   0.84
+  ],
+  "ak4d": [
+   0.84,
+   0.91
+  ],
+  "b36a4": [
+   0.84,
+   0.91
+  ],
+  "brod3": [
+   0.84
+  ],
+  "cz3a1": [
+   0.84
+  ],
+  "db12": [
+   1
+  ],
+  "drsiar": [
+   0.84,
+   0.91
+  ],
+  "ef88": [
+   0.84,
+   0.91
+  ],
+  "es57": [
+   1
+  ],
+  "ggh22": [
+   1
+  ],
+  "grtbc": [
+   0.84
+  ],
+  "grtcps": [
+   0.91
+  ],
+  "kord6p67": [
+   0.84
+  ],
+  "ks18k": [
+   0.91,
+   1
+  ],
+  "kts100": [
+   0.84,
+   0.91
+  ],
+  "kv9": [
+   0.84
+  ],
+  "l110": [
+   0.84,
+   0.91
+  ],
+  "l115": [
+   0.67
+  ],
+  "l85a3": [
+   0.84,
+   0.91
+  ],
+  "lmr27": [
+   0.91
+  ],
+  "m1014": [
+   1
+  ],
+  "m121a2": [
+   0.84,
+   0.91
+  ],
+  "m123k": [
+   0.84,
+   0.91
+  ],
+  "m16a4": [
+   0.84,
+   0.91
+  ],
+  "m2010esr": [
+   0.67
+  ],
+  "m240l": [
+   0.84,
+   0.91
+  ],
+  "m250": [
+   0.84,
+   0.91
+  ],
+  "m277": [
+   0.84,
+   0.91
+  ],
+  "m357trait": [
+   1
+  ],
+  "m39emr": [
+   0.91
+  ],
+  "m417a2": [
+   0.84
+  ],
+  "m433": [
+   0.84,
+   0.91
+  ],
+  "m44": [
+   1
+  ],
+  "m45a1": [
+   1
+  ],
+  "m4a1": [
+   0.84
+  ],
+  "m60": [
+   0.84,
+   0.91
+  ],
+  "m87a1": [
+   0.91,
+   1
+  ],
+  "miniscout": [
+   0.67
+  ],
+  "nvo228e": [
+   0.84
+  ],
+  "p18": [
+   1
+  ],
+  "pp19": [
+   0.84
+  ],
+  "psr": [
+   0.67
+  ],
+  "pw5a3": [
+   0.84
+  ],
+  "pw7a2": [
+   0.84
+  ],
+  "qbz192": [
+   0.84
+  ],
+  "rpk74m": [
+   0.84
+  ],
+  "rpkm": [
+   0.84
+  ],
+  "scw10": [
+   0.84
+  ],
+  "sg553r": [
+   0.84
+  ],
+  "sgx": [
+   0.84
+  ],
+  "sl9": [
+   0.84
+  ],
+  "sor300sc": [
+   0.84
+  ],
+  "sor556": [
+   0.84,
+   0.91
+  ],
+  "sv98": [
+   0.67
+  ],
+  "svdm": [
+   0.91
+  ],
+  "svk86": [
+   0.91
+  ],
+  "tr7": [
+   0.84,
+   0.91
+  ],
+  "umg40": [
+   0.84
+  ],
+  "usg90": [
+   0.84
+  ],
+  "vcr2": [
+   0.84,
+   0.91
+  ],
+  "vssm": [
+   0.91
+  ],
+  "vz61": [
+   0.84
+  ]
+ },
+ "failuresByKind": {},
+ "notes": [
+  "build.stats does not carry burstBurstsPerMinute, so a burst weapon's cached TTK cannot be re-derived from the cache alone; it is read from the effective weapon record here. Adding it to the cache would make the artifact fully self-verifying.",
+  "catalog shape verified for 62 weapons by recounting every legal attachment combination from the live catalog and comparing with the count the cache was built from."
+ ],
+ "errors": []
+}

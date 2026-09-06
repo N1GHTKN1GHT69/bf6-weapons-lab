@@ -96,6 +96,10 @@ jobs:
           node scripts/audit-partial-assumptions.mjs
       - name: Gate source overlay integrity and the VSSM two-state model
         run: node scripts/audit-source-overlay.mjs
+      - name: Gate mirrored source files against their recorded hashes
+        run: node scripts/audit-source-integrity.mjs
+      - name: Gate the cached values against an independent recomputation
+        run: node scripts/audit-cache-recompute.mjs
       - name: Gate freshness/update fail-closed behavior
         run: node scripts/audit-freshness.mjs
       - name: Gate final cache integration policy

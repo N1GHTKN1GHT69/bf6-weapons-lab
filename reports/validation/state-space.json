@@ -1,0 +1,42 @@
+{
+ "generatedAt": "2026-09-06T05:48:49.565Z",
+ "quick": false,
+ "coverage": {
+  "tier1": {
+   "describes": "AUTO rankings, fully enumerated",
+   "distances": 300,
+   "modes": 3,
+   "priorities": 2,
+   "scopes": 8,
+   "evaluations": 24000
+  },
+  "tier2": {
+   "describes": "per-weapon manual builds, fully enumerated",
+   "weapons": 63,
+   "distances": 300,
+   "modes": 3,
+   "evaluations": 56700
+  },
+  "tier3": {
+   "describes": "advanced handling preferences, stratified by deterministic index arithmetic (no randomness)",
+   "combinations": 16,
+   "strata": 1008,
+   "evaluations": 1008
+  },
+  "notEnumerated": [
+   "The full Cartesian product of preferences x weapons x distances x modes x priorities x scopes is ~1.7e9 evaluations and is not run. Tier 3 covers every preference combination against every class and the whole distance range instead.",
+   "Attachment combinations are not enumerated here; scripts/audit-optimizer-torture.mjs does that against the optimizer directly.",
+   "classChoice and context selectors are not swept: they filter which weapons are offered, and cannot change any weapon's computed combat values."
+  ],
+  "rosterOnlyWeaponsWithoutCatalogRecord": [
+   "interdictor"
+  ],
+  "rankedEntriesInspected": 243108,
+  "buildsInspected": 71192,
+  "determinismProbes": 14
+ },
+ "anomalyCountsByKind": {},
+ "exceptions": 0,
+ "anomalies": [],
+ "anomalyTotal": 0
+}

@@ -1,0 +1,81 @@
+{
+ "generatedAt": "2026-09-06T05:49:09.158Z",
+ "describes": "Properties that must hold for every weapon and every scenario, as distinct from facts about particular values.",
+ "properties": 12,
+ "passed": 12,
+ "results": [
+  {
+   "id": "overlay-idempotent",
+   "name": "applying the overlay twice does not apply it twice",
+   "ok": true,
+   "detail": "the second pass applied 0 change(s); an overlay must be a no-op against data that already carries it"
+  },
+  {
+   "id": "overlay-idempotent-values",
+   "name": "a second application leaves every value unchanged",
+   "ok": true,
+   "detail": "the dataset differs after a redundant second application"
+  },
+  {
+   "id": "overlay-idempotent-reports",
+   "name": "the redundant application is reported, not silent",
+   "ok": true,
+   "detail": "expected 39 baseline-mismatch reports on the second pass, got 39"
+  },
+  {
+   "id": "overlay-order",
+   "name": "an older overlay cannot override a newer one",
+   "ok": true,
+   "detail": "brod3.bulletVel ended at 563, expected the newer overlay's 563"
+  },
+  {
+   "id": "overlay-fails-closed",
+   "name": "a change whose declared baseline does not match is refused",
+   "ok": true,
+   "detail": "errors=1, value=580 (expected the untouched baseline 580)"
+  },
+  {
+   "id": "one-dataset",
+   "name": "the browser and the cache builder hold an identical effective dataset",
+   "ok": true,
+   "detail": "0 of 62 weapons differ: "
+  },
+  {
+   "id": "cache-vs-ondemand",
+   "name": "cached and on-demand builds both respect the point budget",
+   "ok": true,
+   "detail": "0 violations across 318 comparisons: "
+  },
+  {
+   "id": "redsec-unarmored-equals-mp",
+   "name": "REDSEC unarmored equals Multiplayer at every metre",
+   "ok": true,
+   "detail": "0 divergent cases, first: "
+  },
+  {
+   "id": "confidence-cap",
+   "name": "every weapon with a weak result-affecting dependency carries a confidence cap",
+   "ok": true,
+   "detail": "uncapped: "
+  },
+  {
+   "id": "no-metadata-promotion",
+   "name": "nothing is CURRENT_PATCH_VERIFIED without a matching source attestation",
+   "ok": true,
+   "detail": "0 field(s) claim currency with no matching attestation"
+  },
+  {
+   "id": "verified-version-bounded",
+   "name": "the verified combat version stays below the first blocking patch",
+   "ok": true,
+   "detail": "verified 1.4.1.5 is not below the blocking patch 1.4.2.0"
+  },
+  {
+   "id": "blocking-patch-has-unresolved-items",
+   "name": "the blocking patch genuinely still has an unresolved blocking change",
+   "ok": true,
+   "detail": "1.4.2.0 is recorded as blocking but carries no unresolved blocking change"
+  }
+ ],
+ "errors": []
+}
