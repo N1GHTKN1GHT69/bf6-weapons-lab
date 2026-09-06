@@ -52,6 +52,8 @@ const GATES = [
   ['audit-ranking-policy-pin', ['scripts/audit-ranking-policy-pin.mjs']],
   ['audit-provenance-consistency', ['scripts/audit-provenance-consistency.mjs']],
   ['audit-cache-recompute', ['scripts/audit-cache-recompute.mjs']],
+  ['audit-class-audit-provenance', ['scripts/audit-class-audit-provenance.mjs']],
+  ['audit-balanced-ablation', ['scripts/audit-balanced-ablation.mjs']],
   ['audit-ballistic-ttk', ['scripts/audit-ballistic-ttk.mjs']],
   ['audit-priority-wiring', ['scripts/audit-priority-wiring.mjs']],
   ['audit-redsec-armor', ['scripts/audit-redsec-armor.mjs']],
@@ -407,6 +409,53 @@ const MUTATIONS = [
       doc.source.commit = 'deadbeef' + '0'.repeat(32);
       writeFileSync(f, JSON.stringify(doc));
     }
+  },
+
+  // ---- class-audit pins ----
+  // The previous pass established that class-audit values are among the highest-leverage
+  // trusted numbers in the project, and that the class audits themselves run ONLY in the
+  // Combat Engine workflow. These four ask whether a corrupted pin is actually caught,
+  // separately for the pins that are OPERATIVE (shotgun ammo profiles, sniper curve and
+  // interval) and the ones that merely CONCUR with the raw data (assault ranges).
+  {
+    id: 'class-audit-sniper-curve', files: ['data/sniper-audit.json'], category: 'class audit',
+    description: 'corrupt the L115 audited damage curve, which the cache is built from',
+    expect: 'audit-cache-recompute',
+    apply: () => patchJson('data/sniper-audit.json', d => {
+      const c = d.weapons.l115?.curve;
+      if (!Array.isArray(c)) throw new Error('L115 audited curve not found');
+      c[1].d = Number(c[1].d) * 0.8;
+    })
+  },
+  {
+    id: 'class-audit-sniper-interval', files: ['data/sniper-audit.json'], category: 'class audit',
+    description: 'corrupt the L115 audited bolt interval, which sets its cached TTK',
+    expect: 'audit-cache-recompute',
+    apply: () => patchJson('data/sniper-audit.json', d => {
+      const w = d.weapons.l115;
+      if (!Number(w?.shotIntervalMs)) throw new Error('L115 shotIntervalMs not found');
+      w.shotIntervalMs = Number(w.shotIntervalMs) * 0.75;
+    })
+  },
+  {
+    id: 'class-audit-shotgun-profile', files: ['data/shotgun-audit.json'], category: 'class audit',
+    description: 'corrupt the M87A1 buckshot damage profile, which the cache uses for shell damage',
+    expect: 'audit-cache-recompute',
+    apply: () => patchJson('data/shotgun-audit.json', d => {
+      const r = d.weapons.m87a1?.ammoProfiles?.buckshot?.ranges;
+      if (!Array.isArray(r)) throw new Error('M87A1 buckshot profile not found');
+      r[0].damage = Number(r[0].damage) * 0.7;
+    })
+  },
+  {
+    id: 'class-audit-concordant-range', files: ['data/assault-audit.json'], category: 'class audit',
+    description: 'corrupt an M433 audited range band, which CONCURS with the raw curve rather than overriding it',
+    expect: 'audit-class-audit-provenance',
+    apply: () => patchJson('data/assault-audit.json', d => {
+      const r = d.weapons.m433?.ranges;
+      if (!Array.isArray(r)) throw new Error('M433 audited ranges not found');
+      r[1].damage = Number(r[1].damage) * 0.85;
+    })
   },
 
   // ---- INVERSE TESTS: these must NOT be treated as combat changes ----

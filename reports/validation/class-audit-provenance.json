@@ -1,0 +1,4523 @@
+{
+ "generatedAt": "2026-09-06T12:36:38.825Z",
+ "question": "For every class-audit pin, is the AUDIT value or the RAW value the one production actually uses - and what is each one's provenance?",
+ "method": "Operativeness is decided by comparing the CACHED production value against a value derived from the raw record and a value derived from the audit pin, at nine distances. Reading comments is not evidence.",
+ "correctsPreviousFinding": "The previous pass concluded that class audits SHADOW raw.dmg. That was measured through diag.perturb, which bypasses the cache, so it described the FALLBACK path. In production the cache is primary and was built from raw.dmg for most classes. The genuine audit overrides are shotgun ammoProfiles and the sniper curve/interval.",
+ "sourceVersion": "1.4.2.0",
+ "pinCount": 182,
+ "rollup": [
+  {
+   "cls": "Assault Rifle",
+   "field": "damage",
+   "weapons": 11,
+   "verdicts": {
+    "CONCORDANT": 11
+   }
+  },
+  {
+   "cls": "Assault Rifle",
+   "field": "cadence",
+   "weapons": 11,
+   "verdicts": {
+    "RAW RPM OPERATIVE": 11
+   }
+  },
+  {
+   "cls": "Assault Rifle",
+   "field": "bulletVel",
+   "weapons": 11,
+   "verdicts": {
+    "audit does not pin velocity": 11
+   }
+  },
+  {
+   "cls": "Carbine",
+   "field": "damage",
+   "weapons": 9,
+   "verdicts": {
+    "CONCORDANT": 9
+   }
+  },
+  {
+   "cls": "Carbine",
+   "field": "cadence",
+   "weapons": 9,
+   "verdicts": {
+    "RAW RPM OPERATIVE": 9
+   }
+  },
+  {
+   "cls": "Carbine",
+   "field": "bulletVel",
+   "weapons": 9,
+   "verdicts": {
+    "audit does not pin velocity": 9
+   }
+  },
+  {
+   "cls": "SMG",
+   "field": "damage",
+   "weapons": 10,
+   "verdicts": {
+    "CONCORDANT": 10
+   }
+  },
+  {
+   "cls": "SMG",
+   "field": "cadence",
+   "weapons": 10,
+   "verdicts": {
+    "RAW RPM OPERATIVE": 10
+   }
+  },
+  {
+   "cls": "SMG",
+   "field": "bulletVel",
+   "weapons": 10,
+   "verdicts": {
+    "audit does not pin velocity": 10
+   }
+  },
+  {
+   "cls": "LMG",
+   "field": "damage",
+   "weapons": 10,
+   "verdicts": {
+    "CONCORDANT": 10
+   }
+  },
+  {
+   "cls": "LMG",
+   "field": "cadence",
+   "weapons": 10,
+   "verdicts": {
+    "RAW RPM OPERATIVE": 10
+   }
+  },
+  {
+   "cls": "LMG",
+   "field": "bulletVel",
+   "weapons": 10,
+   "verdicts": {
+    "audit does not pin velocity": 10
+   }
+  },
+  {
+   "cls": "DMR",
+   "field": "damage",
+   "weapons": 6,
+   "verdicts": {
+    "RAW OPERATIVE": 6
+   }
+  },
+  {
+   "cls": "DMR",
+   "field": "cadence",
+   "weapons": 6,
+   "verdicts": {
+    "RAW RPM OPERATIVE": 6
+   }
+  },
+  {
+   "cls": "DMR",
+   "field": "bulletVel",
+   "weapons": 6,
+   "verdicts": {
+    "audit base = raw": 6
+   }
+  },
+  {
+   "cls": "Sniper Rifle",
+   "field": "damage",
+   "weapons": 5,
+   "verdicts": {
+    "CONCORDANT": 1,
+    "AUDIT OPERATIVE": 4
+   }
+  },
+  {
+   "cls": "Sniper Rifle",
+   "field": "cadence",
+   "weapons": 5,
+   "verdicts": {
+    "AUDIT INTERVAL OPERATIVE": 5
+   }
+  },
+  {
+   "cls": "Sniper Rifle",
+   "field": "bulletVel",
+   "weapons": 5,
+   "verdicts": {
+    "audit base = raw": 5
+   }
+  },
+  {
+   "cls": "Shotgun",
+   "field": "damage",
+   "weapons": 4,
+   "verdicts": {
+    "AUDIT OPERATIVE": 4
+   }
+  },
+  {
+   "cls": "Shotgun",
+   "field": "cadence",
+   "weapons": 4,
+   "verdicts": {
+    "AUDIT CADENCE OPERATIVE": 2,
+    "CONCORDANT": 2
+   }
+  },
+  {
+   "cls": "Sidearm",
+   "field": "damage",
+   "weapons": 7,
+   "verdicts": {
+    "CONCORDANT": 7
+   }
+  },
+  {
+   "cls": "Sidearm",
+   "field": "cadence",
+   "weapons": 7,
+   "verdicts": {
+    "RAW RPM OPERATIVE": 7
+   }
+  },
+  {
+   "cls": "Sidearm",
+   "field": "bulletVel",
+   "weapons": 7,
+   "verdicts": {
+    "audit does not pin velocity": 7
+   }
+  }
+ ],
+ "unexplained": [],
+ "pins": [
+  {
+   "weaponId": "m433",
+   "weapon": "M433",
+   "cls": "Assault Rifle",
+   "field": "damage",
+   "auditFile": "data/assault-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "m433",
+   "weapon": "M433",
+   "cls": "Assault Rifle",
+   "field": "cadence",
+   "auditFile": "data/assault-audit.json",
+   "auditedRpm": 830.769,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 830.769,
+   "sourcePublishes": {
+    "RoF": 830.769,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 289 at 5 btk; from build rpm 289",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m433",
+   "weapon": "M433",
+   "cls": "Assault Rifle",
+   "field": "bulletVel",
+   "auditFile": "data/assault-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 630,
+   "sourceValue": 630,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "b36a4",
+   "weapon": "B36A4",
+   "cls": "Assault Rifle",
+   "field": "damage",
+   "auditFile": "data/assault-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "b36a4",
+   "weapon": "B36A4",
+   "cls": "Assault Rifle",
+   "field": "cadence",
+   "auditFile": "data/assault-audit.json",
+   "auditedRpm": 719.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 719.999,
+   "sourcePublishes": {
+    "RoF": 719.999,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 333 at 5 btk; from build rpm 333",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "b36a4",
+   "weapon": "B36A4",
+   "cls": "Assault Rifle",
+   "field": "bulletVel",
+   "auditFile": "data/assault-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 740,
+   "sourceValue": 740,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "sor556",
+   "weapon": "SOR-556 MK2",
+   "cls": "Assault Rifle",
+   "field": "damage",
+   "auditFile": "data/assault-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "sor556",
+   "weapon": "SOR-556 MK2",
+   "cls": "Assault Rifle",
+   "field": "cadence",
+   "auditFile": "data/assault-audit.json",
+   "auditedRpm": 568.421,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 568.421,
+   "sourcePublishes": {
+    "RoF": 568.421,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 422 at 5 btk; from build rpm 422",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "sor556",
+   "weapon": "SOR-556 MK2",
+   "cls": "Assault Rifle",
+   "field": "bulletVel",
+   "auditFile": "data/assault-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 768,
+   "sourceValue": 768,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "ak4d",
+   "weapon": "AK4D",
+   "cls": "Assault Rifle",
+   "field": "damage",
+   "auditFile": "data/assault-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "ak4d",
+   "weapon": "AK4D",
+   "cls": "Assault Rifle",
+   "field": "cadence",
+   "auditFile": "data/assault-audit.json",
+   "auditedRpm": 514.285,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 514.285,
+   "sourcePublishes": {
+    "RoF": 514.285,
+    "SingleRoF": 359.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 350 at 4 btk; from build rpm 350",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "ak4d",
+   "weapon": "AK4D",
+   "cls": "Assault Rifle",
+   "field": "bulletVel",
+   "auditFile": "data/assault-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 680,
+   "sourceValue": 680,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "tr7",
+   "weapon": "TR7",
+   "cls": "Assault Rifle",
+   "field": "damage",
+   "auditFile": "data/assault-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "tr7",
+   "weapon": "TR7",
+   "cls": "Assault Rifle",
+   "field": "cadence",
+   "auditFile": "data/assault-audit.json",
+   "auditedRpm": 719.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 719.999,
+   "sourcePublishes": {
+    "RoF": 719.999,
+    "SingleRoF": 359.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 250 at 4 btk; from build rpm 250",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "tr7",
+   "weapon": "TR7",
+   "cls": "Assault Rifle",
+   "field": "bulletVel",
+   "auditFile": "data/assault-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 604,
+   "sourceValue": 604,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "kord6p67",
+   "weapon": "KORD 6P67",
+   "cls": "Assault Rifle",
+   "field": "damage",
+   "auditFile": "data/assault-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "kord6p67",
+   "weapon": "KORD 6P67",
+   "cls": "Assault Rifle",
+   "field": "cadence",
+   "auditFile": "data/assault-audit.json",
+   "auditedRpm": 899.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 899.999,
+   "sourcePublishes": {
+    "RoF": 899.999,
+    "SingleRoF": 449.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 333 at 6 btk; from build rpm 333",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "kord6p67",
+   "weapon": "KORD 6P67",
+   "cls": "Assault Rifle",
+   "field": "bulletVel",
+   "auditFile": "data/assault-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 724,
+   "sourceValue": 724,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "nvo228e",
+   "weapon": "NVO-228E",
+   "cls": "Assault Rifle",
+   "field": "damage",
+   "auditFile": "data/assault-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "nvo228e",
+   "weapon": "NVO-228E",
+   "cls": "Assault Rifle",
+   "field": "cadence",
+   "auditFile": "data/assault-audit.json",
+   "auditedRpm": 654.545,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 654.545,
+   "sourcePublishes": {
+    "RoF": 654.545,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 367 at 5 btk; from build rpm 367",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "nvo228e",
+   "weapon": "NVO-228E",
+   "cls": "Assault Rifle",
+   "field": "bulletVel",
+   "auditFile": "data/assault-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 626,
+   "sourceValue": 626,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "l85a3",
+   "weapon": "L85A3",
+   "cls": "Assault Rifle",
+   "field": "damage",
+   "auditFile": "data/assault-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "l85a3",
+   "weapon": "L85A3",
+   "cls": "Assault Rifle",
+   "field": "cadence",
+   "auditFile": "data/assault-audit.json",
+   "auditedRpm": 635.294,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 635.294,
+   "sourcePublishes": {
+    "RoF": 635.294,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 378 at 5 btk; from build rpm 378",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "l85a3",
+   "weapon": "L85A3",
+   "cls": "Assault Rifle",
+   "field": "bulletVel",
+   "auditFile": "data/assault-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 778,
+   "sourceValue": 778,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "vcr2",
+   "weapon": "VCR-2",
+   "cls": "Assault Rifle",
+   "field": "damage",
+   "auditFile": "data/assault-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "vcr2",
+   "weapon": "VCR-2",
+   "cls": "Assault Rifle",
+   "field": "cadence",
+   "auditFile": "data/assault-audit.json",
+   "auditedRpm": 899.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 899.999,
+   "sourcePublishes": {
+    "RoF": 899.999,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 267 at 5 btk; from build rpm 267",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "vcr2",
+   "weapon": "VCR-2",
+   "cls": "Assault Rifle",
+   "field": "bulletVel",
+   "auditFile": "data/assault-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 660,
+   "sourceValue": 660,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m16a4",
+   "weapon": "M16A4",
+   "cls": "Assault Rifle",
+   "field": "damage",
+   "auditFile": "data/assault-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "m16a4",
+   "weapon": "M16A4",
+   "cls": "Assault Rifle",
+   "field": "cadence",
+   "auditFile": "data/assault-audit.json",
+   "auditedRpm": 771.428,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 771.428,
+   "sourcePublishes": {
+    "RoF": 771.428,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 344 at 5 btk; from build rpm 344",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m16a4",
+   "weapon": "M16A4",
+   "cls": "Assault Rifle",
+   "field": "bulletVel",
+   "auditFile": "data/assault-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 680,
+   "sourceValue": 680,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m4a1",
+   "weapon": "M4A1",
+   "cls": "Carbine",
+   "field": "damage",
+   "auditFile": "data/carbine-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "m4a1",
+   "weapon": "M4A1",
+   "cls": "Carbine",
+   "field": "cadence",
+   "auditFile": "data/carbine-audit.json",
+   "auditedRpm": 900,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 899.999,
+   "sourcePublishes": {
+    "RoF": 899.999,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 333 at 6 btk; from build rpm 333",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m4a1",
+   "weapon": "M4A1",
+   "cls": "Carbine",
+   "field": "bulletVel",
+   "auditFile": "data/carbine-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 590,
+   "sourceValue": 590,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m277",
+   "weapon": "M277",
+   "cls": "Carbine",
+   "field": "damage",
+   "auditFile": "data/carbine-audit.json",
+   "auditRepresentation": "2 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "m277",
+   "weapon": "M277",
+   "cls": "Carbine",
+   "field": "cadence",
+   "auditFile": "data/carbine-audit.json",
+   "auditedRpm": 720,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 719.999,
+   "sourcePublishes": {
+    "RoF": 719.999,
+    "SingleRoF": 359.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 250 at 4 btk; from build rpm 250",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m277",
+   "weapon": "M277",
+   "cls": "Carbine",
+   "field": "bulletVel",
+   "auditFile": "data/carbine-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 592,
+   "sourceValue": 592,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "ak205",
+   "weapon": "AK-205",
+   "cls": "Carbine",
+   "field": "damage",
+   "auditFile": "data/carbine-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "ak205",
+   "weapon": "AK-205",
+   "cls": "Carbine",
+   "field": "cadence",
+   "auditFile": "data/carbine-audit.json",
+   "auditedRpm": 720,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 719.999,
+   "sourcePublishes": {
+    "RoF": 719.999,
+    "SingleRoF": 449.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 500 at 7 btk; from build rpm 500",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "ak205",
+   "weapon": "AK-205",
+   "cls": "Carbine",
+   "field": "bulletVel",
+   "auditFile": "data/carbine-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 708,
+   "sourceValue": 708,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m417a2",
+   "weapon": "M417 A2",
+   "cls": "Carbine",
+   "field": "damage",
+   "auditFile": "data/carbine-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "m417a2",
+   "weapon": "M417 A2",
+   "cls": "Carbine",
+   "field": "cadence",
+   "auditFile": "data/carbine-audit.json",
+   "auditedRpm": 654.545,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 654.545,
+   "sourcePublishes": {
+    "RoF": 654.545,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 367 at 5 btk; from build rpm 367",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m417a2",
+   "weapon": "M417 A2",
+   "cls": "Carbine",
+   "field": "bulletVel",
+   "auditFile": "data/carbine-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 560,
+   "sourceValue": 560,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "grtbc",
+   "weapon": "GRT-BC",
+   "cls": "Carbine",
+   "field": "damage",
+   "auditFile": "data/carbine-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "grtbc",
+   "weapon": "GRT-BC",
+   "cls": "Carbine",
+   "field": "cadence",
+   "auditFile": "data/carbine-audit.json",
+   "auditedRpm": 830.769,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 830.769,
+   "sourcePublishes": {
+    "RoF": 830.769,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 361 at 6 btk; from build rpm 361",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "grtbc",
+   "weapon": "GRT-BC",
+   "cls": "Carbine",
+   "field": "bulletVel",
+   "auditFile": "data/carbine-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 563,
+   "sourceValue": 563,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "qbz192",
+   "weapon": "QBZ-192",
+   "cls": "Carbine",
+   "field": "damage",
+   "auditFile": "data/carbine-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "qbz192",
+   "weapon": "QBZ-192",
+   "cls": "Carbine",
+   "field": "cadence",
+   "auditFile": "data/carbine-audit.json",
+   "auditedRpm": 771.428,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 771.428,
+   "sourcePublishes": {
+    "RoF": 771.428,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 389 at 6 btk; from build rpm 389",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "qbz192",
+   "weapon": "QBZ-192",
+   "cls": "Carbine",
+   "field": "bulletVel",
+   "auditFile": "data/carbine-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 608,
+   "sourceValue": 608,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "sg553r",
+   "weapon": "SG 553R",
+   "cls": "Carbine",
+   "field": "damage",
+   "auditFile": "data/carbine-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "sg553r",
+   "weapon": "SG 553R",
+   "cls": "Carbine",
+   "field": "cadence",
+   "auditFile": "data/carbine-audit.json",
+   "auditedRpm": 720,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 719.999,
+   "sourcePublishes": {
+    "RoF": 719.999,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 333 at 5 btk; from build rpm 333",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "sg553r",
+   "weapon": "SG 553R",
+   "cls": "Carbine",
+   "field": "bulletVel",
+   "auditFile": "data/carbine-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 483,
+   "sourceValue": 483,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "sor300sc",
+   "weapon": "SOR-300SC",
+   "cls": "Carbine",
+   "field": "damage",
+   "auditFile": "data/carbine-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "sor300sc",
+   "weapon": "SOR-300SC",
+   "cls": "Carbine",
+   "field": "cadence",
+   "auditFile": "data/carbine-audit.json",
+   "auditedRpm": 600,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 599.999,
+   "sourcePublishes": {
+    "RoF": 599.999,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 400 at 5 btk; from build rpm 400",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "sor300sc",
+   "weapon": "SOR-300SC",
+   "cls": "Carbine",
+   "field": "bulletVel",
+   "auditFile": "data/carbine-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 528,
+   "sourceValue": 528,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "sgx",
+   "weapon": "SGX",
+   "cls": "SMG",
+   "field": "damage",
+   "auditFile": "data/smg-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "sgx",
+   "weapon": "SGX",
+   "cls": "SMG",
+   "field": "cadence",
+   "auditFile": "data/smg-audit.json",
+   "auditedRpm": 830.769,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 830.769,
+   "sourcePublishes": {
+    "RoF": 830.769,
+    "SingleRoF": 449.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 361 at 6 btk; from build rpm 361",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "sgx",
+   "weapon": "SGX",
+   "cls": "SMG",
+   "field": "bulletVel",
+   "auditFile": "data/smg-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 378,
+   "sourceValue": 378,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "pw5a3",
+   "weapon": "PW5A3",
+   "cls": "SMG",
+   "field": "damage",
+   "auditFile": "data/smg-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "pw5a3",
+   "weapon": "PW5A3",
+   "cls": "SMG",
+   "field": "cadence",
+   "auditFile": "data/smg-audit.json",
+   "auditedRpm": 771.428,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 771.428,
+   "sourcePublishes": {
+    "RoF": 771.428,
+    "SingleRoF": 449.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 389 at 6 btk; from build rpm 389",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "pw5a3",
+   "weapon": "PW5A3",
+   "cls": "SMG",
+   "field": "bulletVel",
+   "auditFile": "data/smg-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 408,
+   "sourceValue": 408,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "pw7a2",
+   "weapon": "PW7A2",
+   "cls": "SMG",
+   "field": "damage",
+   "auditFile": "data/smg-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "pw7a2",
+   "weapon": "PW7A2",
+   "cls": "SMG",
+   "field": "cadence",
+   "auditFile": "data/smg-audit.json",
+   "auditedRpm": 947.368,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 947.368,
+   "sourcePublishes": {
+    "RoF": 947.368,
+    "SingleRoF": 449.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 380 at 7 btk; from build rpm 380",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "pw7a2",
+   "weapon": "PW7A2",
+   "cls": "SMG",
+   "field": "bulletVel",
+   "auditFile": "data/smg-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 576,
+   "sourceValue": 576,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "umg40",
+   "weapon": "UMG-40",
+   "cls": "SMG",
+   "field": "damage",
+   "auditFile": "data/smg-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "umg40",
+   "weapon": "UMG-40",
+   "cls": "SMG",
+   "field": "cadence",
+   "auditFile": "data/smg-audit.json",
+   "auditedRpm": 635.294,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 635.294,
+   "sourcePublishes": {
+    "RoF": 635.294,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 472 at 6 btk; from build rpm 472",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "umg40",
+   "weapon": "UMG-40",
+   "cls": "SMG",
+   "field": "bulletVel",
+   "auditFile": "data/smg-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 467,
+   "sourceValue": 467,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "usg90",
+   "weapon": "USG-90",
+   "cls": "SMG",
+   "field": "damage",
+   "auditFile": "data/smg-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "usg90",
+   "weapon": "USG-90",
+   "cls": "SMG",
+   "field": "cadence",
+   "auditFile": "data/smg-audit.json",
+   "auditedRpm": 899.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 899.999,
+   "sourcePublishes": {
+    "RoF": 899.999,
+    "SingleRoF": 449.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 400 at 7 btk; from build rpm 400",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "usg90",
+   "weapon": "USG-90",
+   "cls": "SMG",
+   "field": "bulletVel",
+   "auditFile": "data/smg-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 543,
+   "sourceValue": 543,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "kv9",
+   "weapon": "KV9",
+   "cls": "SMG",
+   "field": "damage",
+   "auditFile": "data/smg-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "kv9",
+   "weapon": "KV9",
+   "cls": "SMG",
+   "field": "cadence",
+   "auditFile": "data/smg-audit.json",
+   "auditedRpm": 1079.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 1079.999,
+   "sourcePublishes": {
+    "RoF": 1079.999,
+    "SingleRoF": 449.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 278 at 6 btk; from build rpm 278",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "kv9",
+   "weapon": "KV9",
+   "cls": "SMG",
+   "field": "bulletVel",
+   "auditFile": "data/smg-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 362,
+   "sourceValue": 362,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "scw10",
+   "weapon": "SCW-10",
+   "cls": "SMG",
+   "field": "damage",
+   "auditFile": "data/smg-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "scw10",
+   "weapon": "SCW-10",
+   "cls": "SMG",
+   "field": "cadence",
+   "auditFile": "data/smg-audit.json",
+   "auditedRpm": 799.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 799.999,
+   "sourcePublishes": {
+    "RoF": 799.999,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 300 at 5 btk; from build rpm 300",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "scw10",
+   "weapon": "SCW-10",
+   "cls": "SMG",
+   "field": "bulletVel",
+   "auditFile": "data/smg-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 398,
+   "sourceValue": 398,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "sl9",
+   "weapon": "SL9",
+   "cls": "SMG",
+   "field": "damage",
+   "auditFile": "data/smg-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "sl9",
+   "weapon": "SL9",
+   "cls": "SMG",
+   "field": "cadence",
+   "auditFile": "data/smg-audit.json",
+   "auditedRpm": 674.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 674.999,
+   "sourcePublishes": {
+    "RoF": 674.999,
+    "SingleRoF": 449.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 444 at 6 btk; from build rpm 444",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "sl9",
+   "weapon": "SL9",
+   "cls": "SMG",
+   "field": "bulletVel",
+   "auditFile": "data/smg-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 486,
+   "sourceValue": 486,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "cz3a1",
+   "weapon": "CZ3A1",
+   "cls": "SMG",
+   "field": "damage",
+   "auditFile": "data/smg-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "cz3a1",
+   "weapon": "CZ3A1",
+   "cls": "SMG",
+   "field": "cadence",
+   "auditFile": "data/smg-audit.json",
+   "auditedRpm": 981.818,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 981.818,
+   "sourcePublishes": {
+    "RoF": 981.818,
+    "SingleRoF": 449.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 306 at 6 btk; from build rpm 306",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "cz3a1",
+   "weapon": "CZ3A1",
+   "cls": "SMG",
+   "field": "bulletVel",
+   "auditFile": "data/smg-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 336,
+   "sourceValue": 336,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "pp19",
+   "weapon": "PP-19",
+   "cls": "SMG",
+   "field": "damage",
+   "auditFile": "data/smg-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "pp19",
+   "weapon": "PP-19",
+   "cls": "SMG",
+   "field": "cadence",
+   "auditFile": "data/smg-audit.json",
+   "auditedRpm": 719.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 719.999,
+   "sourcePublishes": {
+    "RoF": 719.999,
+    "SingleRoF": 449.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 417 at 6 btk; from build rpm 417",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "pp19",
+   "weapon": "PP-19",
+   "cls": "SMG",
+   "field": "bulletVel",
+   "auditFile": "data/smg-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 444,
+   "sourceValue": 444,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "l110",
+   "weapon": "L110",
+   "cls": "LMG",
+   "field": "damage",
+   "auditFile": "data/lmg-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "l110",
+   "weapon": "L110",
+   "cls": "LMG",
+   "field": "cadence",
+   "auditFile": "data/lmg-audit.json",
+   "auditedRpm": 719.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 719.999,
+   "sourcePublishes": {
+    "RoF": 719.999,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 333 at 5 btk; from build rpm 333",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "l110",
+   "weapon": "L110",
+   "cls": "LMG",
+   "field": "bulletVel",
+   "auditFile": "data/lmg-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 740,
+   "sourceValue": 740,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "drsiar",
+   "weapon": "DRS-IAR",
+   "cls": "LMG",
+   "field": "damage",
+   "auditFile": "data/lmg-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "drsiar",
+   "weapon": "DRS-IAR",
+   "cls": "LMG",
+   "field": "cadence",
+   "auditFile": "data/lmg-audit.json",
+   "auditedRpm": 771.428,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 771.428,
+   "sourcePublishes": {
+    "RoF": 771.428,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 311 at 5 btk; from build rpm 311",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "drsiar",
+   "weapon": "DRS-IAR",
+   "cls": "LMG",
+   "field": "bulletVel",
+   "auditFile": "data/lmg-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 680,
+   "sourceValue": 680,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m60",
+   "weapon": "M/60",
+   "cls": "LMG",
+   "field": "damage",
+   "auditFile": "data/lmg-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "m60",
+   "weapon": "M/60",
+   "cls": "LMG",
+   "field": "cadence",
+   "auditFile": "data/lmg-audit.json",
+   "auditedRpm": 514.285,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 514.285,
+   "sourcePublishes": {
+    "RoF": 514.285,
+    "SingleRoF": 359.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 350 at 4 btk; from build rpm 350",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m60",
+   "weapon": "M/60",
+   "cls": "LMG",
+   "field": "bulletVel",
+   "auditFile": "data/lmg-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 680,
+   "sourceValue": 680,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "rpkm",
+   "weapon": "RPKM",
+   "cls": "LMG",
+   "field": "damage",
+   "auditFile": "data/lmg-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "rpkm",
+   "weapon": "RPKM",
+   "cls": "LMG",
+   "field": "cadence",
+   "auditFile": "data/lmg-audit.json",
+   "auditedRpm": 553.846,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 553.846,
+   "sourcePublishes": {
+    "RoF": 553.846,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 433 at 5 btk; from build rpm 433",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "rpkm",
+   "weapon": "RPKM",
+   "cls": "LMG",
+   "field": "bulletVel",
+   "auditFile": "data/lmg-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 630,
+   "sourceValue": 630,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m123k",
+   "weapon": "M123K",
+   "cls": "LMG",
+   "field": "damage",
+   "auditFile": "data/lmg-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "m123k",
+   "weapon": "M123K",
+   "cls": "LMG",
+   "field": "cadence",
+   "auditFile": "data/lmg-audit.json",
+   "auditedRpm": 830.769,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 830.769,
+   "sourcePublishes": {
+    "RoF": 830.769,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 289 at 5 btk; from build rpm 289",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m123k",
+   "weapon": "M123K",
+   "cls": "LMG",
+   "field": "bulletVel",
+   "auditFile": "data/lmg-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 630,
+   "sourceValue": 630,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m250",
+   "weapon": "M250",
+   "cls": "LMG",
+   "field": "damage",
+   "auditFile": "data/lmg-audit.json",
+   "auditRepresentation": "1 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); special damage profile: no falloff at any range (user-confirmed)",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "m250",
+   "weapon": "M250",
+   "cls": "LMG",
+   "field": "cadence",
+   "auditFile": "data/lmg-audit.json",
+   "auditedRpm": 674.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 674.999,
+   "sourcePublishes": {
+    "RoF": 674.999,
+    "SingleRoF": 327.272
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 267 at 4 btk; from build rpm 267",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m250",
+   "weapon": "M250",
+   "cls": "LMG",
+   "field": "bulletVel",
+   "auditFile": "data/lmg-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 724,
+   "sourceValue": 724,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "kts100",
+   "weapon": "KTS100 MK8",
+   "cls": "LMG",
+   "field": "damage",
+   "auditFile": "data/lmg-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "kts100",
+   "weapon": "KTS100 MK8",
+   "cls": "LMG",
+   "field": "cadence",
+   "auditFile": "data/lmg-audit.json",
+   "auditedRpm": 514.285,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 514.285,
+   "sourcePublishes": {
+    "RoF": 514.285,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 467 at 5 btk; from build rpm 467",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "kts100",
+   "weapon": "KTS100 MK8",
+   "cls": "LMG",
+   "field": "bulletVel",
+   "auditFile": "data/lmg-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 808,
+   "sourceValue": 808,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m240l",
+   "weapon": "M240L",
+   "cls": "LMG",
+   "field": "damage",
+   "auditFile": "data/lmg-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "m240l",
+   "weapon": "M240L",
+   "cls": "LMG",
+   "field": "cadence",
+   "auditFile": "data/lmg-audit.json",
+   "auditedRpm": 599.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 599.999,
+   "sourcePublishes": {
+    "RoF": 599.999,
+    "SingleRoF": 359.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 300 at 4 btk; from build rpm 300",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m240l",
+   "weapon": "M240L",
+   "cls": "LMG",
+   "field": "bulletVel",
+   "auditFile": "data/lmg-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 590,
+   "sourceValue": 590,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m121a2",
+   "weapon": "M121 A2",
+   "cls": "LMG",
+   "field": "damage",
+   "auditFile": "data/lmg-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "m121a2",
+   "weapon": "M121 A2",
+   "cls": "LMG",
+   "field": "cadence",
+   "auditFile": "data/lmg-audit.json",
+   "auditedRpm": 654.545,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 654.545,
+   "sourcePublishes": {
+    "RoF": 654.545,
+    "SingleRoF": 359.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 275 at 4 btk; from build rpm 275",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m121a2",
+   "weapon": "M121 A2",
+   "cls": "LMG",
+   "field": "bulletVel",
+   "auditFile": "data/lmg-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 560,
+   "sourceValue": 560,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "rpk74m",
+   "weapon": "RPK-74M",
+   "cls": "LMG",
+   "field": "damage",
+   "auditFile": "data/lmg-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "rpk74m",
+   "weapon": "RPK-74M",
+   "cls": "LMG",
+   "field": "cadence",
+   "auditFile": "data/lmg-audit.json",
+   "auditedRpm": 685.714,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 685.714,
+   "sourcePublishes": {
+    "RoF": 685.714,
+    "SingleRoF": 449.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 438 at 6 btk; from build rpm 438",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "rpk74m",
+   "weapon": "RPK-74M",
+   "cls": "LMG",
+   "field": "bulletVel",
+   "auditFile": "data/lmg-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 808,
+   "sourceValue": 808,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m39emr",
+   "weapon": "M39 EMR",
+   "cls": "DMR",
+   "field": "damage",
+   "auditFile": "data/dmr-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 9,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 0,
+   "matchedNeither": 0,
+   "operative": "RAW OPERATIVE",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "m39emr",
+   "weapon": "M39 EMR",
+   "cls": "DMR",
+   "field": "cadence",
+   "auditFile": "data/dmr-audit.json",
+   "auditedRpm": 257.142,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 257.142,
+   "sourcePublishes": {
+    "RoF": 257.142,
+    "SingleRoF": 257.142
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 467 at 3 btk; from build rpm 467",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m39emr",
+   "weapon": "M39 EMR",
+   "cls": "DMR",
+   "field": "bulletVel",
+   "auditFile": "data/dmr-audit.json",
+   "auditedValue": 760,
+   "auditedEquippedValue": 950,
+   "equippedIsDerived": "equipped = base x 1.2500 (a barrel multiplier, not an independent value)",
+   "rawValue": 760,
+   "sourceValue": 760,
+   "agreement": "audit base = raw",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "lmr27",
+   "weapon": "LMR27",
+   "cls": "DMR",
+   "field": "damage",
+   "auditFile": "data/dmr-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 9,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 0,
+   "matchedNeither": 0,
+   "operative": "RAW OPERATIVE",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "lmr27",
+   "weapon": "LMR27",
+   "cls": "DMR",
+   "field": "cadence",
+   "auditFile": "data/dmr-audit.json",
+   "auditedRpm": 449.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 449.999,
+   "sourcePublishes": {
+    "RoF": 449.999,
+    "SingleRoF": 449.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 400 at 4 btk; from build rpm 400",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "lmr27",
+   "weapon": "LMR27",
+   "cls": "DMR",
+   "field": "bulletVel",
+   "auditFile": "data/dmr-audit.json",
+   "auditedValue": 800,
+   "auditedEquippedValue": 800,
+   "equippedIsDerived": null,
+   "rawValue": 800,
+   "sourceValue": 800,
+   "agreement": "audit base = raw",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "svk86",
+   "weapon": "SVK-8.6",
+   "cls": "DMR",
+   "field": "damage",
+   "auditFile": "data/dmr-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 8,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 1,
+   "matchedNeither": 0,
+   "operative": "RAW OPERATIVE",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "svk86",
+   "weapon": "SVK-8.6",
+   "cls": "DMR",
+   "field": "cadence",
+   "auditFile": "data/dmr-audit.json",
+   "auditedRpm": 149.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 149.999,
+   "sourcePublishes": {
+    "RoF": 149.999,
+    "SingleRoF": 149.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 400 at 2 btk; from build rpm 400",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "svk86",
+   "weapon": "SVK-8.6",
+   "cls": "DMR",
+   "field": "bulletVel",
+   "auditFile": "data/dmr-audit.json",
+   "auditedValue": 680,
+   "auditedEquippedValue": 850,
+   "equippedIsDerived": "equipped = base x 1.2500 (a barrel multiplier, not an independent value)",
+   "rawValue": 680,
+   "sourceValue": 680,
+   "agreement": "audit base = raw",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "svdm",
+   "weapon": "SVDM",
+   "cls": "DMR",
+   "field": "damage",
+   "auditFile": "data/dmr-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 9,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 0,
+   "matchedNeither": 0,
+   "operative": "RAW OPERATIVE",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "svdm",
+   "weapon": "SVDM",
+   "cls": "DMR",
+   "field": "cadence",
+   "auditFile": "data/dmr-audit.json",
+   "auditedRpm": 299.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 299.999,
+   "sourcePublishes": {
+    "RoF": 299.999,
+    "SingleRoF": 299.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 400 at 3 btk; from build rpm 400",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "svdm",
+   "weapon": "SVDM",
+   "cls": "DMR",
+   "field": "bulletVel",
+   "auditFile": "data/dmr-audit.json",
+   "auditedValue": 760,
+   "auditedEquippedValue": 608,
+   "equippedIsDerived": "equipped = base x 0.8000 (a barrel multiplier, not an independent value)",
+   "rawValue": 760,
+   "sourceValue": 760,
+   "agreement": "audit base = raw",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "grtcps",
+   "weapon": "GRT-CPS",
+   "cls": "DMR",
+   "field": "damage",
+   "auditFile": "data/dmr-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 9,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 0,
+   "matchedNeither": 0,
+   "operative": "RAW OPERATIVE",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "grtcps",
+   "weapon": "GRT-CPS",
+   "cls": "DMR",
+   "field": "cadence",
+   "auditFile": "data/dmr-audit.json",
+   "auditedRpm": 359.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 359.999,
+   "sourcePublishes": {
+    "RoF": 359.999,
+    "SingleRoF": 359.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 500 at 4 btk; from build rpm 500",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "grtcps",
+   "weapon": "GRT-CPS",
+   "cls": "DMR",
+   "field": "bulletVel",
+   "auditFile": "data/dmr-audit.json",
+   "auditedValue": 760,
+   "auditedEquippedValue": 950,
+   "equippedIsDerived": "equipped = base x 1.2500 (a barrel multiplier, not an independent value)",
+   "rawValue": 760,
+   "sourceValue": 760,
+   "agreement": "audit base = raw",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m2010esr",
+   "weapon": "M2010 ESR",
+   "cls": "Sniper Rifle",
+   "field": "damage",
+   "auditFile": "data/sniper-audit.json",
+   "auditRepresentation": "linear curve",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "EA 1.3.3 sweet spot + Sym 1.3.3 game-file linear curve",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "m2010esr",
+   "weapon": "M2010 ESR",
+   "cls": "Sniper Rifle",
+   "field": "cadence",
+   "auditFile": "data/sniper-audit.json",
+   "auditedRpm": 43,
+   "auditedShotIntervalMs": 1395.3488372093022,
+   "auditedCadence": null,
+   "rawRpm": 44.0816018658339,
+   "sourcePublishes": {
+    "RoF": 44.08160187,
+    "SingleRoF": 299.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "AUDIT INTERVAL OPERATIVE",
+   "evidence": "cached ttk 1395 at 2 btk; from build rpm 1361, from audited interval 1395",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m2010esr",
+   "weapon": "M2010 ESR",
+   "cls": "Sniper Rifle",
+   "field": "bulletVel",
+   "auditFile": "data/sniper-audit.json",
+   "auditedValue": 760,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 760,
+   "sourceValue": 760,
+   "agreement": "audit base = raw",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "sv98",
+   "weapon": "SV-98",
+   "cls": "Sniper Rifle",
+   "field": "damage",
+   "auditFile": "data/sniper-audit.json",
+   "auditRepresentation": "linear curve",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 1,
+   "matchedBoth": 8,
+   "matchedNeither": 0,
+   "operative": "AUDIT OPERATIVE",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "EA 1.3.3 sweet spot + Sym 1.3.3 game-file linear curve",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "sv98",
+   "weapon": "SV-98",
+   "cls": "Sniper Rifle",
+   "field": "cadence",
+   "auditFile": "data/sniper-audit.json",
+   "auditedRpm": 38,
+   "auditedShotIntervalMs": 1578.9473684210527,
+   "auditedCadence": null,
+   "rawRpm": 37.67438355865456,
+   "sourcePublishes": {
+    "RoF": 37.67438356,
+    "SingleRoF": 299.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "AUDIT INTERVAL OPERATIVE",
+   "evidence": "cached ttk 1579 at 2 btk; from build rpm 1593, from audited interval 1579",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "sv98",
+   "weapon": "SV-98",
+   "cls": "Sniper Rifle",
+   "field": "bulletVel",
+   "auditFile": "data/sniper-audit.json",
+   "auditedValue": 680,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 680,
+   "sourceValue": 680,
+   "agreement": "audit base = raw",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "psr",
+   "weapon": "PSR",
+   "cls": "Sniper Rifle",
+   "field": "damage",
+   "auditFile": "data/sniper-audit.json",
+   "auditRepresentation": "linear curve",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 1,
+   "matchedBoth": 8,
+   "matchedNeither": 0,
+   "operative": "AUDIT OPERATIVE",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "EA 1.3.3 sweet spot + Sym 1.3.3 game-file linear curve",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "psr",
+   "weapon": "PSR",
+   "cls": "Sniper Rifle",
+   "field": "cadence",
+   "auditFile": "data/sniper-audit.json",
+   "auditedRpm": 38,
+   "auditedShotIntervalMs": 1578.9473684210527,
+   "auditedCadence": null,
+   "rawRpm": 38.11762015220833,
+   "sourcePublishes": {
+    "RoF": 38.11762015,
+    "SingleRoF": 299.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "AUDIT INTERVAL OPERATIVE",
+   "evidence": "cached ttk 1579 at 2 btk; from build rpm 1574, from audited interval 1579",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "psr",
+   "weapon": "PSR",
+   "cls": "Sniper Rifle",
+   "field": "bulletVel",
+   "auditFile": "data/sniper-audit.json",
+   "auditedValue": 680,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 680,
+   "sourceValue": 680,
+   "agreement": "audit base = raw",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "miniscout",
+   "weapon": "Mini Scout",
+   "cls": "Sniper Rifle",
+   "field": "damage",
+   "auditFile": "data/sniper-audit.json",
+   "auditRepresentation": "linear curve",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 2,
+   "matchedBoth": 7,
+   "matchedNeither": 0,
+   "operative": "AUDIT OPERATIVE",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Current Sym game-file damage curve; effective cadence includes official +100ms minimum shot interval",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "miniscout",
+   "weapon": "Mini Scout",
+   "cls": "Sniper Rifle",
+   "field": "cadence",
+   "auditFile": "data/sniper-audit.json",
+   "auditedRpm": 47.004608294930875,
+   "auditedShotIntervalMs": 1276.4705882352941,
+   "auditedCadence": null,
+   "rawRpm": 51,
+   "sourcePublishes": {
+    "RoF": 51,
+    "SingleRoF": 299.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "AUDIT INTERVAL OPERATIVE",
+   "evidence": "cached ttk 1276 at 2 btk; from build rpm 1176, from audited interval 1276",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "miniscout",
+   "weapon": "Mini Scout",
+   "cls": "Sniper Rifle",
+   "field": "bulletVel",
+   "auditFile": "data/sniper-audit.json",
+   "auditedValue": 760,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 760,
+   "sourceValue": 760,
+   "agreement": "audit base = raw",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "l115",
+   "weapon": "L115",
+   "cls": "Sniper Rifle",
+   "field": "damage",
+   "auditFile": "data/sniper-audit.json",
+   "auditRepresentation": "linear curve",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 1,
+   "matchedBoth": 8,
+   "matchedNeither": 0,
+   "operative": "AUDIT OPERATIVE",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "EA 1.3.3 sweet spot + Sym 1.3.3 game-file linear curve",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "l115",
+   "weapon": "L115",
+   "cls": "Sniper Rifle",
+   "field": "cadence",
+   "auditFile": "data/sniper-audit.json",
+   "auditedRpm": 46,
+   "auditedShotIntervalMs": 1304.3478260869565,
+   "auditedCadence": null,
+   "rawRpm": 46.349953649969095,
+   "sourcePublishes": {
+    "RoF": 46.34995365,
+    "SingleRoF": 299.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "AUDIT INTERVAL OPERATIVE",
+   "evidence": "cached ttk 1304 at 2 btk; from build rpm 1294, from audited interval 1304",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "l115",
+   "weapon": "L115",
+   "cls": "Sniper Rifle",
+   "field": "bulletVel",
+   "auditFile": "data/sniper-audit.json",
+   "auditedValue": 742,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 742,
+   "sourceValue": 742,
+   "agreement": "audit base = raw",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": "sym.gg 1.4.2.0 via the SheetOnMyFace workbook capture. The workbook's own 1.3.3.0 archive carries 664 (our previous audited value) and its 1.4.2.0 tab carries 742 - a single-source before/after. Applied through data/source-overlays.json; data/weapons.json still mirrors upstream at 664.",
+   "history": [
+    {
+     "gameVersion": "1.3.3.0",
+     "value": 664,
+     "source": "Sym 1.3.3 game files via the upstream mirror"
+    },
+    {
+     "gameVersion": "1.4.2.0",
+     "value": 742,
+     "source": "sym.gg 1.4.2.0 via SheetOnMyFace workbook v1.73"
+    }
+   ],
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m87a1",
+   "weapon": "M87A1",
+   "cls": "Shotgun",
+   "field": "damage",
+   "auditFile": "data/shotgun-audit.json",
+   "auditRepresentation": "4 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 9,
+   "matchedBoth": 0,
+   "matchedNeither": 0,
+   "operative": "AUDIT OPERATIVE",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); per-pellet damage with a 1 m blend at each tier boundary",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "m87a1",
+   "weapon": "M87A1",
+   "cls": "Shotgun",
+   "field": "cadence",
+   "auditFile": "data/shotgun-audit.json",
+   "auditedRpm": 94,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": {
+    "type": "constant",
+    "rpm": 94
+   },
+   "rawRpm": 1799.999,
+   "sourcePublishes": null,
+   "matchesSource": "source does not cover this weapon",
+   "operative": "AUDIT CADENCE OPERATIVE",
+   "evidence": "cached ttk 638 at 2 btk; from build rpm 33, from audited cadence 638",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "no current source covers this weapon"
+  },
+  {
+   "weaponId": "m1014",
+   "weapon": "M1014",
+   "cls": "Shotgun",
+   "field": "damage",
+   "auditFile": "data/shotgun-audit.json",
+   "auditRepresentation": "4 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 9,
+   "matchedBoth": 0,
+   "matchedNeither": 0,
+   "operative": "AUDIT OPERATIVE",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); per-pellet damage with a 1 m blend at each tier boundary",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "m1014",
+   "weapon": "M1014",
+   "cls": "Shotgun",
+   "field": "cadence",
+   "auditFile": "data/shotgun-audit.json",
+   "auditedRpm": 200,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": {
+    "type": "constant",
+    "rpm": 200
+   },
+   "rawRpm": 199.999,
+   "sourcePublishes": null,
+   "matchesSource": "source does not cover this weapon",
+   "operative": "CONCORDANT",
+   "evidence": "cached ttk 300 at 2 btk; from build rpm 300, from audited cadence 300",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "no current source covers this weapon"
+  },
+  {
+   "weaponId": "ks18k",
+   "weapon": "18.5KS-K",
+   "cls": "Shotgun",
+   "field": "damage",
+   "auditFile": "data/shotgun-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 9,
+   "matchedBoth": 0,
+   "matchedNeither": 0,
+   "operative": "AUDIT OPERATIVE",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); per-pellet damage with a 1 m blend at each tier boundary",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "ks18k",
+   "weapon": "18.5KS-K",
+   "cls": "Shotgun",
+   "field": "cadence",
+   "auditFile": "data/shotgun-audit.json",
+   "auditedRpm": 300,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": {
+    "type": "constant",
+    "rpm": 300
+   },
+   "rawRpm": 299.999,
+   "sourcePublishes": null,
+   "matchesSource": "source does not cover this weapon",
+   "operative": "CONCORDANT",
+   "evidence": "cached ttk 400 at 3 btk; from build rpm 400, from audited cadence 400",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "no current source covers this weapon"
+  },
+  {
+   "weaponId": "db12",
+   "weapon": "DB-12",
+   "cls": "Shotgun",
+   "field": "damage",
+   "auditFile": "data/shotgun-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 9,
+   "matchedBoth": 0,
+   "matchedNeither": 0,
+   "operative": "AUDIT OPERATIVE",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); per-pellet damage with a 1 m blend at each tier boundary",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "db12",
+   "weapon": "DB-12",
+   "cls": "Shotgun",
+   "field": "cadence",
+   "auditFile": "data/shotgun-audit.json",
+   "auditedRpm": 150,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": {
+    "type": "paired",
+    "sustainedRpm": 150,
+    "pairRpm": 360,
+    "pairCycleMs": 800
+   },
+   "rawRpm": 359.999,
+   "sourcePublishes": null,
+   "matchesSource": "source does not cover this weapon",
+   "operative": "AUDIT CADENCE OPERATIVE",
+   "evidence": "cached ttk 800 at 3 btk; from build rpm 333, from audited cadence 800",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "no current source covers this weapon"
+  },
+  {
+   "weaponId": "p18",
+   "weapon": "P18",
+   "cls": "Sidearm",
+   "field": "damage",
+   "auditFile": "data/sidearm-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "p18",
+   "weapon": "P18",
+   "cls": "Sidearm",
+   "field": "cadence",
+   "auditFile": "data/sidearm-audit.json",
+   "auditedRpm": 399.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 399.999,
+   "sourcePublishes": {
+    "RoF": 399.999,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 750 at 6 btk; from build rpm 750",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "p18",
+   "weapon": "P18",
+   "cls": "Sidearm",
+   "field": "bulletVel",
+   "auditFile": "data/sidearm-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 350,
+   "sourceValue": 350,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "es57",
+   "weapon": "ES 5.7",
+   "cls": "Sidearm",
+   "field": "damage",
+   "auditFile": "data/sidearm-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "es57",
+   "weapon": "ES 5.7",
+   "cls": "Sidearm",
+   "field": "cadence",
+   "auditFile": "data/sidearm-audit.json",
+   "auditedRpm": 449.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 449.999,
+   "sourcePublishes": {
+    "RoF": 449.999,
+    "SingleRoF": 449.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 800 at 7 btk; from build rpm 800",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "es57",
+   "weapon": "ES 5.7",
+   "cls": "Sidearm",
+   "field": "bulletVel",
+   "auditFile": "data/sidearm-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 510,
+   "sourceValue": 510,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m45a1",
+   "weapon": "M45A1",
+   "cls": "Sidearm",
+   "field": "damage",
+   "auditFile": "data/sidearm-audit.json",
+   "auditRepresentation": "6 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "m45a1",
+   "weapon": "M45A1",
+   "cls": "Sidearm",
+   "field": "cadence",
+   "auditFile": "data/sidearm-audit.json",
+   "auditedRpm": 327.272,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 327.272,
+   "sourcePublishes": {
+    "RoF": 327.272,
+    "SingleRoF": 327.272
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 733 at 5 btk; from build rpm 733",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m45a1",
+   "weapon": "M45A1",
+   "cls": "Sidearm",
+   "field": "bulletVel",
+   "auditFile": "data/sidearm-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 336,
+   "sourceValue": 336,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m44",
+   "weapon": "M44",
+   "cls": "Sidearm",
+   "field": "damage",
+   "auditFile": "data/sidearm-audit.json",
+   "auditRepresentation": "4 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "m44",
+   "weapon": "M44",
+   "cls": "Sidearm",
+   "field": "cadence",
+   "auditFile": "data/sidearm-audit.json",
+   "auditedRpm": 163.636,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 163.636,
+   "sourcePublishes": {
+    "RoF": 163.636,
+    "SingleRoF": 163.636
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 733 at 3 btk; from build rpm 733",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m44",
+   "weapon": "M44",
+   "cls": "Sidearm",
+   "field": "bulletVel",
+   "auditFile": "data/sidearm-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 440,
+   "sourceValue": 440,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "ggh22",
+   "weapon": "GGH-22",
+   "cls": "Sidearm",
+   "field": "damage",
+   "auditFile": "data/sidearm-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "ggh22",
+   "weapon": "GGH-22",
+   "cls": "Sidearm",
+   "field": "cadence",
+   "auditFile": "data/sidearm-audit.json",
+   "auditedRpm": 359.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 359.999,
+   "sourcePublishes": {
+    "RoF": 359.999,
+    "SingleRoF": 359.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 833 at 6 btk; from build rpm 833",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "ggh22",
+   "weapon": "GGH-22",
+   "cls": "Sidearm",
+   "field": "bulletVel",
+   "auditFile": "data/sidearm-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 400,
+   "sourceValue": 400,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m357trait",
+   "weapon": "M357 Trait",
+   "cls": "Sidearm",
+   "field": "damage",
+   "auditFile": "data/sidearm-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "m357trait",
+   "weapon": "M357 Trait",
+   "cls": "Sidearm",
+   "field": "cadence",
+   "auditFile": "data/sidearm-audit.json",
+   "auditedRpm": 224.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 224.999,
+   "sourcePublishes": {
+    "RoF": 224.999,
+    "SingleRoF": 224.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 800 at 4 btk; from build rpm 800",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "m357trait",
+   "weapon": "M357 Trait",
+   "cls": "Sidearm",
+   "field": "bulletVel",
+   "auditFile": "data/sidearm-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 410,
+   "sourceValue": 410,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "vz61",
+   "weapon": "VZ. 61",
+   "cls": "Sidearm",
+   "field": "damage",
+   "auditFile": "data/sidearm-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Sym.gg 1.3.3.0 game-file curve (retrieved 2026-07-25); stepped tiers, provisional pending in-game confirmation",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "vz61",
+   "weapon": "VZ. 61",
+   "cls": "Sidearm",
+   "field": "cadence",
+   "auditFile": "data/sidearm-audit.json",
+   "auditedRpm": 818.181,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 818.181,
+   "sourcePublishes": {
+    "RoF": 818.181,
+    "SingleRoF": 449.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 513 at 8 btk; from build rpm 513",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "vz61",
+   "weapon": "VZ. 61",
+   "cls": "Sidearm",
+   "field": "bulletVel",
+   "auditFile": "data/sidearm-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 313,
+   "sourceValue": 313,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "brod3",
+   "weapon": "BROD 3",
+   "cls": "Carbine",
+   "field": "damage",
+   "auditFile": "data/carbine-audit.json",
+   "auditRepresentation": "5 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Exact GRT-BC donor dropoff model; BROD 3 panel endpoints display rounded values only and do not override donor precision; pending Sym full statistics",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "brod3",
+   "weapon": "BROD 3",
+   "cls": "Carbine",
+   "field": "cadence",
+   "auditFile": "data/carbine-audit.json",
+   "auditedRpm": 830.7692307692307,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 830.7692307692307,
+   "sourcePublishes": {
+    "RoF": 830.769,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 361 at 6 btk; from build rpm 361",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "brod3",
+   "weapon": "BROD 3",
+   "cls": "Carbine",
+   "field": "bulletVel",
+   "auditFile": "data/carbine-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 563,
+   "sourceValue": 563,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "ef88",
+   "weapon": "EF88",
+   "cls": "Assault Rifle",
+   "field": "damage",
+   "auditFile": "data/assault-audit.json",
+   "auditRepresentation": "3 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 0,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 9,
+   "matchedNeither": 0,
+   "operative": "CONCORDANT",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "Exact B36A4/L85A3 donor dropoff model; EF88 panel endpoints display rounded values only and do not override donor precision; pending Sym full statistics",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "ef88",
+   "weapon": "EF88",
+   "cls": "Assault Rifle",
+   "field": "cadence",
+   "auditFile": "data/assault-audit.json",
+   "auditedRpm": 675,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 675,
+   "sourcePublishes": {
+    "RoF": 674.999,
+    "SingleRoF": 399.999
+   },
+   "matchesSource": "raw rpm = source RoF",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 356 at 5 btk; from build rpm 356",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "ef88",
+   "weapon": "EF88",
+   "cls": "Assault Rifle",
+   "field": "bulletVel",
+   "auditFile": "data/assault-audit.json",
+   "auditedValue": null,
+   "auditedEquippedValue": null,
+   "equippedIsDerived": null,
+   "rawValue": 724,
+   "sourceValue": 724,
+   "agreement": "audit does not pin velocity",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "vssm",
+   "weapon": "VSSM",
+   "cls": "DMR",
+   "field": "damage",
+   "auditFile": "data/dmr-audit.json",
+   "auditRepresentation": "4 range bands",
+   "distancesCompared": 9,
+   "matchedRawOnly": 9,
+   "matchedAuditOnly": 0,
+   "matchedBoth": 0,
+   "matchedNeither": 0,
+   "operative": "RAW OPERATIVE",
+   "movesPublishedResults": true,
+   "consumers": [
+    "combat cache damage rows",
+    "BTK",
+    "TTK",
+    "ranking"
+   ],
+   "sourceOfRecord": "In-game reading: NVO-228E tiers without the 75 m step; 20.67 is retained past 36 m. The datamined changelist 28877515 table lists a further 17.13 tier past 75 m that the weapon does not apply.",
+   "currentness": "the SOURCE of the damage curve is not published by the Sym dump at any version; see the coverage audit. The audit pin itself is a re-derivation, not an independent source.",
+   "samples": []
+  },
+  {
+   "weaponId": "vssm",
+   "weapon": "VSSM",
+   "cls": "DMR",
+   "field": "cadence",
+   "auditFile": "data/dmr-audit.json",
+   "auditedRpm": 449.999,
+   "auditedShotIntervalMs": null,
+   "auditedCadence": null,
+   "rawRpm": 449.999,
+   "sourcePublishes": {
+    "RoF": 799.999,
+    "SingleRoF": 449.999
+   },
+   "matchesSource": "raw rpm = source SingleRoF (fire-mode state)",
+   "operative": "RAW RPM OPERATIVE",
+   "evidence": "cached ttk 300 at 5 btk; from build rpm 300",
+   "movesPublishedResults": true,
+   "consumers": [
+    "TTK",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  },
+  {
+   "weaponId": "vssm",
+   "weapon": "VSSM",
+   "cls": "DMR",
+   "field": "bulletVel",
+   "auditFile": "data/dmr-audit.json",
+   "auditedValue": 303,
+   "auditedEquippedValue": 303,
+   "equippedIsDerived": null,
+   "rawValue": 303,
+   "sourceValue": 303,
+   "agreement": "audit base = raw",
+   "sourceAgreement": "raw = source",
+   "provenanceNote": null,
+   "history": null,
+   "movesPublishedResults": true,
+   "consumers": [
+    "flight time",
+    "trigger-to-kill",
+    "ranking"
+   ],
+   "currentness": "source-verified at 1.4.2.0"
+  }
+ ],
+ "errors": []
+}

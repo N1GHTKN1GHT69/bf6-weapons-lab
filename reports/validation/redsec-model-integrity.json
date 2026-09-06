@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-06T06:19:07.182Z",
+ "generatedAt": "2026-09-06T12:31:24.769Z",
  "method": "Each encoded REDSEC value is compared against the number quoted in its own first-party evidence text. The prose is not derived from the value, so it is an independent witness - which is what the existing self-consistency checks cannot be.",
  "modelVerifiedAt": "2026-09-02",
  "checks": [

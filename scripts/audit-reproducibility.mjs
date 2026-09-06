@@ -48,10 +48,26 @@ const ARTIFACTS = [
   { file: 'data/freshness-status.json', producedBy: 'scripts/reconcile-patches.mjs --write', reproducedBy: 'node scripts/reconcile-patches.mjs --check' }
 ];
 
-/** Keys stripped before hashing, with the reason each is legitimately variable. */
+/**
+ * Keys stripped before hashing, with the reason each is legitimately variable.
+ *
+ * `contentHash` needs justifying, because exempting a hash looks like exempting exactly
+ * the thing this gate exists to watch. It is the SHA-256 of EA's patch-notes page body,
+ * and it is an EXTERNAL OBSERVATION rather than something this pipeline decided - the
+ * same category as a timestamp. Measured: the normalised body is byte-stable across
+ * repeated fetches in one session (4/4 identical), but oscillates between two values
+ * across CDN edges over days, which produced bot commits and a semantic-drift failure
+ * with no BF6 change behind it.
+ *
+ * What still catches a REAL EA change is untouched: `official.gameVersion` is parsed
+ * from the update listing, and `combatImpact` / `matchedTerms` are classified from the
+ * article text. All three stay in the hash. A new patch moves them; a re-rendered page
+ * does not. Exempting the page hash removes the false alarm without removing the alarm.
+ */
 const NONDETERMINISTIC = new Set([
   'generatedAt', 'reconciledAt', 'verifiedAt', 'capturedAt', 'lastCheckedAt',
-  'detectedAt', 'checkedAt', 'ranAt', 'modelVerifiedAt', 'manifestGeneratedAt', 'cacheGeneratedAt'
+  'detectedAt', 'checkedAt', 'ranAt', 'modelVerifiedAt', 'manifestGeneratedAt', 'cacheGeneratedAt',
+  'contentHash'
 ]);
 
 /**

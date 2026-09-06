@@ -1,0 +1,3192 @@
+{
+ "generatedAt": "2026-09-06T12:39:01.410Z",
+ "question": "Is recoilV double-counted in BALANCED, and is the second contribution load-bearing?",
+ "method": "Every Beam Index input is stored per row in the combat cache, so each ablation is computed EXACTLY from cached telemetry and re-ranked. No engine edit, no simulation.",
+ "poolSize": 48,
+ "poolExclusions": "Sidearms, shotguns (class-scoped until pellet hit probability is modelled), the Interdictor (empirical-current) and EF88/BROD 3/VSSM (no verified projectile ballistics) - the same exclusions production applies to AUTO META.",
+ "distances": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  22,
+  23,
+  24,
+  25,
+  26,
+  27,
+  28,
+  29,
+  30,
+  31,
+  32,
+  33,
+  34,
+  35,
+  36,
+  37,
+  38,
+  39,
+  40,
+  41,
+  42,
+  43,
+  44,
+  45,
+  46,
+  47,
+  48,
+  49,
+  50,
+  51,
+  52,
+  53,
+  54,
+  55,
+  56,
+  57,
+  58,
+  59,
+  60,
+  61,
+  62,
+  63,
+  64,
+  65,
+  66,
+  67,
+  68,
+  69,
+  70,
+  71,
+  72,
+  73,
+  74,
+  75,
+  76,
+  77,
+  78,
+  79,
+  80,
+  81,
+  82,
+  83,
+  84,
+  85,
+  86,
+  87,
+  88,
+  89,
+  90,
+  91,
+  92,
+  93,
+  94,
+  95,
+  96,
+  97,
+  98,
+  99,
+  100,
+  101,
+  102,
+  103,
+  104,
+  105,
+  106,
+  107,
+  108,
+  109,
+  110,
+  111,
+  112,
+  113,
+  114,
+  115,
+  116,
+  117,
+  118,
+  119,
+  120,
+  121,
+  122,
+  123,
+  124,
+  125,
+  126,
+  127,
+  128,
+  129,
+  130,
+  131,
+  132,
+  133,
+  134,
+  135,
+  136,
+  137,
+  138,
+  139,
+  140,
+  141,
+  142,
+  143,
+  144,
+  145,
+  146,
+  147,
+  148,
+  149,
+  150,
+  151,
+  152,
+  153,
+  154,
+  155,
+  156,
+  157,
+  158,
+  159,
+  160,
+  161,
+  162,
+  163,
+  164,
+  165,
+  166,
+  167,
+  168,
+  169,
+  170,
+  171,
+  172,
+  173,
+  174,
+  175,
+  176,
+  177,
+  178,
+  179,
+  180,
+  181,
+  182,
+  183,
+  184,
+  185,
+  186,
+  187,
+  188,
+  189,
+  190,
+  191,
+  192,
+  193,
+  194,
+  195,
+  196,
+  197,
+  198,
+  199,
+  200,
+  201,
+  202,
+  203,
+  204,
+  205,
+  206,
+  207,
+  208,
+  209,
+  210,
+  211,
+  212,
+  213,
+  214,
+  215,
+  216,
+  217,
+  218,
+  219,
+  220,
+  221,
+  222,
+  223,
+  224,
+  225,
+  226,
+  227,
+  228,
+  229,
+  230,
+  231,
+  232,
+  233,
+  234,
+  235,
+  236,
+  237,
+  238,
+  239,
+  240,
+  241,
+  242,
+  243,
+  244,
+  245,
+  246,
+  247,
+  248,
+  249,
+  250,
+  251,
+  252,
+  253,
+  254,
+  255,
+  256,
+  257,
+  258,
+  259,
+  260,
+  261,
+  262,
+  263,
+  264,
+  265,
+  266,
+  267,
+  268,
+  269,
+  270,
+  271,
+  272,
+  273,
+  274,
+  275,
+  276,
+  277,
+  278,
+  279,
+  280,
+  281,
+  282,
+  283,
+  284,
+  285,
+  286,
+  287,
+  288,
+  289,
+  290,
+  291,
+  292,
+  293,
+  294,
+  295,
+  296,
+  297,
+  298,
+  299,
+  300
+ ],
+ "ablation": [
+  {
+   "variant": "NO_UNPREDICT",
+   "winnerChangedAtDistances": 0,
+   "ofDistances": 300,
+   "top3ChangedAtDistances": 123,
+   "totalPositionMoves": 8829,
+   "maxPositionMove": 13,
+   "winnerExamples": []
+  },
+  {
+   "variant": "NO_DIRECT",
+   "winnerChangedAtDistances": 15,
+   "ofDistances": 300,
+   "top3ChangedAtDistances": 293,
+   "totalPositionMoves": 13213,
+   "maxPositionMove": 29,
+   "winnerExamples": [
+    {
+     "distance": 1,
+     "was": "nvo228e",
+     "becomes": "m417a2"
+    },
+    {
+     "distance": 10,
+     "was": "m123k",
+     "becomes": "kts100"
+    },
+    {
+     "distance": 11,
+     "was": "m123k",
+     "becomes": "kts100"
+    },
+    {
+     "distance": 12,
+     "was": "m123k",
+     "becomes": "kts100"
+    },
+    {
+     "distance": 13,
+     "was": "m123k",
+     "becomes": "kts100"
+    }
+   ]
+  },
+  {
+   "variant": "DECORRELATED",
+   "winnerChangedAtDistances": 7,
+   "ofDistances": 300,
+   "top3ChangedAtDistances": 269,
+   "totalPositionMoves": 10613,
+   "maxPositionMove": 13,
+   "winnerExamples": [
+    {
+     "distance": 1,
+     "was": "nvo228e",
+     "becomes": "m417a2"
+    },
+    {
+     "distance": 10,
+     "was": "m123k",
+     "becomes": "m240l"
+    },
+    {
+     "distance": 11,
+     "was": "m123k",
+     "becomes": "m240l"
+    },
+    {
+     "distance": 12,
+     "was": "m123k",
+     "becomes": "m240l"
+    },
+    {
+     "distance": 13,
+     "was": "m123k",
+     "becomes": "m240l"
+    }
+   ]
+  },
+  {
+   "variant": "NO_SPREAD",
+   "winnerChangedAtDistances": 114,
+   "ofDistances": 300,
+   "top3ChangedAtDistances": 263,
+   "totalPositionMoves": 13143,
+   "maxPositionMove": 26,
+   "winnerExamples": [
+    {
+     "distance": 1,
+     "was": "nvo228e",
+     "becomes": "scw10"
+    },
+    {
+     "distance": 2,
+     "was": "sor300sc",
+     "becomes": "scw10"
+    },
+    {
+     "distance": 3,
+     "was": "sor300sc",
+     "becomes": "scw10"
+    },
+    {
+     "distance": 4,
+     "was": "sor300sc",
+     "becomes": "scw10"
+    },
+    {
+     "distance": 5,
+     "was": "sor300sc",
+     "becomes": "scw10"
+    }
+   ]
+  }
+ ],
+ "controlValid": true,
+ "contributions": [
+  {
+   "distance": 10,
+   "weaponId": "m123k",
+   "rank": 1,
+   "beamIndex": 1.805346,
+   "shares": {
+    "recoilDirect": 0.248,
+    "recoilViaUnpredictable": 0.2339,
+    "effSpread": 0.4465,
+    "moving": 0.0716
+   },
+   "recoilTotalShare": 0.4819
+  },
+  {
+   "distance": 10,
+   "weaponId": "m240l",
+   "rank": 2,
+   "beamIndex": 2.233031,
+   "shares": {
+    "recoilDirect": 0.2618,
+    "recoilViaUnpredictable": 0.1891,
+    "effSpread": 0.5093,
+    "moving": 0.0398
+   },
+   "recoilTotalShare": 0.4509
+  },
+  {
+   "distance": 10,
+   "weaponId": "m121a2",
+   "rank": 3,
+   "beamIndex": 2.531149,
+   "shares": {
+    "recoilDirect": 0.2346,
+    "recoilViaUnpredictable": 0.1577,
+    "effSpread": 0.5566,
+    "moving": 0.0511
+   },
+   "recoilTotalShare": 0.3923
+  },
+  {
+   "distance": 10,
+   "weaponId": "kts100",
+   "rank": 4,
+   "beamIndex": 0.658336,
+   "shares": {
+    "recoilDirect": 0.5253,
+    "recoilViaUnpredictable": 0.1106,
+    "effSpread": 0.1677,
+    "moving": 0.1965
+   },
+   "recoilTotalShare": 0.6358
+  },
+  {
+   "distance": 10,
+   "weaponId": "rpk74m",
+   "rank": 5,
+   "beamIndex": 0.673017,
+   "shares": {
+    "recoilDirect": 0.4756,
+    "recoilViaUnpredictable": 0.1682,
+    "effSpread": 0.1641,
+    "moving": 0.1922
+   },
+   "recoilTotalShare": 0.6438
+  },
+  {
+   "distance": 25,
+   "weaponId": "l110",
+   "rank": 1,
+   "beamIndex": 1.241925,
+   "shares": {
+    "recoilDirect": 0.3369,
+    "recoilViaUnpredictable": 0.2274,
+    "effSpread": 0.3106,
+    "moving": 0.1251
+   },
+   "recoilTotalShare": 0.5644
+  },
+  {
+   "distance": 25,
+   "weaponId": "b36a4",
+   "rank": 2,
+   "beamIndex": 1.409309,
+   "shares": {
+    "recoilDirect": 0.3814,
+    "recoilViaUnpredictable": 0.2347,
+    "effSpread": 0.2737,
+    "moving": 0.1102
+   },
+   "recoilTotalShare": 0.6161
+  },
+  {
+   "distance": 25,
+   "weaponId": "m250",
+   "rank": 3,
+   "beamIndex": 1.80935,
+   "shares": {
+    "recoilDirect": 0.3018,
+    "recoilViaUnpredictable": 0.232,
+    "effSpread": 0.3804,
+    "moving": 0.0859
+   },
+   "recoilTotalShare": 0.5338
+  },
+  {
+   "distance": 25,
+   "weaponId": "drsiar",
+   "rank": 4,
+   "beamIndex": 1.686782,
+   "shares": {
+    "recoilDirect": 0.3155,
+    "recoilViaUnpredictable": 0.2024,
+    "effSpread": 0.3901,
+    "moving": 0.0921
+   },
+   "recoilTotalShare": 0.5179
+  },
+  {
+   "distance": 25,
+   "weaponId": "m123k",
+   "rank": 5,
+   "beamIndex": 1.994603,
+   "shares": {
+    "recoilDirect": 0.234,
+    "recoilViaUnpredictable": 0.2268,
+    "effSpread": 0.4613,
+    "moving": 0.0779
+   },
+   "recoilTotalShare": 0.4608
+  },
+  {
+   "distance": 50,
+   "weaponId": "kord6p67",
+   "rank": 1,
+   "beamIndex": 1.211892,
+   "shares": {
+    "recoilDirect": 0.3527,
+    "recoilViaUnpredictable": 0.2324,
+    "effSpread": 0.251,
+    "moving": 0.1639
+   },
+   "recoilTotalShare": 0.5851
+  },
+  {
+   "distance": 50,
+   "weaponId": "l110",
+   "rank": 2,
+   "beamIndex": 1.424768,
+   "shares": {
+    "recoilDirect": 0.3136,
+    "recoilViaUnpredictable": 0.2203,
+    "effSpread": 0.3266,
+    "moving": 0.1394
+   },
+   "recoilTotalShare": 0.5339
+  },
+  {
+   "distance": 50,
+   "weaponId": "m16a4",
+   "rank": 3,
+   "beamIndex": 1.500762,
+   "shares": {
+    "recoilDirect": 0.3909,
+    "recoilViaUnpredictable": 0.2598,
+    "effSpread": 0.2169,
+    "moving": 0.1324
+   },
+   "recoilTotalShare": 0.6508
+  },
+  {
+   "distance": 50,
+   "weaponId": "b36a4",
+   "rank": 4,
+   "beamIndex": 1.605612,
+   "shares": {
+    "recoilDirect": 0.3575,
+    "recoilViaUnpredictable": 0.2289,
+    "effSpread": 0.2898,
+    "moving": 0.1237
+   },
+   "recoilTotalShare": 0.5864
+  },
+  {
+   "distance": 50,
+   "weaponId": "m250",
+   "rank": 5,
+   "beamIndex": 2.078621,
+   "shares": {
+    "recoilDirect": 0.2806,
+    "recoilViaUnpredictable": 0.2244,
+    "effSpread": 0.3995,
+    "moving": 0.0956
+   },
+   "recoilTotalShare": 0.5049
+  },
+  {
+   "distance": 100,
+   "weaponId": "m2010esr",
+   "rank": 1,
+   "beamIndex": 2.622052,
+   "shares": {
+    "recoilDirect": 0.7389,
+    "recoilViaUnpredictable": 0.1863,
+    "effSpread": 0,
+    "moving": 0.0748
+   },
+   "recoilTotalShare": 0.9252
+  },
+  {
+   "distance": 100,
+   "weaponId": "l115",
+   "rank": 2,
+   "beamIndex": 3.041087,
+   "shares": {
+    "recoilDirect": 0.8495,
+    "recoilViaUnpredictable": 0.086,
+    "effSpread": 0,
+    "moving": 0.0645
+   },
+   "recoilTotalShare": 0.9355
+  },
+  {
+   "distance": 100,
+   "weaponId": "psr",
+   "rank": 3,
+   "beamIndex": 3.222869,
+   "shares": {
+    "recoilDirect": 0.7214,
+    "recoilViaUnpredictable": 0.2177,
+    "effSpread": 0,
+    "moving": 0.0609
+   },
+   "recoilTotalShare": 0.9391
+  },
+  {
+   "distance": 100,
+   "weaponId": "rpk74m",
+   "rank": 4,
+   "beamIndex": 1.052918,
+   "shares": {
+    "recoilDirect": 0.3815,
+    "recoilViaUnpredictable": 0.1536,
+    "effSpread": 0.1939,
+    "moving": 0.271
+   },
+   "recoilTotalShare": 0.5351
+  },
+  {
+   "distance": 100,
+   "weaponId": "kts100",
+   "rank": 5,
+   "beamIndex": 1.02748,
+   "shares": {
+    "recoilDirect": 0.4224,
+    "recoilViaUnpredictable": 0.1012,
+    "effSpread": 0.1987,
+    "moving": 0.2777
+   },
+   "recoilTotalShare": 0.5236
+  },
+  {
+   "distance": 200,
+   "weaponId": "lmr27",
+   "rank": 1,
+   "beamIndex": 1.708648,
+   "shares": {
+    "recoilDirect": 0.5309,
+    "recoilViaUnpredictable": 0.1501,
+    "effSpread": 0.1317,
+    "moving": 0.1873
+   },
+   "recoilTotalShare": 0.681
+  },
+  {
+   "distance": 200,
+   "weaponId": "l110",
+   "rank": 2,
+   "beamIndex": 1.93673,
+   "shares": {
+    "recoilDirect": 0.2718,
+    "recoilViaUnpredictable": 0.2074,
+    "effSpread": 0.3555,
+    "moving": 0.1652
+   },
+   "recoilTotalShare": 0.4793
+  },
+  {
+   "distance": 200,
+   "weaponId": "b36a4",
+   "rank": 3,
+   "beamIndex": 2.15526,
+   "shares": {
+    "recoilDirect": 0.3138,
+    "recoilViaUnpredictable": 0.2183,
+    "effSpread": 0.3195,
+    "moving": 0.1485
+   },
+   "recoilTotalShare": 0.5321
+  },
+  {
+   "distance": 200,
+   "weaponId": "m250",
+   "rank": 4,
+   "beamIndex": 2.832578,
+   "shares": {
+    "recoilDirect": 0.2426,
+    "recoilViaUnpredictable": 0.2107,
+    "effSpread": 0.4337,
+    "moving": 0.113
+   },
+   "recoilTotalShare": 0.4533
+  },
+  {
+   "distance": 200,
+   "weaponId": "svdm",
+   "rank": 5,
+   "beamIndex": 2.495194,
+   "shares": {
+    "recoilDirect": 0.6217,
+    "recoilViaUnpredictable": 0.1599,
+    "effSpread": 0.0902,
+    "moving": 0.1282
+   },
+   "recoilTotalShare": 0.7816
+  },
+  {
+   "distance": 300,
+   "weaponId": "lmr27",
+   "rank": 1,
+   "beamIndex": 1.708648,
+   "shares": {
+    "recoilDirect": 0.5309,
+    "recoilViaUnpredictable": 0.1501,
+    "effSpread": 0.1317,
+    "moving": 0.1873
+   },
+   "recoilTotalShare": 0.681
+  },
+  {
+   "distance": 300,
+   "weaponId": "l85a3",
+   "rank": 2,
+   "beamIndex": 1.50764,
+   "shares": {
+    "recoilDirect": 0.4056,
+    "recoilViaUnpredictable": 0.2329,
+    "effSpread": 0.1492,
+    "moving": 0.2123
+   },
+   "recoilTotalShare": 0.6385
+  },
+  {
+   "distance": 300,
+   "weaponId": "grtcps",
+   "rank": 3,
+   "beamIndex": 1.811854,
+   "shares": {
+    "recoilDirect": 0.5797,
+    "recoilViaUnpredictable": 0.1195,
+    "effSpread": 0.1242,
+    "moving": 0.1766
+   },
+   "recoilTotalShare": 0.6992
+  },
+  {
+   "distance": 300,
+   "weaponId": "l110",
+   "rank": 4,
+   "beamIndex": 1.93673,
+   "shares": {
+    "recoilDirect": 0.2718,
+    "recoilViaUnpredictable": 0.2074,
+    "effSpread": 0.3555,
+    "moving": 0.1652
+   },
+   "recoilTotalShare": 0.4793
+  },
+  {
+   "distance": 300,
+   "weaponId": "svdm",
+   "rank": 5,
+   "beamIndex": 2.495194,
+   "shares": {
+    "recoilDirect": 0.6217,
+    "recoilViaUnpredictable": 0.1599,
+    "effSpread": 0.0902,
+    "moving": 0.1282
+   },
+   "recoilTotalShare": 0.7816
+  }
+ ],
+ "nearTies": [
+  {
+   "distance": 1,
+   "rank": 3,
+   "a": "sor300sc",
+   "b": "rpkm",
+   "marginPercent": 0.8178,
+   "note": "within 1%"
+  },
+  {
+   "distance": 1,
+   "rank": 5,
+   "a": "sl9",
+   "b": "pp19",
+   "marginPercent": 0.3821,
+   "note": "within 1%"
+  },
+  {
+   "distance": 2,
+   "rank": 5,
+   "a": "sl9",
+   "b": "pp19",
+   "marginPercent": 0.5286,
+   "note": "within 1%"
+  },
+  {
+   "distance": 3,
+   "rank": 5,
+   "a": "sl9",
+   "b": "pp19",
+   "marginPercent": 0.6736,
+   "note": "within 1%"
+  },
+  {
+   "distance": 4,
+   "rank": 5,
+   "a": "sl9",
+   "b": "pp19",
+   "marginPercent": 0.8172,
+   "note": "within 1%"
+  },
+  {
+   "distance": 5,
+   "rank": 5,
+   "a": "sl9",
+   "b": "pp19",
+   "marginPercent": 0.9593,
+   "note": "within 1%"
+  },
+  {
+   "distance": 10,
+   "rank": 4,
+   "a": "kts100",
+   "b": "rpk74m",
+   "marginPercent": 0.9974,
+   "note": "within 1%"
+  },
+  {
+   "distance": 11,
+   "rank": 4,
+   "a": "kts100",
+   "b": "rpk74m",
+   "marginPercent": 0.9993,
+   "note": "within 1%"
+  },
+  {
+   "distance": 15,
+   "rank": 3,
+   "a": "m121a2",
+   "b": "kts100",
+   "marginPercent": 0.9346,
+   "note": "within 1%"
+  },
+  {
+   "distance": 16,
+   "rank": 3,
+   "a": "m121a2",
+   "b": "kts100",
+   "marginPercent": 0.6394,
+   "note": "within 1%"
+  },
+  {
+   "distance": 17,
+   "rank": 3,
+   "a": "m121a2",
+   "b": "kts100",
+   "marginPercent": 0.3473,
+   "note": "within 1%"
+  },
+  {
+   "distance": 18,
+   "rank": 3,
+   "a": "m121a2",
+   "b": "kts100",
+   "marginPercent": 0.0583,
+   "note": "within 0.1% - effectively a coin flip on the current inputs"
+  },
+  {
+   "distance": 19,
+   "rank": 3,
+   "a": "kts100",
+   "b": "m121a2",
+   "marginPercent": 0.2282,
+   "note": "within 1%"
+  },
+  {
+   "distance": 19,
+   "rank": 4,
+   "a": "m121a2",
+   "b": "rpk74m",
+   "marginPercent": 0.7836,
+   "note": "within 1%"
+  },
+  {
+   "distance": 20,
+   "rank": 3,
+   "a": "kts100",
+   "b": "m121a2",
+   "marginPercent": 0.5133,
+   "note": "within 1%"
+  },
+  {
+   "distance": 20,
+   "rank": 4,
+   "a": "m121a2",
+   "b": "rpk74m",
+   "marginPercent": 0.4994,
+   "note": "within 1%"
+  },
+  {
+   "distance": 21,
+   "rank": 3,
+   "a": "kts100",
+   "b": "m121a2",
+   "marginPercent": 0.7971,
+   "note": "within 1%"
+  },
+  {
+   "distance": 21,
+   "rank": 4,
+   "a": "m121a2",
+   "b": "rpk74m",
+   "marginPercent": 0.2181,
+   "note": "within 1%"
+  },
+  {
+   "distance": 22,
+   "rank": 2,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.0772,
+   "note": "within 0.1% - effectively a coin flip on the current inputs"
+  },
+  {
+   "distance": 22,
+   "rank": 5,
+   "a": "m123k",
+   "b": "m277",
+   "marginPercent": 0.6182,
+   "note": "within 1%"
+  },
+  {
+   "distance": 23,
+   "rank": 2,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.1399,
+   "note": "within 1%"
+  },
+  {
+   "distance": 23,
+   "rank": 5,
+   "a": "m123k",
+   "b": "m277",
+   "marginPercent": 0.6464,
+   "note": "within 1%"
+  },
+  {
+   "distance": 24,
+   "rank": 2,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.2022,
+   "note": "within 1%"
+  },
+  {
+   "distance": 24,
+   "rank": 5,
+   "a": "m123k",
+   "b": "m277",
+   "marginPercent": 0.6744,
+   "note": "within 1%"
+  },
+  {
+   "distance": 25,
+   "rank": 2,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.2643,
+   "note": "within 1%"
+  },
+  {
+   "distance": 25,
+   "rank": 5,
+   "a": "m123k",
+   "b": "m277",
+   "marginPercent": 0.7025,
+   "note": "within 1%"
+  },
+  {
+   "distance": 26,
+   "rank": 2,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.326,
+   "note": "within 1%"
+  },
+  {
+   "distance": 26,
+   "rank": 5,
+   "a": "m123k",
+   "b": "m277",
+   "marginPercent": 0.7305,
+   "note": "within 1%"
+  },
+  {
+   "distance": 27,
+   "rank": 2,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.3873,
+   "note": "within 1%"
+  },
+  {
+   "distance": 27,
+   "rank": 5,
+   "a": "m123k",
+   "b": "m277",
+   "marginPercent": 0.7585,
+   "note": "within 1%"
+  },
+  {
+   "distance": 28,
+   "rank": 2,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.4484,
+   "note": "within 1%"
+  },
+  {
+   "distance": 28,
+   "rank": 5,
+   "a": "m123k",
+   "b": "m277",
+   "marginPercent": 0.7865,
+   "note": "within 1%"
+  },
+  {
+   "distance": 29,
+   "rank": 2,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.5091,
+   "note": "within 1%"
+  },
+  {
+   "distance": 29,
+   "rank": 5,
+   "a": "m123k",
+   "b": "m277",
+   "marginPercent": 0.8144,
+   "note": "within 1%"
+  },
+  {
+   "distance": 30,
+   "rank": 2,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.5695,
+   "note": "within 1%"
+  },
+  {
+   "distance": 30,
+   "rank": 5,
+   "a": "m123k",
+   "b": "m277",
+   "marginPercent": 0.8422,
+   "note": "within 1%"
+  },
+  {
+   "distance": 31,
+   "rank": 2,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.6296,
+   "note": "within 1%"
+  },
+  {
+   "distance": 31,
+   "rank": 5,
+   "a": "m123k",
+   "b": "m277",
+   "marginPercent": 0.8701,
+   "note": "within 1%"
+  },
+  {
+   "distance": 32,
+   "rank": 2,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.6894,
+   "note": "within 1%"
+  },
+  {
+   "distance": 32,
+   "rank": 5,
+   "a": "m123k",
+   "b": "m277",
+   "marginPercent": 0.8978,
+   "note": "within 1%"
+  },
+  {
+   "distance": 33,
+   "rank": 2,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.7488,
+   "note": "within 1%"
+  },
+  {
+   "distance": 33,
+   "rank": 5,
+   "a": "m123k",
+   "b": "m277",
+   "marginPercent": 0.9255,
+   "note": "within 1%"
+  },
+  {
+   "distance": 34,
+   "rank": 2,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.808,
+   "note": "within 1%"
+  },
+  {
+   "distance": 34,
+   "rank": 5,
+   "a": "m123k",
+   "b": "m277",
+   "marginPercent": 0.9532,
+   "note": "within 1%"
+  },
+  {
+   "distance": 35,
+   "rank": 2,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.8669,
+   "note": "within 1%"
+  },
+  {
+   "distance": 35,
+   "rank": 5,
+   "a": "m123k",
+   "b": "m277",
+   "marginPercent": 0.9808,
+   "note": "within 1%"
+  },
+  {
+   "distance": 36,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.9254,
+   "note": "within 1%"
+  },
+  {
+   "distance": 37,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.9837,
+   "note": "within 1%"
+  },
+  {
+   "distance": 42,
+   "rank": 3,
+   "a": "m16a4",
+   "b": "b36a4",
+   "marginPercent": 0.7988,
+   "note": "within 1%"
+  },
+  {
+   "distance": 43,
+   "rank": 3,
+   "a": "m16a4",
+   "b": "b36a4",
+   "marginPercent": 0.8009,
+   "note": "within 1%"
+  },
+  {
+   "distance": 44,
+   "rank": 3,
+   "a": "m16a4",
+   "b": "b36a4",
+   "marginPercent": 0.803,
+   "note": "within 1%"
+  },
+  {
+   "distance": 45,
+   "rank": 3,
+   "a": "m16a4",
+   "b": "b36a4",
+   "marginPercent": 0.8049,
+   "note": "within 1%"
+  },
+  {
+   "distance": 46,
+   "rank": 3,
+   "a": "m16a4",
+   "b": "b36a4",
+   "marginPercent": 0.8069,
+   "note": "within 1%"
+  },
+  {
+   "distance": 47,
+   "rank": 3,
+   "a": "m16a4",
+   "b": "b36a4",
+   "marginPercent": 0.8087,
+   "note": "within 1%"
+  },
+  {
+   "distance": 48,
+   "rank": 3,
+   "a": "m16a4",
+   "b": "b36a4",
+   "marginPercent": 0.8104,
+   "note": "within 1%"
+  },
+  {
+   "distance": 49,
+   "rank": 3,
+   "a": "m16a4",
+   "b": "b36a4",
+   "marginPercent": 0.8121,
+   "note": "within 1%"
+  },
+  {
+   "distance": 50,
+   "rank": 3,
+   "a": "m16a4",
+   "b": "b36a4",
+   "marginPercent": 0.8137,
+   "note": "within 1%"
+  },
+  {
+   "distance": 51,
+   "rank": 3,
+   "a": "m16a4",
+   "b": "b36a4",
+   "marginPercent": 0.8153,
+   "note": "within 1%"
+  },
+  {
+   "distance": 52,
+   "rank": 3,
+   "a": "m16a4",
+   "b": "b36a4",
+   "marginPercent": 0.8168,
+   "note": "within 1%"
+  },
+  {
+   "distance": 53,
+   "rank": 3,
+   "a": "m16a4",
+   "b": "b36a4",
+   "marginPercent": 0.8182,
+   "note": "within 1%"
+  },
+  {
+   "distance": 54,
+   "rank": 5,
+   "a": "ak205",
+   "b": "pw7a2",
+   "marginPercent": 0.0462,
+   "note": "within 0.1% - effectively a coin flip on the current inputs"
+  },
+  {
+   "distance": 55,
+   "rank": 5,
+   "a": "ak205",
+   "b": "pw7a2",
+   "marginPercent": 0.1134,
+   "note": "within 1%"
+  },
+  {
+   "distance": 56,
+   "rank": 5,
+   "a": "ak205",
+   "b": "pw7a2",
+   "marginPercent": 0.1804,
+   "note": "within 1%"
+  },
+  {
+   "distance": 57,
+   "rank": 5,
+   "a": "ak205",
+   "b": "pw7a2",
+   "marginPercent": 0.2473,
+   "note": "within 1%"
+  },
+  {
+   "distance": 58,
+   "rank": 5,
+   "a": "ak205",
+   "b": "pw7a2",
+   "marginPercent": 0.3141,
+   "note": "within 1%"
+  },
+  {
+   "distance": 59,
+   "rank": 5,
+   "a": "ak205",
+   "b": "pw7a2",
+   "marginPercent": 0.3807,
+   "note": "within 1%"
+  },
+  {
+   "distance": 60,
+   "rank": 5,
+   "a": "ak205",
+   "b": "pw7a2",
+   "marginPercent": 0.4471,
+   "note": "within 1%"
+  },
+  {
+   "distance": 61,
+   "rank": 5,
+   "a": "ak205",
+   "b": "pw7a2",
+   "marginPercent": 0.5134,
+   "note": "within 1%"
+  },
+  {
+   "distance": 62,
+   "rank": 5,
+   "a": "ak205",
+   "b": "pw7a2",
+   "marginPercent": 0.5796,
+   "note": "within 1%"
+  },
+  {
+   "distance": 63,
+   "rank": 5,
+   "a": "ak205",
+   "b": "l85a3",
+   "marginPercent": 0.599,
+   "note": "within 1%"
+  },
+  {
+   "distance": 64,
+   "rank": 5,
+   "a": "ak205",
+   "b": "l85a3",
+   "marginPercent": 0.5739,
+   "note": "within 1%"
+  },
+  {
+   "distance": 65,
+   "rank": 5,
+   "a": "ak205",
+   "b": "l85a3",
+   "marginPercent": 0.5489,
+   "note": "within 1%"
+  },
+  {
+   "distance": 66,
+   "rank": 5,
+   "a": "ak205",
+   "b": "l85a3",
+   "marginPercent": 0.5241,
+   "note": "within 1%"
+  },
+  {
+   "distance": 67,
+   "rank": 5,
+   "a": "ak205",
+   "b": "l85a3",
+   "marginPercent": 0.4995,
+   "note": "within 1%"
+  },
+  {
+   "distance": 68,
+   "rank": 5,
+   "a": "ak205",
+   "b": "l85a3",
+   "marginPercent": 0.4751,
+   "note": "within 1%"
+  },
+  {
+   "distance": 69,
+   "rank": 5,
+   "a": "ak205",
+   "b": "l85a3",
+   "marginPercent": 0.4509,
+   "note": "within 1%"
+  },
+  {
+   "distance": 70,
+   "rank": 5,
+   "a": "ak205",
+   "b": "l85a3",
+   "marginPercent": 0.4269,
+   "note": "within 1%"
+  },
+  {
+   "distance": 71,
+   "rank": 5,
+   "a": "ak205",
+   "b": "l85a3",
+   "marginPercent": 0.4031,
+   "note": "within 1%"
+  },
+  {
+   "distance": 72,
+   "rank": 5,
+   "a": "ak205",
+   "b": "l85a3",
+   "marginPercent": 0.3794,
+   "note": "within 1%"
+  },
+  {
+   "distance": 73,
+   "rank": 5,
+   "a": "ak205",
+   "b": "l85a3",
+   "marginPercent": 0.3559,
+   "note": "within 1%"
+  },
+  {
+   "distance": 74,
+   "rank": 5,
+   "a": "ak205",
+   "b": "l85a3",
+   "marginPercent": 0.3326,
+   "note": "within 1%"
+  },
+  {
+   "distance": 76,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.2368,
+   "note": "within 1%"
+  },
+  {
+   "distance": 76,
+   "rank": 5,
+   "a": "ak205",
+   "b": "pw7a2",
+   "marginPercent": 0.7677,
+   "note": "within 1%"
+  },
+  {
+   "distance": 77,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.2613,
+   "note": "within 1%"
+  },
+  {
+   "distance": 77,
+   "rank": 5,
+   "a": "ak205",
+   "b": "pw7a2",
+   "marginPercent": 0.8254,
+   "note": "within 1%"
+  },
+  {
+   "distance": 78,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.2856,
+   "note": "within 1%"
+  },
+  {
+   "distance": 78,
+   "rank": 5,
+   "a": "ak205",
+   "b": "pw7a2",
+   "marginPercent": 0.883,
+   "note": "within 1%"
+  },
+  {
+   "distance": 79,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.3097,
+   "note": "within 1%"
+  },
+  {
+   "distance": 79,
+   "rank": 5,
+   "a": "ak205",
+   "b": "sor556",
+   "marginPercent": 0.9332,
+   "note": "within 1%"
+  },
+  {
+   "distance": 80,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.3336,
+   "note": "within 1%"
+  },
+  {
+   "distance": 80,
+   "rank": 5,
+   "a": "ak205",
+   "b": "sor556",
+   "marginPercent": 0.8992,
+   "note": "within 1%"
+  },
+  {
+   "distance": 81,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.3573,
+   "note": "within 1%"
+  },
+  {
+   "distance": 81,
+   "rank": 5,
+   "a": "ak205",
+   "b": "sor556",
+   "marginPercent": 0.8653,
+   "note": "within 1%"
+  },
+  {
+   "distance": 82,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.3807,
+   "note": "within 1%"
+  },
+  {
+   "distance": 82,
+   "rank": 5,
+   "a": "ak205",
+   "b": "sor556",
+   "marginPercent": 0.8315,
+   "note": "within 1%"
+  },
+  {
+   "distance": 83,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.404,
+   "note": "within 1%"
+  },
+  {
+   "distance": 83,
+   "rank": 5,
+   "a": "ak205",
+   "b": "sor556",
+   "marginPercent": 0.7978,
+   "note": "within 1%"
+  },
+  {
+   "distance": 84,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.427,
+   "note": "within 1%"
+  },
+  {
+   "distance": 84,
+   "rank": 5,
+   "a": "ak205",
+   "b": "sor556",
+   "marginPercent": 0.7643,
+   "note": "within 1%"
+  },
+  {
+   "distance": 85,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.4499,
+   "note": "within 1%"
+  },
+  {
+   "distance": 85,
+   "rank": 5,
+   "a": "ak205",
+   "b": "sor556",
+   "marginPercent": 0.7309,
+   "note": "within 1%"
+  },
+  {
+   "distance": 86,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.4725,
+   "note": "within 1%"
+  },
+  {
+   "distance": 86,
+   "rank": 5,
+   "a": "ak205",
+   "b": "sor556",
+   "marginPercent": 0.6976,
+   "note": "within 1%"
+  },
+  {
+   "distance": 87,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.495,
+   "note": "within 1%"
+  },
+  {
+   "distance": 87,
+   "rank": 5,
+   "a": "ak205",
+   "b": "sor556",
+   "marginPercent": 0.6645,
+   "note": "within 1%"
+  },
+  {
+   "distance": 88,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.5172,
+   "note": "within 1%"
+  },
+  {
+   "distance": 88,
+   "rank": 5,
+   "a": "ak205",
+   "b": "sor556",
+   "marginPercent": 0.6315,
+   "note": "within 1%"
+  },
+  {
+   "distance": 89,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.5393,
+   "note": "within 1%"
+  },
+  {
+   "distance": 89,
+   "rank": 5,
+   "a": "ak205",
+   "b": "sor556",
+   "marginPercent": 0.5986,
+   "note": "within 1%"
+  },
+  {
+   "distance": 90,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.5611,
+   "note": "within 1%"
+  },
+  {
+   "distance": 91,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.5828,
+   "note": "within 1%"
+  },
+  {
+   "distance": 92,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.6043,
+   "note": "within 1%"
+  },
+  {
+   "distance": 93,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.6256,
+   "note": "within 1%"
+  },
+  {
+   "distance": 94,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.6468,
+   "note": "within 1%"
+  },
+  {
+   "distance": 95,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.6677,
+   "note": "within 1%"
+  },
+  {
+   "distance": 96,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.6885,
+   "note": "within 1%"
+  },
+  {
+   "distance": 97,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.7091,
+   "note": "within 1%"
+  },
+  {
+   "distance": 98,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.7295,
+   "note": "within 1%"
+  },
+  {
+   "distance": 99,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.7498,
+   "note": "within 1%"
+  },
+  {
+   "distance": 101,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.7898,
+   "note": "within 1%"
+  },
+  {
+   "distance": 102,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.8095,
+   "note": "within 1%"
+  },
+  {
+   "distance": 103,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.8291,
+   "note": "within 1%"
+  },
+  {
+   "distance": 104,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.8485,
+   "note": "within 1%"
+  },
+  {
+   "distance": 105,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.8678,
+   "note": "within 1%"
+  },
+  {
+   "distance": 106,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.8869,
+   "note": "within 1%"
+  },
+  {
+   "distance": 107,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "ak205",
+   "marginPercent": 0.9059,
+   "note": "within 1%"
+  },
+  {
+   "distance": 108,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.9215,
+   "note": "within 1%"
+  },
+  {
+   "distance": 109,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.9093,
+   "note": "within 1%"
+  },
+  {
+   "distance": 110,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.897,
+   "note": "within 1%"
+  },
+  {
+   "distance": 111,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.8848,
+   "note": "within 1%"
+  },
+  {
+   "distance": 112,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.8724,
+   "note": "within 1%"
+  },
+  {
+   "distance": 113,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.86,
+   "note": "within 1%"
+  },
+  {
+   "distance": 114,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.8476,
+   "note": "within 1%"
+  },
+  {
+   "distance": 115,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.8351,
+   "note": "within 1%"
+  },
+  {
+   "distance": 116,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.8226,
+   "note": "within 1%"
+  },
+  {
+   "distance": 117,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.81,
+   "note": "within 1%"
+  },
+  {
+   "distance": 118,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.7974,
+   "note": "within 1%"
+  },
+  {
+   "distance": 119,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.7847,
+   "note": "within 1%"
+  },
+  {
+   "distance": 120,
+   "rank": 5,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.772,
+   "note": "within 1%"
+  },
+  {
+   "distance": 121,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.747,
+   "note": "within 1%"
+  },
+  {
+   "distance": 121,
+   "rank": 5,
+   "a": "sor556",
+   "b": "ak205",
+   "marginPercent": 0.3855,
+   "note": "within 1%"
+  },
+  {
+   "distance": 122,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.722,
+   "note": "within 1%"
+  },
+  {
+   "distance": 122,
+   "rank": 5,
+   "a": "sor556",
+   "b": "ak205",
+   "marginPercent": 0.4069,
+   "note": "within 1%"
+  },
+  {
+   "distance": 123,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.6971,
+   "note": "within 1%"
+  },
+  {
+   "distance": 123,
+   "rank": 5,
+   "a": "sor556",
+   "b": "ak205",
+   "marginPercent": 0.4282,
+   "note": "within 1%"
+  },
+  {
+   "distance": 124,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.6723,
+   "note": "within 1%"
+  },
+  {
+   "distance": 124,
+   "rank": 5,
+   "a": "sor556",
+   "b": "ak205",
+   "marginPercent": 0.4496,
+   "note": "within 1%"
+  },
+  {
+   "distance": 125,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.6475,
+   "note": "within 1%"
+  },
+  {
+   "distance": 125,
+   "rank": 5,
+   "a": "sor556",
+   "b": "ak205",
+   "marginPercent": 0.4709,
+   "note": "within 1%"
+  },
+  {
+   "distance": 126,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.6227,
+   "note": "within 1%"
+  },
+  {
+   "distance": 126,
+   "rank": 5,
+   "a": "sor556",
+   "b": "ak205",
+   "marginPercent": 0.4922,
+   "note": "within 1%"
+  },
+  {
+   "distance": 127,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.5979,
+   "note": "within 1%"
+  },
+  {
+   "distance": 127,
+   "rank": 5,
+   "a": "sor556",
+   "b": "ak205",
+   "marginPercent": 0.5135,
+   "note": "within 1%"
+  },
+  {
+   "distance": 128,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.5733,
+   "note": "within 1%"
+  },
+  {
+   "distance": 128,
+   "rank": 5,
+   "a": "sor556",
+   "b": "ak205",
+   "marginPercent": 0.5347,
+   "note": "within 1%"
+  },
+  {
+   "distance": 129,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.5486,
+   "note": "within 1%"
+  },
+  {
+   "distance": 129,
+   "rank": 5,
+   "a": "sor556",
+   "b": "ak205",
+   "marginPercent": 0.5559,
+   "note": "within 1%"
+  },
+  {
+   "distance": 130,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.524,
+   "note": "within 1%"
+  },
+  {
+   "distance": 130,
+   "rank": 5,
+   "a": "sor556",
+   "b": "ak205",
+   "marginPercent": 0.5771,
+   "note": "within 1%"
+  },
+  {
+   "distance": 131,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.4995,
+   "note": "within 1%"
+  },
+  {
+   "distance": 131,
+   "rank": 5,
+   "a": "sor556",
+   "b": "ak205",
+   "marginPercent": 0.5983,
+   "note": "within 1%"
+  },
+  {
+   "distance": 132,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.475,
+   "note": "within 1%"
+  },
+  {
+   "distance": 132,
+   "rank": 5,
+   "a": "sor556",
+   "b": "ak205",
+   "marginPercent": 0.6194,
+   "note": "within 1%"
+  },
+  {
+   "distance": 133,
+   "rank": 4,
+   "a": "lmr27",
+   "b": "sor556",
+   "marginPercent": 0.4506,
+   "note": "within 1%"
+  },
+  {
+   "distance": 133,
+   "rank": 5,
+   "a": "sor556",
+   "b": "ak205",
+   "marginPercent": 0.6405,
+   "note": "within 1%"
+  },
+  {
+   "distance": 134,
+   "rank": 5,
+   "a": "sor556",
+   "b": "m123k",
+   "marginPercent": 0.3106,
+   "note": "within 1%"
+  },
+  {
+   "distance": 164,
+   "rank": 4,
+   "a": "rpk74m",
+   "b": "drsiar",
+   "marginPercent": 0.5623,
+   "note": "within 1%"
+  },
+  {
+   "distance": 165,
+   "rank": 4,
+   "a": "rpk74m",
+   "b": "drsiar",
+   "marginPercent": 0.6095,
+   "note": "within 1%"
+  },
+  {
+   "distance": 166,
+   "rank": 4,
+   "a": "rpk74m",
+   "b": "drsiar",
+   "marginPercent": 0.6566,
+   "note": "within 1%"
+  },
+  {
+   "distance": 167,
+   "rank": 4,
+   "a": "rpk74m",
+   "b": "drsiar",
+   "marginPercent": 0.7036,
+   "note": "within 1%"
+  },
+  {
+   "distance": 168,
+   "rank": 4,
+   "a": "rpk74m",
+   "b": "drsiar",
+   "marginPercent": 0.7505,
+   "note": "within 1%"
+  },
+  {
+   "distance": 169,
+   "rank": 4,
+   "a": "rpk74m",
+   "b": "drsiar",
+   "marginPercent": 0.7974,
+   "note": "within 1%"
+  },
+  {
+   "distance": 170,
+   "rank": 4,
+   "a": "rpk74m",
+   "b": "drsiar",
+   "marginPercent": 0.8442,
+   "note": "within 1%"
+  },
+  {
+   "distance": 171,
+   "rank": 4,
+   "a": "rpk74m",
+   "b": "drsiar",
+   "marginPercent": 0.8909,
+   "note": "within 1%"
+  },
+  {
+   "distance": 172,
+   "rank": 4,
+   "a": "rpk74m",
+   "b": "drsiar",
+   "marginPercent": 0.9376,
+   "note": "within 1%"
+  },
+  {
+   "distance": 173,
+   "rank": 4,
+   "a": "rpk74m",
+   "b": "drsiar",
+   "marginPercent": 0.9841,
+   "note": "within 1%"
+  },
+  {
+   "distance": 177,
+   "rank": 3,
+   "a": "m250",
+   "b": "b36a4",
+   "marginPercent": 0.7641,
+   "note": "within 1%"
+  },
+  {
+   "distance": 178,
+   "rank": 3,
+   "a": "m250",
+   "b": "b36a4",
+   "marginPercent": 0.7159,
+   "note": "within 1%"
+  },
+  {
+   "distance": 179,
+   "rank": 3,
+   "a": "m250",
+   "b": "b36a4",
+   "marginPercent": 0.6679,
+   "note": "within 1%"
+  },
+  {
+   "distance": 180,
+   "rank": 3,
+   "a": "m250",
+   "b": "b36a4",
+   "marginPercent": 0.62,
+   "note": "within 1%"
+  },
+  {
+   "distance": 181,
+   "rank": 3,
+   "a": "m250",
+   "b": "b36a4",
+   "marginPercent": 0.5723,
+   "note": "within 1%"
+  },
+  {
+   "distance": 182,
+   "rank": 3,
+   "a": "m250",
+   "b": "b36a4",
+   "marginPercent": 0.5248,
+   "note": "within 1%"
+  },
+  {
+   "distance": 183,
+   "rank": 3,
+   "a": "m250",
+   "b": "b36a4",
+   "marginPercent": 0.4775,
+   "note": "within 1%"
+  },
+  {
+   "distance": 184,
+   "rank": 3,
+   "a": "m250",
+   "b": "b36a4",
+   "marginPercent": 0.4303,
+   "note": "within 1%"
+  },
+  {
+   "distance": 185,
+   "rank": 3,
+   "a": "m250",
+   "b": "b36a4",
+   "marginPercent": 0.3833,
+   "note": "within 1%"
+  },
+  {
+   "distance": 186,
+   "rank": 3,
+   "a": "m250",
+   "b": "b36a4",
+   "marginPercent": 0.3365,
+   "note": "within 1%"
+  },
+  {
+   "distance": 187,
+   "rank": 3,
+   "a": "m250",
+   "b": "b36a4",
+   "marginPercent": 0.2899,
+   "note": "within 1%"
+  },
+  {
+   "distance": 188,
+   "rank": 3,
+   "a": "m250",
+   "b": "b36a4",
+   "marginPercent": 0.2434,
+   "note": "within 1%"
+  },
+  {
+   "distance": 189,
+   "rank": 3,
+   "a": "m250",
+   "b": "b36a4",
+   "marginPercent": 0.1972,
+   "note": "within 1%"
+  },
+  {
+   "distance": 190,
+   "rank": 3,
+   "a": "m250",
+   "b": "b36a4",
+   "marginPercent": 0.1511,
+   "note": "within 1%"
+  },
+  {
+   "distance": 191,
+   "rank": 3,
+   "a": "m250",
+   "b": "b36a4",
+   "marginPercent": 0.1051,
+   "note": "within 1%"
+  },
+  {
+   "distance": 192,
+   "rank": 3,
+   "a": "m250",
+   "b": "b36a4",
+   "marginPercent": 0.0593,
+   "note": "within 0.1% - effectively a coin flip on the current inputs"
+  },
+  {
+   "distance": 193,
+   "rank": 3,
+   "a": "m250",
+   "b": "b36a4",
+   "marginPercent": 0.0137,
+   "note": "within 0.1% - effectively a coin flip on the current inputs"
+  },
+  {
+   "distance": 194,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.0317,
+   "note": "within 0.1% - effectively a coin flip on the current inputs"
+  },
+  {
+   "distance": 195,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.077,
+   "note": "within 0.1% - effectively a coin flip on the current inputs"
+  },
+  {
+   "distance": 196,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.1222,
+   "note": "within 1%"
+  },
+  {
+   "distance": 196,
+   "rank": 4,
+   "a": "m250",
+   "b": "svdm",
+   "marginPercent": 0.954,
+   "note": "within 1%"
+  },
+  {
+   "distance": 197,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.1672,
+   "note": "within 1%"
+  },
+  {
+   "distance": 197,
+   "rank": 4,
+   "a": "m250",
+   "b": "svdm",
+   "marginPercent": 0.8759,
+   "note": "within 1%"
+  },
+  {
+   "distance": 198,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.2122,
+   "note": "within 1%"
+  },
+  {
+   "distance": 198,
+   "rank": 4,
+   "a": "m250",
+   "b": "svdm",
+   "marginPercent": 0.7978,
+   "note": "within 1%"
+  },
+  {
+   "distance": 199,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.257,
+   "note": "within 1%"
+  },
+  {
+   "distance": 199,
+   "rank": 4,
+   "a": "m250",
+   "b": "svdm",
+   "marginPercent": 0.7198,
+   "note": "within 1%"
+  },
+  {
+   "distance": 200,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.3016,
+   "note": "within 1%"
+  },
+  {
+   "distance": 200,
+   "rank": 4,
+   "a": "m250",
+   "b": "svdm",
+   "marginPercent": 0.6419,
+   "note": "within 1%"
+  },
+  {
+   "distance": 201,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.3462,
+   "note": "within 1%"
+  },
+  {
+   "distance": 201,
+   "rank": 4,
+   "a": "m250",
+   "b": "svdm",
+   "marginPercent": 0.5641,
+   "note": "within 1%"
+  },
+  {
+   "distance": 202,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.3906,
+   "note": "within 1%"
+  },
+  {
+   "distance": 202,
+   "rank": 4,
+   "a": "m250",
+   "b": "svdm",
+   "marginPercent": 0.4863,
+   "note": "within 1%"
+  },
+  {
+   "distance": 203,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.4349,
+   "note": "within 1%"
+  },
+  {
+   "distance": 203,
+   "rank": 4,
+   "a": "m250",
+   "b": "svdm",
+   "marginPercent": 0.4086,
+   "note": "within 1%"
+  },
+  {
+   "distance": 204,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.4791,
+   "note": "within 1%"
+  },
+  {
+   "distance": 204,
+   "rank": 4,
+   "a": "m250",
+   "b": "svdm",
+   "marginPercent": 0.331,
+   "note": "within 1%"
+  },
+  {
+   "distance": 205,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.5231,
+   "note": "within 1%"
+  },
+  {
+   "distance": 205,
+   "rank": 4,
+   "a": "m250",
+   "b": "svdm",
+   "marginPercent": 0.2534,
+   "note": "within 1%"
+  },
+  {
+   "distance": 206,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.567,
+   "note": "within 1%"
+  },
+  {
+   "distance": 206,
+   "rank": 4,
+   "a": "m250",
+   "b": "svdm",
+   "marginPercent": 0.1759,
+   "note": "within 1%"
+  },
+  {
+   "distance": 207,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.6108,
+   "note": "within 1%"
+  },
+  {
+   "distance": 207,
+   "rank": 4,
+   "a": "m250",
+   "b": "svdm",
+   "marginPercent": 0.0985,
+   "note": "within 0.1% - effectively a coin flip on the current inputs"
+  },
+  {
+   "distance": 208,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "m250",
+   "marginPercent": 0.6545,
+   "note": "within 1%"
+  },
+  {
+   "distance": 208,
+   "rank": 4,
+   "a": "m250",
+   "b": "svdm",
+   "marginPercent": 0.0211,
+   "note": "within 0.1% - effectively a coin flip on the current inputs"
+  },
+  {
+   "distance": 209,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "svdm",
+   "marginPercent": 0.6415,
+   "note": "within 1%"
+  },
+  {
+   "distance": 209,
+   "rank": 4,
+   "a": "svdm",
+   "b": "m250",
+   "marginPercent": 0.0562,
+   "note": "within 0.1% - effectively a coin flip on the current inputs"
+  },
+  {
+   "distance": 210,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "svdm",
+   "marginPercent": 0.6072,
+   "note": "within 1%"
+  },
+  {
+   "distance": 210,
+   "rank": 4,
+   "a": "svdm",
+   "b": "m250",
+   "marginPercent": 0.1335,
+   "note": "within 1%"
+  },
+  {
+   "distance": 211,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "svdm",
+   "marginPercent": 0.5726,
+   "note": "within 1%"
+  },
+  {
+   "distance": 211,
+   "rank": 4,
+   "a": "svdm",
+   "b": "m250",
+   "marginPercent": 0.2109,
+   "note": "within 1%"
+  },
+  {
+   "distance": 212,
+   "rank": 3,
+   "a": "b36a4",
+   "b": "svdm",
+   "marginPercent": 0.538,
+   "note": "within 1%"
+  },
+  {
+   "distance": 212,
+   "rank": 4,
+   "a": "svdm",
+   "b": "m250",
+   "marginPercent": 0.2884,
+   "note": "within 1%"
+  },
+  {
+   "distance": 213,
+   "rank": 4,
+   "a": "b36a4",
+   "b": "svdm",
+   "marginPercent": 0.5033,
+   "note": "within 1%"
+  },
+  {
+   "distance": 213,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m250",
+   "marginPercent": 0.3659,
+   "note": "within 1%"
+  },
+  {
+   "distance": 214,
+   "rank": 4,
+   "a": "b36a4",
+   "b": "svdm",
+   "marginPercent": 0.4684,
+   "note": "within 1%"
+  },
+  {
+   "distance": 214,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m250",
+   "marginPercent": 0.4435,
+   "note": "within 1%"
+  },
+  {
+   "distance": 215,
+   "rank": 4,
+   "a": "b36a4",
+   "b": "svdm",
+   "marginPercent": 0.4334,
+   "note": "within 1%"
+  },
+  {
+   "distance": 215,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m250",
+   "marginPercent": 0.5211,
+   "note": "within 1%"
+  },
+  {
+   "distance": 216,
+   "rank": 4,
+   "a": "b36a4",
+   "b": "svdm",
+   "marginPercent": 0.3983,
+   "note": "within 1%"
+  },
+  {
+   "distance": 216,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m250",
+   "marginPercent": 0.5988,
+   "note": "within 1%"
+  },
+  {
+   "distance": 217,
+   "rank": 4,
+   "a": "b36a4",
+   "b": "svdm",
+   "marginPercent": 0.3631,
+   "note": "within 1%"
+  },
+  {
+   "distance": 217,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m250",
+   "marginPercent": 0.6765,
+   "note": "within 1%"
+  },
+  {
+   "distance": 218,
+   "rank": 4,
+   "a": "b36a4",
+   "b": "svdm",
+   "marginPercent": 0.3277,
+   "note": "within 1%"
+  },
+  {
+   "distance": 218,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m250",
+   "marginPercent": 0.7543,
+   "note": "within 1%"
+  },
+  {
+   "distance": 219,
+   "rank": 4,
+   "a": "b36a4",
+   "b": "svdm",
+   "marginPercent": 0.2923,
+   "note": "within 1%"
+  },
+  {
+   "distance": 219,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m250",
+   "marginPercent": 0.8321,
+   "note": "within 1%"
+  },
+  {
+   "distance": 220,
+   "rank": 4,
+   "a": "b36a4",
+   "b": "svdm",
+   "marginPercent": 0.2567,
+   "note": "within 1%"
+  },
+  {
+   "distance": 220,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m250",
+   "marginPercent": 0.91,
+   "note": "within 1%"
+  },
+  {
+   "distance": 221,
+   "rank": 4,
+   "a": "b36a4",
+   "b": "svdm",
+   "marginPercent": 0.221,
+   "note": "within 1%"
+  },
+  {
+   "distance": 221,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m250",
+   "marginPercent": 0.9879,
+   "note": "within 1%"
+  },
+  {
+   "distance": 222,
+   "rank": 4,
+   "a": "b36a4",
+   "b": "svdm",
+   "marginPercent": 0.1852,
+   "note": "within 1%"
+  },
+  {
+   "distance": 223,
+   "rank": 4,
+   "a": "b36a4",
+   "b": "svdm",
+   "marginPercent": 0.1493,
+   "note": "within 1%"
+  },
+  {
+   "distance": 224,
+   "rank": 4,
+   "a": "b36a4",
+   "b": "svdm",
+   "marginPercent": 0.1133,
+   "note": "within 1%"
+  },
+  {
+   "distance": 225,
+   "rank": 4,
+   "a": "b36a4",
+   "b": "svdm",
+   "marginPercent": 0.0771,
+   "note": "within 0.1% - effectively a coin flip on the current inputs"
+  },
+  {
+   "distance": 226,
+   "rank": 4,
+   "a": "b36a4",
+   "b": "svdm",
+   "marginPercent": 0.0408,
+   "note": "within 0.1% - effectively a coin flip on the current inputs"
+  },
+  {
+   "distance": 227,
+   "rank": 4,
+   "a": "b36a4",
+   "b": "svdm",
+   "marginPercent": 0.0045,
+   "note": "within 0.1% - effectively a coin flip on the current inputs"
+  },
+  {
+   "distance": 228,
+   "rank": 4,
+   "a": "svdm",
+   "b": "b36a4",
+   "marginPercent": 0.032,
+   "note": "within 0.1% - effectively a coin flip on the current inputs"
+  },
+  {
+   "distance": 229,
+   "rank": 4,
+   "a": "svdm",
+   "b": "b36a4",
+   "marginPercent": 0.0687,
+   "note": "within 0.1% - effectively a coin flip on the current inputs"
+  },
+  {
+   "distance": 230,
+   "rank": 4,
+   "a": "svdm",
+   "b": "b36a4",
+   "marginPercent": 0.1055,
+   "note": "within 1%"
+  },
+  {
+   "distance": 231,
+   "rank": 4,
+   "a": "svdm",
+   "b": "b36a4",
+   "marginPercent": 0.1424,
+   "note": "within 1%"
+  },
+  {
+   "distance": 232,
+   "rank": 4,
+   "a": "svdm",
+   "b": "b36a4",
+   "marginPercent": 0.1794,
+   "note": "within 1%"
+  },
+  {
+   "distance": 233,
+   "rank": 4,
+   "a": "svdm",
+   "b": "b36a4",
+   "marginPercent": 0.2166,
+   "note": "within 1%"
+  },
+  {
+   "distance": 234,
+   "rank": 4,
+   "a": "svdm",
+   "b": "b36a4",
+   "marginPercent": 0.254,
+   "note": "within 1%"
+  },
+  {
+   "distance": 235,
+   "rank": 5,
+   "a": "svdm",
+   "b": "b36a4",
+   "marginPercent": 0.2914,
+   "note": "within 1%"
+  },
+  {
+   "distance": 236,
+   "rank": 5,
+   "a": "svdm",
+   "b": "b36a4",
+   "marginPercent": 0.329,
+   "note": "within 1%"
+  },
+  {
+   "distance": 237,
+   "rank": 5,
+   "a": "svdm",
+   "b": "b36a4",
+   "marginPercent": 0.3668,
+   "note": "within 1%"
+  },
+  {
+   "distance": 238,
+   "rank": 5,
+   "a": "svdm",
+   "b": "b36a4",
+   "marginPercent": 0.4047,
+   "note": "within 1%"
+  },
+  {
+   "distance": 239,
+   "rank": 5,
+   "a": "svdm",
+   "b": "b36a4",
+   "marginPercent": 0.4427,
+   "note": "within 1%"
+  },
+  {
+   "distance": 240,
+   "rank": 5,
+   "a": "svdm",
+   "b": "b36a4",
+   "marginPercent": 0.4808,
+   "note": "within 1%"
+  },
+  {
+   "distance": 241,
+   "rank": 5,
+   "a": "svdm",
+   "b": "b36a4",
+   "marginPercent": 0.5191,
+   "note": "within 1%"
+  },
+  {
+   "distance": 242,
+   "rank": 5,
+   "a": "svdm",
+   "b": "b36a4",
+   "marginPercent": 0.5576,
+   "note": "within 1%"
+  },
+  {
+   "distance": 243,
+   "rank": 5,
+   "a": "m16a4",
+   "b": "svdm",
+   "marginPercent": 0.2713,
+   "note": "within 1%"
+  },
+  {
+   "distance": 244,
+   "rank": 5,
+   "a": "m16a4",
+   "b": "svdm",
+   "marginPercent": 0.2267,
+   "note": "within 1%"
+  },
+  {
+   "distance": 245,
+   "rank": 5,
+   "a": "m16a4",
+   "b": "svdm",
+   "marginPercent": 0.1819,
+   "note": "within 1%"
+  },
+  {
+   "distance": 246,
+   "rank": 5,
+   "a": "m16a4",
+   "b": "svdm",
+   "marginPercent": 0.1371,
+   "note": "within 1%"
+  },
+  {
+   "distance": 247,
+   "rank": 5,
+   "a": "m16a4",
+   "b": "svdm",
+   "marginPercent": 0.0921,
+   "note": "within 0.1% - effectively a coin flip on the current inputs"
+  },
+  {
+   "distance": 248,
+   "rank": 5,
+   "a": "m16a4",
+   "b": "svdm",
+   "marginPercent": 0.0471,
+   "note": "within 0.1% - effectively a coin flip on the current inputs"
+  },
+  {
+   "distance": 249,
+   "rank": 5,
+   "a": "m16a4",
+   "b": "svdm",
+   "marginPercent": 0.002,
+   "note": "within 0.1% - effectively a coin flip on the current inputs"
+  },
+  {
+   "distance": 250,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.0432,
+   "note": "within 0.1% - effectively a coin flip on the current inputs"
+  },
+  {
+   "distance": 251,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.0885,
+   "note": "within 0.1% - effectively a coin flip on the current inputs"
+  },
+  {
+   "distance": 252,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.1339,
+   "note": "within 1%"
+  },
+  {
+   "distance": 253,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.1795,
+   "note": "within 1%"
+  },
+  {
+   "distance": 254,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.2251,
+   "note": "within 1%"
+  },
+  {
+   "distance": 255,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.2709,
+   "note": "within 1%"
+  },
+  {
+   "distance": 256,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.3169,
+   "note": "within 1%"
+  },
+  {
+   "distance": 257,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.3629,
+   "note": "within 1%"
+  },
+  {
+   "distance": 258,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.4091,
+   "note": "within 1%"
+  },
+  {
+   "distance": 259,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.4554,
+   "note": "within 1%"
+  },
+  {
+   "distance": 260,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.5018,
+   "note": "within 1%"
+  },
+  {
+   "distance": 261,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.5483,
+   "note": "within 1%"
+  },
+  {
+   "distance": 262,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.595,
+   "note": "within 1%"
+  },
+  {
+   "distance": 263,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.6418,
+   "note": "within 1%"
+  },
+  {
+   "distance": 264,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.6887,
+   "note": "within 1%"
+  },
+  {
+   "distance": 265,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.7357,
+   "note": "within 1%"
+  },
+  {
+   "distance": 266,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.7829,
+   "note": "within 1%"
+  },
+  {
+   "distance": 267,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.8301,
+   "note": "within 1%"
+  },
+  {
+   "distance": 268,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.8775,
+   "note": "within 1%"
+  },
+  {
+   "distance": 269,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.925,
+   "note": "within 1%"
+  },
+  {
+   "distance": 270,
+   "rank": 5,
+   "a": "svdm",
+   "b": "m16a4",
+   "marginPercent": 0.9726,
+   "note": "within 1%"
+  }
+ ],
+ "verdict": "C — DISTINCT INFORMATION, BUT NEVER DECISIVE FOR THE WINNER",
+ "reasoning": "The term is NOT redundant: decorrelating it - keeping the scatter angle but not re-multiplying by recoil magnitude - gives a different result again (7 winner changes, 10613 position moves) than dropping it (0, 8829). So the second term genuinely encodes magnitude-weighted scatter rather than duplicating magnitude. BUT across all 300 distances, dropping it changes the BALANCED winner ZERO times; it moves 8829 positions lower down the order and alters the top 3 at 123 distances. The double count is real, it is not accidental duplication, and it does not decide the headline recommendation.",
+ "changesMade": "NONE. This audit changes no coefficient. A large or duplicated coefficient is a product decision unless it is mathematically erroneous, and nothing here demonstrates an error.",
+ "recommendation": "KEEP THE CURRENT FORM AND DOCUMENT THE INTENT. The two terms are recoil magnitude and magnitude-weighted scatter; they are not interchangeable, so this is not accidental duplication. Whether the second term DESERVES to influence sub-winner ordering as much as it does is a product question, and it now has a measured answer to be decided against rather than an argument from the shape of the formula. No code change in this pass."
+}

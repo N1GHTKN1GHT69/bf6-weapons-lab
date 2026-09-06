@@ -5,6 +5,7 @@
   "cacheGeneratedAt",
   "capturedAt",
   "checkedAt",
+  "contentHash",
   "detectedAt",
   "generatedAt",
   "lastCheckedAt",
@@ -58,7 +59,7 @@
    "reproducedBy": "node scripts/audit-provenance-consistency.mjs"
   },
   "data/freshness-status.json": {
-   "semanticHash": "f5505514176fc678cd8ef7710bc995e9599e9a6e53b506f3a146105e3649f0cc",
+   "semanticHash": "1fc292801148354be17e23fc58bc1a42b250663a2a148ce668cf6b69c7886bf5",
    "bytes": 2718,
    "producedBy": "scripts/reconcile-patches.mjs --write",
    "reproducedBy": "node scripts/reconcile-patches.mjs --check"

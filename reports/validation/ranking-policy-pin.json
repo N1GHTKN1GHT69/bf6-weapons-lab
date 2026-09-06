@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-06T06:19:07.235Z",
+ "generatedAt": "2026-09-06T12:31:24.825Z",
  "current": {
   "schema": 1,
   "purpose": "Every constant that decides what BALANCED means. None is a game mechanic; all are product decisions about how to weigh real mechanics against each other. Pinned so a change is a reviewed diff rather than a silent drift that only surfaces after the next cache rebuild.",
