@@ -87,9 +87,13 @@ comments is not evidence.
 
 | Verdict | Count | Detail |
 | --- | ---: | --- |
-| **MATCH** | 115 | cadence 57 (raw RPM = source `RoF`) + 1 (VSSM = `SingleRoF`, the documented fire-mode state) + velocity 58 (raw = source, all) |
+| **Source-verified at 1.4.2.0** | **116** | 58 cadence (raw RPM = source `RoF`, VSSM matching `SingleRoF` — the documented fire-mode state) + 58 velocity (raw = source, all of them) |
 | **MISMATCH** | **0** | |
-| **NO CURRENT SOURCE** | 66 | all 62 damage curves + 4 shotgun cadences |
+| **No current source** | 66 | all 62 damage curves + the 4 shotguns, absent from every Sym dump |
+
+Separately, `audit-source-reconciliation` establishes *fidelity* of the pinned baseline to the
+original publisher at 1.3.3.0 — 38/38 weapons matched, **304/304 field comparisons agreed**.
+Fidelity and currency are deliberately different questions and are answered by different tools.
 
 **Currentness, stated honestly:** RPM and velocity are source-verified at 1.4.2.0. **Damage
 curves have no current publisher at any version** — they are historically pinned to the
@@ -239,19 +243,40 @@ published), `fireMode` (62), `ammoProfile` (62), and the 4 shotguns.
 
 ## 8. Optimizer certification (Phase 9)
 
+Two independent checks, deliberately not merged — one is brute force with no cleverness in it,
+the other is a pruned search whose pruning has to be trusted.
+
+**`audit-optimizer-exhaustive --full` — unbounded brute force**
+
 | | |
 | --- | --- |
-| Weapons | 17 priority (meta winners, all four 1.4.2.0 weapons, the fragile ones, VSSM/SL9/M250) |
-| Cases | **85** weapon × distance, across 5 distances |
+| Weapons optimized | 53 (of 56 considered; 3 skipped, no source entry) |
+| Cases | **159** weapon × distance, at 10 / 25 / 100 m |
+| Brute-force limit | **none** — every legal combination enumerated |
+| Combinations enumerated | **2,017,995,552** |
+| Largest single search space | 59,875,200 |
+| **Mismatches** | **0** (0 errors) |
+
+Two billion complete builds, compared against production's answer, with nothing pruned. This is
+the check that needs no assumptions.
+
+**`audit-optimizer-torture` — pruned search, cache bypassed**
+
+| | |
+| --- | --- |
+| Cases | **85** weapon × distance (meta winners, all four 1.4.2.0 weapons, the fragile ones, VSSM/SL9/M250) |
 | Nodes visited | 66,267 |
+| Complete builds evaluated | 308 |
 | **Mismatches** | **0** |
+| Tied but different pick set | 7 |
 
-The bound was validated before the result was trusted: re-running with the score bound disabled
-— up to **4,013,387 complete builds** for the EF88 — reaches an identical maximum. Seven cases
-found an equal-scoring but different pick set, which is a tie-break policy choice, not a defect.
+This one runs with the exhaustive cache **bypassed**, so it exercises the on-demand path the
+brute-force check does not. The 7 ties are equal-scoring alternative builds — a tie-break policy
+choice, not a defect.
 
-**Proves** the DP finds the true optimum of its objective. **Does not prove** the objective —
-both sides use production's per-option scores. That is an algorithm check, not a model check.
+**Proves** the DP finds the true optimum of its objective, on both paths. **Does not prove** the
+objective — both sides use production's per-option `scoreOption()`. That is an algorithm check,
+not a model check, and the artifact says so in its own `doesNotProve` field.
 
 ---
 
@@ -420,7 +445,7 @@ full `audit-state-space` (390 s) dominate. Nothing was traded for speed.
 | --- | --- |
 | No known P0 correctness defect | ✅ none found |
 | 0 active mutation escapes | ✅ 32 mutations, 29 caught, 0 escaped, 1 documented-inert |
-| Optimizer independently verified | ✅ 85/85, bound validated |
+| Optimizer independently verified | ✅ 159/159 unbounded brute force over 2,017,995,552 combinations, plus 85/85 cache-bypassed |
 | Reference recomputation clean | ✅ 378,535 values, 0 mismatches |
 | Class-audit operative values mapped and classified | ✅ 182 pins, 0 unexplained, 0 source mismatches |
 | Source/version state truthful | ✅ LIVE/DATA/COMBAT stated separately |
@@ -444,7 +469,7 @@ Tag `v1-rc-pre-real-game-audit-20260906`, following the repository's existing ta
 **VERIFIED FACTS**
 - 32 mutations, 29 caught, 0 escaped, 0 latent, 2/2 inverse.
 - 378,535 cached values independently recomputed; 0 mismatches.
-- 85/85 optimizer cases optimal; bound validated against an unbounded search.
+- 159/159 optimizer cases optimal against a fully unbounded enumeration of 2,017,995,552 builds; a further 85/85 optimal on the cache-bypassed path.
 - 182 class-audit pins mapped; 0 unexplained; 115 source-matched; **0 mismatches**.
 - Dropping the unpredictable-recoil term changes the BALANCED winner 0 times in 300 distances.
 - REDSEC unarmored equals Multiplayer at all 300 metres.
