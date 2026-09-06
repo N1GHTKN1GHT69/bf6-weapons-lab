@@ -1,0 +1,24 @@
+{
+ "generatedAt": "2026-09-06T06:19:15.655Z",
+ "describes": "Behaviour at every edge the model has: damage breakpoints (both sides and exactly on), the ends of the supported distance range, exact point budgets, the near-integer RPM values this dataset carries, BTK quantisation, and cache serialisation.",
+ "probes": {
+  "breakpointsProbed": 254,
+  "repeatedBreakpoints": 156,
+  "interBreakpointProbes": 182,
+  "rangeEndProbes": 248,
+  "flightEdgeProbes": 1,
+  "buildBudgetProbes": 350,
+  "rpmProbes": 4,
+  "vssmRateSeparation": 1,
+  "btkProbes": 8,
+  "roundTripProbes": 310
+ },
+ "notes": [
+  "es57: no cached build spends the full 60-point budget",
+  "m357trait: no cached build spends the full 60-point budget",
+  "m44: no cached build spends the full 60-point budget",
+  "psr: no cached build spends the full 100-point budget",
+  "usg90: no cached build spends the full 100-point budget"
+ ],
+ "errors": []
+}

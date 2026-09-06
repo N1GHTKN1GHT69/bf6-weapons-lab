@@ -1,0 +1,67 @@
+{
+ "schema": 1,
+ "purpose": "Semantic hashes of every generated artifact, with wall-clock timestamps stripped, so a re-run on another machine can be compared on what it DECIDED rather than on when it ran.",
+ "nondeterministicKeysStripped": [
+  "cacheGeneratedAt",
+  "capturedAt",
+  "checkedAt",
+  "detectedAt",
+  "generatedAt",
+  "lastCheckedAt",
+  "manifestGeneratedAt",
+  "modelVerifiedAt",
+  "ranAt",
+  "reconciledAt",
+  "verifiedAt"
+ ],
+ "artifacts": {
+  "data/source-overlays.json": {
+   "semanticHash": "953f2d43226116b8cc23b34d994dc45bb8063f114ab1ef76116c90add4fd4a62",
+   "bytes": 15427,
+   "producedBy": "scripts/build-source-overlay.mjs",
+   "reproducedBy": "node scripts/build-source-overlay.mjs --check"
+  },
+  "data/ranking-policy.json": {
+   "semanticHash": "6cdcea292c74bc8efd8c0634a923feb5b943d63bc6649e722137dd29a4a0a7de",
+   "bytes": 1590,
+   "producedBy": "scripts/audit-ranking-policy-pin.mjs --write",
+   "reproducedBy": "node scripts/audit-ranking-policy-pin.mjs"
+  },
+  "data/sources/sheetonmyface-bf6-workbook.json": {
+   "semanticHash": "fe2606dba9412ece06d5be19202c79bd6e553f165b9d0363ae9f8c79963ff9d9",
+   "bytes": 920156,
+   "producedBy": "scripts/capture-sheetonmyface.mjs",
+   "reproducedBy": "node scripts/capture-sheetonmyface.mjs --verify (requires network)"
+  },
+  "data/sources/workbook-watch-state.json": {
+   "semanticHash": "8ff39b5830e2d2ef760e863cb24e74898ff0d1fa29fab35048b30e576ea184ab",
+   "bytes": 501,
+   "producedBy": "scripts/watch-source-workbook.mjs --write",
+   "reproducedBy": "node scripts/audit-freshness-watchers.mjs"
+  },
+  "data/combat-cache.json": {
+   "semanticHash": "cce71a2f11c617ae84c62d1912e3eddc3392dd35eeecd7c3ed8a4f49e87e1c10",
+   "bytes": 17199712,
+   "producedBy": "scripts/build-combat-cache.mjs (62-job matrix)",
+   "reproducedBy": "node scripts/audit-cache-recompute.mjs"
+  },
+  "data/source-manifest.json": {
+   "semanticHash": "19ddb7bc0214f6cdc14c83015eda163ab7c79d20b0e86d4211c3e402604faee6",
+   "bytes": 847,
+   "producedBy": "scripts/sync-from-upstream.mjs",
+   "reproducedBy": "node scripts/audit-source-integrity.mjs"
+  },
+  "data/patch-delta-ledger.json": {
+   "semanticHash": "ded7a03f5136a5d13505b5af5595d1c58d1fb09607b370529ea54243f6e3d18f",
+   "bytes": 15049,
+   "producedBy": "hand-authored, machine-checked",
+   "reproducedBy": "node scripts/audit-provenance-consistency.mjs"
+  },
+  "data/freshness-status.json": {
+   "semanticHash": "f5505514176fc678cd8ef7710bc995e9599e9a6e53b506f3a146105e3649f0cc",
+   "bytes": 2718,
+   "producedBy": "scripts/reconcile-patches.mjs --write",
+   "reproducedBy": "node scripts/reconcile-patches.mjs --check"
+  }
+ }
+}

@@ -1,21 +1,21 @@
 {
- "generatedAt": "2026-09-06T05:48:49.565Z",
- "quick": false,
+ "generatedAt": "2026-09-06T06:19:54.959Z",
+ "quick": true,
  "coverage": {
   "tier1": {
    "describes": "AUTO rankings, fully enumerated",
-   "distances": 300,
+   "distances": 7,
    "modes": 3,
    "priorities": 2,
    "scopes": 8,
-   "evaluations": 24000
+   "evaluations": 560
   },
   "tier2": {
    "describes": "per-weapon manual builds, fully enumerated",
    "weapons": 63,
-   "distances": 300,
+   "distances": 7,
    "modes": 3,
-   "evaluations": 56700
+   "evaluations": 1323
   },
   "tier3": {
    "describes": "advanced handling preferences, stratified by deterministic index arithmetic (no randomness)",
@@ -31,9 +31,9 @@
   "rosterOnlyWeaponsWithoutCatalogRecord": [
    "interdictor"
   ],
-  "rankedEntriesInspected": 243108,
-  "buildsInspected": 71192,
-  "determinismProbes": 14
+  "rankedEntriesInspected": 6657,
+  "buildsInspected": 2630,
+  "determinismProbes": 0
  },
  "anomalyCountsByKind": {},
  "exceptions": 0,

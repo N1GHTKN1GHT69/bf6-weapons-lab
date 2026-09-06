@@ -1,0 +1,451 @@
+{
+ "generatedAt": "2026-09-06T06:18:32.609Z",
+ "method": "Each unresolved value is swept across a range the EVIDENCE supplies - never an invented one - and the ranked order is compared across the range. Values with no defensible bound are reported UNKNOWN rather than assigned a fabricated tolerance.",
+ "distancesProbed": [
+  10,
+  25,
+  50,
+  100,
+  150,
+  200,
+  300
+ ],
+ "classification": {
+  "ROBUST": 4,
+  "SENSITIVE": 1,
+  "UNKNOWN": 13
+ },
+ "headline": {
+  "decisionRelevant": [
+   "(REDSEC 2-plate model) redsecCloseRangeRule + armourBreakSpillover"
+  ],
+  "provenIrrelevantOverTheirCredibleRange": [
+   "m16a4 adsTime",
+   "pp19 adsTime",
+   "rpk74m adsTime",
+   "l115 adsTime"
+  ],
+  "unquantifiable": [
+   "dmg",
+   "fireMode",
+   "ammoProfile",
+   "bulletVel",
+   "sweetSpot",
+   "rpm",
+   "recoilV",
+   "recoilVar",
+   "spreadMax",
+   "pellets",
+   "closeRangeAutoRule",
+   "armourBreakSpillover",
+   "sniperSweetSpotUnderArmourShift"
+  ]
+ },
+ "findings": [
+  {
+   "field": "adsTime",
+   "weaponId": "m16a4",
+   "cls": "Assault Rifle",
+   "credibleRange": [
+    230,
+    270
+   ],
+   "rangeBasis": "observed minimum and maximum adsTime among the 10 Assault Rifles that carry one",
+   "probes": [
+    230,
+    250,
+    270
+   ],
+   "classification": "ROBUST",
+   "affectedCases": [],
+   "reason": "the ranked order is identical at every probed value across the whole credible range"
+  },
+  {
+   "field": "adsTime",
+   "weaponId": "pp19",
+   "cls": "SMG",
+   "credibleRange": [
+    165,
+    185
+   ],
+   "rangeBasis": "observed minimum and maximum adsTime among the 9 SMGs that carry one",
+   "probes": [
+    165,
+    175,
+    185
+   ],
+   "classification": "ROBUST",
+   "affectedCases": [],
+   "reason": "the ranked order is identical at every probed value across the whole credible range"
+  },
+  {
+   "field": "adsTime",
+   "weaponId": "rpk74m",
+   "cls": "LMG",
+   "credibleRange": [
+    280,
+    420
+   ],
+   "rangeBasis": "observed minimum and maximum adsTime among the 9 LMGs that carry one",
+   "probes": [
+    280,
+    350,
+    420
+   ],
+   "classification": "ROBUST",
+   "affectedCases": [],
+   "reason": "the ranked order is identical at every probed value across the whole credible range"
+  },
+  {
+   "field": "adsTime",
+   "weaponId": "l115",
+   "cls": "Sniper Rifle",
+   "credibleRange": [
+    430,
+    550
+   ],
+   "rangeBasis": "observed minimum and maximum adsTime among the 4 Sniper Rifles that carry one",
+   "probes": [
+    430,
+    490,
+    550
+   ],
+   "classification": "ROBUST",
+   "affectedCases": [],
+   "reason": "the ranked order is identical at every probed value across the whole credible range"
+  },
+  {
+   "field": "redsecCloseRangeRule + armourBreakSpillover",
+   "weaponId": "(REDSEC 2-plate model)",
+   "credibleRange": "discrete: closeRange remove|keep x spillover none|proportional (4 combinations, exhaustive)",
+   "rangeBasis": "EA state both mechanics qualitatively without numbers; the alternatives are discrete and both readings are implemented, so the sweep is complete rather than sampled",
+   "classification": "SENSITIVE",
+   "affectedCases": [
+    "10m/balanced: m16a4 or m123k",
+    "25m/balanced: kord6p67 or drsiar",
+    "25m/fastest: kv9 or tr7"
+   ],
+   "reason": "the AUTO winner depends on which unpublished reading is correct at 3 of 14 probed cases",
+   "detail": [
+    {
+     "distance": 10,
+     "priority": "balanced",
+     "winnerStable": false,
+     "top3Stable": false,
+     "btkStable": true,
+     "winners": [
+      "m16a4",
+      "m123k"
+     ],
+     "combos": [
+      "remove/none=m16a4",
+      "remove/proportional=m16a4",
+      "keep/none=m123k",
+      "keep/proportional=m123k"
+     ]
+    },
+    {
+     "distance": 10,
+     "priority": "fastest",
+     "winnerStable": true,
+     "top3Stable": true,
+     "btkStable": false,
+     "winners": [
+      "tr7"
+     ],
+     "combos": [
+      "remove/none=tr7",
+      "remove/proportional=tr7",
+      "keep/none=tr7",
+      "keep/proportional=tr7"
+     ]
+    },
+    {
+     "distance": 25,
+     "priority": "balanced",
+     "winnerStable": false,
+     "top3Stable": false,
+     "btkStable": false,
+     "winners": [
+      "kord6p67",
+      "drsiar"
+     ],
+     "combos": [
+      "remove/none=kord6p67",
+      "remove/proportional=kord6p67",
+      "keep/none=drsiar",
+      "keep/proportional=drsiar"
+     ]
+    },
+    {
+     "distance": 25,
+     "priority": "fastest",
+     "winnerStable": false,
+     "top3Stable": false,
+     "btkStable": false,
+     "winners": [
+      "kv9",
+      "tr7"
+     ],
+     "combos": [
+      "remove/none=kv9",
+      "remove/proportional=kv9",
+      "keep/none=tr7",
+      "keep/proportional=tr7"
+     ]
+    },
+    {
+     "distance": 50,
+     "priority": "balanced",
+     "winnerStable": true,
+     "top3Stable": true,
+     "btkStable": true,
+     "winners": [
+      "kord6p67"
+     ],
+     "combos": [
+      "remove/none=kord6p67",
+      "remove/proportional=kord6p67",
+      "keep/none=kord6p67",
+      "keep/proportional=kord6p67"
+     ]
+    },
+    {
+     "distance": 50,
+     "priority": "fastest",
+     "winnerStable": true,
+     "top3Stable": false,
+     "btkStable": true,
+     "winners": [
+      "tr7"
+     ],
+     "combos": [
+      "remove/none=tr7",
+      "remove/proportional=tr7",
+      "keep/none=tr7",
+      "keep/proportional=tr7"
+     ]
+    },
+    {
+     "distance": 100,
+     "priority": "balanced",
+     "winnerStable": true,
+     "top3Stable": true,
+     "btkStable": true,
+     "winners": [
+      "m250"
+     ],
+     "combos": [
+      "remove/none=m250",
+      "remove/proportional=m250",
+      "keep/none=m250",
+      "keep/proportional=m250"
+     ]
+    },
+    {
+     "distance": 100,
+     "priority": "fastest",
+     "winnerStable": true,
+     "top3Stable": true,
+     "btkStable": true,
+     "winners": [
+      "m250"
+     ],
+     "combos": [
+      "remove/none=m250",
+      "remove/proportional=m250",
+      "keep/none=m250",
+      "keep/proportional=m250"
+     ]
+    },
+    {
+     "distance": 150,
+     "priority": "balanced",
+     "winnerStable": true,
+     "top3Stable": true,
+     "btkStable": true,
+     "winners": [
+      "m250"
+     ],
+     "combos": [
+      "remove/none=m250",
+      "remove/proportional=m250",
+      "keep/none=m250",
+      "keep/proportional=m250"
+     ]
+    },
+    {
+     "distance": 150,
+     "priority": "fastest",
+     "winnerStable": true,
+     "top3Stable": true,
+     "btkStable": true,
+     "winners": [
+      "m250"
+     ],
+     "combos": [
+      "remove/none=m250",
+      "remove/proportional=m250",
+      "keep/none=m250",
+      "keep/proportional=m250"
+     ]
+    },
+    {
+     "distance": 200,
+     "priority": "balanced",
+     "winnerStable": true,
+     "top3Stable": true,
+     "btkStable": true,
+     "winners": [
+      "m250"
+     ],
+     "combos": [
+      "remove/none=m250",
+      "remove/proportional=m250",
+      "keep/none=m250",
+      "keep/proportional=m250"
+     ]
+    },
+    {
+     "distance": 200,
+     "priority": "fastest",
+     "winnerStable": true,
+     "top3Stable": true,
+     "btkStable": true,
+     "winners": [
+      "m250"
+     ],
+     "combos": [
+      "remove/none=m250",
+      "remove/proportional=m250",
+      "keep/none=m250",
+      "keep/proportional=m250"
+     ]
+    },
+    {
+     "distance": 300,
+     "priority": "balanced",
+     "winnerStable": true,
+     "top3Stable": true,
+     "btkStable": true,
+     "winners": [
+      "lmr27"
+     ],
+     "combos": [
+      "remove/none=lmr27",
+      "remove/proportional=lmr27",
+      "keep/none=lmr27",
+      "keep/proportional=lmr27"
+     ]
+    },
+    {
+     "distance": 300,
+     "priority": "fastest",
+     "winnerStable": true,
+     "top3Stable": true,
+     "btkStable": true,
+     "winners": [
+      "m250"
+     ],
+     "combos": [
+      "remove/none=m250",
+      "remove/proportional=m250",
+      "keep/none=m250",
+      "keep/proportional=m250"
+     ]
+    }
+   ]
+  },
+  {
+   "field": "dmg",
+   "weaponId": "(62 weapons)",
+   "classification": "UNKNOWN",
+   "reason": "the Sym dump publishes ballistics, spread and recoil primitives only - it carries no damage curve at all, so no damage tier can be attested from it. No published bound exists at any evidence tier, so no defensible range can be swept. Inventing one would present a guess as a measurement.",
+   "fieldsAffected": 62
+  },
+  {
+   "field": "fireMode",
+   "weaponId": "(62 weapons)",
+   "classification": "UNKNOWN",
+   "reason": "not present in the Sym dump. The workbook does carry firing-mode flags, but only on the author's hand-maintained \"Weapon Data\" tab, which demonstrably lags the dump (it still holds the pre-1.4.2.0 velocities). No published bound exists at any evidence tier, so no defensible range can be swept. Inventing one would present a guess as a measurement.",
+   "fieldsAffected": 62
+  },
+  {
+   "field": "ammoProfile",
+   "weaponId": "(62 weapons)",
+   "classification": "UNKNOWN",
+   "reason": "an attachment-level property; the Sym dump is per-weapon and carries no ammo table. No published bound exists at any evidence tier, so no defensible range can be swept. Inventing one would present a guess as a measurement.",
+   "fieldsAffected": 62
+  },
+  {
+   "field": "bulletVel",
+   "weaponId": "(7 weapons)",
+   "classification": "UNKNOWN",
+   "reason": "the source publishes this field, but this weapon is absent from the dump or the value is otherwise unattested (see the per-row sourceAttestation). No published bound exists at any evidence tier, so no defensible range can be swept. Inventing one would present a guess as a measurement.",
+   "fieldsAffected": 7
+  },
+  {
+   "field": "sweetSpot",
+   "weaponId": "(5 weapons)",
+   "classification": "UNKNOWN",
+   "reason": "sniper one-shot windows are a damage-curve property, and the dump carries no damage data. No published bound exists at any evidence tier, so no defensible range can be swept. Inventing one would present a guess as a measurement.",
+   "fieldsAffected": 5
+  },
+  {
+   "field": "rpm",
+   "weaponId": "(4 weapons)",
+   "classification": "UNKNOWN",
+   "reason": "the source publishes this field, but this weapon is absent from the dump or the value is otherwise unattested (see the per-row sourceAttestation). No published bound exists at any evidence tier, so no defensible range can be swept. Inventing one would present a guess as a measurement.",
+   "fieldsAffected": 4
+  },
+  {
+   "field": "recoilV",
+   "weaponId": "(4 weapons)",
+   "classification": "UNKNOWN",
+   "reason": "the source publishes this field, but this weapon is absent from the dump or the value is otherwise unattested (see the per-row sourceAttestation). No published bound exists at any evidence tier, so no defensible range can be swept. Inventing one would present a guess as a measurement.",
+   "fieldsAffected": 4
+  },
+  {
+   "field": "recoilVar",
+   "weaponId": "(4 weapons)",
+   "classification": "UNKNOWN",
+   "reason": "the source publishes this field, but this weapon is absent from the dump or the value is otherwise unattested (see the per-row sourceAttestation). No published bound exists at any evidence tier, so no defensible range can be swept. Inventing one would present a guess as a measurement.",
+   "fieldsAffected": 4
+  },
+  {
+   "field": "spreadMax",
+   "weaponId": "(4 weapons)",
+   "classification": "UNKNOWN",
+   "reason": "the source publishes this field, but this weapon is absent from the dump or the value is otherwise unattested (see the per-row sourceAttestation). No published bound exists at any evidence tier, so no defensible range can be swept. Inventing one would present a guess as a measurement.",
+   "fieldsAffected": 4
+  },
+  {
+   "field": "pellets",
+   "weaponId": "(4 weapons)",
+   "classification": "UNKNOWN",
+   "reason": "shotgun-only, and no shotgun appears in the Sym dump at any version. No published bound exists at any evidence tier, so no defensible range can be swept. Inventing one would present a guess as a measurement.",
+   "fieldsAffected": 4
+  },
+  {
+   "field": "closeRangeAutoRule",
+   "weaponId": "(1 weapons)",
+   "classification": "UNKNOWN",
+   "reason": "not covered by any versioned source capture this project holds. No published bound exists at any evidence tier, so no defensible range can be swept. Inventing one would present a guess as a measurement.",
+   "fieldsAffected": 1
+  },
+  {
+   "field": "armourBreakSpillover",
+   "weaponId": "(1 weapons)",
+   "classification": "UNKNOWN",
+   "reason": "not covered by any versioned source capture this project holds. No published bound exists at any evidence tier, so no defensible range can be swept. Inventing one would present a guess as a measurement.",
+   "fieldsAffected": 1
+  },
+  {
+   "field": "sniperSweetSpotUnderArmourShift",
+   "weaponId": "(1 weapons)",
+   "classification": "UNKNOWN",
+   "reason": "not covered by any versioned source capture this project holds. No published bound exists at any evidence tier, so no defensible range can be swept. Inventing one would present a guess as a measurement.",
+   "fieldsAffected": 1
+  }
+ ]
+}

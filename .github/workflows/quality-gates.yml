@@ -19,6 +19,7 @@ on:
       - 'data/source-verification.json'
       - 'data/source-overlays.json'
       - 'data/ranking-policy.json'
+      - 'data/reproducibility-pin.json'
       - 'source-overlay.js'
       - 'data/current-patch-coverage.json'
       - 'data/live-measurements.json'
@@ -90,6 +91,8 @@ jobs:
           node scripts/audit-cache-recompute.mjs
           node scripts/audit-invariants.mjs
           node scripts/audit-state-space.mjs --quick
+          node scripts/audit-boundaries.mjs
+          node scripts/audit-reproducibility.mjs
           node scripts/build-source-overlay.mjs --check
           node scripts/audit-current-patch-coverage.mjs
           node scripts/audit-source-data.mjs

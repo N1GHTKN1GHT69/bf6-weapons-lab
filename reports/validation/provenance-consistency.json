@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-06T05:49:00.893Z",
+ "generatedAt": "2026-09-06T06:19:07.293Z",
  "describes": "Cross-checks between the patch ledger, the source overlay and the freshness status. Each record is checked against the others rather than against itself.",
  "checks": [
   {
