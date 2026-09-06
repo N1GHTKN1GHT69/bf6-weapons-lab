@@ -331,6 +331,27 @@ const MUTATIONS = [
       'if (state.gameMode !== "redsec" || armorState === "unarmored") return null;',
       'if (armorState === "unarmored") return null;')
   },
+  {
+    id: 'redsec-leak-both-guards', files: ['app.js'], category: 'redsec',
+    // Multiplayer is protected from REDSEC armour maths TWICE: the scenario setters
+    // force targetArmor back to "unarmored" whenever the mode is not REDSEC, and
+    // armorPool() independently refuses outside REDSEC. Removing either one alone is
+    // provably inert - which is what defence in depth is supposed to look like, and is
+    // reported as a positive finding rather than a gate gap. This removes BOTH, so the
+    // leak is real, and demonstrates the gates catch it once it can actually happen.
+    description: 'remove BOTH Multiplayer armour guards at once, so REDSEC armour genuinely reaches Multiplayer',
+    expect: 'audit-mode-isolation',
+    apply: () => {
+      patch('app.js',
+        'if (state.gameMode !== "redsec" || armorState === "unarmored") return null;',
+        'if (armorState === "unarmored") return null;');
+      const src = readFileSync('app.js', 'utf8');
+      const guard = 'if (state.gameMode !== "redsec") state.targetArmor = "unarmored";';
+      const count = src.split(guard).length - 1;
+      if (count < 2) throw new Error(`expected at least 2 scenario-level armour guards, found ${count}`);
+      writeFileSync('app.js', src.split(guard).join('/* guard removed by mutation test */'));
+    }
+  },
 
   // ---- ranking model ----
   {
