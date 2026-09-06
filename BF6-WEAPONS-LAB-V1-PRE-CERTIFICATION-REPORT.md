@@ -334,6 +334,21 @@ still fails the gate.
 
 ---
 
+### A reporting defect, found and fixed
+
+Two committed gate artifacts did not hold the run whose numbers earlier reports quoted.
+`reports/validation/mutation-test.json` held only the last 2-case subset run, and
+`reports/validation/state-space.json` held the `--quick` 2,891-evaluation run — because CI
+runs `--quick` and its output overwrites the full local run. The reports were right; the
+committed evidence for them was not, which is the same failure mode as an unverified hash.
+
+Both now hold the full runs: **32 mutations** and **81,708 state-space evaluations** (24,000
+exhaustive AUTO rankings, 56,700 exhaustive per-weapon manual builds, 1,008 stratified
+preference cases; 243,108 ranked entries and 71,192 builds inspected; no impossible value,
+illegal build, mode leak, exception or non-determinism).
+
+---
+
 ## 13. CI and pipeline (Phase 15)
 
 | Check | State |
