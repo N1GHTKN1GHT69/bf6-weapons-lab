@@ -108,7 +108,10 @@ import { bootLab } from './scripts/lab-harness.mjs';
 const { diag, window: win } = await bootLab();
 const roster = (win.BF6_CURRENT?.roster ?? []).filter(w => w.cls !== 'Secondary');
 const cached = [];
-for (const [gm, ta] of [['multiplayer','unarmored'],['redsec','unarmored'],['redsec','plates2']]) {
+// multiplayer/plates2 is included deliberately even though the UI cannot select it:
+// it is the query that would EXPOSE a REDSEC armour rule leaking into Multiplayer.
+// Without it, a leak mutation looks inert when it is merely unreachable through the UI.
+for (const [gm, ta] of [['multiplayer','unarmored'],['multiplayer','plates2'],['redsec','unarmored'],['redsec','plates2']]) {
   for (const priority of ['balanced','fastest']) {
     for (const d of [1, 10, 25, 50, 100, 200, 300]) {
       const s = diag.snapshot({ gameMode: gm, targetArmor: ta, category: '__all__', distance: d, priority, mode: 'auto', topN: 5 });
@@ -296,18 +299,24 @@ const MUTATIONS = [
   // ---- REDSEC / mode isolation ----
   {
     id: 'redsec-armor-multiplier', files: ['data/redsec-model.json'], category: 'redsec',
-    description: 'change a REDSEC armour damage multiplier',
-    expect: 'audit-redsec-armor',
+    // Targets the automatic-primary chest multiplier EXPLICITLY. An earlier version
+    // searched for any key matching /mult/i, which matched
+    // spilloverResolutionTest.multiplierApplied - a documentation fixture - and produced
+    // a genuinely inert mutation that was then wrongly reported as a gate gap. Naming
+    // the field is the only way to be sure the test exercises what it claims to.
+    description: 'change the REDSEC automatic-primary armour chest multiplier from 0.84 to 1.05',
+    expect: 'audit-redsec-model-integrity',
     apply: () => patchJson('data/redsec-model.json', d => {
-      const walk = o => {
-        for (const [k, v] of Object.entries(o)) {
-          if (typeof v === 'number' && /mult/i.test(k) && v > 0 && v < 5) { o[k] = v * 1.25; return true; }
-          if (v && typeof v === 'object' && walk(v)) return true;
-        }
-        return false;
-      };
-      if (!walk(d)) throw new Error('no multiplier found in redsec-model.json');
+      const m = d.damageVsArmor?.chestMultipliers?.automaticPrimary;
+      if (!m || m.value !== 0.84) throw new Error(`expected automaticPrimary chest multiplier 0.84, found ${m?.value}`);
+      m.value = 1.05;
     })
+  },
+  {
+    id: 'redsec-armor-hp', files: ['data/redsec-model.json'], category: 'redsec',
+    description: 'change the REDSEC armour pool from 80 HP to 100 HP, breaking plates x hpPerPlate',
+    expect: 'audit-redsec-model-integrity',
+    apply: () => patchJson('data/redsec-model.json', d => { d.armor.battleRoyale.totalHp = 100; })
   },
   {
     id: 'redsec-leak-into-mp', files: ['app.js'], category: 'redsec',
