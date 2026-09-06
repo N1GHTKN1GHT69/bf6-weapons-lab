@@ -19,6 +19,7 @@ on:
       - 'data/source-verification.json'
       - 'data/source-overlays.json'
       - 'data/ranking-policy.json'
+      - 'data/*-audit.json'
       - 'data/reproducibility-pin.json'
       - 'source-overlay.js'
       - 'data/current-patch-coverage.json'
@@ -89,6 +90,8 @@ jobs:
           node scripts/audit-ranking-policy-pin.mjs
           node scripts/audit-provenance-consistency.mjs
           node scripts/audit-cache-recompute.mjs
+          node scripts/audit-class-audit-provenance.mjs
+          node scripts/audit-balanced-ablation.mjs
           node scripts/audit-invariants.mjs
           node scripts/audit-state-space.mjs --quick
           node scripts/audit-boundaries.mjs

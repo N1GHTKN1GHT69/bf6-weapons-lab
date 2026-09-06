@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-06T12:43:15.461Z",
+ "generatedAt": "2026-09-06T12:44:14.219Z",
  "method": "One controlled fault at a time, applied to a clean tree, gates run cheapest-first with early stop on the first failure. A mutation nothing catches has been run against the COMPLETE suite.",
  "gateCount": 39,
  "gateOrder": [
@@ -43,7 +43,7 @@
   "audit-state-space",
   "audit-optimizer-exhaustive"
  ],
- "mutations": 4,
+ "mutations": 1,
  "verdicts": {
   "CAUGHT": "a gate failed on it",
   "ESCAPED": "nothing caught it AND it changes what users see now - a real gap",
@@ -57,110 +57,19 @@
   "onDemand": "c479246cb2da796ecab1eb516abcefb356c160fa804e7f710c88ffa8b09b0c13"
  },
  "summary": {
-  "caught": 3,
+  "caught": 1,
   "escaped": 0,
   "latent": 0,
-  "inert": 1,
+  "inert": 0,
   "inversePassed": 0,
   "inverseFailed": 0,
   "applyErrors": 0,
-  "predictionAccuracy": "2/4"
+  "predictionAccuracy": "1/1"
  },
  "escapedMutations": [],
  "latentMutations": [],
- "inertMutations": [
-  {
-   "id": "class-audit-concordant-range",
-   "description": "corrupt an M433 audited range band, which CONCURS with the raw curve rather than overriding it",
-   "category": "class audit"
-  }
- ],
+ "inertMutations": [],
  "results": [
-  {
-   "id": "class-audit-sniper-curve",
-   "category": "class audit",
-   "description": "corrupt the L115 audited damage curve, which the cache is built from",
-   "files": [
-    "data/sniper-audit.json"
-   ],
-   "expectedGate": "audit-cache-recompute",
-   "expectSurvive": false,
-   "actualGate": "audit-cache-recompute",
-   "actualGateOutput": "[sniper-damage] l115 best@96m damage 96.8 but the audited curve gives 80.000 | [sniper-damage] l115 best@97m damage 97.6 but the audited curve gives 80.000 | [sniper-damage] l115 best@98m damage 98.4 but the audited curve gives 80.000 | [sniper-damage] l115 best@99m damage 99.2 but the audited curve gives 80.000",
-   "gatesRun": 5,
-   "gatesRunNames": [
-    "audit-source-integrity",
-    "audit-redsec-model-integrity",
-    "audit-ranking-policy-pin",
-    "audit-provenance-consistency",
-    "audit-cache-recompute"
-   ],
-   "predictionCorrect": true,
-   "observable": false,
-   "changedCachedResults": false,
-   "changedOnDemandResults": false,
-   "probeError": null,
-   "verdict": "CAUGHT",
-   "applyError": null,
-   "ms": 2448
-  },
-  {
-   "id": "class-audit-sniper-interval",
-   "category": "class audit",
-   "description": "corrupt the L115 audited bolt interval, which sets its cached TTK",
-   "files": [
-    "data/sniper-audit.json"
-   ],
-   "expectedGate": "audit-cache-recompute",
-   "expectSurvive": false,
-   "actualGate": "audit-cache-recompute",
-   "actualGateOutput": "[lowttk] l115 best@11m lowTtk 1304 but recomputed 978 | [ttk] l115 best@12m ttk 1304 but recomputed 978 (btk 2, rpm 46.349953649969095, mode bolt) | [lowttk] l115 best@12m lowTtk 1304 but recomputed 978 | [ttk] l115 best@13m ttk 1304 but recomputed 978 (btk 2, rpm 46.349953649969095, mode bolt)",
-   "gatesRun": 5,
-   "gatesRunNames": [
-    "audit-source-integrity",
-    "audit-redsec-model-integrity",
-    "audit-ranking-policy-pin",
-    "audit-provenance-consistency",
-    "audit-cache-recompute"
-   ],
-   "predictionCorrect": true,
-   "observable": false,
-   "changedCachedResults": false,
-   "changedOnDemandResults": false,
-   "probeError": null,
-   "verdict": "CAUGHT",
-   "applyError": null,
-   "ms": 2421
-  },
-  {
-   "id": "class-audit-shotgun-profile",
-   "category": "class audit",
-   "description": "corrupt the M87A1 buckshot damage profile, which the cache uses for shell damage",
-   "files": [
-    "data/shotgun-audit.json"
-   ],
-   "expectedGate": "audit-cache-recompute",
-   "expectSurvive": false,
-   "actualGate": "audit-class-audit-provenance",
-   "actualGateOutput": "  Sniper Rifle     damage     CONCORDANT x1, AUDIT OPERATIVE x4 | wrote reports/validation/class-audit-provenance.json | UNEXPLAINED (1) — the cached value matches neither the raw nor the audited derivation: |   m87a1 damage: [{\"d\":1,\"cached\":134.4,\"fromRaw\":8.4,\"fromAudit\":94.08}]",
-   "gatesRun": 6,
-   "gatesRunNames": [
-    "audit-source-integrity",
-    "audit-redsec-model-integrity",
-    "audit-ranking-policy-pin",
-    "audit-provenance-consistency",
-    "audit-cache-recompute",
-    "audit-class-audit-provenance"
-   ],
-   "predictionCorrect": false,
-   "observable": false,
-   "changedCachedResults": false,
-   "changedOnDemandResults": false,
-   "probeError": null,
-   "verdict": "CAUGHT",
-   "applyError": null,
-   "ms": 2549
-  },
   {
    "id": "class-audit-concordant-range",
    "category": "class audit",
@@ -170,58 +79,25 @@
    ],
    "expectedGate": "audit-class-audit-provenance",
    "expectSurvive": false,
-   "actualGate": null,
-   "actualGateOutput": null,
-   "gatesRun": 39,
+   "actualGate": "audit-class-audit-provenance",
+   "actualGateOutput": "  Sniper Rifle     damage     CONCORDANT x1, AUDIT OPERATIVE x4 | wrote reports/validation/class-audit-provenance.json | ERRORS: |   m433 damage: the Assault Rifle audit is expected to be CONCORDANT, but measured RAW OPERATIVE. Either a pin was corrupted, or the architecture changed and the EXPECTED table in this file must be updated deliberately.",
+   "gatesRun": 6,
    "gatesRunNames": [
     "audit-source-integrity",
     "audit-redsec-model-integrity",
     "audit-ranking-policy-pin",
     "audit-provenance-consistency",
     "audit-cache-recompute",
-    "audit-class-audit-provenance",
-    "audit-balanced-ablation",
-    "audit-ballistic-ttk",
-    "audit-priority-wiring",
-    "audit-redsec-armor",
-    "audit-source-reconciliation",
-    "audit-attachment-names",
-    "audit-state-collisions",
-    "audit-freshness-watchers",
-    "audit-source-overlay",
-    "audit-source-data",
-    "audit-current-patch-coverage",
-    "audit-roster-sets",
-    "audit-global",
-    "audit-manual-weapon",
-    "audit-range-optics",
-    "audit-laserbeam-meta",
-    "audit-optimizer-legality",
-    "audit-freshness",
-    "audit-patch-reconciliation",
-    "build-source-overlay--check",
-    "audit-advanced-options",
-    "audit-engine-crosscheck",
-    "validate-combat-cache",
-    "audit-name-honesty",
-    "audit-field-impact",
-    "audit-eligibility-consistency",
-    "audit-mode-isolation",
-    "audit-cache-identity",
-    "audit-invariants",
-    "audit-meta-sweep",
-    "audit-beam-sensitivity",
-    "audit-state-space",
-    "audit-optimizer-exhaustive"
+    "audit-class-audit-provenance"
    ],
-   "predictionCorrect": false,
+   "predictionCorrect": true,
    "observable": false,
    "changedCachedResults": false,
    "changedOnDemandResults": false,
    "probeError": null,
-   "verdict": "INERT",
+   "verdict": "CAUGHT",
    "applyError": null,
-   "ms": 184930
+   "ms": 2777
   }
  ]
 }

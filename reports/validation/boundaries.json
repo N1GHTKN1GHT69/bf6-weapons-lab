@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-06T12:31:33.376Z",
+ "generatedAt": "2026-09-06T12:45:39.255Z",
  "describes": "Behaviour at every edge the model has: damage breakpoints (both sides and exactly on), the ends of the supported distance range, exact point budgets, the near-integer RPM values this dataset carries, BTK quantisation, and cache serialisation.",
  "probes": {
   "breakpointsProbed": 254,

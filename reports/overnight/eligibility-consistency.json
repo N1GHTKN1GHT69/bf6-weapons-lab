@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-06T06:19:28.813Z",
+ "generatedAt": "2026-09-06T12:45:51.578Z",
  "cases": 336,
  "errors": [],
  "env": {
@@ -27,7 +27,7 @@
    "ammo": "local",
    "ballistics": "local",
    "combat": "ready",
-   "assaultAudit": "runtime-pass",
+   "assaultAudit": "baseline-pass",
    "carbineAudit": "runtime-pass",
    "smgAudit": "runtime-pass",
    "lmgAudit": "runtime-pass",

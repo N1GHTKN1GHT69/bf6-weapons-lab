@@ -1,6 +1,6 @@
 {
  "summary": {
-  "generatedAt": "2026-09-06T06:22:13.487Z",
+  "generatedAt": "2026-09-06T12:49:02.697Z",
   "method": "Scale a stored beam primitive, recompute beamIndex with the exact production formula from build-combat-cache.mjs, re-rank, record winner/top-3 movement. Factors are tolerance probes, not measurements.",
   "priority": "balanced",
   "distancesProbed": [

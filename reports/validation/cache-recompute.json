@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-06T12:31:25.042Z",
+ "generatedAt": "2026-09-06T12:45:29.907Z",
  "method": "Each cached row re-derived with scripts/reference-engine.mjs, which re-implements the math from documented mechanics and imports nothing from the cache builder or app.js. Attachment costs are checked against the LIVE catalog, not the cache's own copy.",
  "sharedAssumptions": [
   "Beam Index weighting (the 1.00/0.35, 1.25/0.75, 2.00/2.50, 0.35/0.65 range coefficients) is a project ranking policy, not a game mechanic. Re-deriving it proves the arithmetic, not the model.",
