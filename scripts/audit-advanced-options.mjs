@@ -12,7 +12,7 @@
  *
  * Also checks that the controls that ARE meant to change combat actually do.
  */
-import { writeFile, mkdir } from 'node:fs/promises';
+import { writeFile, mkdir, readFile } from 'node:fs/promises';
 import { bootLab } from './lab-harness.mjs';
 
 const { diag } = await bootLab();
@@ -70,6 +70,29 @@ for (const c of mustMove) {
   }
   observations.push({ control: 'priority', cases, casesWhereBuildChanged: movedBuild, casesWhereWinnerChanged: movedWinner });
   if (movedBuild === 0 && movedWinner === 0) errors.push('priority: dead control - neither the build nor the winner ever changes');
+}
+
+// --- Handling preferences must stay OUT of the DOM ---------------------------------
+// stayAds / movingAds / stealth / bigMag steer the on-demand attachment optimizer. They
+// are held in state precisely so that "the presence or absence of a UI control can never
+// change optimizer behaviour" (app.js). Measured: flipping all four changes the
+// recommended build on 0 of 4 probed weapons, because a valid cache short-circuits the
+// on-demand path - so if a control for them were ever added to the UI, it would appear
+// dead to the user while silently steering the next cache rebuild. That is the LATENT
+// shape, and this assertion keeps it from arriving by accident.
+{
+  const app = await readFile('app.js', 'utf8');
+  const html = await readFile('index.html', 'utf8');
+  const PREFS = ['stayAds', 'movingAds', 'stealth', 'bigMag'];
+  for (const p of PREFS) {
+    if (new RegExp(`id=["']${p}["']`).test(html)) {
+      errors.push(`${p}: a DOM control with this id exists. Handling preferences are engine defaults and are short-circuited by the exhaustive cache, so a user-facing control would look dead while still steering the next rebuild. Either wire it through the cache or do not present it.`);
+    }
+  }
+  if (!app.includes('so that the presence or absence of a\n  // UI control can never change optimizer behaviour')) {
+    observations.push({ control: 'handling-preferences', note: 'the design comment explaining why these are not DOM-driven has moved or been removed' });
+  }
+  observations.push({ control: 'handling-preferences', domControls: 0, heldInState: true, note: 'engine defaults, deliberately not user-facing' });
 }
 
 await mkdir('reports/overnight', { recursive: true });

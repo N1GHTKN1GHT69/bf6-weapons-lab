@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-06T12:46:01.360Z",
+ "generatedAt": "2026-09-06T13:13:33.357Z",
  "observations": [
   {
    "control": "classChoice",
@@ -30,6 +30,12 @@
    "cases": 14,
    "casesWhereBuildChanged": 11,
    "casesWhereWinnerChanged": 10
+  },
+  {
+   "control": "handling-preferences",
+   "domControls": 0,
+   "heldInState": true,
+   "note": "engine defaults, deliberately not user-facing"
   }
  ],
  "errors": []

@@ -21,6 +21,13 @@ on:
       - 'data/ranking-policy.json'
       - 'data/*-audit.json'
       - 'data/reproducibility-pin.json'
+      # The four mirrored upstream files. They already trigger the Combat Engine, which
+      # runs the integrity gate - but that workflow is cancel-in-progress, so listing them
+      # here gives the hash check a second, cheap, independent chance to run.
+      - 'data/weapons.json'
+      - 'data/attachments.json'
+      - 'data/ammo.json'
+      - 'data/ballistics.json'
       - 'source-overlay.js'
       - 'data/current-patch-coverage.json'
       - 'data/live-measurements.json'
