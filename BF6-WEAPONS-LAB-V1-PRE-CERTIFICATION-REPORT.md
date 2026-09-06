@@ -44,13 +44,13 @@ work is frozen.
 | | |
 | --- | --- |
 | Starting HEAD | `56896cb` |
-| Ending HEAD | `6dabd45` (last engineering commit; the report and tag sit one commit later) |
+| Ending HEAD | the commit tagged `v1-rc-pre-real-game-audit-20260906` |
 | Bot commits integrated | `01199a7` (freshness status; timestamps + EA page hash only) |
 | Working tree | clean |
 | Local gates | **43 / 43 pass** |
-| CI | green |
+| CI | green on `72888f0` (BF6 Lightweight Quality Gates, 43/43) |
 | Combat Engine | not re-run — no cache-affecting data changed this session |
-| Production | verified in browser at https://bf6-weapons-lab.pages.dev |
+| Production | verified in browser — served `app.js` is SHA-256 identical to the repo blob, and a live query returns the engine's exact answer |
 | Freeze tag | `v1-rc-pre-real-game-audit-20260906` |
 
 ### Commits
@@ -61,6 +61,8 @@ work is frozen.
 | `e8ef3b0` | audit: local backstop for class-audit pins, since the class audits only run in the cancellable Combat Engine |
 | `b24c178` | audit: class-audit provenance, BALANCED ablation, and the real-game audit package |
 | `6dabd45` | ci+gate: close the last two pipeline gaps before the v1 freeze |
+| `72888f0` | docs: v1 pre-certification report — READY FOR REAL-GAME AUDIT |
+| `8c7b1fa` | reports: commit the full state-space run, not the `--quick` subset |
 
 ---
 
