@@ -223,6 +223,56 @@ for (const w of weapons) {
   }
 }
 
+/**
+ * EXPECTED RELATIONSHIP PER CLASS — a local backstop for class-audit pins.
+ *
+ * The class audits themselves catch a corrupted pin: audit-assault.mjs compares the
+ * upstream feed against the pinned expectation and fails. Verified by mutation. But they
+ * run ONLY in the Combat Engine workflow, which is `cancel-in-progress: true` - so a
+ * second push can cancel the very run that would have validated a pin edit, and nothing
+ * in the cheap suite would notice.
+ *
+ * These expectations are that backstop. They need no upstream checkout, so they run in
+ * quality-gates on every push. They are structural facts about the architecture rather
+ * than tuning:
+ *
+ *   CONCORDANT   the audit is an independent RE-DERIVATION that must agree with the raw
+ *                curve. Its whole value is the agreement, so losing it is the signal.
+ *   RAW OPERATIVE   the DMR audit bands are a rounded restatement and legitimately differ
+ *                from raw; the cache follows raw.
+ *   AUDIT OPERATIVE the shotgun ammo profiles and the sniper curve/interval genuinely
+ *                feed the cache build and override the raw path.
+ *
+ * A deliberate architecture change must edit this table, which makes it a reviewed diff.
+ */
+const EXPECTED = {
+  'Assault Rifle|damage': ['CONCORDANT'],
+  'Carbine|damage': ['CONCORDANT'],
+  'SMG|damage': ['CONCORDANT'],
+  'LMG|damage': ['CONCORDANT'],
+  'Sidearm|damage': ['CONCORDANT'],
+  'DMR|damage': ['RAW OPERATIVE'],
+  'Sniper Rifle|damage': ['CONCORDANT', 'AUDIT OPERATIVE'],
+  'Shotgun|damage': ['AUDIT OPERATIVE'],
+  'Assault Rifle|cadence': ['RAW RPM OPERATIVE'],
+  'Carbine|cadence': ['RAW RPM OPERATIVE'],
+  'SMG|cadence': ['RAW RPM OPERATIVE'],
+  'LMG|cadence': ['RAW RPM OPERATIVE'],
+  'Sidearm|cadence': ['RAW RPM OPERATIVE'],
+  'DMR|cadence': ['RAW RPM OPERATIVE'],
+  'Sniper Rifle|cadence': ['AUDIT INTERVAL OPERATIVE'],
+  'Shotgun|cadence': ['AUDIT CADENCE OPERATIVE', 'CONCORDANT']
+};
+for (const p of pins) {
+  if (p.field !== 'damage' && p.field !== 'cadence') continue;
+  const key = `${p.cls}|${p.field}`;
+  const allowed = EXPECTED[key];
+  if (!allowed) { errors.push(`${key}: no expected relationship recorded, so a corrupted pin here would be unremarked`); continue; }
+  if (!allowed.includes(p.operative)) {
+    errors.push(`${p.weaponId} ${p.field}: the ${p.cls} audit is expected to be ${allowed.join(' or ')}, but measured ${p.operative}. Either a pin was corrupted, or the architecture changed and the EXPECTED table in this file must be updated deliberately.`);
+  }
+}
+
 // ------------------------------------------------------------------ rollup
 const byField = {};
 for (const p of pins) {

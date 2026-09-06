@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-06T12:36:38.825Z",
+ "generatedAt": "2026-09-06T12:44:08.965Z",
  "question": "For every class-audit pin, is the AUDIT value or the RAW value the one production actually uses - and what is each one's provenance?",
  "method": "Operativeness is decided by comparing the CACHED production value against a value derived from the raw record and a value derived from the audit pin, at nine distances. Reading comments is not evidence.",
  "correctsPreviousFinding": "The previous pass concluded that class audits SHADOW raw.dmg. That was measured through diag.perturb, which bypasses the cache, so it described the FALLBACK path. In production the cache is primary and was built from raw.dmg for most classes. The genuine audit overrides are shotgun ammoProfiles and the sniper curve/interval.",

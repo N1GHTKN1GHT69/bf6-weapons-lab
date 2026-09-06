@@ -1,13 +1,15 @@
 {
- "generatedAt": "2026-09-06T06:17:43.724Z",
+ "generatedAt": "2026-09-06T12:43:15.461Z",
  "method": "One controlled fault at a time, applied to a clean tree, gates run cheapest-first with early stop on the first failure. A mutation nothing catches has been run against the COMPLETE suite.",
- "gateCount": 37,
+ "gateCount": 39,
  "gateOrder": [
   "audit-source-integrity",
   "audit-redsec-model-integrity",
   "audit-ranking-policy-pin",
   "audit-provenance-consistency",
   "audit-cache-recompute",
+  "audit-class-audit-provenance",
+  "audit-balanced-ablation",
   "audit-ballistic-ttk",
   "audit-priority-wiring",
   "audit-redsec-armor",
@@ -41,7 +43,7 @@
   "audit-state-space",
   "audit-optimizer-exhaustive"
  ],
- "mutations": 2,
+ "mutations": 4,
  "verdicts": {
   "CAUGHT": "a gate failed on it",
   "ESCAPED": "nothing caught it AND it changes what users see now - a real gap",
@@ -55,43 +57,130 @@
   "onDemand": "c479246cb2da796ecab1eb516abcefb356c160fa804e7f710c88ffa8b09b0c13"
  },
  "summary": {
-  "caught": 1,
+  "caught": 3,
   "escaped": 0,
   "latent": 0,
   "inert": 1,
   "inversePassed": 0,
   "inverseFailed": 0,
   "applyErrors": 0,
-  "predictionAccuracy": "0/2"
+  "predictionAccuracy": "2/4"
  },
  "escapedMutations": [],
  "latentMutations": [],
  "inertMutations": [
   {
-   "id": "redsec-leak-into-mp",
-   "description": "leak the REDSEC armour pool into Multiplayer by removing the mode guard in armorPool()",
-   "category": "redsec"
+   "id": "class-audit-concordant-range",
+   "description": "corrupt an M433 audited range band, which CONCURS with the raw curve rather than overriding it",
+   "category": "class audit"
   }
  ],
  "results": [
   {
-   "id": "redsec-leak-into-mp",
-   "category": "redsec",
-   "description": "leak the REDSEC armour pool into Multiplayer by removing the mode guard in armorPool()",
+   "id": "class-audit-sniper-curve",
+   "category": "class audit",
+   "description": "corrupt the L115 audited damage curve, which the cache is built from",
    "files": [
-    "app.js"
+    "data/sniper-audit.json"
    ],
-   "expectedGate": "audit-mode-isolation",
+   "expectedGate": "audit-cache-recompute",
    "expectSurvive": false,
-   "actualGate": null,
-   "actualGateOutput": null,
-   "gatesRun": 37,
+   "actualGate": "audit-cache-recompute",
+   "actualGateOutput": "[sniper-damage] l115 best@96m damage 96.8 but the audited curve gives 80.000 | [sniper-damage] l115 best@97m damage 97.6 but the audited curve gives 80.000 | [sniper-damage] l115 best@98m damage 98.4 but the audited curve gives 80.000 | [sniper-damage] l115 best@99m damage 99.2 but the audited curve gives 80.000",
+   "gatesRun": 5,
+   "gatesRunNames": [
+    "audit-source-integrity",
+    "audit-redsec-model-integrity",
+    "audit-ranking-policy-pin",
+    "audit-provenance-consistency",
+    "audit-cache-recompute"
+   ],
+   "predictionCorrect": true,
+   "observable": false,
+   "changedCachedResults": false,
+   "changedOnDemandResults": false,
+   "probeError": null,
+   "verdict": "CAUGHT",
+   "applyError": null,
+   "ms": 2448
+  },
+  {
+   "id": "class-audit-sniper-interval",
+   "category": "class audit",
+   "description": "corrupt the L115 audited bolt interval, which sets its cached TTK",
+   "files": [
+    "data/sniper-audit.json"
+   ],
+   "expectedGate": "audit-cache-recompute",
+   "expectSurvive": false,
+   "actualGate": "audit-cache-recompute",
+   "actualGateOutput": "[lowttk] l115 best@11m lowTtk 1304 but recomputed 978 | [ttk] l115 best@12m ttk 1304 but recomputed 978 (btk 2, rpm 46.349953649969095, mode bolt) | [lowttk] l115 best@12m lowTtk 1304 but recomputed 978 | [ttk] l115 best@13m ttk 1304 but recomputed 978 (btk 2, rpm 46.349953649969095, mode bolt)",
+   "gatesRun": 5,
+   "gatesRunNames": [
+    "audit-source-integrity",
+    "audit-redsec-model-integrity",
+    "audit-ranking-policy-pin",
+    "audit-provenance-consistency",
+    "audit-cache-recompute"
+   ],
+   "predictionCorrect": true,
+   "observable": false,
+   "changedCachedResults": false,
+   "changedOnDemandResults": false,
+   "probeError": null,
+   "verdict": "CAUGHT",
+   "applyError": null,
+   "ms": 2421
+  },
+  {
+   "id": "class-audit-shotgun-profile",
+   "category": "class audit",
+   "description": "corrupt the M87A1 buckshot damage profile, which the cache uses for shell damage",
+   "files": [
+    "data/shotgun-audit.json"
+   ],
+   "expectedGate": "audit-cache-recompute",
+   "expectSurvive": false,
+   "actualGate": "audit-class-audit-provenance",
+   "actualGateOutput": "  Sniper Rifle     damage     CONCORDANT x1, AUDIT OPERATIVE x4 | wrote reports/validation/class-audit-provenance.json | UNEXPLAINED (1) — the cached value matches neither the raw nor the audited derivation: |   m87a1 damage: [{\"d\":1,\"cached\":134.4,\"fromRaw\":8.4,\"fromAudit\":94.08}]",
+   "gatesRun": 6,
    "gatesRunNames": [
     "audit-source-integrity",
     "audit-redsec-model-integrity",
     "audit-ranking-policy-pin",
     "audit-provenance-consistency",
     "audit-cache-recompute",
+    "audit-class-audit-provenance"
+   ],
+   "predictionCorrect": false,
+   "observable": false,
+   "changedCachedResults": false,
+   "changedOnDemandResults": false,
+   "probeError": null,
+   "verdict": "CAUGHT",
+   "applyError": null,
+   "ms": 2549
+  },
+  {
+   "id": "class-audit-concordant-range",
+   "category": "class audit",
+   "description": "corrupt an M433 audited range band, which CONCURS with the raw curve rather than overriding it",
+   "files": [
+    "data/assault-audit.json"
+   ],
+   "expectedGate": "audit-class-audit-provenance",
+   "expectSurvive": false,
+   "actualGate": null,
+   "actualGateOutput": null,
+   "gatesRun": 39,
+   "gatesRunNames": [
+    "audit-source-integrity",
+    "audit-redsec-model-integrity",
+    "audit-ranking-policy-pin",
+    "audit-provenance-consistency",
+    "audit-cache-recompute",
+    "audit-class-audit-provenance",
+    "audit-balanced-ablation",
     "audit-ballistic-ttk",
     "audit-priority-wiring",
     "audit-redsec-armor",
@@ -132,37 +221,7 @@
    "probeError": null,
    "verdict": "INERT",
    "applyError": null,
-   "ms": 182410
-  },
-  {
-   "id": "redsec-leak-both-guards",
-   "category": "redsec",
-   "description": "remove BOTH Multiplayer armour guards at once, so REDSEC armour genuinely reaches Multiplayer",
-   "files": [
-    "app.js"
-   ],
-   "expectedGate": "audit-mode-isolation",
-   "expectSurvive": false,
-   "actualGate": "audit-priority-wiring",
-   "actualGateOutput": "CONTROL WIRING AUDIT FAILED | - leaving REDSEC can strand an inapplicable armour state",
-   "gatesRun": 7,
-   "gatesRunNames": [
-    "audit-source-integrity",
-    "audit-redsec-model-integrity",
-    "audit-ranking-policy-pin",
-    "audit-provenance-consistency",
-    "audit-cache-recompute",
-    "audit-ballistic-ttk",
-    "audit-priority-wiring"
-   ],
-   "predictionCorrect": false,
-   "observable": false,
-   "changedCachedResults": false,
-   "changedOnDemandResults": false,
-   "probeError": null,
-   "verdict": "CAUGHT",
-   "applyError": null,
-   "ms": 2598
+   "ms": 184930
   }
  ]
 }
