@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "detectedAt": "2026-09-13T23:03:07.131Z",
+  "detectedAt": "2026-09-14T18:28:33.930Z",
   "official": {
-    "gameVersion": "1.4.2.5",
-    "publishedDate": "2026-08-31",
-    "url": "https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-1-4-2-5",
-    "contentHash": "e1d740ced04b7214a487a9d8b2f824a67c2a60227242d5f217a3e0276e8ba2fa"
+    "gameVersion": "1.4.3.0",
+    "publishedDate": "2026-09-14",
+    "url": "https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-1-4-3-0",
+    "contentHash": "9ec4cc993539d152d21860349c715bfbf49768a3fb5d3bb616a00c233759579d"
   },
   "verified": {
     "gameVersion": "1.4.1.5",
@@ -20,7 +20,7 @@
     "declaredGameVersions": [
       "1.3.3.0"
     ],
-    "observedCommit": "9694a0f05b55618bc9fe64af23496a790b25a642",
+    "observedCommit": "ec6eee05942c8b98ea4379194cd88fa1c77e6a02",
     "changedFiles": [
       "weapons.json",
       "attachments.json",
@@ -33,17 +33,22 @@
   "matchedTerms": [
     "weapons",
     "attachment",
+    "ammunition",
+    "ammo",
     "damage",
-    "match trigger"
+    "bullet",
+    "projectile",
+    "armor",
+    "plate"
   ],
   "pending": {
-    "upstreamCommit": "9694a0f05b55618bc9fe64af23496a790b25a642",
-    "rebuildRequestedAt": "2026-09-14T12:25:05.649Z"
+    "upstreamCommit": "ec6eee05942c8b98ea4379194cd88fa1c77e6a02",
+    "rebuildRequestedAt": "2026-09-14T18:28:33.930Z"
   },
   "patchReconciliation": {
     "verifiedCombatVersion": "1.4.1.5",
     "blockedAt": "1.4.2.0",
-    "reconciledAt": "2026-09-13T23:03:10.667Z",
+    "reconciledAt": "2026-09-14T18:28:38.607Z",
     "patches": [
       {
         "version": "1.4.1.0",
@@ -85,12 +90,12 @@
       "vssm"
     ],
     "bridgedToLive": {
-      "liveGameVersion": "1.4.2.5",
+      "liveGameVersion": "1.4.3.0",
       "current": true,
       "interveningPatches": [
         "1.4.2.5"
       ],
-      "reason": "every patch between 1.4.2.0 and 1.4.2.5 (1.4.2.5) was read in full at first party and changed no numeric weapon statistic"
+      "reason": "every patch between 1.4.2.0 and 1.4.3.0 (1.4.2.5) was read in full at first party and changed no numeric weapon statistic"
     }
   }
 }
