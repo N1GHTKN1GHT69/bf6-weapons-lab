@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "detectedAt": "2026-10-12T15:02:44.387Z",
+  "detectedAt": "2026-10-12T22:27:41.433Z",
   "official": {
-    "gameVersion": "1.4.3.5",
-    "publishedDate": "2026-09-28",
-    "url": "https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-1-4-3-5",
-    "contentHash": "363500ef54d752ba1be293f350d43cd9bddc385933ebfaa74ae3ec72e0f38199"
+    "gameVersion": "2.1.1.0",
+    "publishedDate": "2026-10-12",
+    "url": "https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-2-1-1-0",
+    "contentHash": "be196aec573e82b402f54076a51cb3956b27f488d90cb46d212d68aeed14fb1f"
   },
   "verified": {
     "gameVersion": "1.4.1.5",
@@ -32,16 +32,33 @@
   "combatImpact": "combat-relevant-or-unknown",
   "matchedTerms": [
     "weapons",
-    "damage"
+    "attachment",
+    "ammunition",
+    "ammo",
+    "damage",
+    "rate of fire",
+    "rpm",
+    "recoil",
+    "bullet",
+    "projectile",
+    "velocity",
+    "reload",
+    "magazine",
+    "headshot",
+    "armor",
+    "armour",
+    "plate",
+    "match trigger",
+    "new weapon"
   ],
   "pending": {
     "upstreamCommit": "6328e359f1df4b3153f5381717877537b9ad1389",
-    "rebuildRequestedAt": "2026-10-12T15:02:44.387Z"
+    "rebuildRequestedAt": "2026-10-12T22:27:41.433Z"
   },
   "patchReconciliation": {
     "verifiedCombatVersion": "1.4.1.5",
     "blockedAt": "1.4.2.0",
-    "reconciledAt": "2026-10-12T15:02:48.155Z",
+    "reconciledAt": "2026-10-12T22:27:45.061Z",
     "patches": [
       {
         "version": "1.4.1.0",
@@ -83,12 +100,12 @@
       "vssm"
     ],
     "bridgedToLive": {
-      "liveGameVersion": "1.4.3.5",
+      "liveGameVersion": "2.1.1.0",
       "current": true,
       "interveningPatches": [
         "1.4.2.5"
       ],
-      "reason": "every patch between 1.4.2.0 and 1.4.3.5 (1.4.2.5) was read in full at first party and changed no numeric weapon statistic"
+      "reason": "every patch between 1.4.2.0 and 2.1.1.0 (1.4.2.5) was read in full at first party and changed no numeric weapon statistic"
     }
   }
 }
