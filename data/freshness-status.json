@@ -20,7 +20,7 @@
     "declaredGameVersions": [
       "1.3.3.0"
     ],
-    "observedCommit": "179b5566740dc757952860005d6f439f34b90237",
+    "observedCommit": "7d3a013a5cdd446e69ff3a9d5e44d2d05d815de5",
     "changedFiles": [
       "weapons.json",
       "attachments.json",
@@ -52,8 +52,8 @@
     "new weapon"
   ],
   "pending": {
-    "upstreamCommit": "179b5566740dc757952860005d6f439f34b90237",
-    "rebuildRequestedAt": "2026-10-25T21:35:28.569Z"
+    "upstreamCommit": "7d3a013a5cdd446e69ff3a9d5e44d2d05d815de5",
+    "rebuildRequestedAt": "2026-10-26T00:00:50.951Z"
   },
   "patchReconciliation": {
     "verifiedCombatVersion": "1.4.1.5",
