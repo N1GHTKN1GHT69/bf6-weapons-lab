@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "detectedAt": "2026-10-29T02:17:38.875Z",
+  "detectedAt": "2026-10-29T16:48:29.499Z",
   "official": {
     "gameVersion": "2.1.1.0",
     "publishedDate": "2026-10-12",
     "url": "https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-2-1-1-0",
-    "contentHash": "be196aec573e82b402f54076a51cb3956b27f488d90cb46d212d68aeed14fb1f"
+    "contentHash": "e0d0d8411f4c08aa92e31a3b411414dcc4d7a45d16beb3a825c041f6e6e2ecc5"
   },
   "verified": {
     "gameVersion": "1.4.1.5",
@@ -53,12 +53,12 @@
   ],
   "pending": {
     "upstreamCommit": "852d54f16d2b328f1d8b54885b375c6373cc257c",
-    "rebuildRequestedAt": "2026-10-29T09:42:47.673Z"
+    "rebuildRequestedAt": "2026-10-29T16:48:29.499Z"
   },
   "patchReconciliation": {
     "verifiedCombatVersion": "1.4.1.5",
     "blockedAt": "1.4.2.0",
-    "reconciledAt": "2026-10-29T02:17:44.068Z",
+    "reconciledAt": "2026-10-29T16:48:34.574Z",
     "patches": [
       {
         "version": "1.4.1.0",
