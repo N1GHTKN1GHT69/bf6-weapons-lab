@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "detectedAt": "2026-11-07T23:35:35.622Z",
+  "detectedAt": "2026-11-09T22:10:37.147Z",
   "official": {
-    "gameVersion": "2.1.1.0",
-    "publishedDate": "2026-10-12",
-    "url": "https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-2-1-1-0",
-    "contentHash": "be196aec573e82b402f54076a51cb3956b27f488d90cb46d212d68aeed14fb1f"
+    "gameVersion": "2.1.2.0",
+    "publishedDate": "2026-11-09",
+    "url": "https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-2-1-2-0",
+    "contentHash": "90e070f509b686edf86a3a206036be237d75295bde037646a3f03443bb57fef4"
   },
   "verified": {
     "gameVersion": "1.4.1.5",
@@ -37,28 +37,24 @@
     "ammo",
     "damage",
     "rate of fire",
-    "rpm",
     "recoil",
     "bullet",
-    "projectile",
     "velocity",
     "reload",
     "magazine",
     "headshot",
     "armor",
-    "armour",
     "plate",
-    "match trigger",
     "new weapon"
   ],
   "pending": {
     "upstreamCommit": "43c6f57c5523d6c22fb625f99098c4fe8852fd72",
-    "rebuildRequestedAt": "2026-11-09T11:12:22.939Z"
+    "rebuildRequestedAt": "2026-11-09T22:10:37.147Z"
   },
   "patchReconciliation": {
     "verifiedCombatVersion": "1.4.1.5",
     "blockedAt": "1.4.2.0",
-    "reconciledAt": "2026-11-07T23:35:39.925Z",
+    "reconciledAt": "2026-11-09T22:10:41.024Z",
     "patches": [
       {
         "version": "1.4.1.0",
@@ -100,12 +96,12 @@
       "vssm"
     ],
     "bridgedToLive": {
-      "liveGameVersion": "2.1.1.0",
+      "liveGameVersion": "2.1.2.0",
       "current": true,
       "interveningPatches": [
         "1.4.2.5"
       ],
-      "reason": "every patch between 1.4.2.0 and 2.1.1.0 (1.4.2.5) was read in full at first party and changed no numeric weapon statistic"
+      "reason": "every patch between 1.4.2.0 and 2.1.2.0 (1.4.2.5) was read in full at first party and changed no numeric weapon statistic"
     }
   }
 }
