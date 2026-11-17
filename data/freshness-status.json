@@ -49,7 +49,7 @@
   ],
   "pending": {
     "upstreamCommit": "eac42a4ab7e2a5821e88f7d3d76c338e0cda0b3e",
-    "rebuildRequestedAt": "2026-11-17T00:06:33.970Z"
+    "rebuildRequestedAt": "2026-11-17T07:45:20.631Z"
   },
   "patchReconciliation": {
     "verifiedCombatVersion": "1.4.1.5",
