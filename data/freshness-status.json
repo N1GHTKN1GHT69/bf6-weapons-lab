@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "detectedAt": "2026-11-15T19:39:18.353Z",
+  "detectedAt": "2026-11-25T19:51:19.721Z",
   "official": {
-    "gameVersion": "2.1.2.0",
-    "publishedDate": "2026-11-09",
-    "url": "https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-2-1-2-0",
-    "contentHash": "302ba59ccecf85fb5c568646d590c2eee31f93ff7472c996e7fa1e55852acbde"
+    "gameVersion": "2.1.2.5",
+    "publishedDate": "2026-11-25",
+    "url": "https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-2-1-2-5",
+    "contentHash": "efc8e1111bea838f399359a9a5f7a0fd232cf35bf2715eab6fa2e7c8cd30666b"
   },
   "verified": {
     "gameVersion": "1.4.1.5",
@@ -30,31 +30,15 @@
   },
   "state": "verification-pending",
   "combatImpact": "combat-relevant-or-unknown",
-  "matchedTerms": [
-    "weapons",
-    "attachment",
-    "ammunition",
-    "ammo",
-    "damage",
-    "rate of fire",
-    "recoil",
-    "bullet",
-    "velocity",
-    "reload",
-    "magazine",
-    "headshot",
-    "armor",
-    "plate",
-    "new weapon"
-  ],
+  "matchedTerms": [],
   "pending": {
     "upstreamCommit": "c0d5106016c1d43cdd0f3b9f4c026143de3da22b",
-    "rebuildRequestedAt": "2026-11-25T09:42:20.087Z"
+    "rebuildRequestedAt": "2026-11-25T19:51:19.721Z"
   },
   "patchReconciliation": {
     "verifiedCombatVersion": "1.4.1.5",
     "blockedAt": "1.4.2.0",
-    "reconciledAt": "2026-11-15T19:39:21.631Z",
+    "reconciledAt": "2026-11-25T19:51:23.028Z",
     "patches": [
       {
         "version": "1.4.1.0",
@@ -96,12 +80,12 @@
       "vssm"
     ],
     "bridgedToLive": {
-      "liveGameVersion": "2.1.2.0",
+      "liveGameVersion": "2.1.2.5",
       "current": true,
       "interveningPatches": [
         "1.4.2.5"
       ],
-      "reason": "every patch between 1.4.2.0 and 2.1.2.0 (1.4.2.5) was read in full at first party and changed no numeric weapon statistic"
+      "reason": "every patch between 1.4.2.0 and 2.1.2.5 (1.4.2.5) was read in full at first party and changed no numeric weapon statistic"
     }
   }
 }
